@@ -15,41 +15,33 @@
 
   function fetchSettings() {
     var token = sessionStorage.getItem('bmc_phone_token');
-    var adminPhone = sessionStorage.getItem('bmc_phone');
 
-    // Only allow admin (9223548779) to access these settings
-    if (adminPhone && adminPhone.slice(-10) === '9223548779') {
-      return fetch('/api/razorpay/settings', {
-        headers: {
-          'x-phone-token': token || '',
-          'x-admin-key': localStorage.getItem('admin_api_secret') || ''
-        }
-      })
-        .then(function(r) { return r.json(); })
-        .catch(function() { return null; });
-    }
-    return Promise.resolve(null);
+    // Use the phone token obtained during OTP verification. The API validates it.
+    return fetch('/api/razorpay/settings', {
+      headers: {
+        'x-phone-token': token || '',
+        'x-admin-key': localStorage.getItem('admin_api_secret') || ''
+      }
+    })
+      .then(function(r) { return r.json(); })
+      .catch(function() { return null; });
   }
 
   function saveSettings(data) {
     var token = sessionStorage.getItem('bmc_phone_token');
-    var adminPhone = sessionStorage.getItem('bmc_phone');
 
-    // Only allow admin (9223548779) to access these settings
-    if (adminPhone && adminPhone.slice(-10) === '9223548779') {
-      return fetch('/api/razorpay/settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-phone-token': token || '',
-          'x-admin-key': localStorage.getItem('admin_api_secret') || ''
-        },
-        body: JSON.stringify(data)
-      })
-        .then(function(r) { return r.json(); })
-        .catch(function(e) { console.error('Error saving Razorpay settings:', e); return null; });
-    }
-    return Promise.resolve(null);
+    // Use the phone token obtained during OTP verification. The API validates it.
+    return fetch('/api/razorpay/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-phone-token': token || '',
+        'x-admin-key': localStorage.getItem('admin_api_secret') || ''
+      },
+      body: JSON.stringify(data)
+    })
+      .then(function(r) { return r.json(); })
+      .catch(function(e) { console.error('Error saving Razorpay settings:', e); return null; });
   }
 
   function buildPanel() {
