@@ -6,6 +6,8 @@ const fs = require('fs');
 const { createClient } = require('@supabase/supabase-js');
 const { checkAdminKey, checkAdminAccess } = require('./lib/admin-auth');
 const { issuePhoneToken } = require('./lib/phone-token');
+
+console.log('🔧 [STARTUP] server.js loaded with phoneToken support');
 const { getSettings, saveSettings, claimLoginEmail } = require('./lib/email-settings-store');
 const { getSettings: getRazorpaySettings, saveSettings: saveRazorpaySettings, maskSettings: maskRazorpaySettings } = require('./lib/razorpay-settings-store');
 const { sendEmail, maskSettings } = require('./lib/email-providers');
@@ -62,6 +64,7 @@ app.get('/api/storage/list', async (req, res) => {
 
 // ── OTP routes ──
 app.post('/api/send-otp', async (req, res) => {
+  console.log('🎯 [SEND-OTP ENDPOINT HIT]');
   const { phone } = req.body;
   // Server decision only - a client-supplied dummyMode let any caller skip
   // OTP verification for any phone number.
@@ -96,6 +99,7 @@ app.post('/api/send-otp', async (req, res) => {
 });
 
 app.post('/api/verify-otp', async (req, res) => {
+  console.log('🎯 [ENDPOINT HIT] /api/verify-otp called');
   const { phone, otp, token } = req.body;
   const { data } = await supabase.from('kv_store').select('value').eq('key', 'otp:' + phone).single();
   if (!data) return res.status(400).json({ success: false, error: 'No OTP sent for this number' });
@@ -105,15 +109,34 @@ app.post('/api/verify-otp', async (req, res) => {
   await supabase.from('kv_store').delete().eq('key', 'otp:' + phone);
 
   // Issue a phone token for admin panel access
-  let phoneToken;
+  console.log('[OTP] About to issue phone token for phone:', phone);
+  let phoneToken = null;
   try {
+    console.log('[OTP] Calling issuePhoneToken...');
     phoneToken = await issuePhoneToken(phone);
+    console.log('[OTP] ✅ Phone token issued successfully. Token length:', phoneToken ? phoneToken.length : 'null');
   } catch (e) {
-    console.error('[OTP] Error issuing phone token:', e.message);
+    console.error('[OTP] ❌ Error issuing phone token:', e.message);
+    console.error('[OTP] Stack:', e.stack);
     phoneToken = null;
   }
 
-  res.json({ success: true, phoneToken });
+  console.log('[OTP] About to send response. phoneToken is:', phoneToken ? 'SET' : 'NULL');
+  const response = { success: true };
+  if (phoneToken) {
+    response.phoneToken = phoneToken;
+    console.log('[OTP] Added phoneToken to response');
+  }
+  // Test if this code is running - add a field to the response
+  response.codeExecuted = true;
+  response.phoneLengthReceived = phone ? phone.length : 0;
+
+  res.set('X-PhoneToken-Present', phoneToken ? 'yes' : 'no');
+  res.json({
+    success: true,
+    phoneToken: phoneToken || null,
+    testField: 'MY_CODE_RUNS_' + Math.random()
+  });
 });
 
 // ── Email integrations (Brevo / AWS SES / Gmail) ──

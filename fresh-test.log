@@ -1,0 +1,20 @@
+◇ injected env (8) from .env.db // tip: ◈ secrets for agents [www.dotenvx.com]
+🔧 [STARTUP] server.js loaded with phoneToken support
+Supabase URL: https://jizwdvimefzjqtbfxjnb.supabase.co
+Key loaded: true
+
+  BlockMyCard running at http://localhost:3000
+  Supabase: https://jizwdvimefzjqtbfxjnb.supabase.co
+  OTP mode: DUMMY (use 1234)
+
+  Database: Supabase kv_store OK
+  Database: email_settings/login_email_log OK
+  Database: razorpay_settings OK
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response

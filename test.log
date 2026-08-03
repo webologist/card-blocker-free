@@ -1,0 +1,16 @@
+
+> card-blocker-notes@0.1.0 start
+> node server.js
+
+◇ injected env (8) from .env.db // tip: ⌘ suppress logs { quiet: true }
+🔧 [STARTUP] server.js loaded with phoneToken support
+Supabase URL: https://jizwdvimefzjqtbfxjnb.supabase.co
+Key loaded: true
+
+  BlockMyCard running at http://localhost:3000
+  Supabase: https://jizwdvimefzjqtbfxjnb.supabase.co
+  OTP mode: DUMMY (use 1234)
+
+  Database: Supabase kv_store OK
+  Database: email_settings/login_email_log OK
+  Database: razorpay_settings OK
