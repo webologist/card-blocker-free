@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const { createClient } = require('@supabase/supabase-js');
 const { checkAdminKey, checkAdminAccess } = require('./lib/admin-auth');
+const { issuePhoneToken } = require('./lib/phone-token');
 const { getSettings, saveSettings, claimLoginEmail } = require('./lib/email-settings-store');
 const { getSettings: getRazorpaySettings, saveSettings: saveRazorpaySettings, maskSettings: maskRazorpaySettings } = require('./lib/razorpay-settings-store');
 const { sendEmail, maskSettings } = require('./lib/email-providers');
@@ -102,7 +103,17 @@ app.post('/api/verify-otp', async (req, res) => {
   if (Date.now() > entry.expires) return res.status(400).json({ success: false, error: 'OTP expired' });
   if (otp !== entry.otp || token !== entry.token) return res.status(400).json({ success: false, error: 'Incorrect OTP' });
   await supabase.from('kv_store').delete().eq('key', 'otp:' + phone);
-  res.json({ success: true });
+
+  // Issue a phone token for admin panel access
+  let phoneToken;
+  try {
+    phoneToken = await issuePhoneToken(phone);
+  } catch (e) {
+    console.error('[OTP] Error issuing phone token:', e.message);
+    phoneToken = null;
+  }
+
+  res.json({ success: true, phoneToken });
 });
 
 // ── Email integrations (Brevo / AWS SES / Gmail) ──
