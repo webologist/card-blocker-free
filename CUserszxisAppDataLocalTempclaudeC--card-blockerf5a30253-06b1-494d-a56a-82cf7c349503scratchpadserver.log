@@ -1,0 +1,288 @@
+
+> card-blocker-notes@0.1.0 start
+> node server.js
+
+◇ injected env (8) from .env.db // tip: ⌘ suppress logs { quiet: true }
+🔧 [STARTUP] server.js loaded with phoneToken support
+Supabase URL: https://jizwdvimefzjqtbfxjnb.supabase.co
+Key loaded: true
+
+  BlockMyCard running at http://localhost:3000
+  Supabase: https://jizwdvimefzjqtbfxjnb.supabase.co
+  OTP mode: DUMMY (use 1234)
+
+  Database: Supabase kv_store OK
+🎯 [SEND-OTP ENDPOINT HIT]
+  Database: email_settings/login_email_log OK
+  Database: razorpay_settings OK
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: invalid, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: undefined, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919111111111, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: invalid, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: 9223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +1234567890, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919987654321, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [ENDPOINT HIT] /api/verify-otp called
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: undefined, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918888888888, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999888877, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999888877
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999888877, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999888877
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919777666555, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919777666555
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919777666555, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919777666555
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[login-email] error: Brevo error (401): {"message":"We have detected you are using an unrecognised IP address 43.204.165.215. If you performed this action make sure to add the new IP address in this link: https://app.brevo.com/security/authorised_ips","code":"unauthorized"}
+
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: 8181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: 8181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 100
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: 8181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: 8181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 100
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: 8181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: 8181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 100
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: 8181818181, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: 8181818181
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 100
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response

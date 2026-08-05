@@ -164,16 +164,46 @@ app.post('/api/verify-otp', otpLimiter, async (req, res) => {
     }
 
     console.log('[OTP] About to send response. phoneToken is:', phoneToken ? 'SET' : 'NULL');
+
+    // Load user's saved cards to return with OTP response
+    let userData = null;
+    try {
+      console.log('[OTP] Loading user data for phone:', phone);
+      const { data: usersData, error: usersError } = await supabase.from('kv_store').select('value').eq('key', 'cbp:users').single();
+
+      if (usersError) {
+        console.error('[OTP] Error fetching users:', usersError.message);
+      } else if (usersData) {
+        console.log('[OTP] Users data found, parsing...');
+        const allUsers = JSON.parse(usersData.value);
+        userData = allUsers[phone] || null;
+        console.log('[OTP] User found:', userData ? 'Yes' : 'No', ', Cards:', userData ? userData.cards?.length || 0 : 0);
+      } else {
+        console.log('[OTP] No users data returned');
+      }
+    } catch (e) {
+      console.error('[OTP] Error loading user data:', e.message);
+    }
+
     const response = { success: true };
     if (phoneToken) {
       response.phoneToken = phoneToken;
       console.log('[OTP] Added phoneToken to response');
     }
 
+    // Include saved cards in response so frontend can display them
+    if (userData && userData.cards && userData.cards.length > 0) {
+      response.savedCards = userData.cards;
+      response.userName = userData.name;
+      console.log('[OTP] Added', userData.cards.length, 'saved cards to response');
+    }
+
     res.set('X-PhoneToken-Present', phoneToken ? 'yes' : 'no');
     res.json({
       success: true,
-      phoneToken: phoneToken || null
+      phoneToken: phoneToken || null,
+      savedCards: response.savedCards || [],
+      userName: response.userName || null
     });
   } catch (e) {
     console.error('[OTP] Error:', e.message);
