@@ -1728,7 +1728,7 @@ setTimeout(() => {
             const msg = document.createElement('div');
             msg.id = 'bmc-success-message';
             msg.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10001;width:min(420px,calc(100vw - 2rem));background:#16a34a;border:1.5px solid #15803d;border-radius:10px;padding:.75rem 2.75rem .75rem 1rem;font-size:.875rem;font-weight:600;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2);line-height:1.5;';
-            msg.innerHTML = '✅ Cards saved successfully! You can now manage your cards anytime.';
+            msg.textContent = '✅ Cards saved successfully! You can now manage your cards anytime.';
             document.body.appendChild(msg);
 
             setTimeout(() => {

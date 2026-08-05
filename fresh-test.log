@@ -18,3 +18,46 @@ Key loaded: true
 [OTP] ✅ Phone token issued successfully. Token length: 104
 [OTP] About to send response. phoneToken is: SET
 [OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919223548779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919223548779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +918691948779, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +918691948779
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+🎯 [SEND-OTP ENDPOINT HIT]
+[OTP] Dummy - phone: +919999999999, OTP: 1234
+🎯 [ENDPOINT HIT] /api/verify-otp called
+[OTP] About to issue phone token for phone: +919999999999
+[OTP] Calling issuePhoneToken...
+[OTP] ✅ Phone token issued successfully. Token length: 104
+[OTP] About to send response. phoneToken is: SET
+[OTP] Added phoneToken to response
+[razorpay] create order error: undefined
+[razorpay] create order error: undefined
+[razorpay] create order error: undefined

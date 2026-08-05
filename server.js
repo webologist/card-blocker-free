@@ -6,6 +6,8 @@ const fs = require('fs');
 const { createClient } = require('@supabase/supabase-js');
 const { checkAdminKey, checkAdminAccess } = require('./lib/admin-auth');
 const { issuePhoneToken } = require('./lib/phone-token');
+const { createRateLimiter } = require('./lib/rate-limiter');
+const { validatePhone, validateOTP, validateToken, sanitizeError } = require('./lib/input-validator');
 
 console.log('🔧 [STARTUP] server.js loaded with phoneToken support');
 const { getSettings, saveSettings, claimLoginEmail } = require('./lib/email-settings-store');
@@ -16,6 +18,12 @@ const { validateContact, buildContactEmail, contactRecipient, storageKey } = req
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Rate limiting middleware for authentication endpoints
+const otpLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  maxRequests: 5 // 5 attempts per 15 min per IP
+});
 
 // ── Supabase client ──
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -62,10 +70,29 @@ app.get('/api/storage/list', async (req, res) => {
   res.json({ keys: (data || []).map(r => r.key) });
 });
 
+// Health check endpoint for monitoring
+app.get('/api/health', async (req, res) => {
+  try {
+    // Quick database connectivity check
+    await supabase.from('kv_store').select('count', { count: 'exact', head: true });
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch (e) {
+    console.error('[HEALTH] Database check failed:', e.message);
+    res.status(503).json({ status: 'error', error: 'Database unavailable', timestamp: new Date().toISOString() });
+  }
+});
+
 // ── OTP routes ──
-app.post('/api/send-otp', async (req, res) => {
+app.post('/api/send-otp', otpLimiter, async (req, res) => {
   console.log('🎯 [SEND-OTP ENDPOINT HIT]');
   const { phone } = req.body;
+
+  // Validate phone format
+  if (!validatePhone(phone)) {
+    console.warn('[OTP] Invalid phone format:', phone);
+    return res.status(400).json({ error: 'Invalid phone number format' });
+  }
+
   // Server decision only - a client-supplied dummyMode let any caller skip
   // OTP verification for any phone number.
   const isDummy = process.env.OTP_MODE === 'dummy';
@@ -94,49 +121,64 @@ app.post('/api/send-otp', async (req, res) => {
     res.json({ token });
   } catch (e) {
     console.error('[OTP] Error:', e.message);
-    res.status(500).json({ error: 'Could not send OTP' });
+    res.status(500).json({ error: sanitizeError(e) });
   }
 });
 
-app.post('/api/verify-otp', async (req, res) => {
+app.post('/api/verify-otp', otpLimiter, async (req, res) => {
   console.log('🎯 [ENDPOINT HIT] /api/verify-otp called');
   const { phone, otp, token } = req.body;
-  const { data } = await supabase.from('kv_store').select('value').eq('key', 'otp:' + phone).single();
-  if (!data) return res.status(400).json({ success: false, error: 'No OTP sent for this number' });
-  const entry = JSON.parse(data.value);
-  if (Date.now() > entry.expires) return res.status(400).json({ success: false, error: 'OTP expired' });
-  if (otp !== entry.otp || token !== entry.token) return res.status(400).json({ success: false, error: 'Incorrect OTP' });
-  await supabase.from('kv_store').delete().eq('key', 'otp:' + phone);
 
-  // Issue a phone token for admin panel access
-  console.log('[OTP] About to issue phone token for phone:', phone);
-  let phoneToken = null;
+  // Validate all required parameters
+  if (!validatePhone(phone)) {
+    return res.status(400).json({ success: false, error: 'Invalid phone number format' });
+  }
+  if (!validateOTP(otp)) {
+    return res.status(400).json({ success: false, error: 'Invalid OTP format' });
+  }
+  if (!validateToken(token)) {
+    return res.status(400).json({ success: false, error: 'Invalid request' });
+  }
+
   try {
-    console.log('[OTP] Calling issuePhoneToken...');
-    phoneToken = await issuePhoneToken(phone);
-    console.log('[OTP] ✅ Phone token issued successfully. Token length:', phoneToken ? phoneToken.length : 'null');
+    const { data } = await supabase.from('kv_store').select('value').eq('key', 'otp:' + phone).single();
+    if (!data) return res.status(400).json({ success: false, error: 'Invalid OTP' });
+
+    const entry = JSON.parse(data.value);
+    if (Date.now() > entry.expires) return res.status(400).json({ success: false, error: 'OTP expired' });
+    if (otp !== entry.otp || token !== entry.token) return res.status(400).json({ success: false, error: 'Invalid OTP' });
+
+    await supabase.from('kv_store').delete().eq('key', 'otp:' + phone);
+
+    // Issue a phone token for admin panel access
+    console.log('[OTP] About to issue phone token for phone:', phone);
+    let phoneToken = null;
+    try {
+      console.log('[OTP] Calling issuePhoneToken...');
+      phoneToken = await issuePhoneToken(phone);
+      console.log('[OTP] ✅ Phone token issued successfully. Token length:', phoneToken ? phoneToken.length : 'null');
+    } catch (e) {
+      console.error('[OTP] ❌ Error issuing phone token:', e.message);
+      console.error('[OTP] Stack:', e.stack);
+      phoneToken = null;
+    }
+
+    console.log('[OTP] About to send response. phoneToken is:', phoneToken ? 'SET' : 'NULL');
+    const response = { success: true };
+    if (phoneToken) {
+      response.phoneToken = phoneToken;
+      console.log('[OTP] Added phoneToken to response');
+    }
+
+    res.set('X-PhoneToken-Present', phoneToken ? 'yes' : 'no');
+    res.json({
+      success: true,
+      phoneToken: phoneToken || null
+    });
   } catch (e) {
-    console.error('[OTP] ❌ Error issuing phone token:', e.message);
-    console.error('[OTP] Stack:', e.stack);
-    phoneToken = null;
+    console.error('[OTP] Error:', e.message);
+    res.status(500).json({ success: false, error: sanitizeError(e) });
   }
-
-  console.log('[OTP] About to send response. phoneToken is:', phoneToken ? 'SET' : 'NULL');
-  const response = { success: true };
-  if (phoneToken) {
-    response.phoneToken = phoneToken;
-    console.log('[OTP] Added phoneToken to response');
-  }
-  // Test if this code is running - add a field to the response
-  response.codeExecuted = true;
-  response.phoneLengthReceived = phone ? phone.length : 0;
-
-  res.set('X-PhoneToken-Present', phoneToken ? 'yes' : 'no');
-  res.json({
-    success: true,
-    phoneToken: phoneToken || null,
-    testField: 'MY_CODE_RUNS_' + Math.random()
-  });
 });
 
 // ── Email integrations (Brevo / AWS SES / Gmail) ──
