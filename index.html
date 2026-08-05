@@ -1627,6 +1627,75 @@ setTimeout(() => {
   }
 }, 5000);
 </script>
+
+<!-- DISABLE PAYMENT FLOW & STRIKE OUT FEE TEXT -->
+<script>
+// Disable Razorpay payment flow and hide/strike fee text
+(function() {
+  // Strike out fee text
+  const strikeOutFeeText = () => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    // Find all elements containing "One-time fee" or "per card"
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+      if (node.textContent.includes('One-time fee') || node.textContent.includes('per card') || node.textContent.includes('₹')) {
+        const span = document.createElement('span');
+        span.style.cssText = 'text-decoration: line-through; opacity: 0.6;';
+        span.textContent = node.textContent;
+        node.parentNode.replaceChild(span, node);
+      }
+    }
+  };
+
+  // Disable payment button
+  const disablePayment = () => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    // Find and disable "Save my cards" button
+    const buttons = root.querySelectorAll('button');
+    buttons.forEach(btn => {
+      const text = (btn.textContent || '').trim();
+      if (text.includes('Save my cards') || text.includes('₹')) {
+        // Disable the button
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.cursor = 'not-allowed';
+        btn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          alert('Payment flow is currently disabled. Please check back later.');
+          return false;
+        };
+      }
+    });
+  };
+
+  // Run once on load
+  strikeOutFeeText();
+  disablePayment();
+
+  // Re-run when React updates the DOM
+  const root = document.getElementById('root');
+  if (root) {
+    const observer = new MutationObserver(() => {
+      strikeOutFeeText();
+      disablePayment();
+    });
+    observer.observe(root, {childList: true, subtree: true});
+  }
+})();
+</script>
+
 <script src="./admin-otp-toggle.js"></script>
 <script src="./admin-razorpay-toggle.js"></script>
 <script src="./admin-email-integrations.js"></script>
