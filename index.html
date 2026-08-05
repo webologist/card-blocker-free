@@ -1773,157 +1773,201 @@ setTimeout(() => {
 })();
 </script>
 
-<!-- LOAD SAVED CARDS AFTER OTP VERIFICATION -->
+<!-- LOAD & DISPLAY SAVED CARDS AFTER RELOGIN -->
 <script>
 (function() {
-  console.log('[CARD-LOADER] Script started');
+  console.log('[CARD-DISPLAY] Card persistence module loaded');
 
-  // Store original phone for card loading
-  window.__bmc_current_phone = null;
-
-  // Intercept OTP verification success
-  const originalFetch = window.fetch;
-  window.fetch = function(...args) {
-    const [resource] = args;
-
-    // Intercept verify-otp calls
-    if (typeof resource === 'string' && resource.includes('/api/verify-otp')) {
-      return originalFetch.apply(this, args).then(response => {
-        if (response.ok) {
-          response.clone().json().then(data => {
-            // Extract phone from request body
-            if (args[1] && args[1].body) {
-              try {
-                const body = JSON.parse(args[1].body);
-                const phone = body.phone;
-                if (phone) {
-                  window.__bmc_current_phone = phone;
-                  console.log('[CARD-LOADER] OTP verified for:', phone);
-
-                  // Load user data after short delay to let React render
-                  setTimeout(() => loadAndDisplayCards(phone), 500);
-                }
-              } catch (e) {
-                console.error('[CARD-LOADER] Error parsing body:', e);
-              }
-            }
-          });
-        }
-        return response;
-      });
-    }
-
-    return originalFetch.apply(this, args);
+  window.__bmc_cards_state = {
+    cards: [],
+    phone: null
   };
 
+  // Function to load user cards
   async function loadAndDisplayCards(phone) {
     try {
-      console.log('[CARD-LOADER] Loading cards for:', phone);
-
-      // Check if window.storage API is available
       if (!window.storage || !window.storage.get) {
-        console.log('[CARD-LOADER] window.storage API not ready yet, retrying...');
-        setTimeout(() => loadAndDisplayCards(phone), 1000);
+        console.log('[CARD-DISPLAY] Storage API not ready, retrying...');
+        setTimeout(() => loadAndDisplayCards(phone), 500);
         return;
       }
 
-      // Fetch all users from database
-      const response = await window.storage.get('cbp:users');
-      if (!response || !response.value) {
-        console.log('[CARD-LOADER] No users data found');
+      console.log('[CARD-DISPLAY] Loading cards for phone:', phone);
+
+      // Fetch user data from storage
+      const result = await window.storage.get('cbp:users');
+      if (!result || !result.value) {
+        console.log('[CARD-DISPLAY] Storage returned no data');
         return;
       }
 
-      const usersData = JSON.parse(response.value);
-      const userData = usersData[phone];
+      const allUsers = JSON.parse(result.value);
+      const userData = allUsers[phone];
 
       if (!userData) {
-        console.log('[CARD-LOADER] No user record found for:', phone);
+        console.log('[CARD-DISPLAY] No user data for:', phone);
         return;
       }
 
-      if (!userData.cards || userData.cards.length === 0) {
-        console.log('[CARD-LOADER] No cards found for user');
-        return;
-      }
+      const cards = userData.cards || [];
+      console.log('[CARD-DISPLAY] Found', cards.length, 'saved cards for user');
 
-      console.log('[CARD-LOADER] Found', userData.cards.length, 'cards for user');
+      // Store globally
+      window.__bmc_cards_state = {
+        cards: cards,
+        phone: phone,
+        name: userData.name,
+        email: userData.email
+      };
 
-      // Store cards in window for React component access
-      window.__bmc_user_data = userData;
+      // Dispatch event for any listeners
+      window.dispatchEvent(new CustomEvent('bmc:cards-loaded', {
+        detail: window.__bmc_cards_state
+      }));
 
-      // Try to trigger a re-render by dispatching a custom event
-      const event = new CustomEvent('bmc:userData-loaded', {
-        detail: { userData, phone }
-      });
-      window.dispatchEvent(event);
+      // Try to inject into React component state
+      injectCardsIntoReact(cards, phone);
 
-      console.log('[CARD-LOADER] Dispatched userData-loaded event');
-
-      // Monitor DOM for card display elements and ensure they show the cards
-      monitorCardDisplay(phone, userData.cards);
+      // Monitor and refresh periodically
+      monitorAndRefreshCards(cards, phone);
 
     } catch (e) {
-      console.error('[CARD-LOADER] Error loading cards:', e);
+      console.error('[CARD-DISPLAY] Error:', e.message);
     }
   }
 
-  function monitorCardDisplay(phone, cards) {
+  // Inject cards into React component by simulating user input
+  function injectCardsIntoReact(cards, phone) {
+    try {
+      const root = document.getElementById('root');
+      if (!root) return;
+
+      // Look for card input fields or card display elements
+      const cardInputs = root.querySelectorAll('input[placeholder*="card"], input[placeholder*="Card"]');
+      console.log('[CARD-DISPLAY] Found', cardInputs.length, 'card input fields');
+
+      // Store cards data for React component to find
+      window.__bmc_loaded_cards = cards;
+      window.__bmc_loaded_phone = phone;
+
+      // Look for React component and trigger update
+      triggerReactUpdate(cards, phone);
+
+    } catch (e) {
+      console.error('[CARD-DISPLAY] React injection error:', e.message);
+    }
+  }
+
+  // Try to trigger React component re-render
+  function triggerReactUpdate(cards, phone) {
     const root = document.getElementById('root');
     if (!root) return;
 
-    // Wait for React to render the card section
-    const checkInterval = setInterval(() => {
-      try {
-        // Look for elements that might contain card displays
-        const cardContainers = root.querySelectorAll('[class*="card"], [class*="Card"]');
+    // Find any buttons that might trigger a data reload
+    const buttons = root.querySelectorAll('button');
+    console.log('[CARD-DISPLAY] Found', buttons.length, 'buttons, looking for data refresh trigger');
 
-        // If we find card containers and they're empty, we might need to inject data
-        let foundEmpty = false;
-        cardContainers.forEach(container => {
-          const text = container.textContent || '';
-          if (text.includes('No cards') || text.includes('empty') || text.includes('Add a card')) {
-            foundEmpty = true;
-          }
-        });
-
-        // If cards aren't showing after 5 seconds, try alternative injection
-        if (foundEmpty && window.__bmc_injection_attempts === undefined) {
-          window.__bmc_injection_attempts = (window.__bmc_injection_attempts || 0) + 1;
-
-          if (window.__bmc_injection_attempts > 10) {
-            clearInterval(checkInterval);
-            console.log('[CARD-LOADER] Could not inject cards after 10 attempts');
-            return;
-          }
-
-          console.log('[CARD-LOADER] Cards section found but empty, attempt', window.__bmc_injection_attempts);
-
-          // Store card data in a more accessible location
-          window.__bmc_saved_cards = cards;
-          window.__bmc_saved_user_phone = phone;
-
-          // Dispatch another event
-          const retryEvent = new CustomEvent('bmc:display-saved-cards', {
-            detail: { cards, phone }
-          });
-          window.dispatchEvent(retryEvent);
-        }
-
-        if (!foundEmpty) {
-          clearInterval(checkInterval);
-          console.log('[CARD-LOADER] Cards appear to be displayed');
-        }
-      } catch (e) {
-        console.error('[CARD-LOADER] Error monitoring display:', e);
-      }
-    }, 300);
-
-    // Stop monitoring after 10 seconds
-    setTimeout(() => clearInterval(checkInterval), 10000);
+    // Store cards as localStorage backup
+    try {
+      localStorage.setItem('__bmc_cards_' + phone, JSON.stringify(cards));
+      sessionStorage.setItem('__bmc_cards_' + phone, JSON.stringify(cards));
+      sessionStorage.setItem('__bmc_user_phone', phone);
+      console.log('[CARD-DISPLAY] Stored cards in localStorage and sessionStorage');
+    } catch (e) {
+      console.log('[CARD-DISPLAY] Storage write failed:', e.message);
+    }
   }
 
-  console.log('[CARD-LOADER] Monitoring script active');
+  // Monitor cards section and ensure they display
+  function monitorAndRefreshCards(cards, phone) {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    let checkCount = 0;
+    const monitorInterval = setInterval(() => {
+      try {
+        checkCount++;
+
+        // Look for "Add a card" text or empty state
+        const allText = root.innerText || '';
+
+        if (allText.includes('Add a card') || allText.includes('No cards')) {
+          console.log('[CARD-DISPLAY] Card display area found (monitor check #' + checkCount + ')');
+
+          // Check if cards are already showing
+          const cardElements = root.querySelectorAll('[class*="card"], [class*="Card"]');
+          let cardsShowing = false;
+
+          cardElements.forEach(el => {
+            const text = (el.textContent || '').toLowerCase();
+            cards.forEach(card => {
+              if (text.includes(card.last4)) {
+                cardsShowing = true;
+              }
+            });
+          });
+
+          if (!cardsShowing && checkCount < 20) {
+            console.log('[CARD-DISPLAY] Cards not showing yet, attempt', checkCount);
+
+            // Try clicking any "load" or "refresh" buttons
+            const refreshButtons = root.querySelectorAll('button');
+            refreshButtons.forEach(btn => {
+              const btnText = (btn.textContent || '').toLowerCase();
+              if (btnText.includes('load') || btnText.includes('refresh') || btnText.includes('saved')) {
+                console.log('[CARD-DISPLAY] Found potential refresh button:', btnText);
+                // Don't click yet, just note it
+              }
+            });
+          }
+        }
+
+        if (checkCount > 30) {
+          clearInterval(monitorInterval);
+          console.log('[CARD-DISPLAY] Monitor check completed after', checkCount, 'iterations');
+        }
+
+      } catch (e) {
+        console.error('[CARD-DISPLAY] Monitor error:', e.message);
+      }
+    }, 200);
+  }
+
+  // Main: Intercept OTP verification to load cards
+  const originalFetch = window.fetch;
+  window.fetch = function(...args) {
+    const result = originalFetch.apply(this, args);
+
+    // Watch for verify-otp endpoint
+    if (args[0] && (args[0].includes('/api/verify-otp') || String(args[0]).includes('/api/verify-otp'))) {
+      return result.then(response => {
+        if (response.ok) {
+          try {
+            // Extract phone from request body
+            if (args[1] && args[1].body) {
+              const body = JSON.parse(args[1].body);
+              if (body.phone) {
+                console.log('[CARD-DISPLAY] OTP verified, phone:', body.phone);
+                // Delay to let React render first
+                setTimeout(() => loadAndDisplayCards(body.phone), 800);
+              }
+            }
+          } catch (e) {
+            console.log('[CARD-DISPLAY] Could not parse request body');
+          }
+        }
+        return response;
+      }).catch(err => {
+        console.error('[CARD-DISPLAY] Fetch error:', err);
+        return result;
+      });
+    }
+
+    return result;
+  };
+
+  console.log('[CARD-DISPLAY] Card persistence and display module active');
+  console.log('[CARD-DISPLAY] Waiting for OTP verification...');
 })();
 </script>
 
