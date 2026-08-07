@@ -19,15 +19,24 @@ export default function Home() {
 
   const fetchNotes = async () => {
     try {
+      console.log('Fetching notes...');
+      console.log('Supabase URL:', supabaseUrl);
+      console.log('Has API Key:', !!supabaseKey);
+
       const { data, error } = await supabase
         .from('notes')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+      console.log('Fetched notes:', data);
       setNotes(data || []);
     } catch (error) {
       console.error('Error fetching notes:', error);
+      alert(`Error: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setLoading(false);
     }
