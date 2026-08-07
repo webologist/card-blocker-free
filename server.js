@@ -22,7 +22,7 @@ app.use(express.json());
 // Rate limiting middleware for authentication endpoints
 const otpLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  maxRequests: 5 // 5 attempts per 15 min per IP
+  maxRequests: 500 // TEMP: Increased for testing (roll back to 5 after testing)
 });
 
 // ── Supabase client ──
@@ -129,14 +129,19 @@ app.post('/api/verify-otp', otpLimiter, async (req, res) => {
   console.log('🎯 [ENDPOINT HIT] /api/verify-otp called');
   const { phone, otp, token } = req.body;
 
+  console.log('[OTP-DEBUG] Request body:', { phone, otp, tokenPresent: !!token });
+
   // Validate all required parameters
   if (!validatePhone(phone)) {
+    console.log('[OTP-DEBUG] Phone validation failed:', phone);
     return res.status(400).json({ success: false, error: 'Invalid phone number format' });
   }
   if (!validateOTP(otp)) {
+    console.log('[OTP-DEBUG] OTP validation failed:', otp);
     return res.status(400).json({ success: false, error: 'Invalid OTP format' });
   }
   if (!validateToken(token)) {
+    console.log('[OTP-DEBUG] Token validation failed, token:', token);
     return res.status(400).json({ success: false, error: 'Invalid request' });
   }
 

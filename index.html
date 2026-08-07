@@ -1835,6 +1835,214 @@ setTimeout(() => {
 })();
 </script>
 
+<!-- CARD SAVING FUNCTIONALITY -->
+<script>
+(function() {
+  console.log('[CARD-SAVER] Initializing card save functionality...');
+
+  // Get phone token from localStorage
+  function getPhoneToken() {
+    return localStorage.getItem('bmcPhoneToken');
+  }
+
+  // Get current user data from storage
+  async function getUserData() {
+    const phoneToken = getPhoneToken();
+    if (!phoneToken) {
+      console.warn('[CARD-SAVER] No phone token available');
+      return null;
+    }
+
+    try {
+      const response = await fetch('/api/storage?key=cbp:users', {
+        headers: { 'x-phone-token': phoneToken }
+      });
+      if (!response.ok) return null;
+
+      const data = await response.json();
+      return data.value ? JSON.parse(data.value) : {};
+    } catch (e) {
+      console.error('[CARD-SAVER] Error fetching user data:', e);
+      return null;
+    }
+  }
+
+  // Save user data to storage
+  async function saveUserData(allUsers) {
+    const phoneToken = getPhoneToken();
+    if (!phoneToken) {
+      console.warn('[CARD-SAVER] No phone token for save');
+      return false;
+    }
+
+    try {
+      const response = await fetch('/api/storage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-phone-token': phoneToken
+        },
+        body: JSON.stringify({
+          key: 'cbp:users',
+          value: JSON.stringify(allUsers)
+        })
+      });
+      return response.ok;
+    } catch (e) {
+      console.error('[CARD-SAVER] Error saving:', e);
+      return false;
+    }
+  }
+
+  // Extract cards from the form
+  function extractCardsFromForm() {
+    const cards = [];
+    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
+
+    if (addCardBtn && addCardBtn.parentElement) {
+      const parent = addCardBtn.parentElement;
+      const selects = parent.querySelectorAll('select');
+      const inputs = parent.querySelectorAll('input');
+
+      if (selects.length >= 2 && inputs.length > 0) {
+        const typeSelect = selects[0];  // Card type (Debit/Credit)
+        const bankSelect = selects[1];  // Bank name
+        const lastFourInput = inputs[inputs.length - 1];  // Last input is Last 4
+
+        if (bankSelect && lastFourInput && lastFourInput.value && lastFourInput.value.trim()) {
+          cards.push({
+            id: 'card-' + Date.now(),
+            type: typeSelect ? typeSelect.value : 'Debit',
+            bankId: bankSelect.value,
+            last4: lastFourInput.value.trim(),
+            bank: bankSelect.options[bankSelect.selectedIndex].text,
+            name: bankSelect.options[bankSelect.selectedIndex].text,
+            addedAt: new Date().toISOString()
+          });
+          console.log('[CARD-SAVER] Extracted card:', cards[0]);
+        }
+      }
+    }
+
+    return cards;
+  }
+
+  // Show save button after cards are added
+  function injectSaveButton() {
+    if (document.getElementById('bmc-save-cards-btn')) return;
+
+    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
+    if (!addCardBtn || !addCardBtn.parentElement) {
+      setTimeout(injectSaveButton, 500);
+      return;
+    }
+
+    // Check if there are any cards to save
+    const cardsToSave = extractCardsFromForm();
+    if (cardsToSave.length === 0) {
+      setTimeout(injectSaveButton, 500);
+      return;
+    }
+
+    // Create save button
+    const saveBtn = document.createElement('button');
+    saveBtn.id = 'bmc-save-cards-btn';
+    saveBtn.textContent = '💾 Save Cards';
+    saveBtn.type = 'button';
+    saveBtn.style.cssText = 'display:block;width:calc(100% - 2rem);background:#059669;color:#fff;border:none;border-radius:8px;padding:0.75rem 1rem;font-weight:600;font-size:0.95rem;cursor:pointer;margin-top:1rem;margin-left:auto;margin-right:auto;font-family:ui-sans-serif,system-ui,sans-serif;';
+
+    saveBtn.onmouseover = () => { if (!saveBtn.disabled) saveBtn.style.background = '#047857'; };
+    saveBtn.onmouseout = () => { if (!saveBtn.disabled) saveBtn.style.background = '#059669'; };
+
+    saveBtn.onclick = async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const wasText = saveBtn.textContent;
+      saveBtn.disabled = true;
+      saveBtn.textContent = '⏳ Saving...';
+
+      try {
+        const cards = extractCardsFromForm();
+        if (cards.length === 0) {
+          throw new Error('No cards to save');
+        }
+
+        const allUsers = await getUserData() || {};
+        const phoneElement = document.querySelector('span.font-mono');
+        const phoneText = phoneElement ? phoneElement.textContent.trim() : null;
+
+        if (!phoneText) {
+          throw new Error('Could not find phone number');
+        }
+
+        // Update or create user record
+        if (!allUsers[phoneText]) {
+          allUsers[phoneText] = {
+            phone: phoneText,
+            cards: [],
+            createdAt: new Date().toISOString(),
+            saved: true
+          };
+        } else if (!allUsers[phoneText].cards) {
+          allUsers[phoneText].cards = [];
+        }
+
+        // Replace cards with new cards
+        allUsers[phoneText].cards = cards;
+        allUsers[phoneText].updatedAt = new Date().toISOString();
+        allUsers[phoneText].saved = true;
+
+        const success = await saveUserData(allUsers);
+        if (success) {
+          saveBtn.textContent = '✅ Saved!';
+          saveBtn.style.background = '#10b981';
+          console.log('[CARD-SAVER] Cards saved successfully:', cards);
+
+          setTimeout(() => {
+            saveBtn.textContent = wasText;
+            saveBtn.style.background = '#059669';
+            saveBtn.disabled = false;
+          }, 2000);
+        } else {
+          throw new Error('Save failed');
+        }
+      } catch (err) {
+        console.error('[CARD-SAVER] Save error:', err);
+        saveBtn.textContent = '❌ Save Failed';
+        saveBtn.style.background = '#dc2626';
+
+        setTimeout(() => {
+          saveBtn.textContent = wasText;
+          saveBtn.style.background = '#059669';
+          saveBtn.disabled = false;
+        }, 2000);
+      }
+    };
+
+    // Add button to parent
+    addCardBtn.parentElement.appendChild(saveBtn);
+    console.log('[CARD-SAVER] Save button injected');
+  }
+
+  // Initialize on page load
+  function initialize() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectSaveButton);
+    } else {
+      injectSaveButton();
+    }
+  }
+
+  initialize();
+
+  // Monitor for changes and re-inject if needed
+  setTimeout(() => {
+    const observer = new MutationObserver(injectSaveButton);
+    observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
+  }, 1000);
+})();
+</script>
+
 <script src="./admin-otp-toggle.js"></script>
 <script src="./admin-razorpay-toggle.js"></script>
 <script src="./admin-email-integrations.js"></script>
