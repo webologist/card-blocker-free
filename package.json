@@ -2,6 +2,12 @@
     "name": "card-blocker-notes",
     "version": "0.1.0",
     "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
     "dependencies": {
         "@aws-sdk/client-ses": "^3.1095.0",
         "@supabase/supabase-js": "^2.110.8",
