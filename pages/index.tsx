@@ -15,34 +15,43 @@ export default function Home({ htmlContent }: HomeProps) {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    // Try to fetch content from the static index.html file
-    // At build time, we can read from the filesystem directly
     const fs = require('fs');
     const path = require('path');
 
-    const filePath = path.join(process.cwd(), 'public', 'index.html');
-    const fullHtml = fs.readFileSync(filePath, 'utf-8');
+    // Try different path patterns
+    const baseDir = process.cwd();
+    const filePath = path.resolve(baseDir, 'public', 'index.html');
 
-    // Extract body content
-    const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-    const htmlContent = bodyMatch ? bodyMatch[1] : fullHtml;
+    // Log for debugging
+    console.log('Attempting to read from:', filePath);
+    console.log('Current working directory:', baseDir);
+    console.log('Directory contents:', fs.readdirSync(baseDir));
 
-    return {
-      props: { htmlContent },
-      revalidate: 3600,
-    };
+    if (fs.existsSync(filePath)) {
+      const fullHtml = fs.readFileSync(filePath, 'utf-8');
+      const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      const htmlContent = bodyMatch ? bodyMatch[1] : fullHtml;
+
+      return {
+        props: { htmlContent },
+        revalidate: 3600,
+      };
+    } else {
+      console.log('File not found at:', filePath);
+      throw new Error('index.html not found');
+    }
   } catch (error) {
     console.error('Build-time error:', error);
-    // Fallback for when file reading fails
     return {
       props: {
         htmlContent: `
-          <div style="padding: 2rem; font-family: sans-serif;">
-            <h1>BlockMyCard.in</h1>
-            <p>Your wallet is stolen. You have 4 minutes.</p>
-            <p style="color: #666; font-size: 0.9rem;">
-              Free card blocking helper for Indian users.
+          <div style="padding: 2rem; font-family: sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">BlockMyCard.in</h1>
+            <h2 style="font-size: 1.5rem; color: #fca5a5; margin-bottom: 1rem;">Your wallet is stolen.<br/>You have 4 minutes.</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px;">
+              Fraudsters drain accounts in under 4 minutes. BlockMyCard keeps your cards safe and lets you block them all in one tap.
             </p>
+            <p style="font-size: 0.95rem; color: #cbd5e1;">✓ Free · ✓ For Indian banks · ✓ Any phone · ✓ All cards protected</p>
           </div>
         `,
       },
