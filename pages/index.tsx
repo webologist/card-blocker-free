@@ -1,9 +1,39 @@
-export default function Home() {
+import { GetStaticProps } from 'next';
+import fs from 'fs';
+import path from 'path';
+
+interface HomeProps {
+  htmlContent: string;
+}
+
+export default function Home({ htmlContent }: HomeProps) {
   return (
-    <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>BlockMyCard.in - Test Page</h1>
-      <p>If you see this, the Pages Router is working!</p>
-      <p>Your wallet is stolen. You have 4 minutes.</p>
-    </main>
+    <div
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
+      suppressHydrationWarning
+    />
   );
 }
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  try {
+    // Read the static HTML file at build time
+    const filePath = path.join(process.cwd(), 'public', 'index.html');
+    const htmlContent = fs.readFileSync(filePath, 'utf-8');
+
+    return {
+      props: {
+        htmlContent,
+      },
+      revalidate: 3600, // Revalidate every hour
+    };
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    return {
+      props: {
+        htmlContent: '<h1>BlockMyCard.in</h1><p>Error loading content</p>',
+      },
+      revalidate: 60,
+    };
+  }
+};
