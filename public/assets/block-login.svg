@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440" role="img" aria-label="Signing in with a one-time code on a borrowed phone">
+  <defs>
+    <linearGradient id="bl-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a5f"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+    <filter id="bl-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0b1220" flood-opacity=".45"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="440" fill="url(#bl-bg)"/>
+
+  <circle cx="112" cy="98" r="70" fill="#ffffff" opacity=".05"/>
+  <circle cx="706" cy="358" r="92" fill="#ffffff" opacity=".045"/>
+
+  <!-- borrowed phone, held out -->
+  <g filter="url(#bl-shadow)">
+    <rect x="296" y="42" width="208" height="330" rx="30" fill="#0f1c33"/>
+    <rect x="296" y="42" width="208" height="330" rx="30" fill="none" stroke="#4a6fa5" stroke-width="2" opacity=".7"/>
+    <rect x="370" y="58" width="60" height="8" rx="4" fill="#33507d"/>
+  </g>
+
+  <!-- lock glyph -->
+  <g>
+    <path d="M400 96 a26 26 0 0 1 26 26 v16 h-13 v-16 a13 13 0 0 0 -26 0 v16 h-13 v-16 a26 26 0 0 1 26 -26z" fill="#7fa5da"/>
+    <rect x="368" y="136" width="64" height="50" rx="12" fill="#d63a2a"/>
+    <circle cx="400" cy="157" r="7" fill="#ffffff"/>
+    <rect x="396.5" y="160" width="7" height="14" rx="3.5" fill="#ffffff"/>
+  </g>
+
+  <!-- OTP boxes -->
+  <g>
+    <rect x="326" y="216" width="32" height="42" rx="9" fill="#16294a" stroke="#3c5f96" stroke-width="2"/>
+    <rect x="366" y="216" width="32" height="42" rx="9" fill="#16294a" stroke="#3c5f96" stroke-width="2"/>
+    <rect x="406" y="216" width="32" height="42" rx="9" fill="#16294a" stroke="#3c5f96" stroke-width="2"/>
+    <rect x="446" y="216" width="32" height="42" rx="9" fill="#16294a" stroke="#d63a2a" stroke-width="2"/>
+    <circle cx="342" cy="237" r="6" fill="#8fb2e0"/>
+    <circle cx="382" cy="237" r="6" fill="#8fb2e0"/>
+    <circle cx="422" cy="237" r="6" fill="#8fb2e0"/>
+    <rect x="461" y="226" width="2.5" height="22" rx="1.25" fill="#d63a2a"/>
+  </g>
+
+  <!-- sign in button -->
+  <rect x="326" y="286" width="152" height="36" rx="11" fill="#d63a2a"/>
+  <rect x="376" y="301" width="52" height="7" rx="3.5" fill="#ffffff" opacity=".92"/>
+
+  <!-- hand holding the phone -->
+  <path d="M250 386 q34 -30 74 -30 h152 q40 0 74 30 v54 H250 z" fill="#0f1c33" opacity=".9"/>
+
+  <!-- incoming SMS bubble -->
+  <g filter="url(#bl-shadow)">
+    <rect x="556" y="120" width="188" height="86" rx="18" fill="#ffffff"/>
+    <path d="M574 206 l0 26 l28 -26 z" fill="#ffffff"/>
+    <rect x="578" y="146" width="96" height="10" rx="5" fill="#c9d3e0"/>
+    <rect x="578" y="168" width="140" height="14" rx="7" fill="#1e3a5f"/>
+  </g>
+
+  <!-- alternate-number hint -->
+  <g opacity=".92">
+    <rect x="64" y="182" width="176" height="60" rx="16" fill="#16294a" stroke="#3c5f96" stroke-width="2"/>
+    <circle cx="100" cy="212" r="16" fill="#059669"/>
+    <path d="M92 212 l6 6 l12 -12" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="128" y="200" width="86" height="9" rx="4.5" fill="#8fb2e0" opacity=".8"/>
+    <rect x="128" y="217" width="58" height="8" rx="4" fill="#5c7fb0" opacity=".7"/>
+  </g>
+</svg>

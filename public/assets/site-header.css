@@ -1,0 +1,89 @@
+/* ── Shared site header ──────────────────────────────────────────────────────
+   The same header markup and styling as the site header on index.html, factored
+   out so the standalone pages (legal documents, trust pages) do not each carry
+   their own copy.
+
+   Load this BEFORE the page's own <style> block: the tokens below are defaults
+   for pages that do not define the design tokens themselves, and any page that
+   does define them will override these.
+
+   The header markup stays inline in each page so it is present without JS; the
+   behaviour lives in assets/site-header.js. terms-and-conditions.html is the
+   reference copy of the markup.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root{
+  --red:#d63a2a;--red-dark:#b72e1e;--red-light:#fef2f2;
+  --bg:#ffffff;--bg2:#f8f9fa;--fg:#111827;--fg2:#6b7280;
+  --border:#e5e7eb;--card:#ffffff;--popover:#ffffff;
+  --shadow-lg:0 20px 60px rgba(0,0,0,.14);
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;
+}
+[data-theme="dark"]{
+  --bg:#0f172a;--bg2:#1e293b;--fg:#f1f5f9;--fg2:#94a3b8;
+  --border:#334155;--card:#1e293b;--popover:#1e293b;
+  --red-light:rgba(214,58,42,.15);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.4);
+}
+
+[data-font-size="sm"]{font-size:14px}
+[data-font-size="md"]{font-size:16px}
+[data-font-size="lg"]{font-size:18px}
+[data-font-size="xl"]{font-size:20px}
+
+/* line-height is pinned to the home page's body value; document pages use a
+   looser 1.7 for readability, which would otherwise make the header controls a
+   pixel taller than they are on the home page. */
+/* The header carries its own font stack so it renders identically on the older
+   pages, whose body copy still uses the system font stack. */
+.nav,.mobile-menu{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif}
+.nav{position:sticky;top:0;z-index:50;line-height:1.6;background:rgba(255,255,255,.88);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+[data-theme="dark"] .nav{background:rgba(15,23,42,.88)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;height:64px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}
+/* text-decoration:none is repeated on :hover throughout — some pages style all
+   anchors with a hover underline, which would otherwise leak into the header. */
+.nav-logo,.nav-logo:hover{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--fg);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;white-space:nowrap}
+.nav-logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:grid;place-items:center;color:#fff;font-size:1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.35)}
+.nav-logo-text span{color:var(--red)}
+.nav-links{display:flex;align-items:center;justify-content:center;gap:.25rem;list-style:none;margin:0;padding:0}
+.nav-links a{text-decoration:none;color:var(--fg2);font-size:.875rem;font-weight:500;padding:.5rem .75rem;border-radius:var(--radius-sm);transition:background .15s,color .15s}
+.nav-links a:hover{color:var(--fg);background:var(--bg2);text-decoration:none}
+.nav-actions{display:flex;align-items:center;gap:.5rem}
+.nav-icon-btn{width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:.9rem;transition:background .15s;position:relative;flex-shrink:0}
+.nav-icon-btn:hover{background:var(--bg2)}
+.nav-icon-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);text-decoration:none;font-weight:700;font-size:1rem;white-space:nowrap;transition:background .15s,transform .1s;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(214,58,42,.35)}
+.nav-cta:hover{background:var(--red-dark);transform:translateY(-1px);text-decoration:none;color:#fff !important}
+@media(max-width:1023px){.nav-links{display:none}.nav-inner{grid-template-columns:1fr auto}.nav-cta{padding:.85rem 1.75rem;min-height:44px}}
+@media(max-width:479px){
+  .nav-cta{display:none}
+  .nav-icon-btn{width:34px;height:34px}
+  .nav-logo-text{display:none}
+}
+.mobile-only{display:none}
+@media(max-width:1023px){.mobile-only{display:grid}}
+
+/* Dropdowns */
+.dropdown{position:absolute;right:0;top:calc(100% + .5rem);background:var(--popover);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:.5rem;min-width:160px;z-index:100;display:none}
+.dropdown.open{display:block}
+.dropdown-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.3rem .5rem .5rem;display:block}
+.dropdown-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:.5rem .75rem;border:none;background:none;border-radius:var(--radius-sm);cursor:pointer;font-size:.875rem;color:var(--fg);transition:background .15s;gap:.5rem;text-align:left}
+.dropdown-btn:hover{background:var(--bg2)}
+.dropdown-btn.active{background:var(--red);color:#fff}
+.dropdown-btn .native{font-weight:600}
+.dropdown-btn .en{font-size:.75rem;opacity:.7}
+.font-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}
+.font-btn{border:none;background:none;border-radius:var(--radius-sm);min-height:44px;padding:.5rem;cursor:pointer;font-weight:700;color:var(--fg);transition:background .15s}
+.font-btn:hover{background:var(--bg2)}
+.font-btn.active{background:var(--red);color:#fff}
+.font-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* Mobile menu */
+.mobile-menu{display:none;border-top:1px solid var(--border);background:var(--bg)}
+.mobile-menu.open{display:block}
+.mobile-menu-inner{max-width:1200px;margin:0 auto;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.25rem}
+.mobile-menu a{text-decoration:none;color:var(--fg);font-size:1rem;font-weight:500;padding:.75rem 1rem;border-radius:var(--radius-sm);transition:background .15s;display:block}
+.mobile-menu a:hover{background:var(--bg2);text-decoration:none}
+.mobile-divider{border:none;border-top:1px solid var(--border);margin:.5rem 0}
+.mobile-pref-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.25rem .25rem .5rem}
+.mobile-lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.75rem}

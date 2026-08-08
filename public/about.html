@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en" data-font-size="md">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<meta name="theme-color" content="#d63a2a"/>
+<title>About BlockMyCard.in — Our Story & Mission</title>
+<meta name="description" content="Learn about BlockMyCard.in - a free, open portal helping Indians quickly block cards when wallets are stolen or phones lost."/>
+<meta property="og:title" content="About BlockMyCard.in — Our Story & Mission"/>
+<meta property="og:description" content="Built from personal experience to solve a critical problem: making card blocking faster and easier for every Indian."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23d63a2a'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>&#x26E8;</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;700;800&family=Noto+Sans+Gujarati:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700;800&family=Noto+Sans+Telugu:wght@400;500;700;800&family=Noto+Sans+Tamil:wght@400;500;700;800&family=Noto+Sans+Kannada:wght@400;500;700;800&family=Noto+Sans+Oriya:wght@400;500;700;800&family=Noto+Sans+Malayalam:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+
+/* ── TOKENS ── */
+:root{
+  --red:#d63a2a;--red-dark:#b72e1e;--red-light:#fef2f2;
+  --bg:#ffffff;--bg2:#f8f9fa;--fg:#111827;--fg2:#6b7280;
+  --border:#e5e7eb;--card:#ffffff;--popover:#ffffff;
+  --success:#16a34a;--warning:#d97706;--warning-fg:#92400e;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.14);
+  --shadow-xl:0 24px 64px rgba(0,0,0,.22);
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-2xl:24px;
+}
+[data-theme="dark"]{
+  --bg:#0f172a;--bg2:#1e293b;--fg:#f1f5f9;--fg2:#94a3b8;
+  --border:#334155;--card:#1e293b;--popover:#1e293b;
+  --red-light:rgba(214,58,42,.15);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:0 4px 16px rgba(0,0,0,.3);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.4);
+  --shadow-xl:0 24px 64px rgba(0,0,0,.5);
+}
+
+/* Font size */
+[data-font-size="sm"]{font-size:14px}
+[data-font-size="md"]{font-size:16px}
+[data-font-size="lg"]{font-size:18px}
+[data-font-size="xl"]{font-size:20px}
+
+/* ── SKIP LINK ── */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:fixed;top:1rem;left:1rem;width:auto;height:auto;padding:.6rem 1.2rem;background:var(--red);color:#fff;border-radius:var(--radius-sm);font-weight:700;z-index:9999;text-decoration:none;outline:none}
+
+/* ── CONSTRUCTION BANNER ── */
+.construction-bar{position:relative;z-index:60;background:rgba(217,119,6,.12);border-bottom:1px solid rgba(217,119,6,.25);padding:.6rem 1rem;text-align:center}
+.construction-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:.5rem;color:#92400e;font-size:.82rem;font-weight:600}
+[data-theme="dark"] .construction-bar-inner{color:#fcd34d}
+.construction-bar-close{margin-left:.75rem;width:22px;height:22px;border-radius:50%;border:none;background:none;cursor:pointer;color:inherit;display:grid;place-items:center;opacity:.7;font-size:.85rem}
+.construction-bar-close:hover{opacity:1;background:rgba(0,0,0,.08)}
+.banner-msg-sm{display:none}
+@media(min-width:640px){.banner-msg-sm{display:inline}}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+[data-theme="dark"] .nav{background:rgba(15,23,42,.88)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;height:64px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--fg);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;white-space:nowrap}
+.nav-logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:grid;place-items:center;color:#fff;font-size:1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.35)}
+.nav-logo-text span{color:var(--red)}
+.nav-links{display:flex;align-items:center;justify-content:center;gap:.25rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--fg2);font-size:.875rem;font-weight:500;padding:.5rem .75rem;border-radius:var(--radius-sm);transition:background .15s,color .15s}
+.nav-links a:hover{color:var(--fg);background:var(--bg2)}
+.nav-actions{display:flex;align-items:center;gap:.5rem}
+.nav-icon-btn{width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:.9rem;transition:background .15s;position:relative;flex-shrink:0}
+.nav-icon-btn:hover{background:var(--bg2)}
+.nav-icon-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);text-decoration:none;font-weight:700;font-size:1rem;white-space:nowrap;transition:background .15s,transform .1s,color .15s;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(214,58,42,.35)}
+.nav-cta:hover{background:var(--red-dark);transform:translateY(-1px);color:#fff}
+@media(max-width:1023px){.nav-links{display:none}.nav-inner{grid-template-columns:1fr auto}}
+@media(max-width:479px){
+  .nav-cta{display:none}
+  .nav-icon-btn{width:34px;height:34px}
+  .nav-logo-text{display:none}
+}
+.mobile-only{display:none}
+@media(max-width:1023px){.mobile-only{display:grid}}
+
+/* Dropdowns */
+.dropdown{position:absolute;right:0;top:calc(100% + .5rem);background:var(--popover);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:.5rem;min-width:160px;z-index:100;display:none}
+.dropdown.open{display:block}
+.dropdown-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.3rem .5rem .5rem;display:block}
+.dropdown-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.5rem .75rem;border:none;background:none;border-radius:var(--radius-sm);cursor:pointer;font-size:.875rem;color:var(--fg);transition:background .15s;gap:.5rem;text-align:left}
+.dropdown-btn:hover{background:var(--bg2)}
+.dropdown-btn.active{background:var(--red);color:#fff}
+.dropdown-btn .native{font-weight:600}
+.dropdown-btn .en{font-size:.75rem;opacity:.7}
+.font-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}
+.font-btn{border:none;background:none;border-radius:var(--radius-sm);padding:.5rem;cursor:pointer;font-weight:700;color:var(--fg);transition:background .15s}
+.font-btn:hover{background:var(--bg2)}
+.font-btn.active{background:var(--red);color:#fff}
+.font-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* Mobile menu */
+.mobile-menu{display:none;border-top:1px solid var(--border);background:var(--bg)}
+.mobile-menu.open{display:block}
+.mobile-menu-inner{max-width:1200px;margin:0 auto;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.25rem}
+.mobile-menu a{text-decoration:none;color:var(--fg);font-size:1rem;font-weight:500;padding:.75rem 1rem;border-radius:var(--radius-sm);transition:background .15s;display:block}
+.mobile-menu a:hover{background:var(--bg2)}
+.mobile-divider{border:none;border-top:1px solid var(--border);margin:.5rem 0}
+.mobile-pref-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.25rem .25rem .5rem}
+.mobile-lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.75rem}
+
+/* ── SECTIONS ── */
+.section{padding:5rem 1.5rem}
+.section-alt{background:var(--bg2)}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-eyebrow{display:inline-flex;align-items:center;gap:.4rem;color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.section-eyebrow::before{content:'';width:12px;height:2px;background:var(--red);border-radius:1px;flex-shrink:0}
+.section-title{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;margin-bottom:1.5rem;color:var(--fg)}
+.section-sub{font-size:1rem;color:var(--fg2);line-height:1.8;margin-bottom:1.5rem}
+.section-center{text-align:center}
+.section-center .section-sub{margin:0 auto}
+
+/* ── ABOUT HERO ── */
+.about-hero{background:linear-gradient(135deg,var(--red-light) 0%,var(--bg) 60%);padding:4rem 1.5rem 3.5rem}
+[data-theme="dark"] .about-hero{background:linear-gradient(135deg,rgba(214,58,42,.12) 0%,var(--bg) 60%)}
+.about-hero-inner{max-width:900px;margin:0 auto}
+.about-hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;line-height:1.15;letter-spacing:-.03em;margin-bottom:1.5rem;color:var(--fg)}
+.about-hero p{font-size:1.1rem;color:var(--fg2);line-height:1.8;margin-bottom:1rem}
+
+/* ── CONTENT BLOCKS ── */
+.about-content{max-width:850px;margin:0 auto;color:var(--fg)}
+.content-block{margin-bottom:3rem}
+.content-block h2{font-size:1.75rem;font-weight:800;color:var(--fg);margin-bottom:1rem;letter-spacing:-.02em}
+.content-block p{font-size:1rem;color:var(--fg2);line-height:1.85;margin-bottom:1rem}
+.content-block strong{color:var(--red);font-weight:700}
+.content-highlight{background:var(--red-light);border-left:4px solid var(--red);padding:1.5rem;border-radius:var(--radius-md);margin:2rem 0}
+.content-highlight p{color:var(--fg);margin-bottom:0}
+
+/* ── FOOTER ── */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1.5rem 1.5rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+@media(max-width:700px){.footer-inner{grid-template-columns:1fr}}
+.footer-logo{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;color:var(--fg);text-decoration:none;margin-bottom:.6rem}
+.footer-logo-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.9rem}
+.footer-brand p{font-size:.85rem;color:var(--fg2);max-width:260px;line-height:1.6;margin-bottom:.5rem}
+.footer-brand-sub{font-size:.78rem;color:var(--fg2)}
+.footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin-bottom:.85rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col a{text-decoration:none;font-size:.875rem;color:var(--fg2);transition:color .15s}
+.footer-col a:hover{color:var(--fg)}
+.footer-link-soon{font-size:.875rem;color:var(--fg2);cursor:default}
+.footer-link-soon::after{content:' (soon)';font-size:.7rem;opacity:.6}
+.footer-bottom-bar{max-width:1200px;margin:.75rem auto 0}
+.footer-bottom{font-size:.78rem;color:var(--fg2);margin-bottom:.25rem}
+.footer-construction{font-size:.78rem;color:var(--warning);font-weight:600}
+
+/* ── UTIL ── */
+.hide{display:none!important}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* Mobile padding */
+@media(max-width:640px){
+  .section{padding:3rem 1.25rem}
+  .section-alt{padding:3rem 1.25rem}
+  .about-hero{padding:2.5rem 1.25rem 2rem}
+  .footer{padding:2rem 1.25rem 1.25rem}
+  .content-block h2{font-size:1.4rem}
+}
+
+/* Touch targets */
+@media(max-width:1023px){
+  .nav-icon-btn{min-width:44px;min-height:44px}
+}
+@media(max-width:479px){
+  .nav-icon-btn{width:38px;height:38px;min-width:44px;min-height:44px}
+}
+@media(max-width:1023px){
+  .nav-cta{padding:.75rem 1.1rem;min-height:44px}
+}
+.dropdown-btn{min-height:44px}
+.font-btn{min-height:44px}
+.construction-bar-close{position:relative}
+.construction-bar-close::before{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  min-width:44px;
+  min-height:44px;
+}
+
+/* Safari gap fallback */
+@supports not (gap: 1rem){
+  .nav-actions>*+*{margin-left:.5rem}
+  .nav-logo>*+*{margin-left:.6rem}
+  .construction-bar-inner>*+*{margin-left:.5rem}
+}
+
+/* Hero responsive */
+@media(max-width:480px){
+  .about-hero h1{font-size:clamp(1.5rem,6vw,2.2rem)}
+  .section-title{font-size:clamp(1.4rem,5vw,2rem)}
+}
+</style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Construction banner -->
+<div class="construction-bar" id="construction-bar" role="alert" aria-live="polite">
+  <div class="construction-bar-inner">
+    <span aria-hidden="true">&#x1F6A7;</span>
+    <span id="txt-construction-title"><strong id="txt-construction-strong">Site under construction.</strong></span>
+    <span id="txt-construction-msg" class="banner-msg-sm">Some features are still being tested. Your feedback is welcome.</span>
+    <button class="construction-bar-close" onclick="dismissConstruction()" aria-label="Dismiss construction notice">&#x2715;</button>
+  </div>
+</div>
+
+<!-- Navigation -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon" aria-hidden="true">&#x26E8;</div>
+      <div class="nav-logo-text">BlockMyCard<span>.in</span></div>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#stats">Fraud Data</a></li>
+        <li><a href="/#how">How it Works</a></li>
+        <li><a href="/#block">Block Steps</a></li>
+        <li><a href="/#card-tool">Card Blocker</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="font-dd-btn"
+                onclick="toggleDropdown('font-dd')"
+                aria-label="Font size"
+                aria-haspopup="menu"
+                aria-controls="font-dd"
+                aria-expanded="false"
+                title="Font size">&#x1D400;</button>
+        <div class="dropdown" id="font-dd" role="menu" aria-label="Font size options">
+          <span class="dropdown-label">Font size</span>
+          <div class="font-grid">
+            <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" id="font-sm" role="menuitemradio" aria-checked="false" aria-label="Small font">A</button>
+            <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" id="font-md" role="menuitemradio" aria-checked="true" aria-label="Medium font">A</button>
+            <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" id="font-lg" role="menuitemradio" aria-checked="false" aria-label="Large font">A</button>
+            <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" id="font-xl" role="menuitemradio" aria-checked="false" aria-label="Extra large font">A</button>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="lang-dd-btn"
+                onclick="toggleDropdown('lang-dd')"
+                aria-label="Language"
+                aria-haspopup="menu"
+                aria-controls="lang-dd"
+                aria-expanded="false"
+                title="Language">&#x1F310;</button>
+        <div class="dropdown" id="lang-dd" role="menu" aria-label="Language options">
+          <span class="dropdown-label">Language</span>
+          <button class="dropdown-btn active" onclick="setLang('en')" id="lang-en" role="menuitemradio" aria-checked="true"><span class="native">English</span><span class="en">English</span></button>
+          <button class="dropdown-btn" onclick="setLang('hi')" id="lang-hi" role="menuitemradio" aria-checked="false"><span class="native">हिन्दी</span><span class="en">Hindi</span></button>
+          <button class="dropdown-btn" onclick="setLang('gu')" id="lang-gu" role="menuitemradio" aria-checked="false"><span class="native">ગુજરાતી</span><span class="en">Gujarati</span></button>
+          <button class="dropdown-btn" onclick="setLang('mr')" id="lang-mr" role="menuitemradio" aria-checked="false"><span class="native">मराठी</span><span class="en">Marathi</span></button>
+        </div>
+      </div>
+      <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="Toggle colour theme" id="theme-btn" title="Toggle theme">&#x1F319;</button>
+      <button class="nav-icon-btn mobile-only"
+              onclick="toggleMobileMenu()"
+              aria-label="Open navigation menu"
+              aria-haspopup="true"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              id="mobile-menu-btn">&#x2630;</button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <div class="mobile-menu-inner">
+      <a href="/" onclick="closeMobileMenu()">Home</a>
+      <a href="/#features" onclick="closeMobileMenu()">Features</a>
+      <a href="/#stats" onclick="closeMobileMenu()">Fraud Data</a>
+      <a href="/#how" onclick="closeMobileMenu()">How it Works</a>
+      <hr class="mobile-divider"/>
+      <div class="mobile-pref-label">Font size</div>
+      <div class="font-grid" style="margin-bottom:.75rem">
+        <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" aria-checked="false" role="menuitemradio" aria-label="Small font">A</button>
+        <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" aria-checked="true" role="menuitemradio" aria-label="Medium font">A</button>
+        <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" aria-checked="false" role="menuitemradio" aria-label="Large font">A</button>
+        <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" aria-checked="false" role="menuitemradio" aria-label="Extra large font">A</button>
+      </div>
+      <a href="/#card-tool" onclick="closeMobileMenu()" class="nav-cta" style="justify-content:center;margin-top:.5rem">Register Free &#x2192;</a>
+    </div>
+  </div>
+</header>
+
+<!-- Main content -->
+<main id="main-content">
+
+<!-- About Hero -->
+<section class="about-hero" aria-labelledby="about-heading">
+  <div class="about-hero-inner">
+    <h1 id="about-heading">About BlockMyCard.in</h1>
+    <p>A free, open portal helping every Indian act fast when a wallet is stolen or a phone is lost.</p>
+  </div>
+</section>
+
+<!-- About Content -->
+<section class="section">
+  <div class="about-content">
+    <div class="content-block">
+      <h2>Our Mission</h2>
+      <p>Losing a wallet or having your mobile stolen is stressful enough without also having to hunt for the right bank helpline or the correct process to block a card. In that critical window, most people don't know who to call, what number to dial, or which steps actually stop the damage — and that's exactly the gap this portal is here to fill.</p>
+      <p>We bring together <strong>verified helpline numbers, step-by-step blocking procedures, and reporting pathways</strong> across banks, telecom providers, and regulatory bodies (RBI, NPCI, TRAI, NCRP, and I4C) — all in one accessible place. Our goal is simple: when something goes wrong, you shouldn't have to lose more time than the incident itself takes.</p>
+    </div>
+
+    <div class="content-highlight">
+      <p><strong>Built from personal experience.</strong> After a wallet was stolen, our founder found themselves needing to block 8 different cards across several banks — and what should have been a quick, routine task turned into a long, frustrating ordeal. Each bank had a different number, a different verification process, and finding accurate information took far longer than it should have.</p>
+    </div>
+
+    <div class="content-block">
+      <h2>Why We Built This</h2>
+      <p>That experience made it clear how much easier this process could be with the right information readily available. A card-blocking emergency shouldn't require you to:</p>
+      <ul style="margin-top:1rem;margin-left:1.5rem;color:var(--fg2)">
+        <li style="margin-bottom:.5rem">Search for the correct bank helpline number</li>
+        <li style="margin-bottom:.5rem">Navigate multiple verification steps at each institution</li>
+        <li style="margin-bottom:.5rem">Understand the role of different regulatory bodies</li>
+        <li style="margin-bottom:.5rem">Figure out which documents or information you need</li>
+        <li style="margin-bottom:.5rem">Repeat the same story across 8 different phone calls</li>
+      </ul>
+      <p style="margin-top:1.5rem">Every minute matters in a card-blocking scenario. Fraudsters work fast, and so should you.</p>
+    </div>
+
+    <div class="content-block">
+      <h2>What We Offer</h2>
+      <p>BlockMyCard.in is built for speed and clarity:</p>
+      <ul style="margin-top:1rem;margin-left:1.5rem;color:var(--fg2)">
+        <li style="margin-bottom:.5rem"><strong>Verified bank helplines</strong> — all major Indian banks and credit card issuers in one place</li>
+        <li style="margin-bottom:.5rem"><strong>Step-by-step blocking guides</strong> — exactly what to say, what to have ready, and what to expect</li>
+        <li style="margin-bottom:.5rem"><strong>Regulatory pathways</strong> — how to report to RBI, NPCI, TRAI, and other authorities when needed</li>
+        <li style="margin-bottom:.5rem"><strong>Multi-language support</strong> — accessible to all Indians, regardless of language preference</li>
+        <li style="margin-bottom:.5rem"><strong>Free to register and use</strong> — access all helplines, guides, and reporting pathways at no cost. Optional paid feature for securely storing card details.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h2>For Everyone, From Everywhere</h2>
+      <p>This portal is built for:</p>
+      <ul style="margin-top:1rem;margin-left:1.5rem;color:var(--fg2)">
+        <li style="margin-bottom:.5rem"><strong>Individual cardholders</strong> — whether you have one card or many</li>
+        <li style="margin-bottom:.5rem"><strong>Small business owners</strong> — who can't afford the downtime of a compromised card</li>
+        <li style="margin-bottom:.5rem"><strong>Senior citizens</strong> — who may find card-blocking procedures confusing or intimidating</li>
+        <li style="margin-bottom:.5rem"><strong>Families</strong> — helping multiple members act quickly in an emergency</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h2>Made in India, For India</h2>
+      <p>We understand the unique challenges of the Indian financial ecosystem. Our helplines, procedures, and guidance are specifically tailored to how Indian banks, telecom providers, and regulators work — not a one-size-fits-all guide copied from international sources.</p>
+      <p>This is built with love for every cardholder, small business, and senior citizen who deserves a faster, simpler way to protect their financial security.</p>
+    </div>
+
+    <div class="content-block">
+      <h2>Our Commitment</h2>
+      <p>We're committed to keeping this information accurate, up-to-date, and accessible. If you notice an error, have feedback, or want to suggest a bank or process we've missed, please <a href="mailto:support@blockmycard.in" style="color:var(--red);font-weight:600;text-decoration:none">reach out to us</a>.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <div class="footer-logo-icon" aria-hidden="true">&#x26E8;</div>
+        BlockMyCard<span style="color:var(--red)">.in</span>
+      </a>
+      <p>Made in India with ❤️ for every family, small business &amp; senior citizen.</p>
+      <div class="footer-brand-sub"><span aria-hidden="true">&#x1F6E1;&#xFE0F;</span> Helping Indian cardholders act fast</div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><span class="footer-link-soon">Family Circle</span></li>
+        <li><span class="footer-link-soon">Pricing</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/trust-security.html">Trust &amp; Security</a></li>
+        <li><a href="/privacy.html">Privacy Policy</a></li>
+        <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
+        <li><a href="mailto:support@blockmycard.in">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <div class="footer-bottom">&#x00A9; 2026 BlockMyCard.in &middot; All rights reserved &middot; An initiative for a safer digital India.</div>
+    <div class="footer-construction"><span aria-hidden="true">&#x1F6A7;</span> Site under construction. Some features are still being tested. Your feedback is welcome.</div>
+  </div>
+</footer>
+
+<script>
+/* ── THEME TOGGLE ── */
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+
+/* ── FONT SIZE ── */
+function setFont(size) {
+  document.documentElement.setAttribute('data-font-size', size);
+  localStorage.setItem('font-size', size);
+  document.querySelectorAll('.font-btn, [data-size]').forEach(el => {
+    if (el.dataset.size === size) {
+      el.classList.add('active');
+      el.setAttribute('aria-checked', 'true');
+    } else {
+      el.classList.remove('active');
+      el.setAttribute('aria-checked', 'false');
+    }
+  });
+}
+
+/* ── LANGUAGE ── */
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  localStorage.setItem('language', lang);
+  document.querySelectorAll('.dropdown-btn[onclick*="setLang"], button[onclick*="setLang"]').forEach(btn => {
+    const btnLang = btn.getAttribute('onclick').match(/'(\w+)'/)?.[1];
+    if (btnLang === lang) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+    } else {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-checked', 'false');
+    }
+  });
+}
+
+/* ── DROPDOWN TOGGLE ── */
+function toggleDropdown(id) {
+  const dropdown = document.getElementById(id);
+  const btn = document.getElementById(id + '-btn');
+  const isOpen = dropdown.classList.contains('open');
+  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.nav-icon-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  if (!isOpen) {
+    dropdown.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+/* Close dropdowns on click outside */
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-actions')) {
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.nav-icon-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  }
+});
+
+/* ── MOBILE MENU ── */
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    menu.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function closeMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  menu.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+}
+
+/* ── CONSTRUCTION BANNER ── */
+function dismissConstruction() {
+  const bar = document.getElementById('construction-bar');
+  bar.style.display = 'none';
+  localStorage.setItem('construction-dismissed', 'true');
+}
+
+// Restore theme and preferences on load
+document.addEventListener('DOMContentLoaded', () => {
+  const theme = localStorage.getItem('theme') || 'light';
+  const fontSize = localStorage.getItem('font-size') || 'md';
+  const isDismissed = localStorage.getItem('construction-dismissed') === 'true';
+
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.setAttribute('data-font-size', fontSize);
+
+  if (isDismissed) {
+    document.getElementById('construction-bar').style.display = 'none';
+  }
+
+  // Update active buttons
+  document.querySelectorAll('.font-btn').forEach(btn => {
+    if (btn.dataset.size === fontSize) btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

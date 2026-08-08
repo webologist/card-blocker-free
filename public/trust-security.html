@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-font-size="md">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<meta name="theme-color" content="#d63a2a"/>
+<title>Trust &amp; Security — BlockMyCard.in</title>
+<meta name="description" content="How BlockMyCard treats your cards and details — in plain words. We never store your full card number, CVV, PIN, or OTP. Your details stay yours."/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23d63a2a'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>&#x26E8;</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;700;800&family=Noto+Sans+Gujarati:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<!-- Apply saved theme/font before paint so this page matches the main site -->
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem('bmc_theme')||'dark';
+    var f=localStorage.getItem('bmc_font')||'md';
+    document.documentElement.setAttribute('data-theme',t);
+    document.documentElement.setAttribute('data-font-size',f);
+  }catch(e){document.documentElement.setAttribute('data-theme','dark');}
+})();
+</script>
+<!-- Shared site header — same markup, styling and controls as index.html -->
+<link rel="stylesheet" href="/assets/site-header.css"/>
+<script defer src="/assets/site-header.js"></script>
+
+<style>
+/* Tokens beyond the header set — the header's own tokens come from
+   assets/site-header.css, which is loaded above and can be overridden here. */
+:root{
+  --success:#16a34a;--warning:#d97706;--warning-fg:#92400e;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --radius-xl:20px;
+}
+[data-theme="dark"]{
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 16px rgba(0,0,0,.3);
+}
+[data-theme="dark"] .ts-never{background:rgba(214,58,42,.12);border-color:rgba(214,58,42,.4)}
+[data-theme="dark"] .ts-tips{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.35)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--red);text-decoration:none}a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* PAGE */
+main{max-width:820px;margin:0 auto;padding:0 1.5rem 5rem}
+.ts-hero{padding:3.5rem 0 1.5rem;text-align:center}
+.ts-eyebrow{display:inline-flex;align-items:center;gap:.45rem;background:var(--red-light);color:var(--red-dark);font-weight:600;font-size:.82rem;padding:.4rem .9rem;border-radius:999px;margin-bottom:1.1rem}
+[data-theme="dark"] .ts-eyebrow{color:#fca5a5}
+.ts-hero h1{font-size:clamp(2rem,6vw,2.9rem);line-height:1.1;margin:0 0 .8rem;letter-spacing:-.02em}
+.ts-lede{font-size:1.1rem;color:var(--fg2);max-width:620px;margin:0 auto}
+.ts-tldr{margin:2.2rem 0 .5rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.6rem 1.7rem;box-shadow:var(--shadow-sm)}
+.ts-tldr h2{margin:0 0 .1rem;font-size:1.15rem}
+.ts-tldr .sub{color:var(--fg2);font-size:.92rem;margin:0 0 1rem}
+.ts-tldr ul{list-style:none;margin:0;padding:0;display:grid;gap:.75rem}
+.ts-tldr li{display:flex;gap:.7rem;align-items:flex-start}
+.ts-tldr .tick{color:var(--success);font-weight:800;flex:none;margin-top:.05rem}
+section.ts-block{padding:2.5rem 0;border-top:1px solid var(--border)}
+.ts-kicker{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin:0 0 .5rem}
+.ts-title{font-size:clamp(1.4rem,3.6vw,1.85rem);margin:0 0 .4rem;letter-spacing:-.01em}
+.ts-intro{color:var(--fg2);margin:0 0 1.4rem;max-width:640px}
+.ts-grid{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){.ts-grid{grid-template-columns:1fr}}
+.ts-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.35rem;box-shadow:var(--shadow-sm)}
+.ts-card .ico{font-size:1.5rem;margin-bottom:.5rem;display:block}
+.ts-card h3{margin:0 0 .35rem;font-size:1.05rem}
+.ts-card p{margin:0;color:var(--fg2);font-size:.96rem}
+.ts-never{background:var(--red-light);border:1px solid #f6cfc9;border-left:5px solid var(--red);border-radius:var(--radius-lg);padding:1.6rem 1.7rem}
+.ts-never h3{margin:0 0 .35rem;font-size:1.1rem;color:var(--red-dark)}
+[data-theme="dark"] .ts-never h3{color:#fca5a5}
+.ts-never>p{margin:0 0 1rem;color:var(--fg2)}
+.ts-never ul{list-style:none;margin:0 0 1.1rem;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:520px){.ts-never ul{grid-template-columns:1fr}}
+.ts-never li{display:flex;gap:.6rem;align-items:center;font-weight:600}
+.ts-never .x{color:var(--red);flex:none}
+.ts-never .note{margin:0;padding-top:1rem;border-top:1px solid rgba(214,58,42,.25);color:var(--fg2);font-size:.94rem}
+.ts-control{list-style:none;padding:0;margin:0;display:grid;gap:.85rem}
+.ts-control li{display:flex;gap:.7rem;align-items:flex-start}
+.ts-control .dot{flex:none;width:28px;height:28px;border-radius:8px;background:rgba(22,163,74,.14);color:var(--success);display:grid;place-items:center;font-weight:700;margin-top:.05rem}
+.ts-control strong{color:var(--fg)}.ts-control span.t{color:var(--fg2)}
+.ts-promises{display:grid;gap:.7rem;margin:0;padding:0;list-style:none}
+.ts-promises li{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:.85rem 1.1rem;display:flex;gap:.7rem;align-items:flex-start}
+.ts-promises .never-badge{color:var(--red);font-weight:800;flex:none}
+.ts-tips{background:rgba(22,163,74,.08);border:1px solid #cdeadb;border-radius:var(--radius-lg);padding:1.4rem 1.6rem}
+.ts-tips ul{margin:0;padding-left:1.1em;display:grid;gap:.6rem}
+.ts-tips li{color:var(--fg2)}.ts-tips strong{color:var(--fg)}
+.ts-contact{text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.2rem 1.7rem;margin-top:.5rem}
+.ts-contact h2{margin:0 0 .5rem;font-size:1.5rem}
+.ts-contact p{color:var(--fg2);margin:0 auto 1.1rem;max-width:520px}
+.ts-mail{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;font-weight:700;padding:.75rem 1.5rem;border-radius:999px}
+.ts-mail:hover{background:var(--red-dark);text-decoration:none}
+
+/* FOOTER (ported from site) */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1.5rem 1.5rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+@media(max-width:760px){.footer-inner{grid-template-columns:1fr}}
+.footer-logo{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;color:var(--fg);margin-bottom:.6rem}
+.footer-logo:hover{text-decoration:none}
+.footer-logo-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.9rem}
+.footer-brand p{font-size:.85rem;color:var(--fg2);max-width:260px;line-height:1.6;margin:.4rem 0}
+.footer-brand-sub{font-size:.78rem;color:var(--fg2)}
+.footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin-bottom:.85rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin:0;padding:0}
+.footer-col a{font-size:.875rem;color:var(--fg2);transition:color .15s}
+.footer-col a:hover{color:var(--fg)}
+.footer-col a.current{color:var(--red);font-weight:600}
+.footer-link-soon{font-size:.875rem;color:var(--fg2);cursor:default}
+.footer-link-soon::after{content:' (soon)';font-size:.7rem;opacity:.6}
+.footer-bottom-bar{max-width:1200px;margin:.75rem auto 0}
+.footer-bottom{font-size:.78rem;color:var(--fg2);margin-bottom:.25rem}
+.footer-construction{font-size:.78rem;color:var(--warning);font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- NAV — mirrors the site header on index.html; anchors are absolute so they
+     land on the home page rather than looking for sections on this page. -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon" aria-hidden="true">&#x26E8;</div>
+      <div class="nav-logo-text">BlockMyCard<span>.in</span></div>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#stats">Fraud Data</a></li>
+        <li><a href="/#how">How it Works</a></li>
+        <li><a href="/#block">Block Steps</a></li>
+        <li><a href="/#card-tool">Card Blocker</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <!-- Font size -->
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="font-dd-btn"
+                onclick="toggleDropdown('font-dd')"
+                aria-label="Font size"
+                aria-haspopup="menu"
+                aria-controls="font-dd"
+                aria-expanded="false"
+                title="Font size">&#x1D400;</button>
+        <div class="dropdown" id="font-dd" role="menu" aria-label="Font size options">
+          <span class="dropdown-label" id="txt-a11y-font">Font size</span>
+          <div class="font-grid">
+            <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" id="font-sm" role="menuitemradio" aria-checked="false" aria-label="Small font">A</button>
+            <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" id="font-md" role="menuitemradio" aria-checked="true" aria-label="Medium font">A</button>
+            <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" id="font-lg" role="menuitemradio" aria-checked="false" aria-label="Large font">A</button>
+            <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" id="font-xl" role="menuitemradio" aria-checked="false" aria-label="Extra large font">A</button>
+          </div>
+        </div>
+      </div>
+      <!-- Language -->
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="lang-dd-btn"
+                onclick="toggleDropdown('lang-dd')"
+                aria-label="Language"
+                aria-haspopup="menu"
+                aria-controls="lang-dd"
+                aria-expanded="false"
+                title="Language">&#x1F310;</button>
+        <div class="dropdown" id="lang-dd" role="menu" aria-label="Language options">
+          <span class="dropdown-label" id="txt-a11y-lang">Language</span>
+          <button class="dropdown-btn" onclick="setLang('bn')" id="lang-bn" role="menuitemradio" aria-checked="false"><span class="native">বাংলা</span><span class="en">Bengali</span></button>
+          <button class="dropdown-btn active" onclick="setLang('en')" id="lang-en" role="menuitemradio" aria-checked="true"><span class="native">English</span><span class="en">English</span></button>
+          <button class="dropdown-btn" onclick="setLang('gu')" id="lang-gu" role="menuitemradio" aria-checked="false"><span class="native">ગુજરાતી</span><span class="en">Gujarati</span></button>
+          <button class="dropdown-btn" onclick="setLang('hi')" id="lang-hi" role="menuitemradio" aria-checked="false"><span class="native">हिन्दी</span><span class="en">Hindi</span></button>
+          <button class="dropdown-btn" onclick="setLang('kn')" id="lang-kn" role="menuitemradio" aria-checked="false"><span class="native">ಕನ್ನಡ</span><span class="en">Kannada</span></button>
+          <button class="dropdown-btn" onclick="setLang('ml')" id="lang-ml" role="menuitemradio" aria-checked="false"><span class="native">മലയാളം</span><span class="en">Malayalam</span></button>
+          <button class="dropdown-btn" onclick="setLang('mr')" id="lang-mr" role="menuitemradio" aria-checked="false"><span class="native">मराठी</span><span class="en">Marathi</span></button>
+          <button class="dropdown-btn" onclick="setLang('or')" id="lang-or" role="menuitemradio" aria-checked="false"><span class="native">ଓଡ଼ିଆ</span><span class="en">Odia</span></button>
+          <button class="dropdown-btn" onclick="setLang('ta')" id="lang-ta" role="menuitemradio" aria-checked="false"><span class="native">தமிழ்</span><span class="en">Tamil</span></button>
+          <button class="dropdown-btn" onclick="setLang('te')" id="lang-te" role="menuitemradio" aria-checked="false"><span class="native">తెలుగు</span><span class="en">Telugu</span></button>
+        </div>
+      </div>
+      <!-- Dark mode -->
+      <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="Toggle colour theme" id="theme-btn" title="Toggle theme">&#x1F319;</button>
+      <!-- Register CTA -->
+      <a href="/#card-tool" class="nav-cta" id="nav-cta">Register/ Block <span aria-hidden="true">&#x2192;</span></a>
+      <button class="nav-icon-btn mobile-only"
+              onclick="toggleMobileMenu()"
+              aria-label="Open navigation menu"
+              aria-haspopup="true"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              id="mobile-menu-btn">&#x2630;</button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <div class="mobile-menu-inner">
+      <a href="/#features" onclick="closeMobileMenu()">Features</a>
+      <a href="/#stats" onclick="closeMobileMenu()">Fraud Data</a>
+      <a href="/#how" onclick="closeMobileMenu()">How it Works</a>
+      <a href="/#block" onclick="closeMobileMenu()">Block Steps</a>
+      <a href="/#card-tool" onclick="closeMobileMenu()">Card Blocker</a>
+      <hr class="mobile-divider"/>
+      <div class="mobile-pref-label" id="txt-m-font">Font size</div>
+      <div class="font-grid" style="margin-bottom:.75rem">
+        <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" aria-checked="false" role="menuitemradio" aria-label="Small font">A</button>
+        <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" aria-checked="true" role="menuitemradio" aria-label="Medium font">A</button>
+        <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" aria-checked="false" role="menuitemradio" aria-label="Large font">A</button>
+        <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" aria-checked="false" role="menuitemradio" aria-label="Extra large font">A</button>
+      </div>
+      <div class="mobile-pref-label" id="txt-m-lang">Language</div>
+      <div class="mobile-lang-grid">
+        <button class="dropdown-btn" onclick="setLang('bn');closeMobileMenu()" id="mlang-bn" aria-checked="false" role="menuitemradio"><span class="native">বাংলা</span></button>
+        <button class="dropdown-btn active" onclick="setLang('en');closeMobileMenu()" id="mlang-en" aria-checked="true" role="menuitemradio"><span class="native">English</span></button>
+        <button class="dropdown-btn" onclick="setLang('gu');closeMobileMenu()" id="mlang-gu" aria-checked="false" role="menuitemradio"><span class="native">ગુજરાતી</span></button>
+        <button class="dropdown-btn" onclick="setLang('hi');closeMobileMenu()" id="mlang-hi" aria-checked="false" role="menuitemradio"><span class="native">हिन्दी</span></button>
+        <button class="dropdown-btn" onclick="setLang('kn');closeMobileMenu()" id="mlang-kn" aria-checked="false" role="menuitemradio"><span class="native">ಕನ್ನಡ</span></button>
+        <button class="dropdown-btn" onclick="setLang('ml');closeMobileMenu()" id="mlang-ml" aria-checked="false" role="menuitemradio"><span class="native">മലയാളം</span></button>
+        <button class="dropdown-btn" onclick="setLang('mr');closeMobileMenu()" id="mlang-mr" aria-checked="false" role="menuitemradio"><span class="native">मराठी</span></button>
+        <button class="dropdown-btn" onclick="setLang('or');closeMobileMenu()" id="mlang-or" aria-checked="false" role="menuitemradio"><span class="native">ଓଡ଼ିଆ</span></button>
+        <button class="dropdown-btn" onclick="setLang('ta');closeMobileMenu()" id="mlang-ta" aria-checked="false" role="menuitemradio"><span class="native">தமிழ்</span></button>
+        <button class="dropdown-btn" onclick="setLang('te');closeMobileMenu()" id="mlang-te" aria-checked="false" role="menuitemradio"><span class="native">తెలుగు</span></button>
+      </div>
+      <a href="/#card-tool" onclick="closeMobileMenu()" class="nav-cta" style="justify-content:center;margin-top:.5rem" id="mnav-cta">Register Free &#x2192;</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="ts-hero">
+    <span class="ts-eyebrow">&#x1F512; Trust &amp; Security</span>
+    <h1>Your cards. Your details. Your control.</h1>
+    <p class="ts-lede">BlockMyCard exists for one reason — to help you act fast on the worst day, when a wallet or phone goes missing. Here's exactly how we treat what you trust us with, in plain words.</p>
+  </div>
+
+  <div class="ts-tldr">
+    <h2>The short version</h2>
+    <p class="sub">If you only read this far, you've got the important part.</p>
+    <ul>
+      <li><span class="tick">&#x2713;</span><span>We only ask for what helps you reach your bank quickly — nothing more.</span></li>
+      <li><span class="tick">&#x2713;</span><span>We <strong>never</strong> store your full card number, CVV, PIN, UPI PIN, net-banking password, or OTP.</span></li>
+      <li><span class="tick">&#x2713;</span><span>You can view, edit, or delete anything you've saved, whenever you like.</span></li>
+      <li><span class="tick">&#x2713;</span><span>We'll never sell your details or hand them to anyone marketing to you.</span></li>
+      <li><span class="tick">&#x2713;</span><span>We're an early-stage service, and we'll keep telling you the truth about where we are.</span></li>
+    </ul>
+  </div>
+
+  <section class="ts-block">
+    <p class="ts-kicker">What we ask for</p>
+    <h2 class="ts-title">The details that help you act fast</h2>
+    <p class="ts-intro">Think of BlockMyCard as a notebook you keep for one emergency — but a notebook only you can open. To help you block a card quickly, we let you store things like:</p>
+    <div class="ts-grid">
+      <div class="ts-card"><span class="ico">&#x1F3E6;</span><h3>Bank &amp; card type</h3><p>The bank name and whether it's debit, credit, or prepaid.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F522;</span><h3>Last few digits</h3><p>Just enough to tell your cards apart — never the full number.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F4DE;</span><h3>Block-card helpline</h3><p>The bank's official number to block a lost or stolen card.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F4F1;</span><h3>Your mobile &amp; email</h3><p>So you can sign in from any phone if yours is lost.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F46A;</span><h3>A family contact</h3><p>An optional alternate person to reach, only if you choose.</p></div>
+      <div class="ts-card"><span class="ico">&#x270B;</span><h3>Whatever you choose</h3><p>You decide what to add. Start with just name, mobile, and email.</p></div>
+    </div>
+  </section>
+
+  <section class="ts-block">
+    <p class="ts-kicker">What we never touch</p>
+    <h2 class="ts-title">The secret parts stay secret</h2>
+    <p class="ts-intro">This is the line we don't cross. To block a card, your bank never needs the secret parts — and neither do we.</p>
+    <div class="ts-never">
+      <h3>We do <u>not</u> ask for, and do <u>not</u> store:</h3>
+      <p>None of these are needed to block a card. Ever.</p>
+      <ul>
+        <li><span class="x">&#x2715;</span> Your full 16-digit card number</li>
+        <li><span class="x">&#x2715;</span> The CVV (3 digits on the back)</li>
+        <li><span class="x">&#x2715;</span> Your ATM PIN or UPI PIN</li>
+        <li><span class="x">&#x2715;</span> Net-banking or card passwords</li>
+        <li><span class="x">&#x2715;</span> Any OTP</li>
+      </ul>
+      <p class="note">If anyone — a website, a call, an SMS — asks for these "to block your card," that's a fraud attempt, not a safety step. We will never do that.</p>
+    </div>
+  </section>
+
+  <section class="ts-block">
+    <p class="ts-kicker">You're in control</p>
+    <h2 class="ts-title">Your saved details belong to you</h2>
+    <p class="ts-intro">Not to us. You decide how much to add, and you can undo any of it in a few taps.</p>
+    <ul class="ts-control">
+      <li><span class="dot">&#x1F441;</span><span class="t"><strong>See everything</strong> you've saved, any time you log in.</span></li>
+      <li><span class="dot">&#x270E;</span><span class="t"><strong>Change or remove</strong> any card or contact in a few taps.</span></li>
+      <li><span class="dot">&#x1F5D1;</span><span class="t"><strong>Delete your account</strong> whenever you want — your saved details go with it.</span></li>
+    </ul>
+  </section>
+
+  <section class="ts-block">
+    <p class="ts-kicker">How we look after it</p>
+    <h2 class="ts-title">Built carefully, and built honestly</h2>
+    <p class="ts-intro">We take the trust you place in us seriously, and build with that in mind.</p>
+    <div class="ts-grid">
+      <div class="ts-card"><span class="ico">&#x1F3AF;</span><h3>Only what's needed</h3><p>We collect the minimum that helps you act in an emergency — and skip everything else.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F512;</span><h3>Visible only to you</h3><p>We're building the service so your saved details are tied to your login and meant for your eyes.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F5D1;&#xFE0F;</span><h3>Yours to remove</h3><p>Nothing you save is permanent unless you want it to be.</p></div>
+      <div class="ts-card"><span class="ico">&#x1F1EE;&#x1F1F3;</span><h3>Built for India</h3><p>Designed around Indian bank block-card helplines and RBI reporting timelines.</p></div>
+    </div>
+    <p class="ts-intro" style="margin-top:1.4rem">We're still an early-stage service, and we're honest about that. As our security practices are formalised, we'll publish the specifics right here — in language you can actually read — rather than hiding behind a policy no one opens.</p>
+  </section>
+
+  <section class="ts-block">
+    <p class="ts-kicker">Our promises</p>
+    <h2 class="ts-title">A few things worth putting in writing</h2>
+    <ul class="ts-promises">
+      <li><span class="never-badge">Never</span><span>We will never sell your information.</span></li>
+      <li><span class="never-badge">Never</span><span>We will never hand your details to advertisers or data brokers.</span></li>
+      <li><span class="never-badge">Never</span><span>We will never call, text, or email you asking for a PIN, password, CVV, or OTP.</span></li>
+      <li><span class="never-badge">Never</span><span>We will never ask for more than you choose to share.</span></li>
+    </ul>
+    <p class="ts-intro" style="margin-top:1rem">If something ever claims to be from BlockMyCard and breaks one of these, treat it as a scam — and please tell us.</p>
+  </section>
+
+  <section class="ts-block">
+    <p class="ts-kicker">Staying safe</p>
+    <h2 class="ts-title">Beyond BlockMyCard</h2>
+    <p class="ts-intro">Because we'd rather you never need us in a panic.</p>
+    <div class="ts-tips">
+      <ul>
+        <li>Your bank will <strong>never</strong> ask for your PIN, CVV, or OTP over a call or message.</li>
+        <li>If a card is lost, <strong>block it first</strong>, then file a complaint at <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a> or call <strong>1930</strong>.</li>
+        <li>Save your bank's official block-card helpline somewhere you can reach it — that's exactly what BlockMyCard is for.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="ts-contact">
+    <h2>Have a question or a concern?</h2>
+    <p>We'd genuinely like to hear it — good or bad. If something about your data, your account, or our security doesn't sit right with you, write to us.</p>
+    <a class="ts-mail" href="mailto:support@blockmycard.in">&#x1F4E7; support@blockmycard.in</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <div class="footer-logo-icon" aria-hidden="true">&#x26E8;</div>
+        BlockMyCard<span style="color:var(--red)">.in</span>
+      </a>
+      <p>Made in India with &#x1F499; for every family, small business &amp; senior citizen.</p>
+      <div class="footer-brand-sub"><span aria-hidden="true">&#x1F6E1;&#xFE0F;</span> Helping Indian cardholders act fast</div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><span class="footer-link-soon">Family Circle</span></li>
+        <li><span class="footer-link-soon">Pricing</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/trust-security.html" class="current">Trust &amp; Security</a></li>
+        <li><a href="/privacy.html">Privacy Policy</a></li>
+        <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
+        <li><a href="mailto:support@blockmycard.in">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <div class="footer-bottom">&#x00A9; 2026 BlockMyCard.in &middot; All rights reserved &middot; An initiative for a safer digital India.</div>
+    <div class="footer-construction"><span aria-hidden="true">&#x1F6A7;</span> Site under construction. Some features are still being tested. Your feedback is welcome.</div>
+  </div>
+</footer>
+
+</body>
+</html>

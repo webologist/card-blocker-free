@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" width="800" height="560" role="img" aria-label="A family resting easy beneath a protective shield">
+  <defs>
+    <linearGradient id="hp-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff6f4"/>
+      <stop offset="1" stop-color="#fbdcd7"/>
+    </linearGradient>
+    <linearGradient id="hp-shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8543f"/>
+      <stop offset="1" stop-color="#b72e1e"/>
+    </linearGradient>
+    <filter id="hp-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#7f1d1d" flood-opacity=".2"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="560" fill="url(#hp-bg)"/>
+
+  <!-- calm night sky motifs -->
+  <circle cx="120" cy="104" r="46" fill="#d63a2a" opacity=".08"/>
+  <circle cx="694" cy="140" r="30" fill="#d63a2a" opacity=".1"/>
+  <path d="M652 96 a26 26 0 1 0 24 34 a30 30 0 0 1 -24 -34 z" fill="#d63a2a" opacity=".35"/>
+  <g fill="#d63a2a" opacity=".3">
+    <circle cx="196" cy="72" r="5"/>
+    <circle cx="592" cy="212" r="4"/>
+    <circle cx="112" cy="228" r="6"/>
+    <circle cx="726" cy="286" r="5"/>
+  </g>
+
+  <!-- protective shield -->
+  <g filter="url(#hp-shadow)">
+    <path d="M400 92 c62 42 116 52 152 52 v134 c0 118 -86 176 -152 202 c-66 -26 -152 -84 -152 -202 V144 c36 0 90 -10 152 -52 z" fill="url(#hp-shield)"/>
+    <path d="M400 128 c52 34 96 43 126 43 v112 c0 98 -72 147 -126 169 c-54 -22 -126 -71 -126 -169 V171 c30 0 74 -9 126 -43 z" fill="none" stroke="#ffffff" stroke-width="3" opacity=".35"/>
+  </g>
+
+  <!-- family sheltered inside -->
+  <g>
+    <!-- parent 1 -->
+    <circle cx="352" cy="272" r="27" fill="#ffffff"/>
+    <path d="M311 356 a41 41 0 0 1 82 0 z" fill="#ffffff"/>
+    <!-- parent 2 -->
+    <circle cx="452" cy="272" r="27" fill="#ffffff"/>
+    <path d="M411 356 a41 41 0 0 1 82 0 z" fill="#ffffff"/>
+    <!-- child -->
+    <circle cx="402" cy="316" r="21" fill="#ffffff"/>
+    <path d="M370 382 a32 32 0 0 1 64 0 z" fill="#ffffff"/>
+  </g>
+
+  <!-- check seal -->
+  <g filter="url(#hp-shadow)">
+    <circle cx="562" cy="392" r="52" fill="#ffffff"/>
+    <circle cx="562" cy="392" r="39" fill="#059669"/>
+    <path d="M545 392 l12 12 l23 -24" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- resting ground line -->
+  <path d="M0 494 Q 200 458 400 490 T 800 470 L800 560 L0 560 Z" fill="#d63a2a" opacity=".07"/>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440" role="img" aria-label="Picking saved cards and sending a ready-made blocking message">
+  <defs>
+    <linearGradient id="bc-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7f1d1d"/>
+      <stop offset="1" stop-color="#d63a2a"/>
+    </linearGradient>
+    <filter id="bc-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#4a0f0f" flood-opacity=".45"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="440" fill="url(#bc-bg)"/>
+
+  <circle cx="108" cy="96" r="68" fill="#ffffff" opacity=".05"/>
+  <circle cx="704" cy="352" r="86" fill="#ffffff" opacity=".045"/>
+
+  <!-- saved card list -->
+  <g filter="url(#bc-shadow)">
+    <rect x="80" y="66" width="360" height="308" rx="26" fill="#2c0f0f"/>
+    <rect x="80" y="66" width="360" height="308" rx="26" fill="none" stroke="#e08b7c" stroke-width="2" opacity=".45"/>
+  </g>
+  <rect x="110" y="96" width="132" height="11" rx="5.5" fill="#c9776a" opacity=".8"/>
+
+  <!-- card row: selected -->
+  <g>
+    <rect x="110" y="128" width="300" height="66" rx="16" fill="#4a1a17" stroke="#f0a294" stroke-width="2"/>
+    <rect x="130" y="146" width="56" height="34" rx="7" fill="#e8543f"/>
+    <rect x="136" y="153" width="14" height="10" rx="2.5" fill="#ffffff" opacity=".85"/>
+    <rect x="202" y="150" width="118" height="9" rx="4.5" fill="#e6b3a9"/>
+    <rect x="202" y="167" width="72" height="8" rx="4" fill="#a8675c"/>
+    <rect x="360" y="149" width="30" height="30" rx="9" fill="#ffffff"/>
+    <path d="M368 164 l6 6 l12 -13" fill="none" stroke="#d63a2a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- card row: selected -->
+  <g>
+    <rect x="110" y="206" width="300" height="66" rx="16" fill="#4a1a17" stroke="#f0a294" stroke-width="2"/>
+    <rect x="130" y="224" width="56" height="34" rx="7" fill="#f0a294"/>
+    <rect x="136" y="231" width="14" height="10" rx="2.5" fill="#ffffff" opacity=".85"/>
+    <rect x="202" y="228" width="118" height="9" rx="4.5" fill="#e6b3a9"/>
+    <rect x="202" y="245" width="72" height="8" rx="4" fill="#a8675c"/>
+    <rect x="360" y="227" width="30" height="30" rx="9" fill="#ffffff"/>
+    <path d="M368 242 l6 6 l12 -13" fill="none" stroke="#d63a2a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- card row: unselected -->
+  <g opacity=".62">
+    <rect x="110" y="284" width="300" height="66" rx="16" fill="#3a1412"/>
+    <rect x="130" y="302" width="56" height="34" rx="7" fill="#8a4a41"/>
+    <rect x="202" y="306" width="118" height="9" rx="4.5" fill="#8a5a52"/>
+    <rect x="202" y="323" width="72" height="8" rx="4" fill="#6d4640"/>
+    <rect x="360" y="305" width="30" height="30" rx="9" fill="none" stroke="#a8675c" stroke-width="2.5"/>
+  </g>
+
+  <!-- template message sheet -->
+  <g filter="url(#bc-shadow)">
+    <rect x="486" y="86" width="252" height="212" rx="24" fill="#ffffff"/>
+    <rect x="512" y="118" width="128" height="11" rx="5.5" fill="#f0a294"/>
+    <rect x="512" y="148" width="200" height="9" rx="4.5" fill="#dfe4ea"/>
+    <rect x="512" y="170" width="200" height="9" rx="4.5" fill="#dfe4ea"/>
+    <rect x="512" y="192" width="146" height="9" rx="4.5" fill="#dfe4ea"/>
+    <rect x="512" y="222" width="176" height="9" rx="4.5" fill="#dfe4ea"/>
+    <rect x="512" y="252" width="118" height="26" rx="10" fill="#d63a2a"/>
+    <rect x="536" y="262" width="70" height="7" rx="3.5" fill="#ffffff" opacity=".92"/>
+  </g>
+
+  <!-- send motion -->
+  <g filter="url(#bc-shadow)">
+    <circle cx="700" cy="322" r="42" fill="#ffffff"/>
+    <path d="M680 322 L722 302 L710 322 L722 342 z" fill="#d63a2a"/>
+  </g>
+</svg>

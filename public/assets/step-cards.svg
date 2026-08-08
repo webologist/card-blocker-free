@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440" role="img" aria-label="Bank cards being placed into a locked vault">
+  <defs>
+    <linearGradient id="cd-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2f7ff"/>
+      <stop offset="1" stop-color="#d8e6fb"/>
+    </linearGradient>
+    <linearGradient id="cd-vault" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f4a70"/>
+      <stop offset="1" stop-color="#1e3352"/>
+    </linearGradient>
+    <linearGradient id="cd-card1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d63a2a"/>
+      <stop offset="1" stop-color="#ef6a53"/>
+    </linearGradient>
+    <linearGradient id="cd-card2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#5b93f5"/>
+    </linearGradient>
+    <linearGradient id="cd-card3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#059669"/>
+      <stop offset="1" stop-color="#34d19a"/>
+    </linearGradient>
+    <filter id="cd-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="#1e3a5f" flood-opacity=".22"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="440" fill="url(#cd-bg)"/>
+
+  <circle cx="120" cy="360" r="76" fill="#2563eb" opacity=".07"/>
+  <circle cx="690" cy="86" r="58" fill="#2563eb" opacity=".08"/>
+
+  <!-- floating cards entering the vault -->
+  <g filter="url(#cd-shadow)">
+    <rect x="96" y="96" width="196" height="122" rx="16" fill="url(#cd-card3)" transform="rotate(-13 194 157)"/>
+    <rect x="118" y="122" width="30" height="22" rx="5" fill="#ffffff" opacity=".85" transform="rotate(-13 194 157)"/>
+    <rect x="118" y="176" width="104" height="9" rx="4.5" fill="#ffffff" opacity=".7" transform="rotate(-13 194 157)"/>
+  </g>
+  <g filter="url(#cd-shadow)">
+    <rect x="150" y="150" width="196" height="122" rx="16" fill="url(#cd-card2)" transform="rotate(-6 248 211)"/>
+    <rect x="172" y="176" width="30" height="22" rx="5" fill="#ffffff" opacity=".85" transform="rotate(-6 248 211)"/>
+    <rect x="172" y="230" width="104" height="9" rx="4.5" fill="#ffffff" opacity=".7" transform="rotate(-6 248 211)"/>
+  </g>
+  <g filter="url(#cd-shadow)">
+    <rect x="206" y="206" width="196" height="122" rx="16" fill="url(#cd-card1)"/>
+    <rect x="228" y="232" width="30" height="22" rx="5" fill="#ffffff" opacity=".85"/>
+    <rect x="228" y="286" width="104" height="9" rx="4.5" fill="#ffffff" opacity=".7"/>
+    <rect x="342" y="286" width="38" height="9" rx="4.5" fill="#ffffff" opacity=".5"/>
+  </g>
+
+  <!-- vault -->
+  <g filter="url(#cd-shadow)">
+    <rect x="452" y="88" width="272" height="266" rx="26" fill="url(#cd-vault)"/>
+    <rect x="476" y="112" width="224" height="218" rx="18" fill="none" stroke="#5b7ba6" stroke-width="3" opacity=".55"/>
+  </g>
+
+  <!-- vault dial -->
+  <circle cx="588" cy="221" r="58" fill="#16263f"/>
+  <circle cx="588" cy="221" r="58" fill="none" stroke="#7f9dc4" stroke-width="4" opacity=".6"/>
+  <circle cx="588" cy="221" r="34" fill="#24395c"/>
+  <g stroke="#9fb8d8" stroke-width="5" stroke-linecap="round" opacity=".9">
+    <path d="M588 175 L588 191"/>
+    <path d="M588 251 L588 267"/>
+    <path d="M542 221 L558 221"/>
+    <path d="M618 221 L634 221"/>
+  </g>
+  <circle cx="588" cy="221" r="11" fill="#d63a2a"/>
+
+  <!-- vault handle -->
+  <rect x="686" y="200" width="14" height="42" rx="7" fill="#9fb8d8" opacity=".75"/>
+
+  <!-- padlock badge -->
+  <g filter="url(#cd-shadow)">
+    <circle cx="700" cy="330" r="42" fill="#ffffff"/>
+    <path d="M700 306 a15 15 0 0 1 15 15 v9 h-11 v-9 a4 4 0 0 0 -8 0 v9 h-11 v-9 a15 15 0 0 1 15 -15z" fill="#1e3352"/>
+    <rect x="678" y="328" width="44" height="34" rx="8" fill="#d63a2a"/>
+    <circle cx="700" cy="343" r="5" fill="#ffffff"/>
+    <rect x="697.5" y="345" width="5" height="10" rx="2.5" fill="#ffffff"/>
+  </g>
+</svg>
