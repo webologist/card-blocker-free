@@ -1,6 +1,4 @@
 import { GetStaticProps } from 'next';
-import fs from 'fs';
-import path from 'path';
 
 interface HomeProps {
   htmlContent: string;
@@ -17,43 +15,36 @@ export default function Home({ htmlContent }: HomeProps) {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    // Try multiple possible paths for public/index.html
-    const possiblePaths = [
-      path.join(process.cwd(), 'public', 'index.html'),
-      path.join(__dirname, '..', 'public', 'index.html'),
-      '/public/index.html',
-      'public/index.html',
-    ];
+    // Try to fetch content from the static index.html file
+    // At build time, we can read from the filesystem directly
+    const fs = require('fs');
+    const path = require('path');
 
-    let fullHtml = '';
-    for (const filePath of possiblePaths) {
-      try {
-        fullHtml = fs.readFileSync(filePath, 'utf-8');
-        break;
-      } catch (e) {
-        // Continue to next path
-      }
-    }
+    const filePath = path.join(process.cwd(), 'public', 'index.html');
+    const fullHtml = fs.readFileSync(filePath, 'utf-8');
 
-    if (!fullHtml) {
-      throw new Error('Could not find index.html in any expected location');
-    }
-
-    // Extract body content only (remove html, head, body tags)
+    // Extract body content
     const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
     const htmlContent = bodyMatch ? bodyMatch[1] : fullHtml;
 
     return {
-      props: {
-        htmlContent,
-      },
+      props: { htmlContent },
       revalidate: 3600,
     };
   } catch (error) {
-    console.error('Error reading HTML file:', error);
+    console.error('Build-time error:', error);
+    // Fallback for when file reading fails
     return {
       props: {
-        htmlContent: '<h1>BlockMyCard.in</h1><p>Error loading content: ' + String(error) + '</p>',
+        htmlContent: `
+          <div style="padding: 2rem; font-family: sans-serif;">
+            <h1>BlockMyCard.in</h1>
+            <p>Your wallet is stolen. You have 4 minutes.</p>
+            <p style="color: #666; font-size: 0.9rem;">
+              Free card blocking helper for Indian users.
+            </p>
+          </div>
+        `,
       },
       revalidate: 60,
     };
