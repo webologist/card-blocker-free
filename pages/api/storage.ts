@@ -11,15 +11,21 @@ const storage: Record<string, any> = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Enable CORS for all requests
+  // Enable CORS for all requests - set headers FIRST before any logic
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-phone-token, x-admin-key');
+  res.setHeader('Access-Control-Max-Age', '3600');
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  }
+
+  // Only handle GET and POST
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const phoneToken = req.headers['x-phone-token'] as string;
