@@ -1,15 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  rewrites: async () => {
-    return {
-      beforeFiles: [
-        {
-          source: '/',
-          destination: '/index.html',
-        },
-      ],
-    };
-  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
