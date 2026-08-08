@@ -47,17 +47,13 @@ export default function Home() {
       }
 
       try {
-        const response = await fetch('/api/storage', {
+        const response = await fetch('/api/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            key: `cbp:user:${phone}`,
-            value: JSON.stringify({
-              phone,
-              email: email || null,
-              alternatePhone: alternatePhone || null,
-              registeredAt: new Date().toISOString(),
-            }),
+            phone,
+            email: email || null,
+            alternatePhone: alternatePhone || null,
           }),
         });
 
