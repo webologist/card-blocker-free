@@ -28,7 +28,7 @@ const {
   usersMapFor, writableRecords, ownEntries, emptyFor,
 } = require('../lib/storage-policy');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 const userRow = (phone) => `user:${phone}`;
 const logRow = (phone) => `log:${phone}`;
