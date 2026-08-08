@@ -1835,6 +1835,102 @@ setTimeout(() => {
 })();
 </script>
 
+<!-- DISPLAY SAVED CARDS -->
+<script>
+(function() {
+  console.log('[CARD-DISPLAY] Initializing saved cards display...');
+
+  function displaySavedCards(cardsData) {
+    if (!cardsData || !cardsData.cards || cardsData.cards.length === 0) {
+      console.log('[CARD-DISPLAY] No saved cards to display');
+      return;
+    }
+
+    // Remove existing display if present
+    const existing = document.getElementById('bmc-saved-cards-container');
+    if (existing) existing.remove();
+
+    // Find the Authenticate/Block section
+    const authSection = Array.from(document.querySelectorAll('main')).find(m =>
+      m.textContent.includes('Authenticate / Block')
+    );
+
+    if (!authSection) {
+      console.log('[CARD-DISPLAY] Could not find auth section');
+      return;
+    }
+
+    // Create container for saved cards
+    const container = document.createElement('div');
+    container.id = 'bmc-saved-cards-container';
+    container.style.cssText = `
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    `;
+
+    // Add header
+    const header = document.createElement('h3');
+    header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
+    header.textContent = `✅ ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}`;
+    container.appendChild(header);
+
+    // Add cards list
+    const cardsList = document.createElement('div');
+    cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
+
+    cardsData.cards.forEach((card, idx) => {
+      const cardEl = document.createElement('div');
+      cardEl.style.cssText = `
+        background: white;
+        border: 1px solid #dcfce7;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+      `;
+
+      const cardInfo = document.createElement('div');
+      cardInfo.textContent = `${card.type || 'Card'} • ${card.bank || 'Bank'} • •••• ${card.last4}`;
+      cardInfo.style.color = '#374151';
+      cardInfo.style.fontWeight = '500';
+
+      cardEl.appendChild(cardInfo);
+      cardsList.appendChild(cardEl);
+    });
+
+    container.appendChild(cardsList);
+
+    // Insert before the "Add card to block" form
+    const addCardBtn = Array.from(authSection.querySelectorAll('button')).find(b =>
+      b.textContent.includes('Add card')
+    );
+
+    if (addCardBtn && addCardBtn.parentElement) {
+      addCardBtn.parentElement.insertBefore(container, addCardBtn.parentElement.firstChild);
+      console.log('[CARD-DISPLAY] Saved cards displayed successfully');
+    }
+  }
+
+  // Listen for cards ready event
+  window.addEventListener('bmc:cards-ready', (e) => {
+    console.log('[CARD-DISPLAY] Received cards-ready event');
+    displaySavedCards(e.detail);
+  });
+
+  // Also check if cards are already loaded (in case event fired before listener was attached)
+  if (window.__bmc_saved_cards) {
+    console.log('[CARD-DISPLAY] Found pre-loaded cards');
+    setTimeout(() => displaySavedCards(window.__bmc_saved_cards), 500);
+  }
+})();
+</script>
+
 <!-- CARD SAVING FUNCTIONALITY -->
 <script>
 (function() {
