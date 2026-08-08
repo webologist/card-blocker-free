@@ -1,6 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Register() {
+  useEffect(() => {
+    // Make iframe responsive
+    if (window.parent !== window) {
+      // We're in an iframe
+      window.parent.postMessage({ type: 'iframe-ready' }, '*');
+    }
+  }, []);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [alternatePhone, setAlternatePhone] = useState('');

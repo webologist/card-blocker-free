@@ -20,13 +20,18 @@ export default function Home() {
       document.head.appendChild(styleEl);
     });
 
-    // Replace the broken React app with an iframe or signal
+    // Wait for DOM to settle, then replace broken registration app with iframe
     setTimeout(() => {
       const root = document.getElementById('root');
-      if (root && !root.firstChild) {
-        root.innerHTML = '<iframe src="/register" style="width:100%;height:600px;border:none;border-radius:16px;"></iframe>';
+      const fallback = document.getElementById('app-fallback');
+
+      if (root) {
+        // If root exists and is empty, or if the fallback is still visible, replace with iframe
+        if (!root.firstChild || (fallback && fallback.style.display !== 'none')) {
+          root.innerHTML = '<iframe src="/register" style="width:100%;height:700px;border:none;border-radius:16px;background:transparent;"></iframe>';
+        }
       }
-    }, 100);
+    }, 200);
   }, []);
 
   return (
