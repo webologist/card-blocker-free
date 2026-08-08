@@ -17,8 +17,27 @@ export default function Home({ htmlContent }: HomeProps) {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    const filePath = path.join(process.cwd(), 'public', 'index.html');
-    const fullHtml = fs.readFileSync(filePath, 'utf-8');
+    // Try multiple possible paths for public/index.html
+    const possiblePaths = [
+      path.join(process.cwd(), 'public', 'index.html'),
+      path.join(__dirname, '..', 'public', 'index.html'),
+      '/public/index.html',
+      'public/index.html',
+    ];
+
+    let fullHtml = '';
+    for (const filePath of possiblePaths) {
+      try {
+        fullHtml = fs.readFileSync(filePath, 'utf-8');
+        break;
+      } catch (e) {
+        // Continue to next path
+      }
+    }
+
+    if (!fullHtml) {
+      throw new Error('Could not find index.html in any expected location');
+    }
 
     // Extract body content only (remove html, head, body tags)
     const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
@@ -34,7 +53,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     console.error('Error reading HTML file:', error);
     return {
       props: {
-        htmlContent: '<h1>BlockMyCard.in</h1><p>Error loading content</p>',
+        htmlContent: '<h1>BlockMyCard.in</h1><p>Error loading content: ' + String(error) + '</p>',
       },
       revalidate: 60,
     };
