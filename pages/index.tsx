@@ -36,17 +36,7 @@ export default function Home() {
         suppressHydrationWarning
       />
       {/* Render registration form as fallback */}
-      <style>{`
-        #root-fallback-register {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .registration-form-container {
-            margin: 2rem 1rem;
-          }
-        }
-      `}</style>
-      <div id="root-fallback-register" style={{ margin: '2rem' }}>
+      <div style={{ padding: '2rem 1rem', backgroundColor: '#0f172a', minHeight: '400px' }}>
         <Register />
       </div>
     </div>
