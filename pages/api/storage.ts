@@ -11,6 +11,17 @@ const storage: Record<string, any> = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Enable CORS for all requests
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-phone-token, x-admin-key');
+
+  // Handle preflight OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   const phoneToken = req.headers['x-phone-token'] as string;
   const adminKey = req.headers['x-admin-key'] as string;
 
