@@ -18,21 +18,24 @@ export default function Home() {
       document.head.appendChild(styleEl);
     });
 
-    // Use event delegation to handle form submissions
-    const handleFormSubmit = async (e: Event) => {
-      if (!(e.target instanceof HTMLFormElement)) return;
-
-      const form = e.target as HTMLFormElement;
-      const messageDiv = form.querySelector('[data-registration-message]') as HTMLElement;
-
-      if (!messageDiv) return;
-
+    // Handler for registration form submission via button click
+    const handleRegisterClick = async (e: Event) => {
       e.preventDefault();
+      e.stopPropagation();
 
-      const formData = new FormData(form);
-      const phone = (formData.get('phone') as string)?.trim();
-      const email = (formData.get('email') as string)?.trim();
-      const alternatePhone = (formData.get('alternatePhone') as string)?.trim();
+      const button = e.target as HTMLButtonElement;
+      const form = button.closest('form') as HTMLFormElement;
+      const messageDiv = form?.querySelector('[data-registration-message]') as HTMLElement;
+
+      if (!form || !messageDiv) return;
+
+      const phoneInput = form.querySelector('input[name="phone"]') as HTMLInputElement;
+      const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
+      const alternateInput = form.querySelector('input[name="alternatePhone"]') as HTMLInputElement;
+
+      const phone = phoneInput?.value?.trim();
+      const email = emailInput?.value?.trim();
+      const alternatePhone = alternateInput?.value?.trim();
 
       // Validate phone
       if (!phone || !/^\d{10}$/.test(phone)) {
@@ -74,9 +77,6 @@ export default function Home() {
         messageDiv.style.display = 'block';
       }
     };
-
-    // Attach event delegation for form submissions
-    document.addEventListener('submit', handleFormSubmit);
 
     // Rewrite registration section with native HTML/JavaScript form
     setTimeout(() => {
@@ -127,7 +127,8 @@ export default function Home() {
               </div>
 
               <button
-                type="submit"
+                type="button"
+                data-register-btn
                 style="padding: 0.75rem; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;"
               >
                 Send OTP
@@ -141,6 +142,14 @@ export default function Home() {
             </form>
           </div>
         `;
+
+        // Attach click handler to the register button
+        setTimeout(() => {
+          const registerBtn = fallback.querySelector('[data-register-btn]') as HTMLButtonElement;
+          if (registerBtn) {
+            registerBtn.addEventListener('click', handleRegisterClick);
+          }
+        }, 0);
 
         // Hide the React root since we're using the fallback
         if (root) root.style.display = 'none';
