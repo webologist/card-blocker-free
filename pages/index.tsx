@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { WEBSITE_HTML_CONTENT } from '../lib/website-html';
-import Register from './register';
 
 export default function Home() {
   useEffect(() => {
@@ -21,25 +20,23 @@ export default function Home() {
     });
 
     // Wait for DOM to settle, then replace broken registration app with iframe
-    setTimeout(() => {
+    const checkAndReplace = () => {
       const root = document.getElementById('root');
       const fallback = document.getElementById('app-fallback');
 
+      console.log('[Registration Form Check] root:', !!root, 'fallback:', !!fallback);
+
       if (root) {
-        console.log('[Registration Form] Found root element, hasChildren:', !!root.firstChild);
-        // If root exists and is empty, or if the fallback is still visible, replace with iframe
-        if (!root.firstChild || (fallback && fallback.style.display !== 'none')) {
-          console.log('[Registration Form] Replacing root with iframe');
+        console.log('[Registration Form] Found root, hasChildren:', !!root.firstChild);
+        // If root exists and is empty, replace with iframe
+        if (!root.firstChild) {
+          console.log('[Registration Form] Replacing with iframe');
           root.innerHTML = '<iframe src="/register" style="width:100%;height:700px;border:none;border-radius:16px;background:transparent;"></iframe>';
         }
-      } else {
-        console.log('[Registration Form] Root element not found!');
       }
+    };
 
-      if (fallback) {
-        console.log('[Registration Form] Found fallback, display:', fallback.style.display);
-      }
-    }, 200);
+    setTimeout(checkAndReplace, 500);
   }, []);
 
   return (
