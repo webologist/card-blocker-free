@@ -48,8 +48,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: 'Missing key' });
       }
 
-      // Require authentication for write operations
-      if (!phoneToken && !adminKey) {
+      // Allow unauthenticated registration (cbp:user:* keys)
+      // For other keys, require authentication
+      const isRegistrationKey = key.startsWith('cbp:user:');
+
+      if (!isRegistrationKey && !phoneToken && !adminKey) {
         return res.status(401).json({ error: 'Authentication required for write' });
       }
 
