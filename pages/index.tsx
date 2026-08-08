@@ -17,6 +17,7 @@ export default function Home({ htmlContent }: HomeProps) {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
+    // Read the static HTML file at build time
     const filePath = path.join(process.cwd(), 'public', 'index.html');
     const htmlContent = fs.readFileSync(filePath, 'utf-8');
 
