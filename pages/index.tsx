@@ -20,15 +20,25 @@ export default function Home() {
 
     // Inject working registration form into the #root div
     setTimeout(() => {
-      const root = document.getElementById('root');
       const fallback = document.getElementById('app-fallback');
 
+      // Hide the fallback message
       if (fallback) {
-        fallback.style.display = 'none';
+        fallback.parentElement?.style.setProperty('display', 'none', 'important');
       }
 
-      if (root && !root.firstChild) {
-        // Create and inject registration form HTML
+      // Find #root which should be a sibling or near the fallback
+      let root = document.getElementById('root');
+      if (!root && fallback) {
+        // If root doesn't exist, try to find it near fallback
+        root = fallback.parentElement?.nextElementSibling as HTMLElement;
+        if (!root || root.id !== 'root') {
+          root = fallback.nextElementSibling as HTMLElement;
+        }
+      }
+
+      if (root && (!root.firstChild || !root.innerHTML || root.innerHTML.trim().length === 0)) {
+        // Inject the registration form into empty or loading root element
         const formHTML = `
           <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
             <h2 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Register Free</h2>
@@ -140,7 +150,7 @@ export default function Home() {
           });
         }
       }
-    }, 300);
+    }, 1000);
   }, []);
 
   return (
