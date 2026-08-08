@@ -26,10 +26,18 @@ export default function Home() {
       const fallback = document.getElementById('app-fallback');
 
       if (root) {
+        console.log('[Registration Form] Found root element, hasChildren:', !!root.firstChild);
         // If root exists and is empty, or if the fallback is still visible, replace with iframe
         if (!root.firstChild || (fallback && fallback.style.display !== 'none')) {
+          console.log('[Registration Form] Replacing root with iframe');
           root.innerHTML = '<iframe src="/register" style="width:100%;height:700px;border:none;border-radius:16px;background:transparent;"></iframe>';
         }
+      } else {
+        console.log('[Registration Form] Root element not found!');
+      }
+
+      if (fallback) {
+        console.log('[Registration Form] Found fallback, display:', fallback.style.display);
       }
     }, 200);
   }, []);
