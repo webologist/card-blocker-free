@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { WEBSITE_HTML_CONTENT } from '../lib/website-html';
+import Register from './register';
 
 export default function Home() {
-  console.log('[Home] Component rendering');
-
   useEffect(() => {
-    console.log('[Home] useEffect running');
     // Extract style tags from the embedded HTML
     const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
     let match;
@@ -22,30 +20,35 @@ export default function Home() {
       document.head.appendChild(styleEl);
     });
 
-    // Wait for DOM to settle, then replace broken registration app with iframe
-    const checkAndReplace = () => {
-      const root = document.getElementById('root');
+    // Hide the broken app fallback
+    setTimeout(() => {
       const fallback = document.getElementById('app-fallback');
-
-      console.log('[Registration Form Check] root:', !!root, 'fallback:', !!fallback);
-
-      if (root) {
-        console.log('[Registration Form] Found root, hasChildren:', !!root.firstChild);
-        // If root exists and is empty, replace with iframe
-        if (!root.firstChild) {
-          console.log('[Registration Form] Replacing with iframe');
-          root.innerHTML = '<iframe src="/register" style="width:100%;height:700px;border:none;border-radius:16px;background:transparent;"></iframe>';
-        }
+      if (fallback) {
+        fallback.parentElement?.style.setProperty('display', 'none', 'important');
       }
-    };
-
-    setTimeout(checkAndReplace, 500);
+    }, 300);
   }, []);
 
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: WEBSITE_HTML_CONTENT }}
-      suppressHydrationWarning
-    />
+    <div>
+      <div
+        dangerouslySetInnerHTML={{ __html: WEBSITE_HTML_CONTENT }}
+        suppressHydrationWarning
+      />
+      {/* Render registration form as fallback */}
+      <style>{`
+        #root-fallback-register {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .registration-form-container {
+            margin: 2rem 1rem;
+          }
+        }
+      `}</style>
+      <div id="root-fallback-register" style={{ margin: '2rem' }}>
+        <Register />
+      </div>
+    </div>
   );
 }
