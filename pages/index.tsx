@@ -17,15 +17,18 @@ export default function Home({ htmlContent }: HomeProps) {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    // Read the full static HTML content at build time
     const filePath = path.join(process.cwd(), 'public', 'index.html');
-    const htmlContent = fs.readFileSync(filePath, 'utf-8');
+    const fullHtml = fs.readFileSync(filePath, 'utf-8');
+
+    // Extract body content only (remove html, head, body tags)
+    const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    const htmlContent = bodyMatch ? bodyMatch[1] : fullHtml;
 
     return {
       props: {
         htmlContent,
       },
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 3600,
     };
   } catch (error) {
     console.error('Error reading HTML file:', error);
