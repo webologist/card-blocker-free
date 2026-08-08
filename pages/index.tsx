@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { WEBSITE_HTML_CONTENT } from '../lib/website-html';
+import Register from './register';
 
 export default function Home() {
   useEffect(() => {
@@ -18,6 +19,14 @@ export default function Home() {
       styleEl.textContent = styleContent;
       document.head.appendChild(styleEl);
     });
+
+    // Replace the broken React app with an iframe or signal
+    setTimeout(() => {
+      const root = document.getElementById('root');
+      if (root && !root.firstChild) {
+        root.innerHTML = '<iframe src="/register" style="width:100%;height:600px;border:none;border-radius:16px;"></iframe>';
+      }
+    }, 100);
   }, []);
 
   return (
