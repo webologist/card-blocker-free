@@ -21,11 +21,14 @@ export default function Home() {
     // Rewrite registration section with native HTML/JavaScript form
     setTimeout(() => {
       const fallback = document.getElementById('app-fallback');
-      const rootContainer = fallback?.parentElement;
+      const root = document.getElementById('root');
 
-      if (rootContainer && fallback) {
-        // Replace both #app-fallback and #root with a working native form
-        rootContainer.innerHTML = `
+      if (fallback) {
+        // Show the fallback and make it visible
+        fallback.style.display = 'block';
+
+        // Replace fallback content with our form
+        fallback.innerHTML = `
           <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             <h2 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Register Free</h2>
             <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">Get early access in 60 seconds to start protecting your cards</p>
@@ -78,6 +81,9 @@ export default function Home() {
             <div id="registration-message" style="display: none; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem;"></div>
           </div>
         `;
+
+        // Hide the React root since we're using the fallback
+        if (root) root.style.display = 'none';
 
         // Attach form event listener
         setTimeout(() => {
@@ -136,7 +142,7 @@ export default function Home() {
           }
         }, 0);
       }
-    }, 500);
+    }, 100);
   }, []);
 
   return (
