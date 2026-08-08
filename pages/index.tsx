@@ -18,33 +18,19 @@ export default function Home() {
       document.head.appendChild(styleEl);
     });
 
-    // Inject working registration form into the #root div
+    // Rewrite registration section with native HTML/JavaScript form
     setTimeout(() => {
       const fallback = document.getElementById('app-fallback');
+      const rootContainer = fallback?.parentElement;
 
-      // Hide the fallback message
-      if (fallback) {
-        fallback.parentElement?.style.setProperty('display', 'none', 'important');
-      }
-
-      // Find #root which should be a sibling or near the fallback
-      let root = document.getElementById('root');
-      if (!root && fallback) {
-        // If root doesn't exist, try to find it near fallback
-        root = fallback.parentElement?.nextElementSibling as HTMLElement;
-        if (!root || root.id !== 'root') {
-          root = fallback.nextElementSibling as HTMLElement;
-        }
-      }
-
-      if (root && (!root.firstChild || !root.innerHTML || root.innerHTML.trim().length === 0)) {
-        // Inject the registration form into empty or loading root element
-        const formHTML = `
-          <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
+      if (rootContainer && fallback) {
+        // Replace both #app-fallback and #root with a working native form
+        rootContainer.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             <h2 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Register Free</h2>
             <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">Get early access in 60 seconds to start protecting your cards</p>
 
-            <form id="registration-form" style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <form id="native-registration-form" style="display: flex; flex-direction: column; gap: 1.2rem;">
               <div>
                 <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 500;">Mobile Number *</label>
                 <input
@@ -52,9 +38,8 @@ export default function Home() {
                   name="phone"
                   placeholder="10-digit number"
                   maxlength="10"
-                  pattern="[0-9]{10}"
                   required
-                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;"
+                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; box-sizing: border-box;"
                 />
               </div>
 
@@ -64,7 +49,7 @@ export default function Home() {
                   type="email"
                   name="email"
                   placeholder="your@email.com"
-                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;"
+                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; box-sizing: border-box;"
                 />
               </div>
 
@@ -74,13 +59,13 @@ export default function Home() {
                   type="tel"
                   name="alternatePhone"
                   placeholder="Family member's number"
-                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem;"
+                  style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; box-sizing: border-box;"
                 />
               </div>
 
               <button
                 type="submit"
-                style="padding: 0.75rem; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;"
+                style="padding: 0.75rem; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;"
               >
                 Send OTP
               </button>
@@ -90,67 +75,68 @@ export default function Home() {
               </p>
             </form>
 
-            <div id="form-message" style="display: none; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;"></div>
+            <div id="registration-message" style="display: none; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem;"></div>
           </div>
         `;
 
-        root.innerHTML = formHTML;
+        // Attach form event listener
+        setTimeout(() => {
+          const form = document.getElementById('native-registration-form') as HTMLFormElement;
+          const messageDiv = document.getElementById('registration-message') as HTMLElement;
 
-        // Handle form submission
-        const form = document.getElementById('registration-form') as HTMLFormElement;
-        const messageDiv = document.getElementById('form-message');
+          if (form && messageDiv) {
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault();
 
-        if (form && messageDiv) {
-          form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+              const formData = new FormData(form);
+              const phone = (formData.get('phone') as string)?.trim();
+              const email = (formData.get('email') as string)?.trim();
+              const alternatePhone = (formData.get('alternatePhone') as string)?.trim();
 
-            const formData = new FormData(form);
-            const phone = formData.get('phone') as string;
-            const email = formData.get('email') as string;
-            const alternatePhone = formData.get('alternatePhone') as string;
-
-            if (!phone || phone.length !== 10) {
-              messageDiv.textContent = 'Please enter a valid 10-digit phone number';
-              messageDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-              messageDiv.style.color = '#fca5a5';
-              messageDiv.style.display = 'block';
-              return;
-            }
-
-            try {
-              const response = await fetch('/api/storage', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  key: `cbp:user:${phone}`,
-                  value: JSON.stringify({
-                    phone,
-                    email,
-                    alternatePhone,
-                    registeredAt: new Date().toISOString(),
-                  }),
-                }),
-              });
-
-              if (response.ok) {
-                messageDiv.textContent = '✓ Registration successful! Check your email for OTP.';
-                messageDiv.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
-                messageDiv.style.color = '#a7f3d0';
+              // Validate phone
+              if (!phone || !/^\d{10}$/.test(phone)) {
+                messageDiv.textContent = 'Please enter a valid 10-digit phone number';
+                messageDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                messageDiv.style.color = '#fca5a5';
                 messageDiv.style.display = 'block';
-                form.reset();
-              } else {
-                throw new Error('Registration failed');
+                return;
               }
-            } catch (error) {
-              messageDiv.textContent = 'Error during registration. Please try again.';
-              messageDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-              messageDiv.style.color = '#fca5a5';
-              messageDiv.style.display = 'block';
-            }
-          });
-        }
+
+              try {
+                const response = await fetch('/api/storage', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    key: `cbp:user:${phone}`,
+                    value: JSON.stringify({
+                      phone,
+                      email: email || null,
+                      alternatePhone: alternatePhone || null,
+                      registeredAt: new Date().toISOString(),
+                    }),
+                  }),
+                });
+
+                if (response.ok) {
+                  messageDiv.textContent = '✓ Registration successful! Check your email for OTP.';
+                  messageDiv.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+                  messageDiv.style.color = '#a7f3d0';
+                  messageDiv.style.display = 'block';
+                  form.reset();
+                } else {
+                  throw new Error('Registration failed');
+                }
+              } catch (error) {
+                messageDiv.textContent = 'Error during registration. Please try again.';
+                messageDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+                messageDiv.style.color = '#fca5a5';
+                messageDiv.style.display = 'block';
+              }
+            });
+          }
+        }, 0);
       }
-    }, 1000);
+    }, 500);
   }, []);
 
   return (
