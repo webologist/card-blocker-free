@@ -14,7 +14,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const { checkAdminAccess } = require('../lib/admin-auth');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 const MAX_LIMIT = 500;
 
 function supabaseClient() {

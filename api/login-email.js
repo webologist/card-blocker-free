@@ -10,7 +10,7 @@ const { getSettings, claimLoginEmail } = require('../lib/email-settings-store');
 const { sendEmail } = require('../lib/email-providers');
 const { verifyPhoneToken } = require('../lib/phone-token');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 // Headroom matters here: a signup legitimately calls this several times while
 // waiting for the user to reach the email screen. Too tight a limit and the

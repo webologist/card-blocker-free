@@ -10,7 +10,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const { verifyPhoneToken } = require('../lib/phone-token');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 function supabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;

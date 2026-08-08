@@ -27,7 +27,7 @@ const { readOtpToken, otpMatches } = require('../lib/otp-token');
 // deployment unless the number is explicitly listed in OTP_DUMMY_NUMBERS.
 const { isDummyMode, isProductionDeployment } = require('../lib/otp-mode');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 export default async function handler(req, res) {
   const origin = req.headers.origin;

@@ -11,7 +11,7 @@ const { getSettings } = require('../lib/email-settings-store');
 const { sendEmail } = require('../lib/email-providers');
 const { validateContact, buildContactEmail, contactRecipient, storageKey } = require('../lib/contact');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 // Per-IP, since a contact form has no logged-in identity to key on.
 const rateLimitMap = new Map();

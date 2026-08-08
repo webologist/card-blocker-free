@@ -21,7 +21,7 @@ const { issueOtpToken } = require('../lib/otp-token');
 // arbitrary number - see lib/otp-mode.js and the note in verify-otp.js.
 const { isDummyMode } = require('../lib/otp-mode');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 // Twilio trial accounts reject SMS to numbers that haven't been verified in the console (21608/21211).
 function unverifiedNumberError(data) {

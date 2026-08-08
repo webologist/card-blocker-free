@@ -3,7 +3,7 @@ const { checkAdminKey } = require('../../lib/admin-auth');
 const { getSettings, saveSettings } = require('../../lib/email-settings-store');
 const { maskSettings } = require('../../lib/email-providers');
 
-const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app'];
+const ALLOWED_ORIGINS = ['https://card-blocker.vercel.app', 'https://card-blocker-free.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
 
 function supabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
