@@ -1840,9 +1840,9 @@ setTimeout(() => {
 (function() {
   console.log('[CARD-SAVER] Initializing card save functionality...');
 
-  // Get phone token from localStorage
+  // Get phone token from sessionStorage (set by otp-bridge.js after OTP verification)
   function getPhoneToken() {
-    return localStorage.getItem('bmcPhoneToken');
+    return sessionStorage.getItem('bmc_phone_token');
   }
 
   // Get current user data from storage
