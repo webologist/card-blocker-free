@@ -2,7 +2,10 @@ import { useEffect } from 'react';
 import { WEBSITE_HTML_CONTENT } from '../lib/website-html';
 
 export default function Home() {
+  console.log('[Home] Component rendering');
+
   useEffect(() => {
+    console.log('[Home] useEffect running');
     // Extract style tags from the embedded HTML
     const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
     let match;
