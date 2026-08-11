@@ -34,6 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    const buildTime = new Date().toISOString();
     const { phone, dummyMode } = req.body as { phone?: string; dummyMode?: boolean };
 
     if (!phone) {
