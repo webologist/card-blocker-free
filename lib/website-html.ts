@@ -1,1 +1,2188 @@
-﻿export const WEBSITE_HTML_CONTENT = "<!DOCTYPE html>\r\n<html lang=\"en\" data-theme=\"light\" data-lang=\"en\" data-font-size=\"md\">\r\n<head>\r\n<meta charset=\"UTF-8\"/>\r\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=5\"/>\r\n<meta name=\"theme-color\" content=\"#d63a2a\"/>\r\n<title>BlockMyCard.in â€” A Card Blocking Helper for Indian Users</title>\r\n<meta name=\"description\" content=\"A free card-blocking helper for Indian users. Store card numbers and bank helplines so you can act fast if your wallet or phone is lost. RBI-cited fraud data.\"/>\r\n<meta property=\"og:title\" content=\"BlockMyCard.in â€” A Card Blocking Helper for Indian Users\"/>\r\n<meta property=\"og:description\" content=\"A free card-blocking helper for Indian users. Block every card in one tap when your wallet is lost.\"/>\r\n<meta property=\"og:type\" content=\"website\"/>\r\n<meta name=\"twitter:card\" content=\"summary_large_image\"/>\r\n<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23d63a2a'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>&#x26E8;</text></svg>\"/>\r\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"/>\r\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin/>\r\n<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;700;800&family=Noto+Sans+Gujarati:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700;800&family=Noto+Sans+Telugu:wght@400;500;700;800&family=Noto+Sans+Tamil:wght@400;500;700;800&family=Noto+Sans+Kannada:wght@400;500;700;800&family=Noto+Sans+Oriya:wght@400;500;700;800&family=Noto+Sans+Malayalam:wght@400;500;700;800&display=swap\" rel=\"stylesheet\"/>\r\n<style>\r\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\r\nhtml{scroll-behavior:smooth}\r\nbody{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}\r\n\r\n/* â”€â”€ TOKENS â”€â”€ */\r\n:root{\r\n  --red:#d63a2a;--red-dark:#b72e1e;--red-light:#fef2f2;\r\n  --bg:#ffffff;--bg2:#f8f9fa;--fg:#111827;--fg2:#6b7280;\r\n  --border:#e5e7eb;--card:#ffffff;--popover:#ffffff;\r\n  --success:#16a34a;--warning:#d97706;--warning-fg:#92400e;\r\n  --shadow-sm:0 1px 3px rgba(0,0,0,.06);\r\n  --shadow-md:0 4px 16px rgba(0,0,0,.08);\r\n  --shadow-lg:0 20px 60px rgba(0,0,0,.14);\r\n  --shadow-xl:0 24px 64px rgba(0,0,0,.22);\r\n  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-2xl:24px;\r\n}\r\n[data-theme=\"dark\"]{\r\n  --bg:#0f172a;--bg2:#1e293b;--fg:#f1f5f9;--fg2:#94a3b8;\r\n  --border:#334155;--card:#1e293b;--popover:#1e293b;\r\n  --red-light:rgba(214,58,42,.15);\r\n  --shadow-sm:0 1px 3px rgba(0,0,0,.3);\r\n  --shadow-md:0 4px 16px rgba(0,0,0,.3);\r\n  --shadow-lg:0 20px 60px rgba(0,0,0,.4);\r\n  --shadow-xl:0 24px 64px rgba(0,0,0,.5);\r\n}\r\n\r\n/* Font size */\r\n[data-font-size=\"sm\"]{font-size:14px}\r\n[data-font-size=\"md\"]{font-size:16px}\r\n[data-font-size=\"lg\"]{font-size:18px}\r\n[data-font-size=\"xl\"]{font-size:20px}\r\n\r\n/* â”€â”€ SKIP LINK (C7) â”€â”€ */\r\n.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}\r\n.skip-link:focus{position:fixed;top:1rem;left:1rem;width:auto;height:auto;padding:.6rem 1.2rem;background:var(--red);color:#fff;border-radius:var(--radius-sm);font-weight:700;z-index:9999;text-decoration:none;outline:none}\r\n\r\n/* â”€â”€ CONSTRUCTION BANNER â”€â”€ */\r\n.construction-bar{position:relative;z-index:60;background:rgba(217,119,6,.12);border-bottom:1px solid rgba(217,119,6,.25);padding:.6rem 1rem;text-align:center}\r\n.construction-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:.5rem;color:#92400e;font-size:.82rem;font-weight:600}\r\n[data-theme=\"dark\"] .construction-bar-inner{color:#fcd34d}\r\n.construction-bar-close{margin-left:.75rem;width:22px;height:22px;border-radius:50%;border:none;background:none;cursor:pointer;color:inherit;display:grid;place-items:center;opacity:.7;font-size:.85rem}\r\n.construction-bar-close:hover{opacity:1;background:rgba(0,0,0,.08)}\r\n/* H1 â€” responsive banner message (was: Tailwind \"hidden sm:inline\" which was never defined) */\r\n.banner-msg-sm{display:none}\r\n@media(min-width:640px){.banner-msg-sm{display:inline}}\r\n\r\n/* â”€â”€ NAV â”€â”€ */\r\n.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}\r\n[data-theme=\"dark\"] .nav{background:rgba(15,23,42,.88)}\r\n.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;height:64px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}\r\n.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--fg);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;white-space:nowrap}\r\n.nav-logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:grid;place-items:center;color:#fff;font-size:1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.35)}\r\n.nav-logo-text span{color:var(--red)}\r\n.nav-links{display:flex;align-items:center;justify-content:center;gap:.25rem;list-style:none}\r\n.nav-links a{text-decoration:none;color:var(--fg2);font-size:.875rem;font-weight:500;padding:.5rem .75rem;border-radius:var(--radius-sm);transition:background .15s,color .15s}\r\n.nav-links a:hover{color:var(--fg);background:var(--bg2)}\r\n.nav-actions{display:flex;align-items:center;gap:.5rem}\r\n.nav-icon-btn{width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:.9rem;transition:background .15s;position:relative;flex-shrink:0}\r\n.nav-icon-btn:hover{background:var(--bg2)}\r\n.nav-icon-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}\r\n.nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);text-decoration:none;font-weight:700;font-size:1rem;white-space:nowrap;transition:background .15s,transform .1s;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(214,58,42,.35)}\r\n.nav-cta:hover{background:var(--red-dark);transform:translateY(-1px);color:#fff}\r\n@media(max-width:1023px){.nav-links{display:none}.nav-inner{grid-template-columns:1fr auto}}\r\n/* C8 â€” prevent nav overflow on narrow viewports */\r\n@media(max-width:479px){\r\n  .nav-cta{display:none}\r\n  .nav-icon-btn{width:34px;height:34px}\r\n  .nav-logo-text{display:none}\r\n}\r\n/* H2 â€” mobile menu button shown via CSS, not JS */\r\n.mobile-only{display:none}\r\n@media(max-width:1023px){.mobile-only{display:grid}}\r\n\r\n/* Dropdowns */\r\n.dropdown{position:absolute;right:0;top:calc(100% + .5rem);background:var(--popover);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:.5rem;min-width:160px;z-index:100;display:none}\r\n.dropdown.open{display:block}\r\n.dropdown-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.3rem .5rem .5rem;display:block}\r\n.dropdown-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.5rem .75rem;border:none;background:none;border-radius:var(--radius-sm);cursor:pointer;font-size:.875rem;color:var(--fg);transition:background .15s;gap:.5rem;text-align:left}\r\n.dropdown-btn:hover{background:var(--bg2)}\r\n.dropdown-btn.active{background:var(--red);color:#fff}\r\n.dropdown-btn .native{font-weight:600}\r\n.dropdown-btn .en{font-size:.75rem;opacity:.7}\r\n.font-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}\r\n.font-btn{border:none;background:none;border-radius:var(--radius-sm);padding:.5rem;cursor:pointer;font-weight:700;color:var(--fg);transition:background .15s}\r\n.font-btn:hover{background:var(--bg2)}\r\n.font-btn.active{background:var(--red);color:#fff}\r\n.font-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}\r\n\r\n/* Mobile menu */\r\n.mobile-menu{display:none;border-top:1px solid var(--border);background:var(--bg)}\r\n.mobile-menu.open{display:block}\r\n.mobile-menu-inner{max-width:1200px;margin:0 auto;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.25rem}\r\n.mobile-menu a{text-decoration:none;color:var(--fg);font-size:1rem;font-weight:500;padding:.75rem 1rem;border-radius:var(--radius-sm);transition:background .15s;display:block}\r\n.mobile-menu a:hover{background:var(--bg2)}\r\n.mobile-divider{border:none;border-top:1px solid var(--border);margin:.5rem 0}\r\n.mobile-pref-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.25rem .25rem .5rem}\r\n.mobile-lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.75rem}\r\n\r\n/* â”€â”€ HERO â”€â”€ */\r\n.hero{background:linear-gradient(135deg,var(--red-light) 0%,var(--bg) 60%);padding:4rem 1.5rem 3.5rem;overflow:hidden}\r\n[data-theme=\"dark\"] .hero{background:linear-gradient(135deg,rgba(214,58,42,.12) 0%,var(--bg) 60%)}\r\n.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}\r\n@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-visual{display:none}}\r\n.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--red-light);color:var(--red);border:1px solid rgba(214,58,42,.25);border-radius:99px;padding:.35rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem}\r\n.hero h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.04;letter-spacing:-.03em;margin-bottom:1.25rem;color:var(--fg)}\r\n.hero h1 .accent{color:var(--red)}\r\n.hero p{font-size:1.05rem;color:var(--fg2);max-width:520px;line-height:1.7;margin-bottom:2rem}\r\n.hero-btns{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.75rem}\r\n.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);font-weight:700;font-size:1rem;text-decoration:none;border:none;cursor:pointer;transition:background .15s,transform .1s;box-shadow:0 4px 14px rgba(214,58,42,.35)}\r\n.btn-primary:hover{background:var(--red-dark);transform:translateY(-1px)}\r\n.btn-secondary{display:inline-flex;align-items:center;gap:.5rem;background:var(--card);color:var(--fg);border:2px solid var(--border);padding:.8rem 1.5rem;border-radius:var(--radius-md);font-weight:600;font-size:1rem;text-decoration:none;transition:border-color .15s,background .15s}\r\n.btn-secondary:hover{border-color:var(--fg2);background:var(--bg2)}\r\n.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem}\r\n.pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:.35rem .85rem;font-size:.8rem;font-weight:600;color:var(--fg);box-shadow:var(--shadow-sm)}\r\n.pill-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}\r\n\r\n/* Phone mockup */\r\n.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}\r\n.mockup-phone{background:var(--card);border:7px solid var(--fg);border-radius:2.5rem;padding:1.25rem 1rem;width:270px;box-shadow:var(--shadow-lg)}\r\n.mockup-notch{width:56px;height:5px;background:var(--fg2);border-radius:99px;margin:0 auto .75rem;opacity:.6}\r\n.mockup-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}\r\n.mockup-icon{width:30px;height:30px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.85rem;flex-shrink:0}\r\n.mockup-title{font-size:.78rem;font-weight:700;color:var(--fg)}\r\n.mockup-sub{font-size:.62rem;color:var(--fg2)}\r\n.mockup-dot{width:7px;height:7px;border-radius:50%;background:var(--success);margin-left:auto;flex-shrink:0}\r\n.card-stack{display:flex;flex-direction:column;gap:.55rem;margin-bottom:.9rem}\r\n.mini-card{border-radius:11px;padding:.65rem .85rem;color:#fff;position:relative;overflow:hidden}\r\n.mc1{background:linear-gradient(135deg,#1e40af,#3b82f6)}\r\n.mc2{background:linear-gradient(135deg,#d63a2a,#f97316)}\r\n.mc3{background:linear-gradient(135deg,#065f46,#10b981)}\r\n.mini-card-label{font-size:.62rem;font-weight:600;opacity:.85}\r\n.mini-card-num{font-size:.7rem;font-weight:700;letter-spacing:.05em;margin-top:.2rem}\r\n.mini-card-badge{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);font-size:.52rem;font-weight:800;background:rgba(255,255,255,.25);border-radius:3px;padding:.12rem .35rem;text-transform:uppercase}\r\n.sos-btn{width:100%;background:var(--red);color:#fff;border:none;border-radius:11px;padding:.75rem;font-weight:800;font-size:.75rem;letter-spacing:.04em;cursor:pointer;text-transform:uppercase;font-family:inherit}\r\n.mockup-footer{display:flex;justify-content:space-between;margin-top:.55rem;font-size:.58rem;color:var(--fg2)}\r\n\r\n/* â”€â”€ SECTIONS â”€â”€ */\r\n.section{padding:5rem 1.5rem}\r\n.section-alt{background:var(--bg2)}\r\n.section-inner{max-width:1200px;margin:0 auto}\r\n.section-eyebrow{display:inline-flex;align-items:center;gap:.4rem;color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}\r\n.section-eyebrow::before{content:'';width:12px;height:2px;background:var(--red);border-radius:1px;flex-shrink:0}\r\n.section-title{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;margin-bottom:.75rem;color:var(--fg)}\r\n.section-sub{font-size:1rem;color:var(--fg2);max-width:580px;line-height:1.7}\r\n.section-center{text-align:center}\r\n.section-center .section-sub{margin:0 auto}\r\n\r\n/* â”€â”€ STATS â”€â”€ */\r\n.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:3rem}\r\n.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:box-shadow .2s,transform .2s;text-decoration:none;display:block;color:var(--fg)}\r\n.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}\r\n.stat-card:focus-visible{outline:2px solid var(--red);outline-offset:2px}\r\n.stat-source{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);background:var(--bg2);border-radius:6px;padding:.2rem .55rem;display:inline-block;margin-bottom:.75rem}\r\n.stat-value{font-size:2.5rem;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--fg)}\r\n.stat-label{font-size:.875rem;color:var(--fg);margin:.35rem 0}\r\n.stat-change{font-size:.8rem;font-weight:700;color:var(--red);margin-top:.5rem;display:flex;justify-content:space-between;align-items:center}\r\n.stat-read{font-size:.72rem;color:var(--fg2);font-weight:500}\r\n.stats-callout{margin-top:2.5rem;background:var(--red-light);border:2px dashed rgba(214,58,42,.35);border-radius:var(--radius-lg);padding:1.5rem 2rem;text-align:center;font-size:.95rem;font-weight:500;max-width:680px;margin-left:auto;margin-right:auto;color:var(--fg)}\r\n.stats-callout strong{color:var(--red)}\r\n\r\n/* â”€â”€ FEATURES â”€â”€ */\r\n.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:3rem}\r\n.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;transition:box-shadow .2s,transform .2s}\r\n.feature-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}\r\n.feature-icon{width:52px;height:52px;border-radius:14px;background:var(--red);display:grid;place-items:center;font-size:1.4rem;margin-bottom:1.25rem;box-shadow:0 4px 12px rgba(214,58,42,.3)}\r\n.feature-title{font-size:1.05rem;font-weight:700;margin-bottom:.4rem;color:var(--fg)}\r\n.feature-desc{font-size:.875rem;color:var(--fg2);line-height:1.65}\r\n\r\n/* â”€â”€ HOW IT WORKS â”€â”€ */\r\n.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:1.5rem;margin-top:3rem}\r\n.step-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .2s}\r\n.step-card:hover{box-shadow:var(--shadow-md)}\r\n.step-img{height:200px;display:block;font-size:3.5rem;position:relative;overflow:hidden}\r\n.step-img-1{background:linear-gradient(135deg,#fef2f2,#fee2e2)}\r\n.step-img-2{background:linear-gradient(135deg,#eff6ff,#dbeafe)}\r\n.step-img-3{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}\r\n[data-theme=\"dark\"] .step-img-1{background:linear-gradient(135deg,rgba(214,58,42,.15),rgba(239,68,68,.1))}\r\n[data-theme=\"dark\"] .step-img-2{background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(59,130,246,.1))}\r\n[data-theme=\"dark\"] .step-img-3{background:linear-gradient(135deg,rgba(5,150,105,.15),rgba(16,185,129,.1))}\r\n.step-num{position:absolute;top:.75rem;left:.75rem;background:rgba(255,255,255,.92);color:var(--red);font-size:.7rem;font-weight:800;letter-spacing:.05em;border-radius:6px;padding:.2rem .5rem}\r\n[data-theme=\"dark\"] .step-num{background:rgba(30,41,59,.92);color:var(--red)}\r\n.step-paid{position:absolute;top:.75rem;right:.75rem;background:#fbbf24;color:#78350f;font-size:.65rem;font-weight:800;border-radius:6px;padding:.2rem .5rem;text-transform:uppercase}\r\n.step-body{padding:1.25rem}\r\n.step-icon-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem}\r\n.step-step-icon{width:36px;height:36px;border-radius:9px;background:var(--red);display:grid;place-items:center;color:#fff;font-size:.95rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.3)}\r\n.step-title{font-size:1rem;font-weight:700;line-height:1.25;color:var(--fg)}\r\n.step-desc{font-size:.85rem;color:var(--fg2);margin-top:.35rem;line-height:1.6}\r\n\r\n/* Sleep banner */\r\n.sleep-banner{margin-top:3rem;border-radius:var(--radius-xl);border:1px solid var(--border);overflow:hidden;background:var(--card);display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow-md)}\r\n@media(max-width:700px){.sleep-banner{grid-template-columns:1fr}}\r\n.sleep-visual{background:linear-gradient(135deg,#fef2f2,#fee2e2);display:block;min-height:260px;overflow:hidden}\r\n[data-theme=\"dark\"] .sleep-visual{background:linear-gradient(135deg,rgba(214,58,42,.12),rgba(239,68,68,.08))}\r\n.sleep-content{padding:2.5rem 2rem}\r\n.sleep-badge{display:inline-flex;align-items:center;gap:.4rem;background:#d1fae5;color:#065f46;border-radius:99px;padding:.3rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem}\r\n[data-theme=\"dark\"] .sleep-badge{background:rgba(5,150,105,.2);color:#34d399}\r\n.sleep-title{font-size:1.8rem;font-weight:900;letter-spacing:-.02em;line-height:1.15;margin-bottom:.75rem;color:var(--fg)}\r\n.sleep-sub{font-size:.9rem;color:var(--fg2);line-height:1.7;margin-bottom:1rem}\r\n.sleep-points{display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem;margin-bottom:1.5rem}\r\n.sleep-point{font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:.4rem;color:var(--fg)}\r\n.sleep-point::before{content:'\\2713';color:var(--red);font-weight:900;flex-shrink:0}\r\n\r\n/* â”€â”€ DARK BLOCK SECTION â”€â”€ */\r\n.block-section{background:#0f172a;padding:5rem 1.5rem}\r\n[data-theme=\"dark\"] .block-section{background:#020617}\r\n.block-step-card{background:#1e293b;border:1px solid #334155;border-radius:var(--radius-lg);overflow:hidden}\r\n.block-step-img-1{background:linear-gradient(135deg,#1e3a5f,#1e40af)}\r\n.block-step-img-2{background:linear-gradient(135deg,#4c1d95,#7c3aed)}\r\n.block-step-img-3{background:linear-gradient(135deg,#7f1d1d,#d63a2a)}\r\n\r\n/* â”€â”€ TRUST â”€â”€ */\r\n.trust-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:3rem;align-items:start;margin-top:2rem}\r\n@media(max-width:800px){.trust-grid{grid-template-columns:1fr}}\r\n.trust-items{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}\r\n.trust-item{display:flex;align-items:flex-start;gap:.9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;box-shadow:var(--shadow-sm)}\r\n.trust-icon{width:38px;height:38px;border-radius:9px;background:var(--red-light);color:var(--red);display:grid;place-items:center;font-size:1rem;flex-shrink:0}\r\n.trust-item-title{font-size:.9rem;font-weight:700;margin-bottom:.15rem;color:var(--fg)}\r\n.trust-item-desc{font-size:.82rem;color:var(--fg2);line-height:1.55}\r\n.trust-card{background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;border-radius:var(--radius-xl);padding:2rem;box-shadow:0 8px 32px rgba(30,64,175,.3)}\r\n.trust-card h3{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:.55rem;margin-bottom:.8rem}\r\n.trust-card p{font-size:.875rem;opacity:.9;line-height:1.7;margin-bottom:1.25rem}\r\n.trust-card-footer{display:flex;align-items:center;gap:.7rem;border-top:1px solid rgba(255,255,255,.15);padding-top:1.25rem}\r\n.trust-card-footer p{font-size:.85rem;opacity:.85}\r\n.trust-card-footer strong{display:block;font-weight:700}\r\n\r\n/* â”€â”€ SCENARIOS â”€â”€ */\r\n.scenarios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:2.5rem}\r\n.scenario-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}\r\n.scenario-icon{font-size:1.4rem;margin-bottom:.7rem}\r\n.scenario-title{font-weight:700;font-size:.95rem;margin-bottom:.35rem;color:var(--fg)}\r\n.scenario-text{font-size:.85rem;color:var(--fg2);line-height:1.65}\r\n.scenario-tag{margin-top:.9rem;padding-top:.7rem;border-top:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}\r\n\r\n/* â”€â”€ CARD TOOL (CTA SECTION) â”€â”€ */\r\n.tool-section{background:linear-gradient(135deg,var(--red) 0%,#b72e1e 100%);padding:5rem 1.5rem;position:relative;overflow:hidden}\r\n.tool-section::before{content:'';position:absolute;top:0;right:0;bottom:0;left:0;background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}\r\n.tool-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:start;position:relative}\r\n@media(max-width:800px){.tool-inner{grid-template-columns:1fr}}\r\n.tool-left{color:#fff}\r\n.tool-eyebrow{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.18);border-radius:99px;padding:.32rem .85rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.2rem;color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}\r\n.tool-title{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;margin-bottom:1rem;color:#fff}\r\n.tool-sub{font-size:1.05rem;opacity:.9;line-height:1.6;margin-bottom:1.75rem;color:#fff}\r\n.tool-pills{display:flex;flex-wrap:wrap;gap:.55rem}\r\n.tool-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.15);border-radius:99px;padding:.38rem .8rem;font-size:.78rem;font-weight:600;color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}\r\n.tool-pill::before{content:'\\2713';font-weight:900}\r\n\r\n/* â”€â”€ FAQ â”€â”€ */\r\n.faq-list{max-width:700px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:.7rem}\r\n.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}\r\n.faq-q{width:100%;text-align:left;background:none;border:none;padding:1rem 1.25rem;font-size:.93rem;font-weight:700;font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;color:var(--fg);transition:background .15s}\r\n.faq-q:hover{background:var(--bg2)}\r\n.faq-q:focus-visible{outline:2px solid var(--red);outline-offset:-2px}\r\n.faq-toggle{width:28px;height:28px;border-radius:50%;background:var(--red-light);color:var(--red);display:grid;place-items:center;font-size:1rem;font-weight:700;flex-shrink:0;transition:transform .2s}\r\n.faq-item.open .faq-toggle{transform:rotate(45deg)}\r\n.faq-a{display:none;padding:0 1.25rem 1rem;font-size:.875rem;color:var(--fg2);line-height:1.7}\r\n.faq-item.open .faq-a{display:block}\r\n\r\n/* â”€â”€ FOOTER â”€â”€ */\r\n.footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1.5rem 1.5rem}\r\n.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}\r\n@media(max-width:700px){.footer-inner{grid-template-columns:1fr}}\r\n.footer-logo{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;color:var(--fg);text-decoration:none;margin-bottom:.6rem}\r\n.footer-logo-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.9rem}\r\n.footer-brand p{font-size:.85rem;color:var(--fg2);max-width:260px;line-height:1.6;margin-bottom:.5rem}\r\n.footer-brand-sub{font-size:.78rem;color:var(--fg2)}\r\n.footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin-bottom:.85rem}\r\n.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}\r\n.footer-col a{text-decoration:none;font-size:.875rem;color:var(--fg2);transition:color .15s}\r\n.footer-col a:hover{color:var(--fg)}\r\n/* L4 â€” placeholder links styled as disabled text */\r\n.footer-link-soon{font-size:.875rem;color:var(--fg2);cursor:default}\r\n.footer-link-soon::after{content:' (soon)';font-size:.7rem;opacity:.6}\r\n.footer-bottom-bar{max-width:1200px;margin:.75rem auto 0}\r\n.footer-bottom{font-size:.78rem;color:var(--fg2);margin-bottom:.25rem}\r\n.footer-construction{font-size:.78rem;color:var(--warning);font-weight:600}\r\n\r\n/* â”€â”€ APP EMBED overrides â”€â”€ */\r\n#root>div[class*=\"min-h-screen\"]{background:transparent!important;min-height:unset!important}\r\n#root header,#root footer{display:none!important}\r\n#root main{background:transparent!important;padding:0!important;max-width:100%!important}\r\n#root section.bg-white{background:var(--card)!important;border-radius:var(--radius-xl)!important;border:none!important;box-shadow:var(--shadow-xl)!important;max-width:100%!important;margin:0!important;padding:2rem}\r\n#root div.bg-white{background:var(--card)!important;border-radius:var(--radius-md)!important}\r\n/* M3 â€” removed !important from font override; specific exceptions kept */\r\n#root{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif}\r\n#root .font-mono,#root pre,#root [class*=\"font-mono\"],#root code{font-family:'IBM Plex Mono','Courier New',monospace!important}\r\n\r\n/* â”€â”€ MINI-TAILWIND UTILITY LAYER (scoped to #root) â”€â”€ */\r\n#root .flex{display:flex}\r\n#root .flex-1{flex:1 1 0%}\r\n#root .flex-wrap{flex-wrap:wrap}\r\n#root .grid{display:grid}\r\n#root .grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}\r\n#root .items-center{align-items:center}\r\n#root .items-start{align-items:flex-start}\r\n#root .justify-between{justify-content:space-between}\r\n#root .justify-center{justify-content:center}\r\n#root .gap-1{gap:.25rem}\r\n#root .gap-2{gap:.5rem}\r\n#root .gap-3{gap:.75rem}\r\n#root .gap-4{gap:1rem}\r\n#root .gap-x-3{column-gap:.75rem}\r\n#root .space-y-0\\.5>*+*{margin-top:.125rem}\r\n#root .space-y-2>*+*{margin-top:.5rem}\r\n#root .space-y-3>*+*{margin-top:.75rem}\r\n#root .space-y-4>*+*{margin-top:1rem}\r\n#root .divide-y>*+*{border-top-width:1px;border-top-style:solid}\r\n#root .divide-slate-100>*+*{border-color:var(--border)}\r\n#root .block{display:block}\r\n#root .inline-block{display:inline-block}\r\n#root .fixed{position:fixed}\r\n#root .inset-0{top:0;right:0;bottom:0;left:0}\r\n#root .z-50{z-index:50}\r\n#root .overflow-hidden{overflow:hidden}\r\n#root .overflow-y-auto{overflow-y:auto}\r\n#root .max-h-40{max-height:10rem}\r\n#root .max-h-60{max-height:15rem}\r\n#root .max-h-\\[28rem\\]{max-height:28rem}\r\n#root .max-w-3xl{max-width:48rem}\r\n#root .max-w-md{max-width:28rem}\r\n#root .max-w-sm{max-width:24rem}\r\n#root .min-h-screen{min-height:100vh}\r\n#root .mx-auto{margin-left:auto;margin-right:auto}\r\n#root .ml-1{margin-left:.25rem}\r\n#root .ml-2{margin-left:.5rem}\r\n#root .mt-1{margin-top:.25rem}\r\n#root .mt-2{margin-top:.5rem}\r\n#root .mt-3{margin-top:.75rem}\r\n#root .mt-4{margin-top:1rem}\r\n#root .mt-8{margin-top:2rem}\r\n#root .mb-1{margin-bottom:.25rem}\r\n#root .mb-2{margin-bottom:.5rem}\r\n#root .mb-3{margin-bottom:.75rem}\r\n#root .mb-4{margin-bottom:1rem}\r\n#root .mb-5{margin-bottom:1.25rem}\r\n#root .pb-8{padding-bottom:2rem}\r\n#root .p-2{padding:.5rem}\r\n#root .p-3{padding:.75rem}\r\n#root .p-4{padding:1rem}\r\n#root .p-6{padding:1.5rem}\r\n#root .p-8{padding:2rem}\r\n#root .px-2{padding-left:.5rem;padding-right:.5rem}\r\n#root .px-3{padding-left:.75rem;padding-right:.75rem}\r\n#root .px-4{padding-left:1rem;padding-right:1rem}\r\n#root .py-0\\.5{padding-top:.125rem;padding-bottom:.125rem}\r\n#root .py-1{padding-top:.25rem;padding-bottom:.25rem}\r\n#root .py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}\r\n#root .py-2{padding-top:.5rem;padding-bottom:.5rem}\r\n#root .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}\r\n#root .py-3{padding-top:.75rem;padding-bottom:.75rem}\r\n#root .py-4{padding-top:1rem;padding-bottom:1rem}\r\n#root .py-8{padding-top:2rem;padding-bottom:2rem}\r\n#root .rounded{border-radius:.25rem}\r\n#root .rounded-md{border-radius:.5rem}\r\n#root .rounded-lg{border-radius:.75rem}\r\n#root .border{border-width:1px;border-style:solid;border-color:var(--border)}\r\n#root .border-b{border-bottom-width:1px;border-bottom-style:solid;border-color:var(--border)}\r\n#root .border-dashed{border-style:dashed}\r\n#root h2.text-2xl{font-size:1.5rem;line-height:2rem}\r\n#root .text-lg{font-size:1.125rem;line-height:1.75rem}\r\n#root .text-xl{font-size:1.25rem;line-height:1.75rem}\r\n#root .text-sm{font-size:.875rem;line-height:1.4}\r\n#root .text-xs{font-size:.75rem;line-height:1.4}\r\n#root .text-\\[10px\\]{font-size:10px;line-height:1.4}\r\n#root .text-\\[11px\\]{font-size:11px;line-height:1.4}\r\n#root .font-bold{font-weight:700}\r\n#root .font-semibold{font-weight:600}\r\n#root .font-normal{font-weight:400}\r\n#root .font-sans{font-family:'Inter',system-ui,sans-serif}\r\n#root .uppercase{text-transform:uppercase}\r\n#root .tracking-wide{letter-spacing:.025em}\r\n#root .tracking-widest{letter-spacing:.1em}\r\n#root .leading-none{line-height:1}\r\n#root .leading-tight{line-height:1.25}\r\n#root .text-center{text-align:center}\r\n#root .underline{text-decoration:underline}\r\n#root .break-all{word-break:break-all}\r\n#root .whitespace-pre-wrap{white-space:pre-wrap}\r\n#root .cursor-pointer{cursor:pointer}\r\n#root .align-middle{vertical-align:middle}\r\n#root .w-full{width:100%}\r\n#root .w-4{width:1rem}\r\n#root .w-9{width:2.25rem}\r\n#root .h-4{height:1rem}\r\n#root .h-9{height:2.25rem}\r\n#root .list-decimal{list-style-type:decimal}\r\n#root .list-inside{list-style-position:inside}\r\n#root .shadow-sm{box-shadow:var(--shadow-sm)}\r\n#root .text-white{color:#fff}\r\n#root .text-slate-200{color:#e2e8f0}\r\n#root .text-slate-300{color:#cbd5e1}\r\n#root .text-slate-400{color:var(--fg2)}\r\n#root .text-slate-500{color:var(--fg2)}\r\n#root .text-slate-600{color:var(--fg2)}\r\n#root .text-slate-700{color:var(--fg)}\r\n#root .text-slate-800{color:var(--fg)}\r\n#root .text-slate-900{color:var(--fg)}\r\n#root .text-red-400{color:#f87171}\r\n#root .text-red-700{color:#b91c1c}\r\n#root .text-red-800{color:#991b1b}\r\n#root .bg-red-700{background-color:#b91c1c!important;color:#fff}\r\n#root .bg-red-700:hover{background-color:#991b1b!important}\r\n#root .text-amber-800{color:#92400e}\r\n#root .text-blue-800{color:#1e40af}\r\n#root .text-blue-900{color:#1e3a8a}\r\n#root .text-emerald-700{color:#047857}\r\n#root .text-emerald-800{color:#065f46}\r\n#root .bg-slate-50{background:var(--bg2)}\r\n#root .bg-slate-100{background:var(--bg2)}\r\n#root .bg-red-50{background:var(--red-light)}\r\n#root .bg-red-50\\/40{background:var(--red-light)}\r\n#root .bg-amber-50{background:#fffbeb}\r\n#root .bg-blue-50{background:#eff6ff}\r\n#root .bg-emerald-100{background:#d1fae5}\r\n#root .bg-stone-100{background:transparent}\r\n#root .border-slate-100{border-color:var(--border)}\r\n#root .border-slate-200{border-color:var(--border)}\r\n#root .border-slate-300{border-color:var(--border)}\r\n#root .border-amber-200{border-color:#fde68a}\r\n#root .border-blue-200{border-color:#bfdbfe}\r\n#root .border-emerald-300{border-color:#6ee7b7}\r\n#root .border-red-200{border-color:#fecaca}\r\n#root .border-red-300{border-color:#fca5a5}\r\n#root .hover\\:bg-slate-50:hover{background:var(--bg2)}\r\n#root .hover\\:bg-slate-100:hover{background:var(--bg2)}\r\n#root .hover\\:bg-slate-700:hover{background:#334155}\r\n#root .bg-slate-900{background:#0f172a;color:#fff}\r\n#root .hover\\:bg-slate-900:hover{background:#0f172a}\r\n#root .hover\\:text-white:hover{color:#fff}\r\n@media(min-width:640px){\r\n  #root .sm\\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}\r\n  #root .sm\\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}\r\n  #root .sm\\:col-span-2{grid-column:span 2 / span 2}\r\n}\r\n@media(min-width:768px){\r\n  #root .md\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}\r\n}\r\n#root label.block{display:block;margin-bottom:.85rem}\r\n#root label.block>span{display:block;font-size:.8rem;font-weight:600;color:var(--fg2);margin-bottom:.35rem}\r\n\r\n/* â”€â”€ UTIL â”€â”€ */\r\n.hide{display:none!important}\r\n\r\n/* M8 â€” respect user's reduced-motion preference */\r\n@media(prefers-reduced-motion:reduce){\r\n  html{scroll-behavior:auto}\r\n  .stat-card:hover,.feature-card:hover,.step-card:hover,\r\n  .btn-primary:hover,.btn-secondary:hover,.nav-cta:hover{\r\n    transform:none;transition:none\r\n  }\r\n}\r\n\r\n/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\r\n   RESPONSIVENESS & CROSS-BROWSER PATCH  (QA review)\r\n   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */\r\n\r\n/* â”€â”€ TOUCH TARGETS (WCAG 2.5.5 â€” minimum 44Ã—44 CSS px) â”€â”€ */\r\n\r\n/* nav-icon-btn: 38px visual but 44px tap area via min-width/min-height on mobile.\r\n   On desktop, hover/pointer input is precise enough that 38px is fine. */\r\n@media(max-width:1023px){\r\n  .nav-icon-btn{min-width:44px;min-height:44px}\r\n}\r\n/* Override the 479px shrink â€” keep 44px at all mobile widths */\r\n@media(max-width:479px){\r\n  .nav-icon-btn{width:38px;height:38px;min-width:44px;min-height:44px}\r\n}\r\n\r\n/* nav-cta: padding gives ~36px height â€” too small for touch.\r\n   Increase vertical padding on mobile only, preserve desktop compact look. */\r\n@media(max-width:1023px){\r\n  .nav-cta{padding:.75rem 1.1rem;min-height:44px}\r\n}\r\n\r\n/* dropdown-btn: ~34px height â€” below 44px minimum */\r\n.dropdown-btn{min-height:44px}\r\n\r\n/* font-btn: ~30px height â€” below 44px minimum */\r\n.font-btn{min-height:44px}\r\n\r\n/* construction-bar-close: 22Ã—22px â€” expand hit area with ::before pseudo-element\r\n   without changing the visual size or parent layout */\r\n.construction-bar-close{position:relative}\r\n.construction-bar-close::before{\r\n  content:'';\r\n  position:absolute;\r\n  top:50%;left:50%;\r\n  transform:translate(-50%,-50%);\r\n  min-width:44px;\r\n  min-height:44px;\r\n}\r\n\r\n/* â”€â”€ MOBILE PADDING â€” reduce 5rem/4rem sections on small screens â”€â”€ */\r\n@media(max-width:640px){\r\n  .section{padding:3rem 1.25rem}\r\n  .section-alt{padding:3rem 1.25rem}\r\n  .hero{padding:2.5rem 1.25rem 2rem}\r\n  .block-section{padding:3rem 1.25rem}\r\n  .footer{padding:2rem 1.25rem 1.25rem}\r\n  .sleep-content{padding:1.75rem 1.25rem}\r\n  /* stats-callout inner padding at 320px */\r\n  .stats-callout{padding:1.25rem 1.25rem}\r\n}\r\n\r\n/* â”€â”€ SLEEP POINTS â€” collapse 2-col grid on narrow screens â”€â”€ */\r\n@media(max-width:480px){\r\n  .sleep-points{grid-template-columns:1fr}\r\n}\r\n\r\n/* â”€â”€ SAFARI FLEX GAP FALLBACK (Safari < 14.1 / iOS < 14.5) â”€â”€\r\n   gap on flex containers was added in Safari 14.1 (April 2021).\r\n   @supports not (gap) catches pre-14.1 only; all other browsers ignore this.\r\n   We only patch the most visually broken cases â€” all-touching elements. */\r\n@supports not (gap: 1rem){\r\n  /* Hero CTA buttons touching each other */\r\n  .hero-btns>*+*{margin-left:.75rem}\r\n  /* Hero pills touching */\r\n  .hero-pills>*+*{margin-left:.5rem}\r\n  /* Nav action buttons touching */\r\n  .nav-actions>*+*{margin-left:.5rem}\r\n  /* Nav logo icon and text touching */\r\n  .nav-logo>*+*{margin-left:.6rem}\r\n  /* Construction banner items touching */\r\n  .construction-bar-inner>*+*{margin-left:.5rem}\r\n  /* Trust item icon and text touching */\r\n  .trust-item>*+*{margin-left:.9rem}\r\n  /* Step icon and title touching */\r\n  .step-icon-row>*+*{margin-left:.7rem}\r\n  /* Mobile menu items touching */\r\n  .mobile-menu-inner>*+*{margin-top:.25rem}\r\n  /* FAQ list items touching */\r\n  .faq-list>*+*{margin-top:.7rem}\r\n}\r\n\r\n/* â”€â”€ HERO H1 FONT CLAMP â€” prevent heading overflow at xl font size â”€â”€\r\n   At data-font-size=xl (20px base), clamp(2.4rem,5vw,4rem) = 48px at 320px.\r\n   \"Your wallet is stolen.\" at 48px is ~500px wide â€” force tighter clamp floor. */\r\n@media(max-width:480px){\r\n  .hero h1{font-size:clamp(1.85rem,8vw,2.8rem);letter-spacing:-.02em}\r\n  .section-title{font-size:clamp(1.5rem,6vw,2rem)}\r\n  .sleep-title{font-size:1.4rem}\r\n}\r\n</style>\r\n</head>\r\n<body>\r\n\r\n<!-- C7 â€” skip navigation link (first focusable element on page) -->\r\n<a href=\"#main-content\" class=\"skip-link\">Skip to main content</a>\r\n\r\n<!-- CONSTRUCTION BANNER â€” L3: role=\"alert\", H1: .banner-msg-sm replaces broken Tailwind \"hidden sm:inline\" -->\r\n<div class=\"construction-bar\" id=\"construction-bar\" role=\"alert\" aria-live=\"polite\">\r\n  <div class=\"construction-bar-inner\">\r\n    <span aria-hidden=\"true\">&#x1F6A7;</span>\r\n    <span id=\"txt-construction-title\"><strong id=\"txt-construction-strong\">Site under construction.</strong></span>\r\n    <span id=\"txt-construction-msg\" class=\"banner-msg-sm\">Some features are still being tested. Your feedback is welcome.</span>\r\n    <button class=\"construction-bar-close\" onclick=\"dismissConstruction()\" aria-label=\"Dismiss construction notice\">&#x2715;</button>\r\n  </div>\r\n</div>\r\n\r\n<!-- NAV â€” H10: aria-label on nav; C5: aria-expanded/haspopup on dropdowns; H2: .mobile-only replaces inline style -->\r\n<header class=\"nav\">\r\n  <div class=\"nav-inner\">\r\n    <a href=\"/\" class=\"nav-logo\">\r\n      <div class=\"nav-logo-icon\" aria-hidden=\"true\">&#x26E8;</div>\r\n      <div class=\"nav-logo-text\">BlockMyCard<span>.in</span></div>\r\n    </a>\r\n    <nav aria-label=\"Primary navigation\">\r\n      <ul class=\"nav-links\">\r\n        <li><a href=\"#features\" id=\"nav-features\">Features</a></li>\r\n        <li><a href=\"#stats\" id=\"nav-stats\">Fraud Data</a></li>\r\n        <li><a href=\"#how\" id=\"nav-how\">How it Works</a></li>\r\n        <li><a href=\"#block\" id=\"nav-block\">Block Steps</a></li>\r\n        <li><a href=\"#card-tool\">Card Blocker</a></li>\r\n        <li><a href=\"#card-tool\" class=\"nav-cta\" id=\"nav-cta\">Register/ Block <span aria-hidden=\"true\">&#x2192;</span></a></li>\r\n      </ul>\r\n    </nav>\r\n    <div class=\"nav-actions\">\r\n      <!-- Font size -->\r\n      <div style=\"position:relative\">\r\n        <button class=\"nav-icon-btn\"\r\n                id=\"font-dd-btn\"\r\n                onclick=\"toggleDropdown('font-dd')\"\r\n                aria-label=\"Font size\"\r\n                aria-haspopup=\"menu\"\r\n                aria-controls=\"font-dd\"\r\n                aria-expanded=\"false\"\r\n                title=\"Font size\">&#x1D400;</button>\r\n        <div class=\"dropdown\" id=\"font-dd\" role=\"menu\" aria-label=\"Font size options\">\r\n          <span class=\"dropdown-label\" id=\"txt-a11y-font\">Font size</span>\r\n          <div class=\"font-grid\">\r\n            <!-- M7: aria-pressed indicates active state to screen readers -->\r\n            <button class=\"font-btn\" style=\"font-size:12px\" data-size=\"sm\" onclick=\"setFont('sm')\" id=\"font-sm\" role=\"menuitemradio\" aria-checked=\"false\" aria-label=\"Small font\">A</button>\r\n            <button class=\"font-btn active\" style=\"font-size:15px\" data-size=\"md\" onclick=\"setFont('md')\" id=\"font-md\" role=\"menuitemradio\" aria-checked=\"true\" aria-label=\"Medium font\">A</button>\r\n            <button class=\"font-btn\" style=\"font-size:18px\" data-size=\"lg\" onclick=\"setFont('lg')\" id=\"font-lg\" role=\"menuitemradio\" aria-checked=\"false\" aria-label=\"Large font\">A</button>\r\n            <button class=\"font-btn\" style=\"font-size:21px\" data-size=\"xl\" onclick=\"setFont('xl')\" id=\"font-xl\" role=\"menuitemradio\" aria-checked=\"false\" aria-label=\"Extra large font\">A</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <!-- Language -->\r\n      <div style=\"position:relative\">\r\n        <button class=\"nav-icon-btn\"\r\n                id=\"lang-dd-btn\"\r\n                onclick=\"toggleDropdown('lang-dd')\"\r\n                aria-label=\"Language\"\r\n                aria-haspopup=\"menu\"\r\n                aria-controls=\"lang-dd\"\r\n                aria-expanded=\"false\"\r\n                title=\"Language\">&#x1F310;</button>\r\n        <div class=\"dropdown\" id=\"lang-dd\" role=\"menu\" aria-label=\"Language options\">\r\n          <span class=\"dropdown-label\" id=\"txt-a11y-lang\">Language</span>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('bn')\" id=\"lang-bn\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à¦¬à¦¾à¦‚à¦²à¦¾</span><span class=\"en\">Bengali</span></button>\r\n          <button class=\"dropdown-btn active\" onclick=\"setLang('en')\" id=\"lang-en\" role=\"menuitemradio\" aria-checked=\"true\"><span class=\"native\">English</span><span class=\"en\">English</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('gu')\" id=\"lang-gu\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">àª—à«àªœàª°àª¾àª¤à«€</span><span class=\"en\">Gujarati</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('hi')\" id=\"lang-hi\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à¤¹à¤¿à¤¨à¥à¤¦à¥€</span><span class=\"en\">Hindi</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('kn')\" id=\"lang-kn\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à²•à²¨à³à²¨à²¡</span><span class=\"en\">Kannada</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('ml')\" id=\"lang-ml\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à´®à´²à´¯à´¾à´³à´‚</span><span class=\"en\">Malayalam</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('mr')\" id=\"lang-mr\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à¤®à¤°à¤¾à¤ à¥€</span><span class=\"en\">Marathi</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('or')\" id=\"lang-or\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à¬“à¬¡à¬¼à¬¿à¬†</span><span class=\"en\">Odia</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('ta')\" id=\"lang-ta\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à®¤à®®à®¿à®´à¯</span><span class=\"en\">Tamil</span></button>\r\n          <button class=\"dropdown-btn\" onclick=\"setLang('te')\" id=\"lang-te\" role=\"menuitemradio\" aria-checked=\"false\"><span class=\"native\">à°¤à±†à°²à±à°—à±</span><span class=\"en\">Telugu</span></button>\r\n        </div>\r\n      </div>\r\n      <!-- Dark mode -->\r\n      <button class=\"nav-icon-btn\" onclick=\"toggleTheme()\" aria-label=\"Toggle colour theme\" id=\"theme-btn\" title=\"Toggle theme\">&#x1F319;</button>\r\n      <!-- H2: shown via CSS .mobile-only, not inline style=\"display:none\" -->\r\n      <!-- C5: aria-expanded/controls on mobile menu button -->\r\n      <button class=\"nav-icon-btn mobile-only\"\r\n              onclick=\"toggleMobileMenu()\"\r\n              aria-label=\"Open navigation menu\"\r\n              aria-haspopup=\"true\"\r\n              aria-controls=\"mobile-menu\"\r\n              aria-expanded=\"false\"\r\n              id=\"mobile-menu-btn\">&#x2630;</button>\r\n    </div>\r\n  </div>\r\n  <!-- Mobile menu -->\r\n  <div class=\"mobile-menu\" id=\"mobile-menu\" role=\"navigation\" aria-label=\"Mobile navigation\">\r\n    <div class=\"mobile-menu-inner\">\r\n      <a href=\"#features\" onclick=\"closeMobileMenu()\" id=\"mnav-features\">Features</a>\r\n      <a href=\"#stats\" onclick=\"closeMobileMenu()\" id=\"mnav-stats\">Fraud Data</a>\r\n      <a href=\"#how\" onclick=\"closeMobileMenu()\" id=\"mnav-how\">How it Works</a>\r\n      <a href=\"#block\" onclick=\"closeMobileMenu()\" id=\"mnav-block\">Block Steps</a>\r\n      <a href=\"#card-tool\" onclick=\"closeMobileMenu()\">Card Blocker</a>\r\n      <hr class=\"mobile-divider\"/>\r\n      <div class=\"mobile-pref-label\" id=\"txt-m-font\">Font size</div>\r\n      <div class=\"font-grid\" style=\"margin-bottom:.75rem\">\r\n        <button class=\"font-btn\" style=\"font-size:12px\" data-size=\"sm\" onclick=\"setFont('sm')\" aria-checked=\"false\" role=\"menuitemradio\" aria-label=\"Small font\">A</button>\r\n        <button class=\"font-btn active\" style=\"font-size:15px\" data-size=\"md\" onclick=\"setFont('md')\" aria-checked=\"true\" role=\"menuitemradio\" aria-label=\"Medium font\">A</button>\r\n        <button class=\"font-btn\" style=\"font-size:18px\" data-size=\"lg\" onclick=\"setFont('lg')\" aria-checked=\"false\" role=\"menuitemradio\" aria-label=\"Large font\">A</button>\r\n        <button class=\"font-btn\" style=\"font-size:21px\" data-size=\"xl\" onclick=\"setFont('xl')\" aria-checked=\"false\" role=\"menuitemradio\" aria-label=\"Extra large font\">A</button>\r\n      </div>\r\n      <div class=\"mobile-pref-label\" id=\"txt-m-lang\">Language</div>\r\n      <div class=\"mobile-lang-grid\">\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('bn');closeMobileMenu()\" id=\"mlang-bn\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à¦¬à¦¾à¦‚à¦²à¦¾</span></button>\r\n        <button class=\"dropdown-btn active\" onclick=\"setLang('en');closeMobileMenu()\" id=\"mlang-en\" aria-checked=\"true\" role=\"menuitemradio\"><span class=\"native\">English</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('gu');closeMobileMenu()\" id=\"mlang-gu\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">àª—à«àªœàª°àª¾àª¤à«€</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('hi');closeMobileMenu()\" id=\"mlang-hi\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à¤¹à¤¿à¤¨à¥à¤¦à¥€</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('kn');closeMobileMenu()\" id=\"mlang-kn\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à²•à²¨à³à²¨à²¡</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('ml');closeMobileMenu()\" id=\"mlang-ml\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à´®à´²à´¯à´¾à´³à´‚</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('mr');closeMobileMenu()\" id=\"mlang-mr\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à¤®à¤°à¤¾à¤ à¥€</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('or');closeMobileMenu()\" id=\"mlang-or\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à¬“à¬¡à¬¼à¬¿à¬†</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('ta');closeMobileMenu()\" id=\"mlang-ta\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à®¤à®®à®¿à®´à¯</span></button>\r\n        <button class=\"dropdown-btn\" onclick=\"setLang('te');closeMobileMenu()\" id=\"mlang-te\" aria-checked=\"false\" role=\"menuitemradio\"><span class=\"native\">à°¤à±†à°²à±à°—à±</span></button>\r\n      </div>\r\n      <a href=\"#card-tool\" onclick=\"closeMobileMenu()\" class=\"nav-cta\" style=\"justify-content:center;margin-top:.5rem\" id=\"mnav-cta\">Register Free &#x2192;</a>\r\n    </div>\r\n  </div>\r\n</header>\r\n\r\n<!-- C7 â€” main content landmark -->\r\n<main id=\"main-content\">\r\n\r\n<!-- HERO â€” C6: h1 restructured to avoid innerHTML; H9: aria-hidden on visual; L1: aria-hidden on pill-dot; H8: aria-hidden on emoji -->\r\n<section class=\"hero\" aria-labelledby=\"hero-heading\">\r\n  <div class=\"hero-inner\">\r\n    <div>\r\n      <div class=\"hero-badge\"><span aria-hidden=\"true\">&#x1F6A8;</span> <span id=\"txt-hero-badge\">Free early access Â· Card blocking helper</span></div>\r\n      <!-- C6 â€” split into two spans so textContent can be set without innerHTML -->\r\n      <h1 id=\"hero-heading\">\r\n        <span id=\"txt-hero-h1-line1\">Your wallet is stolen.</span><br>\r\n        <span class=\"accent\" id=\"txt-hero-h1-accent\">You have 4 minutes.</span>\r\n      </h1>\r\n      <p id=\"txt-hero-sub\">Fraudsters drain the average Indian account in under 4 minutes. Without your card numbers saved, you cannot block them fast enough. BlockMyCard keeps every card number in one place so you can act quickly.</p>\r\n      <div class=\"hero-btns\">\r\n        <a href=\"#card-tool\" class=\"btn-primary\" id=\"txt-hero-cta1\">Register Free &#x2014; 60 Seconds &#x2192;</a>\r\n        <a href=\"#card-tool\" class=\"btn-secondary\" id=\"txt-hero-cta2\">Block your card</a>\r\n      </div>\r\n      <div class=\"hero-pills\">\r\n        <span class=\"pill\"><span class=\"pill-dot\" aria-hidden=\"true\"></span><span id=\"txt-pill-free\">Free</span></span>\r\n        <span class=\"pill\"><span class=\"pill-dot\" aria-hidden=\"true\"></span><span id=\"txt-pill-banks\">For Indian banks</span></span>\r\n        <span class=\"pill\"><span class=\"pill-dot\" aria-hidden=\"true\"></span><span id=\"txt-pill-phone\">Any phone</span></span>\r\n        <span class=\"pill\"><span class=\"pill-dot\" aria-hidden=\"true\"></span><span id=\"txt-pill-all\">All cards protected</span></span>\r\n      </div>\r\n    </div>\r\n    <!-- H9 â€” entire mockup is decorative; hidden from assistive technology -->\r\n    <div class=\"hero-visual\" aria-hidden=\"true\">\r\n      <div class=\"mockup-phone\">\r\n        <div class=\"mockup-notch\"></div>\r\n        <div class=\"mockup-header\">\r\n          <div class=\"mockup-icon\">&#x26E8;</div>\r\n          <div><div class=\"mockup-title\">BlockMyCard</div><div class=\"mockup-sub\">All cards protected</div></div>\r\n          <div class=\"mockup-dot\"></div>\r\n        </div>\r\n        <div class=\"card-stack\">\r\n          <div class=\"mini-card mc1\"><div class=\"mini-card-label\">HDFC &middot; Credit</div><div class=\"mini-card-num\">&bull;&bull;&bull;&bull; 4321</div><div class=\"mini-card-badge\">SECURED</div></div>\r\n          <div class=\"mini-card mc2\"><div class=\"mini-card-label\">SBI &middot; Debit</div><div class=\"mini-card-num\">&bull;&bull;&bull;&bull; 8890</div><div class=\"mini-card-badge\">SECURED</div></div>\r\n          <div class=\"mini-card mc3\"><div class=\"mini-card-label\">ICICI &middot; Credit</div><div class=\"mini-card-num\">&bull;&bull;&bull;&bull; 1204</div><div class=\"mini-card-badge\">SECURED</div></div>\r\n        </div>\r\n        <button class=\"sos-btn\">&#x1F6A8; Block All Cards</button>\r\n        <div class=\"mockup-footer\"><span>&#x1F512; Keep details safe</span><span>&#x1F4F1; Any phone</span><span>&#x2713; Early access</span></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- STATS â€” H11: stat cards link to actual source URLs with descriptive aria-labels -->\r\n<section class=\"section section-alt\" id=\"stats\" aria-labelledby=\"stats-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\">Fraud in India, right now</div>\r\n      <h2 class=\"section-title\" id=\"stats-heading\" id=\"txt-urgency-title\">Fraud in India is rising sharply.</h2>\r\n      <p class=\"section-sub\" id=\"txt-urgency-sub\">Official RBI, NCRB &amp; I4C data &#x2014; sourced from published annual reports.</p>\r\n    </div>\r\n    <div class=\"stats-grid\">\r\n      <a class=\"stat-card\" href=\"https://rbi.org.in/Scripts/AnnualReportPublications.aspx\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"RBI Annual Report: &#x20B9;36,014 crore total banking fraud losses in FY25, up 194% year-on-year. Opens in new tab.\">\r\n        <span class=\"stat-source\">RBI Annual Report</span><div class=\"stat-value\">&#x20B9;36,014 Cr</div><div class=\"stat-label\">Total banking fraud losses (FY25)</div><div class=\"stat-change\"><span>&#x2191; +194% YoY</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n      <a class=\"stat-card\" href=\"https://cybercrime.gov.in\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"MHA / I4C: 22.68 lakh NCRP cybercrime complaints in 2024, up 42% vs 2023. Opens in new tab.\">\r\n        <span class=\"stat-source\">MHA / I4C</span><div class=\"stat-value\">22.68 lakh</div><div class=\"stat-label\">NCRP cybercrime complaints (2024)</div><div class=\"stat-change\"><span>&#x2191; +42% vs 2023</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n      <a class=\"stat-card\" href=\"https://cybercrime.gov.in\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"CFCFRMS / I4C: &#x20B9;22,846 crore citizens fraud losses in 2024, a 41-fold rise since 2021. Opens in new tab.\">\r\n        <span class=\"stat-source\">CFCFRMS / I4C</span><div class=\"stat-value\">&#x20B9;22,846 Cr</div><div class=\"stat-label\">Citizens&#x2019; fraud losses (2024)</div><div class=\"stat-change\"><span>&#x2191; 41&#xD7; rise since 2021</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n      <a class=\"stat-card\" href=\"https://trai.gov.in\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"NCRP / TRAI: 90,000+ SIM-swap complaints in 2024, draining over &#x20B9;500 crore. Opens in new tab.\">\r\n        <span class=\"stat-source\">NCRP / TRAI</span><div class=\"stat-value\">90,000+</div><div class=\"stat-label\">SIM-swap complaints (2024)</div><div class=\"stat-change\"><span>&#x2191; &#x20B9;500 Cr+ drained</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n      <a class=\"stat-card\" href=\"https://ncrb.gov.in\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"NCRB: only 2.43% of cybercrime complaints become FIRs; 97.57% are never investigated. Opens in new tab.\">\r\n        <span class=\"stat-source\">NCRB</span><div class=\"stat-value\">2.43%</div><div class=\"stat-label\">Complaints that become FIRs</div><div class=\"stat-change\"><span>&#x2191; 97.57% never investigated</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n      <a class=\"stat-card\" href=\"https://www.npci.org.in\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"NPCI incident data: average time to drain an account is under 4 minutes. Opens in new tab.\">\r\n        <span class=\"stat-source\">NPCI incident data</span><div class=\"stat-value\">&lt; 4 min</div><div class=\"stat-label\">Avg. time to drain an account</div><div class=\"stat-change\"><span>&#x2191; Before you notice</span><span class=\"stat-read\">Read more &#x2192;</span></div>\r\n      </a>\r\n    </div>\r\n    <div class=\"stats-callout\"><strong>Only 2.43% of cybercrime complaints become an FIR.</strong> Early blocking and reporting give you the best chance of recovery.</div>\r\n  </div>\r\n</section>\r\n\r\n<!-- FEATURES â€” H8: aria-hidden on decorative feature icons -->\r\n<section class=\"section\" id=\"features\" aria-labelledby=\"features-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\">Features</div>\r\n      <h2 class=\"section-title\" id=\"features-heading\" id=\"txt-feat-title\">Peace of mind, in one tap</h2>\r\n      <p class=\"section-sub\" id=\"txt-feat-sub\">Everything you need before, during, and after a loss.</p>\r\n    </div>\r\n    <div class=\"features-grid\">\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x1F512;</div><div class=\"feature-title\">One vault for your cards</div><p class=\"feature-desc\">Keep your card numbers and bank block helplines in one place so you are not searching during a panic.</p></div>\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x1F4F1;</div><div class=\"feature-title\">Access from any phone</div><p class=\"feature-desc\">If your phone is lost, sign in from a friend's phone or browser using your registered number.</p></div>\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x1F46A;</div><div class=\"feature-title\">Family contact option</div><p class=\"feature-desc\">Add a trusted family member as an alternate contact so someone can help if you are unreachable.</p></div>\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x1F4C4;</div><div class=\"feature-title\">Blocking templates</div><p class=\"feature-desc\">Use pre-written messages to share with your bank when you report a lost or stolen card.</p></div>\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x1F6E1;&#xFE0F;</div><div class=\"feature-title\">FIR guidance</div><p class=\"feature-desc\">Step-by-step guidance on filing a complaint with cybercrime.gov.in.</p></div>\r\n      <div class=\"feature-card\"><div class=\"feature-icon\" aria-hidden=\"true\">&#x26A1;</div><div class=\"feature-title\">Always free to register</div><p class=\"feature-desc\">Core registration is free. Some advanced features may be optional paid services.</p></div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- HOW IT WORKS â€” H8: aria-hidden on step icons -->\r\n<section class=\"section section-alt\" id=\"how\" aria-labelledby=\"how-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\">How it works</div>\r\n      <h2 class=\"section-title\" id=\"how-heading\" id=\"txt-how-title\">How BlockMyCard works</h2>\r\n      <p class=\"section-sub\">Three calm steps today &#x2014; for the three panicked minutes you might face tomorrow.</p>\r\n    </div>\r\n    <div class=\"steps-grid\">\r\n      <div class=\"step-card\">\r\n        <div class=\"step-img step-img-1\">\r\n          <img src=\"/assets/step-register.svg\" alt=\"A signup form on a phone with the details confirmed\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" aria-hidden=\"true\">Step 01</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F511;</div><div class=\"step-title\">Register in 60 seconds</div></div>\r\n          <p class=\"step-desc\">Just your name, mobile, and email. No card numbers yet.</p>\r\n        </div>\r\n      </div>\r\n      <div class=\"step-card\">\r\n        <div class=\"step-img step-img-2\">\r\n          <img src=\"/assets/step-cards.svg\" alt=\"Bank cards being placed into a locked vault\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" aria-hidden=\"true\">Step 02</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F3E6;</div><div class=\"step-title\">Add your cards &amp; mobile numbers</div></div>\r\n          <p class=\"step-desc\">Type or scan the details you need to contact your bank quickly. You decide what to save.</p>\r\n        </div>\r\n      </div>\r\n      <div class=\"step-card\">\r\n        <div class=\"step-img step-img-3\">\r\n          <img src=\"/assets/step-family.svg\" alt=\"A family member being added as an emergency contact\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" aria-hidden=\"true\">Step 03</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F465;</div><div class=\"step-title\">Add your alternate or family member&#x2019;s details</div></div>\r\n          <p class=\"step-desc\">Save contacts you can reach in case your phone is lost or unreachable.</p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"sleep-banner\">\r\n      <div class=\"sleep-visual\" style=\"padding:0\"><img src=\"/assets/happy-protected.svg\" alt=\"A family resting easy beneath a protective shield\" style=\"width:100%;height:100%;object-fit:cover;min-height:260px;border-radius:0\"/></div>\r\n      <div class=\"sleep-content\">\r\n        <div class=\"sleep-badge\"><span aria-hidden=\"true\">&#x2728;</span> Life after BlockMyCard</div>\r\n        <h3 class=\"sleep-title\">Sleep easy. Travel easy. Live easy.</h3>\r\n        <p class=\"sleep-sub\">Lost wallets happen. Panic doesn&#x2019;t have to. With every card and SIM in one secure vault and a one-tap SOS, your family stays calm even on the worst day.</p>\r\n        <div class=\"sleep-points\">\r\n          <span class=\"sleep-point\">One place for all cards</span>\r\n          <span class=\"sleep-point\">Access from any phone</span>\r\n          <span class=\"sleep-point\">Family contact option</span>\r\n          <span class=\"sleep-point\">Free to register</span>\r\n        </div>\r\n        <a href=\"#card-tool\" class=\"btn-primary\" style=\"font-size:.875rem;padding:.7rem 1.4rem\">Get this peace of mind &#x2014; free &#x2192;</a>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- BLOCK STEPS (dark) â€” H8: aria-hidden on step icons -->\r\n<section class=\"block-section\" id=\"block\" aria-labelledby=\"block-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\" style=\"color:#f87171\">When your wallet is lost</div>\r\n      <h2 class=\"section-title\" id=\"block-heading\" style=\"color:#f1f5f9\">Block your card in 3 steps</h2>\r\n      <p class=\"section-sub\" style=\"color:#94a3b8;margin:0 auto\">No panic. No endless calls. Just login, pick your bank, and block.</p>\r\n    </div>\r\n    <div class=\"steps-grid\" style=\"margin-top:3rem\">\r\n      <div class=\"block-step-card step-card\">\r\n        <div class=\"step-img block-step-img-1\" style=\"height:200px\">\r\n          <img src=\"/assets/block-login.svg\" alt=\"Signing in with a one-time code on a borrowed phone\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" style=\"background:rgba(15,23,42,.85);color:#f87171\" aria-hidden=\"true\">Step 01</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F4F1;</div><div class=\"step-title\" style=\"color:#f1f5f9\">Log in with your mobile number</div></div>\r\n          <p class=\"step-desc\" style=\"color:#94a3b8\">Sign in securely. If your phone is lost, use the alternate number you saved during registration.</p>\r\n        </div>\r\n      </div>\r\n      <div class=\"block-step-card step-card\">\r\n        <div class=\"step-img block-step-img-2\" style=\"height:200px\">\r\n          <img src=\"/assets/block-bank.svg\" alt=\"Choosing a bank from a list to reveal its blocking helpline\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" style=\"background:rgba(15,23,42,.85);color:#f87171\" aria-hidden=\"true\">Step 02</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F3E6;</div><div class=\"step-title\" style=\"color:#f1f5f9\">Select your bank and follow instructions</div></div>\r\n          <p class=\"step-desc\" style=\"color:#94a3b8\">Pick your bank from the list. BlockMyCard shows the exact helpline or link to block your card fast.</p>\r\n        </div>\r\n      </div>\r\n      <div class=\"block-step-card step-card\">\r\n        <div class=\"step-img block-step-img-3\" style=\"height:200px\">\r\n          <img src=\"/assets/block-cards.svg\" alt=\"Picking saved cards and sending a ready-made blocking message\" style=\"width:100%;height:100%;object-fit:cover\"/>\r\n          <div class=\"step-num\" style=\"background:rgba(15,23,42,.85);color:#f87171\" aria-hidden=\"true\">Step 03</div>\r\n          <div class=\"step-paid\">Paid service</div>\r\n        </div>\r\n        <div class=\"step-body\">\r\n          <div class=\"step-icon-row\"><div class=\"step-step-icon\" aria-hidden=\"true\">&#x1F4B3;</div><div class=\"step-title\" style=\"color:#f1f5f9\">Select saved cards &amp; use templates</div></div>\r\n          <p class=\"step-desc\" style=\"color:#94a3b8\">If you saved card details, pick the cards to block and send pre-made blocking templates.</p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- TRUST â€” H8: aria-hidden on trust icons -->\r\n<section class=\"section section-alt\" aria-labelledby=\"trust-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"trust-grid\">\r\n      <div>\r\n        <div class=\"section-eyebrow\">Trust</div>\r\n        <h2 class=\"section-title\" id=\"trust-heading\" id=\"txt-trust-title\">Built to help, not to oversell</h2>\r\n        <p class=\"section-sub\">We are building BlockMyCard to help Indian cardholders react quickly when a wallet or phone is lost. We will publish our security practices as they are formalised, and we will not ask for more data than you choose to share.</p>\r\n        <div class=\"trust-items\">\r\n          <div class=\"trust-item\"><div class=\"trust-icon\" aria-hidden=\"true\">&#x1F512;</div><div><div class=\"trust-item-title\">Store only what you need</div><p class=\"trust-item-desc\">Save just the details required to contact your bank quickly. We do not require full PAN or CVV.</p></div></div>\r\n          <div class=\"trust-item\"><div class=\"trust-icon\" aria-hidden=\"true\">&#x1F1EE;&#x1F1F3;</div><div><div class=\"trust-item-title\">Built for Indian users</div><p class=\"trust-item-desc\">Designed around Indian bank block-card helplines and RBI reporting timelines.</p></div></div>\r\n          <div class=\"trust-item\"><div class=\"trust-icon\" aria-hidden=\"true\">&#x1F6E1;&#xFE0F;</div><div><div class=\"trust-item-title\">Security practices</div><p class=\"trust-item-desc\">We&#x2019;re an early-stage service and will publish our security practices as they are formalised.</p></div></div>\r\n          <div class=\"trust-item\"><div class=\"trust-icon\" aria-hidden=\"true\">&#x270B;</div><div><div class=\"trust-item-title\">You stay in control</div><p class=\"trust-item-desc\">You can view, edit or delete your saved details at any time from your account.</p></div></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"trust-card\">\r\n        <h3><span aria-hidden=\"true\">&#x1F3E6;</span> Built for every Indian bank card</h3>\r\n        <p>Store the card numbers, helpline numbers and blocking steps for the cards you already hold &#x2014; debit, credit, prepaid &#x2014; from any Indian bank. When something goes wrong, you have every number in one place.</p>\r\n        <div class=\"trust-card-footer\"><span style=\"font-size:1.3rem\" aria-hidden=\"true\">&#x1F91D;</span><div><strong>Made for Indian users.</strong><p>Because losing a wallet shouldn&#x2019;t cost you your savings.</p></div></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- SCENARIOS -->\r\n<section class=\"section\" aria-labelledby=\"scenarios-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\">When it matters</div>\r\n      <h2 class=\"section-title\" id=\"scenarios-heading\">Situations BlockMyCard is built for</h2>\r\n      <p class=\"section-sub\">Illustrative scenarios &#x2014; not customer testimonials.</p>\r\n    </div>\r\n    <div class=\"scenarios-grid\">\r\n      <div class=\"scenario-card\"><div class=\"scenario-icon\" aria-hidden=\"true\">&#x1F6A6;</div><div class=\"scenario-title\">Purse snatched at a traffic signal</div><p class=\"scenario-text\">Borrow any phone, sign in, and see every card helpline and blocking link in one place &#x2014; no scrambling for numbers on hold.</p><div class=\"scenario-tag\">Common street theft</div></div>\r\n      <div class=\"scenario-card\"><div class=\"scenario-icon\" aria-hidden=\"true\">&#x1F4B3;</div><div class=\"scenario-title\">Multiple cards, zero notes</div><p class=\"scenario-text\">If you carry three or four cards, you probably don&#x2019;t have their helplines saved anywhere. BlockMyCard keeps them together, ready when you need them.</p><div class=\"scenario-tag\">Everyday cardholder</div></div>\r\n      <div class=\"scenario-card\"><div class=\"scenario-icon\" aria-hidden=\"true\">&#x1F474;</div><div class=\"scenario-title\">Helping an elderly parent</div><p class=\"scenario-text\">Family Circle lets you keep a parent&#x2019;s card list alongside yours, so you can act quickly if their wallet or phone is lost.</p><div class=\"scenario-tag\">For family</div></div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- CARD TOOL â€” H3: fallback inside #root if app.js fails to load -->\r\n<section class=\"tool-section\" id=\"card-tool\" aria-labelledby=\"tool-heading\">\r\n  <div class=\"tool-inner\">\r\n    <div class=\"tool-left\">\r\n      <div class=\"tool-eyebrow\"><span aria-hidden=\"true\">&#x1F6A8;</span> <span id=\"txt-reg-eyebrow\">Don&#x2019;t be a statistic</span></div>\r\n      <h2 class=\"tool-title\" id=\"tool-heading\" id=\"txt-reg-title\">Don&#x2019;t wait for the panic call. Register free &#x2014; right now.</h2>\r\n      <p class=\"tool-sub\" id=\"txt-reg-sub\">It takes 60 seconds. You&#x2019;ll thank yourself the day something goes wrong.</p>\r\n      <div class=\"tool-pills\">\r\n        <span class=\"tool-pill\" id=\"txt-pill-r1\">Free to register</span>\r\n        <span class=\"tool-pill\" id=\"txt-pill-r2\">Works on any smartphone</span>\r\n        <span class=\"tool-pill\" id=\"txt-pill-r3\">Optional family contact</span>\r\n      </div>\r\n    </div>\r\n    <div style=\"position:relative\">\r\n      <!-- H3 â€” fallback is a SIBLING of #root, never inside it â€” React needs a clean empty div -->\r\n      <!-- TC-29 â€” noscript forces the fallback visible when JS is disabled (JS would otherwise never reveal it) -->\r\n      <noscript><style>#app-fallback{display:block !important}</style></noscript>\r\n      <div id=\"app-fallback\" style=\"display:none;background:rgba(255,255,255,.12);border-radius:16px;padding:2rem;text-align:center;color:#fff;font-size:.9rem\">\r\n        <p style=\"opacity:.85\">Loading registration form&#x2026; If this message doesn&#x2019;t go away, please enable JavaScript or contact <a href=\"mailto:support@blockmycard.in\" style=\"color:#fff;font-weight:700;text-decoration:underline\">support@blockmycard.in</a>.</p>\r\n      </div>\r\n      <div id=\"root\"></div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<!-- FAQ â€” C4: aria-expanded, aria-controls, role=\"region\" on all accordion items -->\r\n<section class=\"section section-alt\" aria-labelledby=\"faq-heading\">\r\n  <div class=\"section-inner\">\r\n    <div class=\"section-center\">\r\n      <div class=\"section-eyebrow\">FAQ</div>\r\n      <h2 class=\"section-title\" id=\"faq-heading\">Everything you&#x2019;re thinking, answered</h2>\r\n    </div>\r\n    <div class=\"faq-list\">\r\n      <div class=\"faq-item open\">\r\n        <button class=\"faq-q\" onclick=\"toggleFaq(this)\" aria-expanded=\"true\" aria-controls=\"faq-a-1\" id=\"faq-q-1\">\r\n          Is BlockMyCard really free?\r\n          <span class=\"faq-toggle\" aria-hidden=\"true\">+</span>\r\n        </button>\r\n        <div class=\"faq-a\" id=\"faq-a-1\" role=\"region\" aria-labelledby=\"faq-q-1\">Basic registration is free. Some advanced features, like saved-card blocking templates, may be optional paid services.</div>\r\n      </div>\r\n      <div class=\"faq-item\">\r\n        <button class=\"faq-q\" onclick=\"toggleFaq(this)\" aria-expanded=\"false\" aria-controls=\"faq-a-2\" id=\"faq-q-2\">\r\n          Can BlockMyCard staff see my card numbers?\r\n          <span class=\"faq-toggle\" aria-hidden=\"true\">+</span>\r\n        </button>\r\n        <div class=\"faq-a\" id=\"faq-a-2\" role=\"region\" aria-labelledby=\"faq-q-2\">We are designing the app so your data is visible only to you. Our security practices will be published as they are formalised.</div>\r\n      </div>\r\n      <div class=\"faq-item\">\r\n        <button class=\"faq-q\" onclick=\"toggleFaq(this)\" aria-expanded=\"false\" aria-controls=\"faq-a-3\" id=\"faq-q-3\">\r\n          What if my phone is stolen too?\r\n          <span class=\"faq-toggle\" aria-hidden=\"true\">+</span>\r\n        </button>\r\n        <div class=\"faq-a\" id=\"faq-a-3\" role=\"region\" aria-labelledby=\"faq-q-3\">You can log in from any browser at blockmycard.in using your registered email or mobile number. We also recommend adding an alternate family contact during registration.</div>\r\n      </div>\r\n      <div class=\"faq-item\">\r\n        <button class=\"faq-q\" onclick=\"toggleFaq(this)\" aria-expanded=\"false\" aria-controls=\"faq-a-4\" id=\"faq-q-4\">\r\n          Which languages are supported?\r\n          <span class=\"faq-toggle\" aria-hidden=\"true\">+</span>\r\n        </button>\r\n        <div class=\"faq-a\" id=\"faq-a-4\" role=\"region\" aria-labelledby=\"faq-q-4\">English, &#x939;&#x93F;&#x928;&#x94D;&#x926;&#x940;, &#x92E;&#x930;&#x93E;&#x920;&#x940; and &#xA97C;&#xAC1;&#xA9C0;&#xAB0;&#xABE;&#xAA4;&#xAC0; today. More languages may be added later.</div>\r\n      </div>\r\n      <div class=\"faq-item\">\r\n        <button class=\"faq-q\" onclick=\"toggleFaq(this)\" aria-expanded=\"false\" aria-controls=\"faq-a-5\" id=\"faq-q-5\">\r\n          Does it also block SIM cards / mobile numbers?\r\n          <span class=\"faq-toggle\" aria-hidden=\"true\">+</span>\r\n        </button>\r\n        <div class=\"faq-a\" id=\"faq-a-5\" role=\"region\" aria-labelledby=\"faq-q-5\">We plan to add SIM and mobile number blocking guidance. For urgent SIM blocking, please contact your telecom operator directly.</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n</main><!-- /main -->\r\n\r\n<!-- FOOTER â€” L4: placeholder links as .footer-link-soon; L5: aria-hidden on logo icon -->\r\n<footer class=\"footer\">\r\n  <div class=\"footer-inner\">\r\n    <div class=\"footer-brand\">\r\n      <a href=\"/\" class=\"footer-logo\">\r\n        <div class=\"footer-logo-icon\" aria-hidden=\"true\">&#x26E8;</div>\r\n        BlockMyCard<span style=\"color:var(--red)\">.in</span>\r\n      </a>\r\n      <p id=\"txt-footer-tag\">Made in India with &#x1F499; for every family, small business &amp; senior citizen.</p>\r\n      <div class=\"footer-brand-sub\"><span aria-hidden=\"true\">&#x1F6E1;&#xFE0F;</span> Helping Indian cardholders act fast</div>\r\n    </div>\r\n    <div class=\"footer-col\">\r\n      <h4>Product</h4>\r\n      <ul>\r\n        <li><a href=\"#how\">How it works</a></li>\r\n        <li><a href=\"#features\">Features</a></li>\r\n        <li><span class=\"footer-link-soon\">Family Circle</span></li>\r\n        <li><span class=\"footer-link-soon\">Pricing</span></li>\r\n      </ul>\r\n    </div>\r\n    <div class=\"footer-col\">\r\n      <h4>Company</h4>\r\n      <ul>\r\n        <li><a href=\"/about.html\">About</a></li>\r\n        <li><a href=\"/trust-security.html\">Trust &amp; Security</a></li>\r\n        <li><a href=\"/privacy.html\">Privacy Policy</a></li>\r\n        <li><a href=\"/terms-and-conditions.html\">Terms and Conditions</a></li>\r\n        <li><a href=\"mailto:support@blockmycard.in\">Contact</a></li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n  <div class=\"footer-bottom-bar\">\r\n    <div class=\"footer-bottom\">&#x00A9; 2026 BlockMyCard.in &middot; All rights reserved &middot; An initiative for a safer digital India.</div>\r\n    <div class=\"footer-construction\"><span aria-hidden=\"true\">&#x1F6A7;</span> Site under construction. Some features are still being tested. Your feedback is welcome.</div>\r\n  </div>\r\n</footer>\r\n\r\n<script src=\"./otp-bridge.js\"></script>\r\n<script src=\"./storage-bridge.js\"></script>\r\n<script src=\"./app.js\"></script>\r\n<script>\r\n/* â”€â”€ TRANSLATIONS (DICT) â”€â”€ */\r\n/* L2 â€” added missing pill, eyebrow, and construction message entries */\r\n/* C6 â€” hero.title split into .line1 and .accent to avoid innerHTML injection */\r\nconst DICT = {\r\n  \"construction.title\":   { en:\"Site under construction\", hi:\"à¤¸à¤¾à¤‡à¤Ÿ à¤¨à¤¿à¤°à¥à¤®à¤¾à¤£à¤¾à¤§à¥€à¤¨ à¤¹à¥ˆ\", mr:\"à¤¸à¤¾à¤‡à¤Ÿ à¤¬à¤¾à¤‚à¤§à¤•à¤¾à¤® à¤¸à¥à¤°à¥‚ à¤†à¤¹à¥‡\", gu:\"àª¸àª¾àª‡àªŸ àª¬àª¾àª‚àª§àª•àª¾àª® àª¹à«‡àª àª³ àª›à«‡\", bn:\"à¦¸à¦¾à¦‡à¦Ÿ à¦¨à¦¿à¦°à§à¦®à¦¾à¦£à¦¾à¦§à§€à¦¨\", te:\"à°¸à±ˆà°Ÿà± à°¨à°¿à°°à±à°®à°¾à°£à°‚à°²à±‹ à°‰à°‚à°¦à°¿\", ta:\"à®¤à®³à®®à¯ à®•à®Ÿà¯à®Ÿà¯à®®à®¾à®©à®¤à¯à®¤à®¿à®²à¯ à®‰à®³à¯à®³à®¤à¯\", kn:\"à²¸à³ˆà²Ÿà³ à²¨à²¿à²°à³à²®à²¾à²£ à²¹à²‚à²¤à²¦à²²à³à²²à²¿à²¦à³†\", or:\"à¬¸à¬¾à¬‡à¬Ÿà­ à¬¨à¬¿à¬°à­à¬®à¬¾à¬£à¬¾à¬§à­€à¬¨\", ml:\"à´¸àµˆà´±àµà´±àµ à´¨à´¿àµ¼à´®àµà´®à´¾à´£à´¤àµà´¤à´¿à´²à´¾à´£àµ\" },\r\n  \"construction.message\": { en:\"Some features are still being tested. Your feedback is welcome.\", hi:\"à¤•à¥à¤› à¤¸à¥à¤µà¤¿à¤§à¤¾à¤à¤ à¤…à¤­à¥€ à¤­à¥€ à¤ªà¤°à¥€à¤•à¥à¤·à¤£ à¤®à¥‡à¤‚ à¤¹à¥ˆà¤‚à¥¤ à¤†à¤ªà¤•à¥€ à¤ªà¥à¤°à¤¤à¤¿à¤•à¥à¤°à¤¿à¤¯à¤¾ à¤•à¤¾ à¤¸à¥à¤µà¤¾à¤—à¤¤ à¤¹à¥ˆà¥¤\", mr:\"à¤•à¤¾à¤¹à¥€ à¤µà¥ˆà¤¶à¤¿à¤·à¥à¤Ÿà¥à¤¯à¥‡ à¤…à¤¦à¥à¤¯à¤¾à¤ª à¤šà¤¾à¤šà¤£à¥€ à¤¸à¥à¤°à¥‚ à¤†à¤¹à¥‡à¤¤. à¤¤à¥à¤®à¤šà¤¾ à¤…à¤­à¤¿à¤ªà¥à¤°à¤¾à¤¯ à¤¸à¥à¤µà¤¾à¤—à¤¤à¤¾à¤°à¥à¤¹ à¤†à¤¹à¥‡.\", gu:\"àª•à«‡àªŸàª²à«€àª• àª¸à«àªµàª¿àª§àª¾àª“ àª¹àªœà« àªªàª£ àªªàª°à«€àª•à«àª·àª£àª®àª¾àª‚ àª›à«‡. àª¤àª®àª¾àª°à«‹ àªªà«àª°àª¤àª¿àª­àª¾àªµ àª†àªµàª•àª¾àª°à«àª¯ àª›à«‡.\", bn:\"à¦•à¦¿à¦›à§ à¦«à¦¿à¦šà¦¾à¦° à¦à¦–à¦¨à¦“ à¦ªà¦°à§€à¦•à§à¦·à¦¾ à¦•à¦°à¦¾ à¦¹à¦šà§à¦›à§‡à¥¤ à¦†à¦ªà¦¨à¦¾à¦° à¦®à¦¤à¦¾à¦®à¦¤ à¦¸à§à¦¬à¦¾à¦—à¦¤à¥¤\", te:\"à°•à±Šà°¨à±à°¨à°¿ à°«à±€à°šà°°à±à°²à± à°‡à°‚à°•à°¾ à°ªà°°à±€à°•à±à°·à°¿à°‚à°šà°¬à°¡à±à°¤à±à°¨à±à°¨à°¾à°¯à°¿. à°®à±€ à°…à°­à°¿à°ªà±à°°à°¾à°¯à°¾à°¨à±à°¨à°¿ à°¸à±à°µà°¾à°—à°¤à°¿à°¸à±à°¤à±à°¨à±à°¨à°¾à°®à±.\", ta:\"à®šà®¿à®² à®…à®®à¯à®šà®™à¯à®•à®³à¯ à®‡à®©à¯à®©à¯à®®à¯ à®šà¯‹à®¤à®¿à®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®•à®¿à®©à¯à®±à®©. à®‰à®™à¯à®•à®³à¯ à®•à®°à¯à®¤à¯à®¤à¯ à®µà®°à®µà¯‡à®±à¯à®•à®ªà¯à®ªà®Ÿà¯à®•à®¿à®±à®¤à¯.\", kn:\"à²•à³†à²²à²µà³ à²µà³ˆà²¶à²¿à²·à³à²Ÿà³à²¯à²—à²³à²¨à³à²¨à³ à²‡à²¨à³à²¨à³‚ à²ªà²°à³€à²•à³à²·à²¿à²¸à²²à²¾à²—à³à²¤à³à²¤à²¿à²¦à³†. à²¨à²¿à²®à³à²® à²ªà³à²°à²¤à²¿à²•à³à²°à²¿à²¯à³†à²¯à²¨à³à²¨à³ à²¸à³à²µà²¾à²—à²¤à²¿à²¸à³à²¤à³à²¤à³‡à²µà³†.\", or:\"à¬•à¬¿à¬›à¬¿ à¬¬à¬¿à¬¶à­‡à¬·à¬¤à¬¾ à¬à¬¬à­‡ à¬¬à¬¿ à¬ªà¬°à­€à¬•à­à¬·à¬¾ à¬•à¬°à¬¾à¬¯à¬¾à¬‰à¬›à¬¿à¥¤ à¬†à¬ªà¬£à¬™à­à¬• à¬®à¬¤à¬¾à¬®à¬¤ à¬¸à­à­±à¬¾à¬—à¬¤à¬¯à­‹à¬—à­à­Ÿà¥¤\", ml:\"à´šà´¿à´² à´«àµ€à´šàµà´šà´±àµà´•àµ¾ à´‡à´ªàµà´ªàµ‹à´´àµà´‚ à´ªà´°àµ€à´•àµà´·à´¿à´•àµà´•àµà´¨àµà´¨àµ. à´¨à´¿à´™àµà´™à´³àµà´Ÿàµ† à´…à´­à´¿à´ªàµà´°à´¾à´¯à´‚ à´¸àµà´µà´¾à´—à´¤à´‚ à´šàµ†à´¯àµà´¯àµà´¨àµà´¨àµ.\" },\r\n  \"nav.register\":        { en:\"Register/ Block\", hi:\"à¤°à¤œà¤¿à¤¸à¥à¤Ÿà¤°/à¤¬à¥à¤²à¥‰à¤• à¤•à¤°à¥‡à¤‚\", mr:\"à¤¨à¥‹à¤‚à¤¦à¤£à¥€/à¤¬à¥à¤²à¥‰à¤• à¤•à¤°à¤¾\", gu:\"àª¨à«‹àª‚àª§àª£à«€/àª¬à«àª²à«‹àª• àª•àª°à«‹\", bn:\"à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¨/à¦¬à§à¦²à¦• à¦•à¦°à§à¦¨\", te:\"à°¨à°®à±‹à°¦à±/à°¬à±à°²à°¾à°•à± à°šà±‡à°¯à°‚à°¡à°¿\", ta:\"à®ªà®¤à®¿à®µà¯/à®®à¯à®Ÿà®•à¯à®•à¯\", kn:\"à²¨à³‹à²‚à²¦à²£à²¿/à²¬à³à²²à²¾à²•à³ à²®à²¾à²¡à²¿\", or:\"à¬ªà¬žà­à¬œà­€à¬•à¬°à¬£/à¬¬à­à¬²à¬•à­ à¬•à¬°à¬¨à­à¬¤à­\", ml:\"à´°à´œà´¿à´¸àµà´±àµà´±àµ¼/à´¬àµà´²àµ‹à´•àµà´•àµ à´šàµ†à´¯àµà´¯àµà´•\" },\r\n  \"hero.badge\":          { en:\"Free early access \\u00B7 Card blocking helper\", hi:\"\\u092E\\u0941\\u092B\\u093C\\u094D\\u0924 \\u0936\\u0941\\u0930\\u0941\\u0906\\u0924\\u0940 \\u092A\\u0939\\u0941\\u0901\\u091A \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u0915\", mr:\"\\u092E\\u094B\\u092B\\u0924 \\u0905\\u200D\\u0945\\u0915\\u094D\\u0938\\u0947\\u0938 \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u094D\\u092F\\u0915\", gu:\"\\u0AAE\\u0AAB\\u0AA4 \\u0AAA\\u0ACD\\u0AB0\\u0ABE\\u0AB0\\u0A82\\u0AAD\\u0ABF\\u0A95 \\u0A8D\\u0A95\\u0ACD\\u0AB8\\u0AC7\\u0AB8 \\u00B7 \\u0A95\\u0ABE\\u0AB0\\u0ACD\\u0AA1 \\u0AAC\\u0ACD\\u0AB2\\u0ACB\\u0A95\\u0ABF\\u0A82\\u0A97 \\u0AB8\\u0AB9\\u0ABE\\u0AAF\\u0A95\", bn:\"\\u09AC\\u09BF\\u09A8\\u09BE\\u09AE\\u09C2\\u09B2\\u09CD\\u09AF\\u09C7 \\u09AA\\u09CD\\u09B0\\u09BE\\u09A5\\u09AE\\u09BF\\u0995 \\u0985\\u09CD\\u09AF\\u09BE\\u0995\\u09CD\\u09B8\\u09C7\\u09B8 \\u00B7 \\u0995\\u09BE\\u09B0\\u09CD\\u09A1 \\u09AC\\u09CD\\u09B2\\u0995\\u09BF\\u0982 \\u09B8\\u09B9\\u09BE\\u09AF\\u09BC\\u0995\", te:\"\\u0C09\\u0C1A\\u0C3F\\u0C24 \\u0C2A\\u0C4D\\u0C30\\u0C3E\\u0C30\\u0C02\\u0C2D \\u0C2F\\u0C3E\\u0C15\\u0C4D\\u0C38\\u0C46\\u0C38\\u0C4D \\u00B7 \\u0C15\\u0C3E\\u0C30\\u0C4D\\u0C21\\u0C4D \\u0C2C\\u0C4D\\u0C32\\u0C3E\\u0C15\\u0C3F\\u0C02\\u0C17\\u0C4D \\u0C38\\u0C39\\u0C3E\\u0C2F\\u0C15\\u0C41\\u0C21\\u0C41\", ta:\"\\u0B87\\u0BB2\\u0BB5\\u0B9A \\u0B86\\u0BB0\\u0BAE\\u0BCD\\u0BAA \\u0B85\\u0BA3\\u0BC1\\u0B95\\u0BB2\\u0BCD \\u00B7 \\u0B95\\u0BBE\\u0BB0\\u0BCD\\u0B9F\\u0BC1 \\u0BAE\\u0BC1\\u0B9F\\u0B95\\u0BCD\\u0B95\\u0BC1\\u0BAE\\u0BCD \\u0B89\\u0BA4\\u0BB5\\u0BBF\\u0BAF\\u0BBE\\u0BB3\\u0BB0\\u0BCD\", kn:\"\\u0C89\\u0C9A\\u0CBF\\u0CA4 \\u0C86\\u0CB0\\u0C82\\u0CAD\\u0CBF\\u0C95 \\u0CAA\\u0CCD\\u0CB0\\u0CB5\\u0CC7\\u0CB6 \\u00B7 \\u0C95\\u0CBE\\u0CB0\\u0CCD\\u0CA1\\u0CCD \\u0CAC\\u0CCD\\u0CB2\\u0CBE\\u0C95\\u0CBF\\u0C82\\u0C97\\u0CCD \\u0CB8\\u0CB9\\u0CBE\\u0CAF\\u0C95\", or:\"\\u0B2E\\u0B3E\\u0B17\\u0B23\\u0B3E \\u0B2A\\u0B4D\\u0B30\\u0B3E\\u0B30\\u0B2E\\u0B4D\\u0B2D\\u0B3F\\u0B15 \\u0B2A\\u0B4D\\u0B30\\u0B2C\\u0B47\\u0B36 \\u00B7 \\u0B15\\u0B3E\\u0B30\\u0B4D\\u0B21 \\u0B2C\\u0B4D\\u0B32\\u0B15\\u0B3F\\u0B02 \\u0B38\\u0B39\\u0B3E\\u0B5F\\u0B15\", ml:\"\\u0D38\\u0D57\\u0D1C\\u0D28\\u0D4D\\u0D2F \\u0D06\\u0D26\\u0D4D\\u0D2F\\u0D15\\u0D3E\\u0D32 \\u0D06\\u0D15\\u0D4D\\u200C\\u0D38\\u0D38\\u0D4D \\u00B7 \\u0D15\\u0D3E\\u0D7C\\u0D21\\u0D4D \\u0D2C\\u0D4D\\u0D32\\u0D4B\\u0D15\\u0D4D\\u0D15\\u0D3F\\u0D02\\u0D17\\u0D4D \\u0D38\\u0D39\\u0D3E\\u0D2F\\u0D3F\" },\r\n  \"hero.title.line1\":    { en:\"Your wallet is stolen.\", hi:\"à¤†à¤ªà¤•à¤¾ à¤¬à¤Ÿà¥à¤† à¤šà¥‹à¤°à¥€ à¤¹à¥‹ à¤—à¤¯à¤¾à¥¤\", mr:\"à¤¤à¥à¤®à¤šà¥‡ à¤ªà¤¾à¤•à¥€à¤Ÿ à¤šà¥‹à¤°à¥€à¤²à¤¾ à¤—à¥‡à¤²à¥‡.\", gu:\"àª¤àª®àª¾àª°à«àª‚ àªªàª¾àª•à«€àªŸ àªšà«‹àª°àª¾àªˆ àª—àª¯à«àª‚.\", bn:\"à¦†à¦ªà¦¨à¦¾à¦° à¦®à¦¾à¦¨à¦¿à¦¬à§à¦¯à¦¾à¦— à¦šà§à¦°à¦¿ à¦¹à¦¯à¦¼à§‡ à¦—à§‡à¦›à§‡à¥¤\", te:\"à°®à±€ à°µà°¾à°²à±†à°Ÿà± à°¦à±Šà°‚à°—à°¤à°¨à°‚ à°…à°¯à±à°¯à°¿à°‚à°¦à°¿.\", ta:\"à®‰à®™à¯à®•à®³à¯ à®ªà®£à®ªà¯à®ªà¯ˆ à®¤à®¿à®°à¯à®Ÿà®ªà¯à®ªà®Ÿà¯à®Ÿà®¤à¯.\", kn:\"à²¨à²¿à²®à³à²® à²µà³à²¯à²¾à²²à³†à²Ÿà³ à²•à²³à³à²³à²¤à²¨à²µà²¾à²—à²¿à²¦à³†.\", or:\"à¬†à¬ªà¬£à¬™à­à¬• à¬®à¬¾à¬¨à¬¿à¬¬à­à­Ÿà¬¾à¬— à¬šà­‹à¬°à¬¿ à¬¹à­‹à¬‡à¬—à¬²à¬¾à¥¤\", ml:\"à´¨à´¿à´™àµà´™à´³àµà´Ÿàµ† à´µà´¾à´²à´±àµà´±àµ à´®àµ‹à´·àµà´Ÿà´¿à´•àµà´•à´ªàµà´ªàµ†à´Ÿàµà´Ÿàµ.\" },\r\n  \"hero.title.accent\":   { en:\"You have 4 minutes.\", hi:\"à¤†à¤ªà¤•à¥‡ à¤ªà¤¾à¤¸ à¤¸à¤¿à¤°à¥à¤«à¤¼ 4 à¤®à¤¿à¤¨à¤Ÿ à¤¹à¥ˆà¤‚à¥¤\", mr:\"à¤¤à¥à¤®à¤šà¥à¤¯à¤¾à¤•à¤¡à¥‡ à¤«à¤•à¥à¤¤ 4 à¤®à¤¿à¤¨à¤¿à¤Ÿà¥‡ à¤†à¤¹à¥‡à¤¤.\", gu:\"àª¤àª®àª¾àª°à«€ àªªàª¾àª¸à«‡ àª«àª•à«àª¤ 4 àª®àª¿àª¨àª¿àªŸ àª›à«‡.\", bn:\"à¦†à¦ªà¦¨à¦¾à¦° à¦¹à¦¾à¦¤à§‡ à¦®à¦¾à¦¤à§à¦° à§ª à¦®à¦¿à¦¨à¦¿à¦Ÿ à¦†à¦›à§‡à¥¤\", te:\"à°®à±€ à°µà°¦à±à°¦ 4 à°¨à°¿à°®à°¿à°·à°¾à°²à± à°®à°¾à°¤à±à°°à°®à±‡ à°‰à°¨à±à°¨à°¾à°¯à°¿.\", ta:\"à®‰à®™à¯à®•à®³à®¿à®Ÿà®®à¯ 4 à®¨à®¿à®®à®¿à®Ÿà®™à¯à®•à®³à¯ à®®à®Ÿà¯à®Ÿà¯à®®à¯‡ à®‰à®³à¯à®³à®©.\", kn:\"à²¨à²¿à²®à³à²® à²¬à²³à²¿ 4 à²¨à²¿à²®à²¿à²·à²—à²³à³ à²®à²¾à²¤à³à²° à²‡à²µà³†.\", or:\"à¬†à¬ªà¬£à¬™à­à¬• à¬ªà¬¾à¬–à¬°à­‡ à¬•à­‡à¬¬à¬³ 4 à¬®à¬¿à¬¨à¬¿à¬Ÿà­ à¬…à¬›à¬¿à¥¤\", ml:\"à´¨à´¿à´™àµà´™àµ¾à´•àµà´•àµ 4 à´®à´¿à´¨à´¿à´±àµà´±àµ à´®à´¾à´¤àµà´°à´®àµ‡ à´‰à´³àµà´³àµ‚.\" },\r\n  \"hero.sub\":            { en:\"Fraudsters drain the average Indian account in under 4 minutes. Without your card numbers saved, you cannot block them fast enough. BlockMyCard keeps every card number in one place so you can act quickly.\", hi:\"à¤§à¥‹à¤–à¥‡à¤¬à¤¾à¤œà¤¼ à¤”à¤¸à¤¤ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¤¾à¤¤à¤¾ 4 à¤®à¤¿à¤¨à¤Ÿ à¤¸à¥‡ à¤­à¥€ à¤•à¤® à¤¸à¤®à¤¯ à¤®à¥‡à¤‚ à¤–à¤¾à¤²à¥€ à¤•à¤° à¤¦à¥‡à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤ à¤…à¤—à¤° à¤†à¤ªà¤•à¥‡ à¤•à¤¾à¤°à¥à¤¡ à¤¨à¤‚à¤¬à¤° à¤¸à¥‡à¤µ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¤‚, à¤¤à¥‹ à¤†à¤ª à¤‰à¤¨à¥à¤¹à¥‡à¤‚ à¤‡à¤¤à¤¨à¥€ à¤œà¤²à¥à¤¦à¥€ à¤¬à¥à¤²à¥‰à¤• à¤¨à¤¹à¥€à¤‚ à¤•à¤° à¤¸à¤•à¤¤à¥‡à¥¤ BlockMyCard à¤¹à¤° à¤•à¤¾à¤°à¥à¤¡ à¤¨à¤‚à¤¬à¤° à¤à¤• à¤œà¤—à¤¹ à¤°à¤–à¤¤à¤¾ à¤¹à¥ˆ à¤¤à¤¾à¤•à¤¿ à¤†à¤ª à¤¤à¥à¤°à¤‚à¤¤ à¤•à¤¾à¤°à¥à¤°à¤µà¤¾à¤ˆ à¤•à¤° à¤¸à¤•à¥‡à¤‚à¥¤\", mr:\"à¤¸à¤°à¤¾à¤¸à¤°à¥€ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¤¾à¤¤à¥‡ 4 à¤®à¤¿à¤¨à¤¿à¤Ÿà¤¾à¤‚à¤¤ à¤°à¤¿à¤•à¤¾à¤®à¥‡ à¤¹à¥‹à¤¤à¥‡. à¤¤à¥à¤®à¤šà¥‡ à¤•à¤¾à¤°à¥à¤¡ à¤¨à¤‚à¤¬à¤° à¤¸à¥‡à¤µà¥à¤¹ à¤¨à¤¸à¤¤à¥€à¤², à¤¤à¤° à¤¤à¥à¤®à¥à¤¹à¥€ à¤¤à¥‡ à¤‡à¤¤à¤•à¥à¤¯à¤¾ à¤²à¤µà¤•à¤° à¤¬à¥à¤²à¥‰à¤• à¤•à¤°à¥‚ à¤¶à¤•à¤¤ à¤¨à¤¾à¤¹à¥€. BlockMyCard à¤ªà¥à¤°à¤¤à¥à¤¯à¥‡à¤• à¤•à¤¾à¤°à¥à¤¡ à¤•à¥à¤°à¤®à¤¾à¤‚à¤• à¤à¤•à¤¾à¤š à¤ à¤¿à¤•à¤¾à¤£à¥€ à¤ à¥‡à¤µà¤¤à¥‡, à¤œà¥‡à¤£à¥‡à¤•à¤°à¥‚à¤¨ à¤¤à¥à¤®à¥à¤¹à¥€ à¤à¤Ÿà¤ªà¤Ÿ à¤•à¤¾à¤°à¤µà¤¾à¤ˆ à¤•à¤°à¥‚ à¤¶à¤•à¤¾à¤².\", gu:\"àª›à«‡àª¤àª°àªªàª¿àª‚àª¡à«€ àª•àª°àª¨àª¾àª°àª¾ àª¸àª°à«‡àª°àª¾àª¶ àª­àª¾àª°àª¤à«€àª¯ àª–àª¾àª¤à«àª‚ 4 àª®àª¿àª¨àª¿àªŸàª¥à«€ àª“àª›àª¾ àª¸àª®àª¯àª®àª¾àª‚ àª–àª¾àª²à«€ àª•àª°à«€ àª¨àª¾àª–à«‡ àª›à«‡. àªœà«‹ àª¤àª®àª¾àª°àª¾ àª•àª¾àª°à«àª¡ àª¨àª‚àª¬àª° àª¸à«‡àªµ àª¨ àª¹à«‹àª¯, àª¤à«‹ àª¤àª®à«‡ àª¤à«‡àª®àª¨à«‡ àªàªŸàª²à«€ àªàª¡àªªàª¥à«€ àª¬à«àª²à«‹àª• àª•àª°à«€ àª¶àª•àª¤àª¾ àª¨àª¥à«€. BlockMyCard àª¦àª°à«‡àª• àª•àª¾àª°à«àª¡ àª¨àª‚àª¬àª° àªàª• àªœ àªœàª—à«àª¯àª¾àª àª°àª¾àª–à«‡ àª›à«‡ àªœà«‡àª¥à«€ àª¤àª®à«‡ àªàª¡àªªàª¥à«€ àªªàª—àª²àª¾àª‚ àª²àªˆ àª¶àª•à«‹.\", bn:\"à¦ªà§à¦°à¦¤à¦¾à¦°à¦•à¦°à¦¾ à§ª à¦®à¦¿à¦¨à¦¿à¦Ÿà§‡à¦°à¦“ à¦•à¦® à¦¸à¦®à¦¯à¦¼à§‡ à¦—à¦¡à¦¼ à¦­à¦¾à¦°à¦¤à§€à¦¯à¦¼ à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦–à¦¾à¦²à¦¿ à¦•à¦°à§‡ à¦¦à§‡à¦¯à¦¼à¥¤ à¦†à¦ªà¦¨à¦¾à¦° à¦•à¦¾à¦°à§à¦¡ à¦¨à¦®à§à¦¬à¦° à¦¸à¦‚à¦°à¦•à§à¦·à¦¿à¦¤ à¦¨à¦¾ à¦¥à¦¾à¦•à¦²à§‡, à¦†à¦ªà¦¨à¦¿ à¦¸à§‡à¦—à§à¦²à§‹ à¦à¦¤ à¦¦à§à¦°à§à¦¤ à¦¬à§à¦²à¦• à¦•à¦°à¦¤à§‡ à¦ªà¦¾à¦°à¦¬à§‡à¦¨ à¦¨à¦¾à¥¤ BlockMyCard à¦ªà§à¦°à¦¤à¦¿à¦Ÿà¦¿ à¦•à¦¾à¦°à§à¦¡ à¦¨à¦®à§à¦¬à¦° à¦à¦• à¦œà¦¾à¦¯à¦¼à¦—à¦¾à¦¯à¦¼ à¦°à¦¾à¦–à§‡, à¦¯à¦¾à¦¤à§‡ à¦†à¦ªà¦¨à¦¿ à¦¦à§à¦°à§à¦¤ à¦¬à§à¦¯à¦¬à¦¸à§à¦¥à¦¾ à¦¨à¦¿à¦¤à§‡ à¦ªà¦¾à¦°à§‡à¦¨à¥¤\", te:\"à°®à±‹à°¸à°—à°¾à°³à±à°²à± à°¸à°—à°Ÿà± à°­à°¾à°°à°¤à±€à°¯ à°–à°¾à°¤à°¾à°¨à± 4 à°¨à°¿à°®à°¿à°·à°¾à°²à±à°²à±‹à°ªà±‡ à°–à°¾à°³à±€ à°šà±‡à°¸à±à°¤à°¾à°°à±. à°®à±€ à°•à°¾à°°à±à°¡à± à°¨à°‚à°¬à°°à±à°²à± à°¸à±‡à°µà± à°šà±‡à°¯à°•à°ªà±‹à°¤à±‡, à°®à±€à°°à± à°µà°¾à°Ÿà°¿à°¨à°¿ à°…à°‚à°¤ à°µà±‡à°—à°‚à°—à°¾ à°¬à±à°²à°¾à°•à± à°šà±‡à°¯à°²à±‡à°°à±. BlockMyCard à°ªà±à°°à°¤à°¿ à°•à°¾à°°à±à°¡à± à°¨à°‚à°¬à°°à±â€Œà°¨à± à°’à°•à±‡ à°šà±‹à°Ÿ à°‰à°‚à°šà±à°¤à±à°‚à°¦à°¿, à°¤à°¦à±à°µà°¾à°°à°¾ à°®à±€à°°à± à°µà±‡à°—à°‚à°—à°¾ à°šà°°à±à°¯ à°¤à±€à°¸à±à°•à±‹à°µà°šà±à°šà±.\", ta:\"à®®à¯‹à®šà®Ÿà®¿ à®šà¯†à®¯à¯à®ªà®µà®°à¯à®•à®³à¯ à®šà®°à®¾à®šà®°à®¿ à®‡à®¨à¯à®¤à®¿à®¯ à®•à®£à®•à¯à®•à¯ˆ 4 à®¨à®¿à®®à®¿à®Ÿà®™à¯à®•à®³à¯à®•à¯à®•à¯à®³à¯ à®•à®¾à®²à®¿ à®šà¯†à®¯à¯à®•à®¿à®±à®¾à®°à¯à®•à®³à¯. à®‰à®™à¯à®•à®³à¯ à®•à®¾à®°à¯à®Ÿà¯ à®Žà®£à¯à®•à®³à¯ à®šà¯‡à®®à®¿à®•à¯à®•à®ªà¯à®ªà®Ÿà®¾à®µà®¿à®Ÿà¯à®Ÿà®¾à®²à¯, à®…à®µà®±à¯à®±à¯ˆ à®…à®µà¯à®µà®³à®µà¯ à®µà®¿à®°à¯ˆà®µà®¾à®• à®®à¯à®Ÿà®•à¯à®• à®®à¯à®Ÿà®¿à®¯à®¾à®¤à¯. BlockMyCard à®’à®µà¯à®µà¯Šà®°à¯ à®•à®¾à®°à¯à®Ÿà¯ à®Žà®£à¯à®£à¯ˆà®¯à¯à®®à¯ à®’à®°à¯‡ à®‡à®Ÿà®¤à¯à®¤à®¿à®²à¯ à®µà¯ˆà®¤à¯à®¤à®¿à®°à¯à®•à¯à®•à®¿à®±à®¤à¯, à®‡à®¤à®©à®¾à®²à¯ à®¨à¯€à®™à¯à®•à®³à¯ à®µà®¿à®°à¯ˆà®µà®¾à®• à®šà¯†à®¯à®²à¯à®ªà®Ÿ à®®à¯à®Ÿà®¿à®¯à¯à®®à¯.\", kn:\"à²®à³‹à²¸à²—à²¾à²°à²°à³ à²¸à²°à²¾à²¸à²°à²¿ à²­à²¾à²°à²¤à³€à²¯ à²–à²¾à²¤à³†à²¯à²¨à³à²¨à³ 4 à²¨à²¿à²®à²¿à²·à²—à²³à²¿à²—à²¿à²‚à²¤ à²•à²¡à²¿à²®à³† à²¸à²®à²¯à²¦à²²à³à²²à²¿ à²–à²¾à²²à²¿ à²®à²¾à²¡à³à²¤à³à²¤à²¾à²°à³†. à²¨à²¿à²®à³à²® à²•à²¾à²°à³à²¡à³ à²¸à²‚à²–à³à²¯à³†à²—à²³à²¨à³à²¨à³ à²‰à²³à²¿à²¸à²¦à²¿à²¦à³à²¦à²°à³†, à²¨à³€à²µà³ à²…à²µà³à²—à²³à²¨à³à²¨à³ à²…à²·à³à²Ÿà³ à²¬à³‡à²— à²¬à³à²²à²¾à²•à³ à²®à²¾à²¡à²²à³ à²¸à²¾à²§à³à²¯à²µà²¿à²²à³à²². BlockMyCard à²ªà³à²°à²¤à²¿ à²•à²¾à²°à³à²¡à³ à²¸à²‚à²–à³à²¯à³†à²¯à²¨à³à²¨à³ à²’à²‚à²¦à³‡ à²¸à³à²¥à²³à²¦à²²à³à²²à²¿ à²‡à²°à²¿à²¸à³à²¤à³à²¤à²¦à³†, à²‡à²¦à²°à²¿à²‚à²¦ à²¨à³€à²µà³ à²µà³‡à²—à²µà²¾à²—à²¿ à²•à³à²°à²® à²¤à³†à²—à³†à²¦à³à²•à³Šà²³à³à²³à²¬à²¹à³à²¦à³.\", or:\"à¬ à¬•à¬®à¬¾à¬¨à­‡ à¬¹à¬¾à¬°à¬¾à¬¹à¬¾à¬°à¬¿ à¬­à¬¾à¬°à¬¤à­€à­Ÿ à¬–à¬¾à¬¤à¬¾à¬•à­ 4 à¬®à¬¿à¬¨à¬¿à¬Ÿà¬°à­ à¬•à¬®à­ à¬¸à¬®à­Ÿà¬°à­‡ à¬–à¬¾à¬²à¬¿ à¬•à¬°à¬¿à¬¦à¬¿à¬…à¬¨à­à¬¤à¬¿à¥¤ à¬†à¬ªà¬£à¬™à­à¬• à¬•à¬¾à¬°à­à¬¡ à¬¨à¬®à­à¬¬à¬°à¬—à­à¬¡à¬¼à¬¿à¬• à¬¸à­‡à¬­à­ à¬¨ à¬¥à¬¿à¬²à­‡, à¬†à¬ªà¬£ à¬¸à­‡à¬—à­à¬¡à¬¼à¬¿à¬•à­ à¬à¬¤à­‡ à¬¶à­€à¬˜à­à¬° à¬¬à­à¬²à¬•à­ à¬•à¬°à¬¿à¬ªà¬¾à¬°à¬¿à¬¬à­‡ à¬¨à¬¾à¬¹à¬¿à¬à¥¤ BlockMyCard à¬ªà­à¬°à¬¤à­à­Ÿà­‡à¬• à¬•à¬¾à¬°à­à¬¡ à¬¨à¬®à­à¬¬à¬°à¬•à­ à¬à¬•à¬¾ à¬¸à­à¬¥à¬¾à¬¨à¬°à­‡ à¬°à¬–à­‡, à¬¯à¬¾à¬¹à¬¾à¬«à¬³à¬°à­‡ à¬†à¬ªà¬£ à¬¶à­€à¬˜à­à¬° à¬•à¬¾à¬°à­à¬¯à­à­Ÿà¬¾à¬¨à­à¬·à­à¬ à¬¾à¬¨ à¬¨à­‡à¬‡à¬ªà¬¾à¬°à¬¿à¬¬à­‡à¥¤\", ml:\"à´¤à´Ÿàµà´Ÿà´¿à´ªàµà´ªàµà´•à´¾àµ¼ à´¶à´°à´¾à´¶à´°à´¿ à´‡à´¨àµà´¤àµà´¯àµ» à´…à´•àµà´•àµ—à´£àµà´Ÿàµ 4 à´®à´¿à´¨à´¿à´±àµà´±à´¿à´¨àµà´³àµà´³à´¿àµ½ à´•à´¾à´²à´¿à´¯à´¾à´•àµà´•àµà´¨àµà´¨àµ. à´¨à´¿à´™àµà´™à´³àµà´Ÿàµ† à´•à´¾àµ¼à´¡àµ à´¨à´®àµà´ªà´±àµà´•àµ¾ à´¸àµ‡à´µàµ à´šàµ†à´¯àµà´¤à´¿à´Ÿàµà´Ÿà´¿à´²àµà´²àµ†à´™àµà´•à´¿àµ½, à´…à´µ à´…à´¤àµà´° à´µàµ‡à´—à´¤àµà´¤à´¿àµ½ à´¬àµà´²àµ‹à´•àµà´•àµ à´šàµ†à´¯àµà´¯à´¾àµ» à´•à´´à´¿à´¯à´¿à´²àµà´². BlockMyCard à´Žà´²àµà´²à´¾ à´•à´¾àµ¼à´¡àµ à´¨à´®àµà´ªà´±àµà´‚ à´’à´°à´¿à´Ÿà´¤àµà´¤àµ à´¸àµ‚à´•àµà´·à´¿à´•àµà´•àµà´¨àµà´¨àµ, à´…à´¤à´¿à´¨à´¾àµ½ à´¨à´¿à´™àµà´™àµ¾à´•àµà´•àµ à´µàµ‡à´—à´¤àµà´¤à´¿àµ½ à´¨à´Ÿà´ªà´Ÿà´¿à´¯àµ†à´Ÿàµà´•àµà´•à´¾à´‚.\" },\r\n  \"hero.cta1\":           { en:\"Register Free \\u2014 60 Seconds \\u2192\", hi:\"\\u092e\\u0941\\u092b\\u093c\\u094d\\u0924 \\u0930\\u091c\\u093f\\u0938\\u094d\\u091f\\u0930 \\u0915\\u0930\\u0947\\u0902 \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0921 \\u2192\", mr:\"\\u092e\\u094b\\u092b\\u0924 \\u0928\\u094b\\u0902\\u0926\\u0923\\u0940 \\u0915\\u0930\\u093e \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0926 \\u2192\", gu:\"\\u0aae\\u0aab\\u0aa4 \\u0aa8\\u0acb\\u0a82\\u0aa7\\u0aa3\\u0ac0 \\u0a95\\u0ab0\\u0acb \\u2014 60 \\u0ab8\\u0ac7\\u0a95\\u0aa8\\u0acd\\u0aa1 \\u2192\", bn:\"\\u09ac\\u09bf\\u09a8\\u09be\\u09ae\\u09c2\\u09b2\\u09cd\\u09af\\u09c7 \\u09a8\\u09bf\\u09ac\\u09a8\\u09cd\\u09a7\\u09a8 \\u0995\\u09b0\\u09c1\\u09a8 \\u2014 \\u09ec\\u09e6 \\u09b8\\u09c7\\u0995\\u09c7\\u09a8\\u09cd\\u09a1 \\u2192\", te:\"\\u0c09\\u0c1a\\u0c3f\\u0c24\\u0c02\\u0c17\\u0c3e \\u0c28\\u0c2e\\u0c4b\\u0c26\\u0c41 \\u0c1a\\u0c47\\u0c38\\u0c41\\u0c15\\u0c4b\\u0c02\\u0c21\\u0c3f \\u2014 60 \\u0c38\\u0c46\\u0c15\\u0c28\\u0c4d\\u0c32\\u0c41 \\u2192\", ta:\"\\u0b87\\u0bb2\\u0bb5\\u0b9a\\u0bae\\u0bbe\\u0b95 \\u0baa\\u0ba4\\u0bbf\\u0bb5\\u0bc1 \\u0b9a\\u0bc6\\u0baf\\u0bcd\\u0baf\\u0bc1\\u0b99\\u0bcd\\u0b95\\u0bb3\\u0bcd \\u2014 60 \\u0bb5\\u0bbf\\u0ba9\\u0bbe\\u0b9f\\u0bbf\\u0b95\\u0bb3\\u0bcd \\u2192\", kn:\"\\u0c89\\u0c9a\\u0cbf\\u0ca4\\u0cb5\\u0cbe\\u0c97\\u0cbf \\u0ca8\\u0ccb\\u0c82\\u0ca6\\u0cbe\\u0caf\\u0cbf\\u0cb8\\u0cbf \\u2014 60 \\u0cb8\\u0cc6\\u0c95\\u0cc6\\u0c82\\u0ca1\\u0cc1\\u0c97\\u0cb3\\u0cc1 \\u2192\", or:\"\\u0b2e\\u0b3e\\u0b17\\u0b23\\u0b3e\\u0b30\\u0b47 \\u0b2a\\u0b1e\\u0b4d\\u0b1c\\u0b40\\u0b15\\u0b30\\u0b23 \\u0b15\\u0b30\\u0b28\\u0b4d\\u0b24\\u0b41 \\u2014 60 \\u0b38\\u0b47\\u0b15\\u0b47\\u0b23\\u0b4d\\u0b21 \\u2192\", ml:\"\\u0d38\\u0d57\\u0d1c\\u0d28\\u0d4d\\u0d2f\\u0d2e\\u0d3e\\u0d2f\\u0d3f \\u0d30\\u0d1c\\u0d3f\\u0d38\\u0d4d\\u0d31\\u0d4d\\u0d31\\u0d7c \\u0d1a\\u0d46\\u0d2f\\u0d4d\\u0d2f\\u0d41\\u0d15 \\u2014 60 \\u0d38\\u0d46\\u0d15\\u0d4d\\u0d15\\u0d7b\\u0d21\\u0d4d \\u2192\" },\r\n  \"hero.cta2\":           { en:\"Block your card\", hi:\"à¤…à¤ªà¤¨à¤¾ à¤•à¤¾à¤°à¥à¤¡ à¤¬à¥à¤²à¥‰à¤• à¤•à¤°à¥‡à¤‚\", mr:\"à¤¤à¥à¤®à¤šà¥‡ à¤•à¤¾à¤°à¥à¤¡ à¤¬à¥à¤²à¥‰à¤• à¤•à¤°à¤¾\", gu:\"àª¤àª®àª¾àª°à«àª‚ àª•àª¾àª°à«àª¡ àª¬à«àª²à«‹àª• àª•àª°à«‹\", bn:\"à¦†à¦ªà¦¨à¦¾à¦° à¦•à¦¾à¦°à§à¦¡ à¦¬à§à¦²à¦• à¦•à¦°à§à¦¨\", te:\"à°®à±€ à°•à°¾à°°à±à°¡à±â€Œà°¨à± à°¬à±à°²à°¾à°•à± à°šà±‡à°¯à°‚à°¡à°¿\", ta:\"à®‰à®™à¯à®•à®³à¯ à®•à®¾à®°à¯à®Ÿà¯ˆ à®®à¯à®Ÿà®•à¯à®•à¯à®™à¯à®•à®³à¯\", kn:\"à²¨à²¿à²®à³à²® à²•à²¾à²°à³à²¡à³ à²¬à³à²²à²¾à²•à³ à²®à²¾à²¡à²¿\", or:\"à¬†à¬ªà¬£à¬™à­à¬• à¬•à¬¾à¬°à­à¬¡ à¬¬à­à¬²à¬•à­ à¬•à¬°à¬¨à­à¬¤à­\", ml:\"à´¨à´¿à´™àµà´™à´³àµà´Ÿàµ† à´•à´¾àµ¼à´¡àµ à´¬àµà´²àµ‹à´•àµà´•àµ à´šàµ†à´¯àµà´¯àµà´•\" },\r\n  \"pill.free\":           { en:\"Free\", hi:\"à¤®à¥à¤«à¤¼à¥à¤¤\", mr:\"à¤®à¥‹à¤«à¤¤\", gu:\"àª®àª«àª¤\", bn:\"à¦¬à¦¿à¦¨à¦¾à¦®à§‚à¦²à§à¦¯à§‡\", te:\"à°‰à°šà°¿à°¤à°‚\", ta:\"à®‡à®²à®µà®šà®®à¯\", kn:\"à²‰à²šà²¿à²¤\", or:\"à¬®à¬¾à¬—à¬£à¬¾\", ml:\"à´¸àµ—à´œà´¨àµà´¯à´‚\" },\r\n  \"pill.banks\":          { en:\"For Indian banks\", hi:\"à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤¬à¥ˆà¤‚à¤•à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤\", mr:\"à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤¬à¤à¤•à¤¾à¤‚à¤¸à¤¾à¤ à¥€\", gu:\"àª­àª¾àª°àª¤à«€àª¯ àª¬à«‡àª‚àª•à«‹ àª®àª¾àªŸà«‡\", bn:\"à¦­à¦¾à¦°à¦¤à§€à¦¯à¦¼ à¦¬à§à¦¯à¦¾à¦‚à¦•à§‡à¦° à¦œà¦¨à§à¦¯\", te:\"à°­à°¾à°°à°¤à±€à°¯ à°¬à±à°¯à°¾à°‚à°•à±à°² à°•à±‹à°¸à°‚\", ta:\"à®‡à®¨à¯à®¤à®¿à®¯ à®µà®™à¯à®•à®¿à®•à®³à¯à®•à¯à®•à®¾à®•\", kn:\"à²­à²¾à²°à²¤à³€à²¯ à²¬à³à²¯à²¾à²‚à²•à³â€Œà²—à²³à²¿à²—à²¾à²—à²¿\", or:\"à¬­à¬¾à¬°à¬¤à­€à­Ÿ à¬¬à­à­Ÿà¬¾à¬™à­à¬• à¬ªà¬¾à¬‡à¬\", ml:\"à´‡à´¨àµà´¤àµà´¯àµ» à´¬à´¾à´™àµà´•àµà´•àµ¾à´•àµà´•à´¾à´¯à´¿\" },\r\n  \"pill.phone\":          { en:\"Any phone\", hi:\"à¤•à¤¿à¤¸à¥€ à¤­à¥€ à¤«à¤¼à¥‹à¤¨ à¤ªà¤°\", mr:\"à¤•à¥‹à¤£à¤¤à¥à¤¯à¤¾à¤¹à¥€ à¤«à¥‹à¤¨à¤µà¤°\", gu:\"àª•à«‹àªˆàªªàª£ àª«à«‹àª¨ àªªàª°\", bn:\"à¦¯à§‡à¦•à§‹à¦¨à§‹ à¦«à§‹à¦¨à§‡\", te:\"à° à°«à±‹à°¨à±â€Œà°²à±‹à°¨à±ˆà°¨à°¾\", ta:\"à®Žà®¨à¯à®¤ à®ƒà®ªà¯‹à®©à®¿à®²à¯à®®à¯\", kn:\"à²¯à²¾à²µà³à²¦à³‡ à²«à³‹à²¨à³â€Œà²¨à²²à³à²²à²¿\", or:\"à¬¯à­‡à¬•à­Œà¬£à¬¸à¬¿ à¬«à­‹à¬¨à¬°à­‡\", ml:\"à´à´¤àµ à´«àµ‹à´£à´¿à´²àµà´‚\" },\r\n  \"pill.all\":            { en:\"All cards protected\", hi:\"à¤¸à¤­à¥€ à¤•à¤¾à¤°à¥à¤¡ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤\", mr:\"à¤¸à¤°à¥à¤µ à¤•à¤¾à¤°à¥à¤¡ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤\", gu:\"àª¤àª®àª¾àª® àª•àª¾àª°à«àª¡ àª¸à«àª°àª•à«àª·àª¿àª¤\", bn:\"à¦¸à¦¬ à¦•à¦¾à¦°à§à¦¡ à¦¸à§à¦°à¦•à§à¦·à¦¿à¦¤\", te:\"à°…à°¨à±à°¨à°¿ à°•à°¾à°°à±à°¡à±à°²à± à°°à°•à±à°·à°¿à°¤à°‚\", ta:\"à®…à®©à¯ˆà®¤à¯à®¤à¯ à®•à®¾à®°à¯à®Ÿà¯à®•à®³à¯à®®à¯ à®ªà®¾à®¤à¯à®•à®¾à®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®®à¯\", kn:\"à²Žà²²à³à²²à²¾ à²•à²¾à²°à³à²¡à³â€Œà²—à²³à³ à²¸à³à²°à²•à³à²·à²¿à²¤\", or:\"à¬¸à¬®à¬¸à­à¬¤ à¬•à¬¾à¬°à­à¬¡ à¬¸à­à¬°à¬•à­à¬·à¬¿à¬¤\", ml:\"à´Žà´²àµà´²à´¾ à´•à´¾àµ¼à´¡àµà´•à´³àµà´‚ à´¸àµà´°à´•àµà´·à´¿à´¤à´‚\" },\r\n  \"urgency.title\":       { en:\"Fraud in India is rising sharply.\", hi:\"à¤­à¤¾à¤°à¤¤ à¤®à¥‡à¤‚ à¤§à¥‹à¤–à¤¾à¤§à¤¡à¤¼à¥€ à¤¤à¥‡à¤œà¤¼à¥€ à¤¸à¥‡ à¤¬à¤¢à¤¼ à¤°à¤¹à¥€ à¤¹à¥ˆà¥¤\", mr:\"à¤­à¤¾à¤°à¤¤à¤¾à¤¤ à¤«à¤¸à¤µà¤£à¥‚à¤• à¤à¤ªà¤¾à¤Ÿà¥à¤¯à¤¾à¤¨à¥‡ à¤µà¤¾à¤¢à¤¤ à¤†à¤¹à¥‡.\", gu:\"àª­àª¾àª°àª¤àª®àª¾àª‚ àª›à«‡àª¤àª°àªªàª¿àª‚àª¡à«€ àªàª¡àªªàª¥à«€ àªµàª§à«€ àª°àª¹à«€ àª›à«‡.\", bn:\"à¦­à¦¾à¦°à¦¤à§‡ à¦œà¦¾à¦²à¦¿à¦¯à¦¼à¦¾à¦¤à¦¿ à¦¦à§à¦°à§à¦¤ à¦¬à¦¾à¦¡à¦¼à¦›à§‡à¥¤\", te:\"à°­à°¾à°°à°¤à°¦à±‡à°¶à°‚à°²à±‹ à°®à±‹à°¸à°¾à°²à± à°µà±‡à°—à°‚à°—à°¾ à°ªà±†à°°à±à°—à±à°¤à±à°¨à±à°¨à°¾à°¯à°¿.\", ta:\"à®‡à®¨à¯à®¤à®¿à®¯à®¾à®µà®¿à®²à¯ à®®à¯‹à®šà®Ÿà®¿ à®µà¯‡à®•à®®à®¾à®• à®…à®¤à®¿à®•à®°à®¿à®¤à¯à®¤à¯ à®µà®°à¯à®•à®¿à®±à®¤à¯.\", kn:\"à²­à²¾à²°à²¤à²¦à²²à³à²²à²¿ à²µà²‚à²šà²¨à³† à²µà³‡à²—à²µà²¾à²—à²¿ à²¹à³†à²šà³à²šà³à²¤à³à²¤à²¿à²¦à³†.\", or:\"à¬­à¬¾à¬°à¬¤à¬°à­‡ à¬ à¬•à­‡à¬‡ à¬¦à­à¬°à­à¬¤ à¬—à¬¤à¬¿à¬°à­‡ à¬¬à¬¢à­à¬›à¬¿à¥¤\", ml:\"à´‡à´¨àµà´¤àµà´¯à´¯à´¿àµ½ à´¤à´Ÿàµà´Ÿà´¿à´ªàµà´ªàµ à´…à´¤à´¿à´µàµ‡à´—à´‚ à´µàµ¼à´¦àµà´§à´¿à´•àµà´•àµà´¨àµà´¨àµ.\" },\r\n  \"urgency.sub\":         { en:\"Official RBI, NCRB & I4C data \\u2014 sourced from published annual reports.\", hi:\"à¤†à¤§à¤¿à¤•à¤¾à¤°à¤¿à¤• RBI, NCRB à¤”à¤° I4C à¤¡à¥‡à¤Ÿà¤¾ \\u2014 à¤ªà¥à¤°à¤•à¤¾à¤¶à¤¿à¤¤ à¤µà¤¾à¤°à¥à¤·à¤¿à¤• à¤°à¤¿à¤ªà¥‹à¤°à¥à¤Ÿà¥‹à¤‚ à¤¸à¥‡à¥¤\", mr:\"à¤…à¤§à¤¿à¤•à¥ƒà¤¤ RBI, NCRB à¤µ I4C à¤¡à¥‡à¤Ÿà¤¾ \\u2014 à¤ªà¥à¤°à¤•à¤¾à¤¶à¤¿à¤¤ à¤µà¤¾à¤°à¥à¤·à¤¿à¤• à¤…à¤¹à¤µà¤¾à¤²à¤¾à¤‚à¤µà¤°à¥‚à¤¨.\", gu:\"àª¸àª¤à«àª¤àª¾àªµàª¾àª° RBI, NCRB àª…àª¨à«‡ I4C àª¡à«‡àªŸàª¾ \\u2014 àªªà«àª°àª•àª¾àª¶àª¿àª¤ àªµàª¾àª°à«àª·àª¿àª• àª…àª¹à«‡àªµàª¾àª²à«‹àª®àª¾àª‚àª¥à«€.\", bn:\"à¦¸à¦°à¦•à¦¾à¦°à¦¿ RBI, NCRB à¦“ I4C à¦¡à§‡à¦Ÿà¦¾ \\u2014 à¦ªà§à¦°à¦•à¦¾à¦¶à¦¿à¦¤ à¦¬à¦¾à¦°à§à¦·à¦¿à¦• à¦ªà§à¦°à¦¤à¦¿à¦¬à§‡à¦¦à¦¨ à¦¥à§‡à¦•à§‡à¥¤\", te:\"à°…à°§à°¿à°•à°¾à°°à°¿à°• RBI, NCRB à°®à°°à°¿à°¯à± I4C à°¡à±‡à°Ÿà°¾ \\u2014 à°ªà±à°°à°šà±à°°à°¿à°‚à°šà°¿à°¨ à°µà°¾à°°à±à°·à°¿à°• à°¨à°¿à°µà±‡à°¦à°¿à°•à°² à°¨à±à°‚à°¡à°¿.\", ta:\"à®…à®¤à®¿à®•à®¾à®°à®ªà¯à®ªà¯‚à®°à¯à®µ RBI, NCRB à®®à®±à¯à®±à¯à®®à¯ I4C à®¤à®°à®µà¯ \\u2014 à®µà¯†à®³à®¿à®¯à®¿à®Ÿà®ªà¯à®ªà®Ÿà¯à®Ÿ à®†à®£à¯à®Ÿà¯ à®…à®±à®¿à®•à¯à®•à¯ˆà®•à®³à®¿à®²à®¿à®°à¯à®¨à¯à®¤à¯.\", kn:\"à²…à²§à²¿à²•à³ƒà²¤ RBI, NCRB à²®à²¤à³à²¤à³ I4C à²¡à³‡à²Ÿà²¾ \\u2014 à²ªà³à²°à²•à²Ÿà²¿à²¤ à²µà²¾à²°à³à²·à²¿à²• à²µà²°à²¦à²¿à²—à²³à²¿à²‚à²¦.\", or:\"à¬¸à¬°à¬•à¬¾à¬°à­€ RBI, NCRB à¬“ I4C à¬¤à¬¥à­à­Ÿ \\u2014 à¬ªà­à¬°à¬•à¬¾à¬¶à¬¿à¬¤ à¬¬à¬¾à¬°à­à¬·à¬¿à¬• à¬°à¬¿à¬ªà­‹à¬°à­à¬Ÿà¬°à­à¥¤\", ml:\"à´”à´¦àµà´¯àµ‹à´—à´¿à´• RBI, NCRB, I4C à´¡à´¾à´±àµà´± \\u2014 à´ªàµà´°à´¸à´¿à´¦àµà´§àµ€à´•à´°à´¿à´šàµà´š à´µà´¾àµ¼à´·à´¿à´• à´±à´¿à´ªàµà´ªàµ‹àµ¼à´Ÿàµà´Ÿàµà´•à´³à´¿àµ½ à´¨à´¿à´¨àµà´¨àµ.\" },\r\n  \"features.title\":      { en:\"Peace of mind, in one tap\", hi:\"à¤à¤• à¤Ÿà¥ˆà¤ª à¤®à¥‡à¤‚ à¤®à¤¨ à¤•à¥€ à¤¶à¤¾à¤‚à¤¤à¤¿\", mr:\"à¤à¤•à¤¾ à¤Ÿà¥…à¤ªà¤®à¤§à¥à¤¯à¥‡ à¤®à¤¨à¤ƒà¤¶à¤¾à¤‚à¤¤à¥€\", gu:\"àªàª• àªŸà«…àªªàª®àª¾àª‚ àª®àª¾àª¨àª¸àª¿àª• àª¶àª¾àª‚àª¤àª¿\", bn:\"à¦à¦• à¦Ÿà§à¦¯à¦¾à¦ªà§‡ à¦®à¦¨à§‡à¦° à¦¶à¦¾à¦¨à§à¦¤à¦¿\", te:\"à°’à°•à±à°• à°Ÿà±à°¯à°¾à°ªà±â€Œà°²à±‹ à°®à°¨à°¶à±à°¶à°¾à°‚à°¤à°¿\", ta:\"à®’à®°à¯‡ à®¤à®Ÿà¯à®Ÿà®¿à®²à¯ à®®à®© à®…à®®à¯ˆà®¤à®¿\", kn:\"à²’à²‚à²¦à³‡ à²Ÿà³à²¯à²¾à²ªà³â€Œà²¨à²²à³à²²à²¿ à²®à²¨à²¶à³à²¶à²¾à²‚à²¤à²¿\", or:\"à¬à¬• à¬Ÿà­à­Ÿà¬¾à¬ªà¬°à­‡ à¬®à¬¾à¬¨à¬¸à¬¿à¬• à¬¶à¬¾à¬¨à­à¬¤à¬¿\", ml:\"à´’à´±àµà´± à´Ÿà´¾à´ªàµà´ªà´¿àµ½ à´®à´¨à´¸àµà´¸à´®à´¾à´§à´¾à´¨à´‚\" },\r\n  \"features.sub\":        { en:\"Everything you need before, during, and after a loss.\", hi:\"à¤¨à¥à¤•à¤¸à¤¾à¤¨ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡, à¤¦à¥Œà¤°à¤¾à¤¨ à¤”à¤° à¤¬à¤¾à¤¦ à¤®à¥‡à¤‚ à¤†à¤ªà¤•à¥‹ à¤œà¥‹ à¤•à¥à¤› à¤šà¤¾à¤¹à¤¿à¤, à¤µà¤¹ à¤¸à¤¬à¥¤\", mr:\"à¤¨à¥à¤•à¤¸à¤¾à¤¨à¥€à¤ªà¥‚à¤°à¥à¤µà¥€, à¤¦à¤°à¤®à¥à¤¯à¤¾à¤¨ à¤†à¤£à¤¿ à¤¨à¤‚à¤¤à¤° à¤²à¤¾à¤—à¤£à¤¾à¤°à¥‡ à¤¸à¤°à¥à¤µ à¤•à¤¾à¤¹à¥€.\", gu:\"àª¨à«àª•àª¸àª¾àª¨ àªªàª¹à«‡àª²àª¾àª‚, àª¦àª°àª®àª¿àª¯àª¾àª¨ àª…àª¨à«‡ àªªàª›à«€ àª¤àª®àª¨à«‡ àªœà«‹àªˆàª¤à«àª‚ àª¬àª§à«àª‚.\", bn:\"à¦•à§à¦·à¦¤à¦¿à¦° à¦†à¦—à§‡, à¦¸à¦®à¦¯à¦¼ à¦à¦¬à¦‚ à¦ªà¦°à§‡ à¦†à¦ªà¦¨à¦¾à¦° à¦¯à¦¾ à¦•à¦¿à¦›à§ à¦ªà§à¦°à¦¯à¦¼à§‹à¦œà¦¨à¥¤\", te:\"à°¨à°·à±à°Ÿà°¾à°¨à°¿à°•à°¿ à°®à±à°‚à°¦à±, à°¸à°®à°¯à°‚à°²à±‹ à°®à°°à°¿à°¯à± à°¤à°°à±à°µà°¾à°¤ à°®à±€à°•à± à°•à°¾à°µà°¾à°²à±à°¸à°¿à°¨à°µà°¨à±à°¨à±€.\", ta:\"à®‡à®´à®ªà¯à®ªà¯à®•à¯à®•à¯ à®®à¯à®©à¯, à®ªà¯‹à®¤à¯ à®®à®±à¯à®±à¯à®®à¯ à®ªà®¿à®©à¯ à®‰à®™à¯à®•à®³à¯à®•à¯à®•à¯à®¤à¯ à®¤à¯‡à®µà¯ˆà®¯à®¾à®© à®…à®©à¯ˆà®¤à¯à®¤à¯à®®à¯.\", kn:\"à²¨à²·à³à²Ÿà²•à³à²•à³‚ à²®à³Šà²¦à²²à³, à²¸à²®à²¯à²¦à²²à³à²²à²¿ à²®à²¤à³à²¤à³ à²¨à²‚à²¤à²° à²¨à²¿à²®à²—à³† à²¬à³‡à²•à²¾à²¦ à²Žà²²à³à²²à²µà³‚.\", or:\"à¬•à­à¬·à¬¤à¬¿ à¬ªà­‚à¬°à­à¬¬à¬°à­, à¬¸à¬®à­Ÿà¬°à­‡ à¬à¬¬à¬‚ à¬ªà¬°à­‡ à¬†à¬ªà¬£à¬™à­à¬•à­ à¬†à¬¬à¬¶à­à­Ÿà¬• à¬¸à¬¬à­à¬•à¬¿à¬›à¬¿à¥¤\", ml:\"à´¨à´·àµà´Ÿà´¤àµà´¤à´¿à´¨àµ à´®àµà´®àµà´ªàµà´‚ à´¸à´®à´¯à´¤àµà´¤àµà´‚ à´¶àµ‡à´·à´µàµà´‚ à´¨à´¿à´™àµà´™àµ¾à´•àµà´•àµ à´µàµ‡à´£àµà´Ÿà´¤àµ†à´²àµà´²à´¾à´‚.\" },\r\n  \"how.title\":           { en:\"How BlockMyCard works\", hi:\"BlockMyCard à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ\", mr:\"BlockMyCard à¤•à¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¥‡\", gu:\"BlockMyCard àª•à«‡àªµà«€ àª°à«€àª¤à«‡ àª•àª¾àª® àª•àª°à«‡ àª›à«‡\", bn:\"BlockMyCard à¦•à§€à¦­à¦¾à¦¬à§‡ à¦•à¦¾à¦œ à¦•à¦°à§‡\", te:\"BlockMyCard à°Žà°²à°¾ à°ªà°¨à°¿à°šà±‡à°¸à±à°¤à±à°‚à°¦à°¿\", ta:\"BlockMyCard à®Žà®ªà¯à®ªà®Ÿà®¿ à®šà¯†à®¯à®²à¯à®ªà®Ÿà¯à®•à®¿à®±à®¤à¯\", kn:\"BlockMyCard à²¹à³‡à²—à³† à²•à³†à²²à²¸ à²®à²¾à²¡à³à²¤à³à²¤à²¦à³†\", or:\"BlockMyCard à¬•à¬¿à¬ªà¬°à¬¿ à¬•à¬¾à¬® à¬•à¬°à­‡\", ml:\"BlockMyCard à´Žà´™àµà´™à´¨àµ† à´ªàµà´°à´µàµ¼à´¤àµà´¤à´¿à´•àµà´•àµà´¨àµà´¨àµ\" },\r\n  \"trust.title\":         { en:\"Built to help, not to oversell\", hi:\"à¤®à¤¦à¤¦ à¤•à¥‡ à¤²à¤¿à¤ à¤¬à¤¨à¤¾, à¤œà¤¼à¥à¤¯à¤¾à¤¦à¤¾ à¤¬à¥‡à¤šà¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤¨à¤¹à¥€à¤‚\", mr:\"à¤®à¤¦à¤¤à¥€à¤¸à¤¾à¤ à¥€ à¤¬à¤¨à¤µà¤²à¥‡à¤²à¥‡, à¤œà¤¾à¤¸à¥à¤¤ à¤µà¤¿à¤•à¤£à¥à¤¯à¤¾à¤¸à¤¾à¤ à¥€ à¤¨à¤¾à¤¹à¥€\", gu:\"àª®àª¦àª¦ àª®àª¾àªŸà«‡ àª¬àª¨àª¾àªµà«‡àª²à«àª‚, àªµàª§à« àªµà«‡àªšàªµàª¾ àª®àª¾àªŸà«‡ àª¨àª¹à«€àª‚\", bn:\"à¦¸à¦¾à¦¹à¦¾à¦¯à§à¦¯à§‡à¦° à¦œà¦¨à§à¦¯ à¦¤à§ˆà¦°à¦¿, à¦¬à§‡à¦¶à¦¿ à¦¬à¦¿à¦•à§à¦°à¦¿à¦° à¦œà¦¨à§à¦¯ à¦¨à¦¯à¦¼\", te:\"à°¸à°¹à°¾à°¯à°‚ à°•à±‹à°¸à°‚ à°°à±‚à°ªà±Šà°‚à°¦à°¿à°‚à°šà°¬à°¡à°¿à°‚à°¦à°¿, à°Žà°•à±à°•à±à°µà°—à°¾ à°…à°®à±à°®à°¡à°¾à°¨à°¿à°•à°¿ à°•à°¾à°¦à±\", ta:\"à®‰à®¤à®µà¯à®µà®¤à®±à¯à®•à®¾à®• à®‰à®°à¯à®µà®¾à®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®Ÿà®¤à¯, à®…à®¤à®¿à®•à®®à®¾à®• à®µà®¿à®±à¯à®ªà®¤à®±à¯à®•à®¾à®• à®…à®²à¯à®²\", kn:\"à²¸à²¹à²¾à²¯à²•à³à²•à²¾à²—à²¿ à²°à³‚à²ªà²¿à²¸à²²à²¾à²—à²¿à²¦à³†, à²¹à³†à²šà³à²šà³ à²®à²¾à²°à²¾à²Ÿà²•à³à²•à²¾à²—à²¿ à²…à²²à³à²²\", or:\"à¬¸à¬¾à¬¹à¬¾à¬¯à­à­Ÿ à¬ªà¬¾à¬‡à¬ à¬¤à¬¿à¬†à¬°à¬¿, à¬…à¬§à¬¿à¬• à¬¬à¬¿à¬•à­à¬°à¬¿ à¬ªà¬¾à¬‡à¬ à¬¨à­à¬¹à­‡à¬\", ml:\"à´¸à´¹à´¾à´¯à´¿à´•àµà´•à´¾àµ» à´µàµ‡à´£àµà´Ÿà´¿ à´¨à´¿àµ¼à´®àµà´®à´¿à´šàµà´šà´¤àµ, à´•àµ‚à´Ÿàµà´¤àµ½ à´µà´¿àµ½à´•àµà´•à´¾àµ» à´µàµ‡à´£àµà´Ÿà´¿à´¯à´²àµà´²\" },\r\n  \"register.eyebrow\":    { en:\"Don\\u2019t be a statistic\", hi:\"à¤†à¤à¤•à¤¡à¤¼à¤¾ à¤¨ à¤¬à¤¨à¥‡à¤‚\", mr:\"à¤†à¤•à¤¡à¥‡à¤µà¤¾à¤°à¥€ à¤¬à¤¨à¥‚ à¤¨à¤•à¤¾\", gu:\"àª†àª‚àª•àª¡à«‹ àª¨ àª¬àª¨à«‹\", bn:\"à¦ªà¦°à¦¿à¦¸à¦‚à¦–à§à¦¯à¦¾à¦¨ à¦¹à¦¬à§‡à¦¨ à¦¨à¦¾\", te:\"à°—à°£à°¾à°‚à°•à°‚à°—à°¾ à°®à°¾à°°à°µà°¦à±à°¦à±\", ta:\"à®ªà¯à®³à¯à®³à®¿à®µà®¿à®µà®°à®®à®¾à®• à®†à®•à®¿à®µà®¿à®Ÿà®¾à®¤à¯€à®°à¯à®•à®³à¯\", kn:\"à²…à²‚à²•à²¿à²…à²‚à²¶à²µà²¾à²—à²¬à³‡à²¡à²¿\", or:\"à¬ªà¬°à¬¿à¬¸à¬‚à¬–à­à­Ÿà¬¾à¬¨ à¬¹à­à¬…à¬¨à­à¬¤à­ à¬¨à¬¾à¬¹à¬¿à¬\", ml:\"à´’à´°àµ à´¸àµà´¥à´¿à´¤à´¿à´µà´¿à´µà´°à´•àµà´•à´£à´•àµà´•àµ à´†à´•à´°àµà´¤àµ\" },\r\n  \"register.title\":      { en:\"Don\\u2019t wait for the panic call. Register free \\u2014 right now.\", hi:\"à¤˜à¤¬à¤°à¤¾à¤¹à¤Ÿ à¤­à¤°à¥€ à¤•à¥‰à¤² à¤•à¤¾ à¤‡à¤‚à¤¤à¤œà¤¼à¤¾à¤° à¤¨ à¤•à¤°à¥‡à¤‚à¥¤ à¤…à¤­à¥€ à¤®à¥à¤«à¤¼à¥à¤¤ à¤°à¤œà¤¿à¤¸à¥à¤Ÿà¤° à¤•à¤°à¥‡à¤‚à¥¤\", mr:\"à¤˜à¤¾à¤¬à¤°à¤£à¥à¤¯à¤¾à¤šà¥à¤¯à¤¾ à¤•à¥‰à¤²à¤šà¥€ à¤µà¤¾à¤Ÿ à¤ªà¤¾à¤¹à¥‚ à¤¨à¤•à¤¾. à¤†à¤¤à¥à¤¤à¤¾à¤š à¤®à¥‹à¤«à¤¤ à¤¨à¥‹à¤‚à¤¦à¤£à¥€ à¤•à¤°à¤¾.\", gu:\"àª—àª­àª°àª¾àªŸàª¨àª¾ àª•à«‰àª²àª¨à«€ àª°àª¾àª¹ àª¨ àªœà«àª“. àª…àª¤à«àª¯àª¾àª°à«‡ àªœ àª®àª«àª¤ àª¨à«‹àª‚àª§àª£à«€ àª•àª°à«‹.\", bn:\"à¦†à¦¤à¦™à§à¦•à§‡à¦° à¦•à¦²à§‡à¦° à¦œà¦¨à§à¦¯ à¦…à¦ªà§‡à¦•à§à¦·à¦¾ à¦•à¦°à¦¬à§‡à¦¨ à¦¨à¦¾à¥¤ à¦à¦–à¦¨à¦‡ à¦¬à¦¿à¦¨à¦¾à¦®à§‚à¦²à§à¦¯à§‡ à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¨ à¦•à¦°à§à¦¨à¥¤\", te:\"à°­à°¯à°¾à°‚à°¦à±‹à°³à°¨ à°•à°¾à°²à± à°•à±‹à°¸à°‚ à°µà±‡à°šà°¿ à°‰à°‚à°¡à°•à°‚à°¡à°¿. à°‡à°ªà±à°ªà±à°¡à±‡ à°‰à°šà°¿à°¤à°‚à°—à°¾ à°¨à°®à±‹à°¦à± à°šà±‡à°¸à±à°•à±‹à°‚à°¡à°¿.\", ta:\"à®ªà¯€à®¤à®¿ à®…à®´à¯ˆà®ªà¯à®ªà¯à®•à¯à®•à®¾à®• à®•à®¾à®¤à¯à®¤à®¿à®°à¯à®•à¯à®• à®µà¯‡à®£à¯à®Ÿà®¾à®®à¯. à®‡à®ªà¯à®ªà¯‹à®¤à¯‡ à®‡à®²à®µà®šà®®à®¾à®• à®ªà®¤à®¿à®µà¯ à®šà¯†à®¯à¯à®¯à¯à®™à¯à®•à®³à¯.\", kn:\"à²†à²¤à²‚à²•à²¦ à²•à²°à³†à²—à²¾à²—à²¿ à²•à²¾à²¯à²¬à³‡à²¡à²¿. à²ˆà²—à²²à³‡ à²‰à²šà²¿à²¤à²µà²¾à²—à²¿ à²¨à³‹à²‚à²¦à²¾à²¯à²¿à²¸à²¿.\", or:\"à¬†à¬¤à¬™à­à¬•à¬¿à¬¤ à¬•à¬²à­ à¬ªà¬¾à¬‡à¬ à¬…à¬ªà­‡à¬•à­à¬·à¬¾ à¬•à¬°à¬¨à­à¬¤à­ à¬¨à¬¾à¬¹à¬¿à¬à¥¤ à¬¬à¬°à­à¬¤à­à¬¤à¬®à¬¾à¬¨ à¬®à¬¾à¬—à¬£à¬¾à¬°à­‡ à¬ªà¬žà­à¬œà­€à¬•à¬°à¬£ à¬•à¬°à¬¨à­à¬¤à­à¥¤\", ml:\"à´ªà´°à´¿à´­àµà´°à´¾à´¨àµà´¤ à´•àµ‹à´³à´¿à´¨à´¾à´¯à´¿ à´•à´¾à´¤àµà´¤à´¿à´°à´¿à´•àµà´•à´°àµà´¤àµ. à´‡à´ªàµà´ªàµ‹àµ¾ à´¤à´¨àµà´¨àµ† à´¸àµ—à´œà´¨àµà´¯à´®à´¾à´¯à´¿ à´°à´œà´¿à´¸àµà´±àµà´±àµ¼ à´šàµ†à´¯àµà´¯àµà´•.\" },\r\n  \"register.sub\":        { en:\"It takes 60 seconds. You\\u2019ll thank yourself the day something goes wrong.\", hi:\"60 à¤¸à¥‡à¤•à¤‚à¤¡ à¤²à¤—à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤ à¤œà¤¿à¤¸ à¤¦à¤¿à¤¨ à¤•à¥à¤› à¤—à¤²à¤¤ à¤¹à¥‹à¤—à¤¾, à¤†à¤ª à¤–à¥à¤¦ à¤•à¥‹ à¤§à¤¨à¥à¤¯à¤µà¤¾à¤¦ à¤¦à¥‡à¤‚à¤—à¥‡à¥¤\", mr:\"à¤¯à¤¾à¤¸à¤¾à¤ à¥€ à¤«à¤•à¥à¤¤ 60 à¤¸à¥‡à¤•à¤‚à¤¦ à¤²à¤¾à¤—à¤¤à¤¾à¤¤. à¤•à¤¾à¤¹à¥€ à¤šà¥‚à¤• à¤à¤¾à¤²à¥à¤¯à¤¾à¤µà¤° à¤¤à¥à¤®à¥à¤¹à¥€ à¤¸à¥à¤µà¤¤à¤ƒà¤šà¥‡ à¤†à¤­à¤¾à¤° à¤®à¤¾à¤¨à¤¾à¤².\", gu:\"àª¤à«‡àª®àª¾àª‚ àª«àª•à«àª¤ 60 àª¸à«‡àª•àª¨à«àª¡ àª²àª¾àª—à«‡ àª›à«‡. àªœà«‡ àª¦àª¿àªµàª¸à«‡ àª•àª‚àªˆàª• àª–à«‹àªŸà«àª‚ àª¥àª¾àª¯, àª¤à«àª¯àª¾àª°à«‡ àª¤àª®à«‡ àª¤àª®àª¾àª°à«‹ àªªà«‹àª¤àª¾àª¨à«‹ àª†àª­àª¾àª° àª®àª¾àª¨àª¶à«‹.\", bn:\"à¦à¦¤à§‡ à¦®à¦¾à¦¤à§à¦° à§¬à§¦ à¦¸à§‡à¦•à§‡à¦¨à§à¦¡ à¦²à¦¾à¦—à§‡à¥¤ à¦¯à§‡à¦¦à¦¿à¦¨ à¦•à¦¿à¦›à§ à¦­à§à¦² à¦¹à¦¬à§‡, à¦¸à§‡à¦¦à¦¿à¦¨ à¦†à¦ªà¦¨à¦¿ à¦¨à¦¿à¦œà§‡à¦•à§‡ à¦§à¦¨à§à¦¯à¦¬à¦¾à¦¦ à¦¦à§‡à¦¬à§‡à¦¨à¥¤\", te:\"à°¦à±€à°¨à°¿à°•à°¿ 60 à°¸à±†à°•à°¨à±à°²à± à°®à°¾à°¤à±à°°à°®à±‡ à°ªà°¡à±à°¤à±à°‚à°¦à°¿. à°à°¦à±ˆà°¨à°¾ à°¤à°ªà±à°ªà± à°œà°°à°¿à°—à°¿à°¨ à°°à±‹à°œà±, à°®à±€à°°à± à°®à±€à°•à±‡ à°•à±ƒà°¤à°œà±à°žà°¤à°²à± à°šà±†à°ªà±à°ªà±à°•à±à°‚à°Ÿà°¾à°°à±.\", ta:\"à®‡à®¤à®±à¯à®•à¯ 60 à®µà®¿à®©à®¾à®Ÿà®¿à®•à®³à¯ à®®à®Ÿà¯à®Ÿà¯à®®à¯‡ à®†à®•à¯à®®à¯. à®à®¤à®¾à®µà®¤à¯ à®¤à®µà®±à¯ à®¨à®Ÿà®•à¯à®•à¯à®®à¯ à®¨à®¾à®³à®¿à®²à¯, à®¨à¯€à®™à¯à®•à®³à¯‡ à®‰à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®¨à®©à¯à®±à®¿ à®šà¯Šà®²à¯à®µà¯€à®°à¯à®•à®³à¯.\", kn:\"à²‡à²¦à²•à³à²•à³† à²•à³‡à²µà²² 60 à²¸à³†à²•à³†à²‚à²¡à³à²—à²³à³ à²¬à³‡à²•à²¾à²—à³à²¤à³à²¤à²µà³†. à²à²¨à²¾à²¦à²°à³‚ à²¤à²ªà³à²ªà²¾à²¦ à²¦à²¿à²¨, à²¨à³€à²µà³ à²¨à²¿à²®à²—à³‡ à²§à²¨à³à²¯à²µà²¾à²¦ à²¹à³‡à²³à³à²¤à³à²¤à³€à²°à²¿.\", or:\"à¬à¬¥à¬¿à¬°à­‡ à¬•à­‡à¬¬à¬³ 60 à¬¸à­‡à¬•à­‡à¬£à­à¬¡ à¬²à¬¾à¬—à­‡à¥¤ à¬•à¬¿à¬›à¬¿ à¬­à­à¬² à¬¹à­‡à¬²à¬¾à¬¦à¬¿à¬¨, à¬†à¬ªà¬£ à¬¨à¬¿à¬œà¬•à­ à¬§à¬¨à­à­Ÿà¬¬à¬¾à¬¦ à¬¦à­‡à¬¬à­‡à¥¤\", ml:\"à´‡à´¤à´¿à´¨àµ 60 à´¸àµ†à´•àµà´•àµ»à´¡àµ à´®à´¾à´¤àµà´°à´®àµ‡ à´Žà´Ÿàµà´•àµà´•àµ‚. à´Žà´¨àµà´¤àµ†à´™àµà´•à´¿à´²àµà´‚ à´¤àµ†à´±àµà´±àµ à´¸à´‚à´­à´µà´¿à´•àµà´•àµà´¨àµà´¨ à´¦à´¿à´µà´¸à´‚, à´¨à´¿à´™àµà´™àµ¾ à´¸àµà´µà´¯à´‚ à´¨à´¨àµà´¦à´¿ à´ªà´±à´¯àµà´‚.\" },\r\n  \"footer.tag\":          { en:\"Made in India with \\uD83D\\uDC99 for every family, small business & senior citizen.\", hi:\"à¤¹à¤° à¤ªà¤°à¤¿à¤µà¤¾à¤°, à¤›à¥‹à¤Ÿà¥‡ à¤µà¥à¤¯à¤µà¤¸à¤¾à¤¯ à¤”à¤° à¤µà¤°à¤¿à¤·à¥à¤  à¤¨à¤¾à¤—à¤°à¤¿à¤• à¤•à¥‡ à¤²à¤¿à¤ \\uD83D\\uDC99 à¤•à¥‡ à¤¸à¤¾à¤¥ à¤­à¤¾à¤°à¤¤ à¤®à¥‡à¤‚ à¤¬à¤¨à¤¾à¤¯à¤¾ à¤—à¤¯à¤¾à¥¤\", mr:\"à¤ªà¥à¤°à¤¤à¥à¤¯à¥‡à¤• à¤•à¥à¤Ÿà¥à¤‚à¤¬, à¤›à¥‹à¤Ÿà¤¾ à¤µà¥à¤¯à¤µà¤¸à¤¾à¤¯ à¤†à¤£à¤¿ à¤œà¥à¤¯à¥‡à¤·à¥à¤  à¤¨à¤¾à¤—à¤°à¤¿à¤•à¤¾à¤‚à¤¸à¤¾à¤ à¥€ \\uD83D\\uDC99 à¤¸à¤¹ à¤­à¤¾à¤°à¤¤à¤¾à¤¤ à¤¬à¤¨à¤µà¤²à¥‡.\", gu:\"àª¦àª°à«‡àª• àªªàª°àª¿àªµàª¾àª°, àª¨àª¾àª¨àª¾ àªµà«àª¯àªµàª¸àª¾àª¯ àª…àª¨à«‡ àªµàª°àª¿àª·à«àª  àª¨àª¾àª—àª°àª¿àª• àª®àª¾àªŸà«‡ \\uD83D\\uDC99 àª¸àª¾àª¥à«‡ àª­àª¾àª°àª¤àª®àª¾àª‚ àª¬àª¨àª¾àªµà«‡àª²à«àª‚.\", bn:\"à¦ªà§à¦°à¦¤à¦¿à¦Ÿà¦¿ à¦ªà¦°à¦¿à¦¬à¦¾à¦°, à¦›à§‹à¦Ÿ à¦¬à§à¦¯à¦¬à¦¸à¦¾ à¦“ à¦ªà§à¦°à¦¬à§€à¦£ à¦¨à¦¾à¦—à¦°à¦¿à¦•à§‡à¦° à¦œà¦¨à§à¦¯ \\uD83D\\uDC99 à¦¸à¦¹ à¦­à¦¾à¦°à¦¤à§‡ à¦¤à§ˆà¦°à¦¿à¥¤\", te:\"à°ªà±à°°à°¤à°¿ à°•à±à°Ÿà±à°‚à°¬à°‚, à°šà°¿à°¨à±à°¨ à°µà±à°¯à°¾à°ªà°¾à°°à°‚ à°®à°°à°¿à°¯à± à°µà±ƒà°¦à±à°§ à°ªà±Œà°°à±à°² à°•à±‹à°¸à°‚ \\uD83D\\uDC99 à°¤à±‹ à°­à°¾à°°à°¤à°¦à±‡à°¶à°‚à°²à±‹ à°¤à°¯à°¾à°°à± à°šà±‡à°¯à°¬à°¡à°¿à°‚à°¦à°¿.\", ta:\"à®’à®µà¯à®µà¯Šà®°à¯ à®•à¯à®Ÿà¯à®®à¯à®ªà®®à¯, à®šà®¿à®±à¯ à®µà®£à®¿à®•à®®à¯ à®®à®±à¯à®±à¯à®®à¯ à®®à¯‚à®¤à¯à®¤ à®•à¯à®Ÿà®¿à®®à®•à¯à®•à®³à¯à®•à¯à®•à®¾à®• \\uD83D\\uDC99 à®‰à®Ÿà®©à¯ à®‡à®¨à¯à®¤à®¿à®¯à®¾à®µà®¿à®²à¯ à®¤à®¯à®¾à®°à®¿à®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®Ÿà®¤à¯.\", kn:\"à²ªà³à²°à²¤à²¿ à²•à³à²Ÿà³à²‚à²¬, à²¸à²£à³à²£ à²µà³à²¯à²¾à²ªà²¾à²° à²®à²¤à³à²¤à³ à²¹à²¿à²°à²¿à²¯ à²¨à²¾à²—à²°à²¿à²•à²°à²¿à²—à²¾à²—à²¿ \\uD83D\\uDC99 à²œà³Šà²¤à³† à²­à²¾à²°à²¤à²¦à²²à³à²²à²¿ à²¤à²¯à²¾à²°à²¿à²¸à²²à²¾à²—à²¿à²¦à³†.\", or:\"à¬ªà­à¬°à¬¤à­à­Ÿà­‡à¬• à¬ªà¬°à¬¿à¬¬à¬¾à¬°, à¬•à­à¬·à­à¬¦à­à¬° à¬¬à­à­Ÿà¬¬à¬¸à¬¾à­Ÿ à¬à¬¬à¬‚ à¬¬à¬°à¬¿à¬·à­à¬  à¬¨à¬¾à¬—à¬°à¬¿à¬•à¬™à­à¬• à¬ªà¬¾à¬‡à¬ \\uD83D\\uDC99 à¬¸à¬¹à¬¿à¬¤ à¬­à¬¾à¬°à¬¤à¬°à­‡ à¬¤à¬¿à¬†à¬°à¬¿à¥¤\", ml:\"à´Žà´²àµà´²à´¾ à´•àµà´Ÿàµà´‚à´¬à´¤àµà´¤à´¿à´¨àµà´‚, à´šàµ†à´±àµà´•à´¿à´Ÿ à´¬à´¿à´¸à´¿à´¨à´¸àµà´¸à´¿à´¨àµà´‚, à´®àµà´¤à´¿àµ¼à´¨àµà´¨ à´ªàµ—à´°à´¨àµà´®à´¾àµ¼à´•àµà´•àµà´‚ à´µàµ‡à´£àµà´Ÿà´¿ \\uD83D\\uDC99 à´¯àµ‹à´Ÿàµ† à´‡à´¨àµà´¤àµà´¯à´¯à´¿àµ½ à´¨à´¿àµ¼à´®àµà´®à´¿à´šàµà´šà´¤àµ.\" },\r\n  \"a11y.font\":           { en:\"Font size\", hi:\"à¤«à¤¼à¥‰à¤¨à¥à¤Ÿ à¤†à¤•à¤¾à¤°\", mr:\"à¤«à¥‰à¤¨à¥à¤Ÿ à¤†à¤•à¤¾à¤°\", gu:\"àª«à«‹àª¨à«àªŸ àª•àª¦\", bn:\"à¦«à¦¨à§à¦Ÿà§‡à¦° à¦†à¦•à¦¾à¦°\", te:\"à°«à°¾à°‚à°Ÿà± à°ªà°°à°¿à°®à°¾à°£à°‚\", ta:\"à®Žà®´à¯à®¤à¯à®¤à¯à®°à¯ à®…à®³à®µà¯\", kn:\"à²«à²¾à²‚à²Ÿà³ à²—à²¾à²¤à³à²°\", or:\"à¬«à¬£à­à¬Ÿ à¬†à¬•à¬¾à¬°\", ml:\"à´«àµ‹à´£àµà´Ÿàµ à´µà´²àµà´ªàµà´ªà´‚\" },\r\n  \"a11y.lang\":           { en:\"Language\", hi:\"à¤­à¤¾à¤·à¤¾\", mr:\"à¤­à¤¾à¤·à¤¾\", gu:\"àª­àª¾àª·àª¾\", bn:\"à¦­à¦¾à¦·à¦¾\", te:\"à°­à°¾à°·\", ta:\"à®®à¯Šà®´à®¿\", kn:\"à²­à²¾à²·à³†\", or:\"à¬­à¬¾à¬·à¬¾\", ml:\"à´­à´¾à´·\" },\r\n};\r\n\r\nlet currentLang  = 'en';\r\nlet currentFont  = 'md';\r\nlet currentTheme = 'light';\r\n\r\n/* M1 â€” localStorage wrapper with try/catch + in-memory fallback for Private Browsing */\r\nconst store = (function() {\r\n  const mem = {};\r\n  return {\r\n    get(k, fallback) {\r\n      fallback = (fallback !== undefined) ? fallback : null;\r\n      try { const v = localStorage.getItem(k); return v !== null ? v : fallback; }\r\n      catch { return k in mem ? mem[k] : fallback; }\r\n    },\r\n    set(k, v) {\r\n      try { localStorage.setItem(k, v); }\r\n      catch { mem[k] = v; }\r\n    }\r\n  };\r\n})();\r\n\r\n// Read persisted preferences (safe)\r\ncurrentLang  = store.get('bmc_lang', 'en');\r\ncurrentFont  = store.get('bmc_font', 'md');\r\ncurrentTheme = store.get('bmc_theme', 'dark');\r\n\r\nfunction t(key) { return DICT[key]?.[currentLang] || DICT[key]?.en || key; }\r\n\r\nfunction applyTranslations() {\r\n  const html = document.documentElement;\r\n  html.setAttribute('data-lang', currentLang);\r\n  html.lang = currentLang;\r\n\r\n  const set = (id, key) => {\r\n    const el = document.getElementById(id);\r\n    if (!el) return;\r\n    el.textContent = t(key);\r\n  };\r\n\r\n  // C6 â€” construction title uses textContent, not innerHTML\r\n  const cStrong = document.getElementById('txt-construction-strong');\r\n  if (cStrong) cStrong.textContent = t('construction.title') + '.';\r\n  const cMsg = document.getElementById('txt-construction-msg');\r\n  if (cMsg) cMsg.textContent = t('construction.message');\r\n\r\n  // Footer construction notice\r\n  document.querySelectorAll('.footer-construction').forEach(el => {\r\n    el.textContent = '\\u{1F6A7} ' + t('construction.title') + '. ' + t('construction.message');\r\n  });\r\n\r\n  set('nav-cta',         'nav.register');\r\n  set('mnav-cta',        'nav.register');\r\n  set('txt-hero-badge',  'hero.badge');\r\n\r\n  // C6 â€” hero title via textContent on individual spans, no innerHTML\r\n  set('txt-hero-h1-line1',  'hero.title.line1');\r\n  set('txt-hero-h1-accent', 'hero.title.accent');\r\n\r\n  set('txt-hero-sub',        'hero.sub');\r\n  set('txt-hero-cta1',       'hero.cta1');\r\n  set('txt-hero-cta2',       'hero.cta2');\r\n\r\n  // L2 â€” pill translations now wired up\r\n  set('txt-pill-free',  'pill.free');\r\n  set('txt-pill-banks', 'pill.banks');\r\n  set('txt-pill-phone', 'pill.phone');\r\n  set('txt-pill-all',   'pill.all');\r\n\r\n  set('txt-urgency-title', 'urgency.title');\r\n  set('txt-urgency-sub',   'urgency.sub');\r\n  set('txt-feat-title',    'features.title');\r\n  set('txt-feat-sub',      'features.sub');\r\n  set('txt-how-title',     'how.title');\r\n  set('txt-trust-title',   'trust.title');\r\n\r\n  // L2 â€” CTA eyebrow now translated\r\n  set('txt-reg-eyebrow', 'register.eyebrow');\r\n  set('txt-reg-title',   'register.title');\r\n  set('txt-reg-sub',     'register.sub');\r\n  set('txt-footer-tag',  'footer.tag');\r\n  set('txt-a11y-font',   'a11y.font');\r\n  set('txt-a11y-lang',   'a11y.lang');\r\n  set('txt-m-font',      'a11y.font');\r\n  set('txt-m-lang',      'a11y.lang');\r\n\r\n  // Update lang button active states + aria-checked (M7)\r\n  ['en','hi','mr','gu','bn','te','ta','kn','or','ml'].forEach(l => {\r\n    ['lang-'+l, 'mlang-'+l].forEach(id => {\r\n      const btn = document.getElementById(id);\r\n      if (!btn) return;\r\n      const active = l === currentLang;\r\n      btn.classList.toggle('active', active);\r\n      btn.setAttribute('aria-checked', String(active));\r\n    });\r\n  });\r\n}\r\n\r\n/* Allowlists prevent arbitrary values being stored in localStorage or set on html attrs\r\n   when someone calls setLang()/setFont() from the browser console or a browser extension */\r\nconst ALLOWED_LANGS = new Set(['en', 'hi', 'mr', 'gu', 'bn', 'te', 'ta', 'kn', 'or', 'ml']);\r\nconst ALLOWED_FONTS = new Set(['sm', 'md', 'lg', 'xl']);\r\n\r\nfunction setLang(l) {\r\n  if (!ALLOWED_LANGS.has(l)) return;                        // reject unknown langs\r\n  currentLang = l;\r\n  store.set('bmc_lang', l);\r\n  applyTranslations();\r\n  closeAllDropdowns();\r\n}\r\n\r\n/* H5 â€” setFont uses data-size attribute to sync ALL font buttons (desktop + mobile) */\r\nfunction setFont(f) {\r\n  if (!ALLOWED_FONTS.has(f)) return;                        // reject unknown sizes\r\n  currentFont = f;\r\n  store.set('bmc_font', f);\r\n  document.documentElement.setAttribute('data-font-size', f);\r\n  // M7 â€” update aria-checked on every font button (desktop and mobile)\r\n  document.querySelectorAll('[data-size]').forEach(btn => {\r\n    const active = btn.dataset.size === f;\r\n    btn.classList.toggle('active', active);\r\n    btn.setAttribute('aria-checked', String(active));\r\n  });\r\n}\r\n\r\nfunction applyTheme() {\r\n  document.documentElement.setAttribute('data-theme', currentTheme);\r\n  const btn = document.getElementById('theme-btn');\r\n  if (btn) {\r\n    btn.textContent = currentTheme === 'dark' ? '\\u2600\\uFE0F' : '\\uD83C\\uDF19';\r\n    btn.setAttribute('aria-label', currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');\r\n  }\r\n}\r\n\r\n/* M9 â€” no monkey-patching; setTimeout(styleApp) is inside toggleTheme directly.\r\n   Reuses _styleTimer (shared with the MutationObserver debounce) so rapid clicks\r\n   cancel previous queued styleApp calls instead of piling them all up. */\r\nfunction toggleTheme() {\r\n  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';\r\n  store.set('bmc_theme', currentTheme);\r\n  applyTheme();\r\n  clearTimeout(_styleTimer);\r\n  _styleTimer = setTimeout(styleApp, 50);\r\n}\r\n\r\n/* C5 â€” toggleDropdown updates aria-expanded */\r\nfunction toggleDropdown(id) {\r\n  const dd  = document.getElementById(id);\r\n  if (!dd) return;                                          // guard: element may be missing\r\n  const btn = document.getElementById(id.replace('-dd', '-dd-btn'));\r\n  const wasOpen = dd.classList.contains('open');\r\n  closeAllDropdowns();\r\n  if (!wasOpen) {\r\n    dd.classList.add('open');\r\n    if (btn) btn.setAttribute('aria-expanded', 'true');\r\n    // Move focus to first focusable item in dropdown\r\n    const first = dd.querySelector('button, a, [tabindex]');\r\n    if (first) first.focus();\r\n  }\r\n}\r\n\r\n/* C5 â€” closeAllDropdowns resets aria-expanded on all trigger buttons */\r\nfunction closeAllDropdowns() {\r\n  document.querySelectorAll('.dropdown.open').forEach(d => {\r\n    d.classList.remove('open');\r\n    const btn = document.getElementById(d.id.replace('-dd', '-dd-btn'));\r\n    if (btn) btn.setAttribute('aria-expanded', 'false');\r\n  });\r\n}\r\n\r\n// Close dropdowns on outside click or Escape\r\ndocument.addEventListener('click', e => {\r\n  if (!e.target.closest('.nav-icon-btn') && !e.target.closest('.dropdown')) {\r\n    closeAllDropdowns();\r\n  }\r\n});\r\ndocument.addEventListener('keydown', e => {\r\n  if (e.key === 'Escape') closeAllDropdowns();\r\n});\r\n\r\n/* C5 â€” toggleMobileMenu updates aria-expanded and aria-label */\r\nfunction toggleMobileMenu() {\r\n  const m   = document.getElementById('mobile-menu');\r\n  const btn = document.getElementById('mobile-menu-btn');\r\n  if (!m || !btn) return;                                   // guard: DOM may be absent\r\n  const open = m.classList.toggle('open');\r\n  btn.setAttribute('aria-expanded', String(open));\r\n  btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');\r\n  btn.textContent = open ? '\\u2715' : '\\u2630';\r\n}\r\nfunction closeMobileMenu() {\r\n  const m   = document.getElementById('mobile-menu');\r\n  const btn = document.getElementById('mobile-menu-btn');\r\n  if (!m || !btn) return;                                   // guard: DOM may be absent\r\n  m.classList.remove('open');\r\n  btn.setAttribute('aria-expanded', 'false');\r\n  btn.setAttribute('aria-label', 'Open navigation menu');\r\n  btn.textContent = '\\u2630';\r\n}\r\n\r\nfunction dismissConstruction() {\r\n  store.set('bmc_construction_dismissed', '1');\r\n  const bar = document.getElementById('construction-bar');\r\n  if (bar) bar.style.display = 'none';\r\n}\r\n\r\n/* C4 â€” toggleFaq updates aria-expanded */\r\nfunction toggleFaq(btn) {\r\n  const item = btn.closest('.faq-item');\r\n  if (!item) return;\r\n  const isOpen = item.classList.toggle('open');\r\n  btn.setAttribute('aria-expanded', String(isOpen));\r\n}\r\n\r\n/* â”€â”€ INIT â”€â”€ */\r\nif (store.get('bmc_construction_dismissed') === '1') {\r\n  const bar = document.getElementById('construction-bar');\r\n  if (bar) bar.style.display = 'none';\r\n}\r\ndocument.documentElement.setAttribute('data-font-size', currentFont);\r\napplyTheme();\r\napplyTranslations();\r\n\r\n/* â”€â”€ APP STYLER â”€â”€ */\r\n/* M4 â€” MONO kept for logout bar; RED/RED_DARK read from CSS inside styleApp() */\r\nconst MONO = \"'IBM Plex Mono','Courier New',monospace\";\r\n\r\nfunction getVar(name) {\r\n  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();\r\n}\r\n\r\nfunction styleApp() {\r\n  try { _styleAppImpl(); }\r\n  catch (err) { if (window.__BMC_DEBUG) console.error('[styleApp]', err); }\r\n}\r\n\r\nfunction _styleAppImpl() {\r\n  const root = document.getElementById('root');\r\n  if (!root || !root.firstChild) return;\r\n\r\n  // H3 â€” hide the fallback once React has mounted (root now has firstChild)\r\n  const fb = document.getElementById('app-fallback');\r\n  if (fb) fb.style.display = 'none';\r\n\r\n  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';\r\n\r\n  // M4 â€” read colors from CSS custom properties, not hardcoded strings\r\n  const RED       = getVar('--red');       // '#d63a2a'\r\n  const RED_DARK  = getVar('--red-dark');  // '#b72e1e'\r\n  const cardBg    = isDark ? '#1e293b' : '#ffffff';\r\n  const fgColor   = isDark ? '#f1f5f9' : '#111827';\r\n  const fg2Color  = isDark ? '#94a3b8' : '#6b7280';\r\n  const borderColor = isDark ? '#334155' : '#e5e7eb';\r\n\r\n  const wrap = root.querySelector('div[class*=\"min-h-screen\"]');\r\n  if (wrap) Object.assign(wrap.style, {background:'transparent', minHeight:'unset'});\r\n  // Header is hidden via clip in the logout-bar block below (not display:none,\r\n  // so that origBtn.dispatchEvent() and origBtn.click() both fire correctly).\r\n  const ftr = root.querySelector('footer'); if (ftr) ftr.style.display = 'none';\r\n  const main = root.querySelector('main'); if (main) Object.assign(main.style, {background:'transparent', padding:'0', maxWidth:'100%'});\r\n\r\n  // M3 â€” font-family handled by CSS rule on #root; no JS override needed\r\n\r\n  const pageContainers = [\r\n    ...root.querySelectorAll('main>section'),\r\n    ...Array.from(root.querySelectorAll('main>div')).filter(d => d.querySelector('h2')),\r\n  ];\r\n\r\n  pageContainers.forEach(sec => {\r\n    const isDashboardView = !!(sec.querySelector('h2.text-2xl')) && !sec.querySelector('h2')?.textContent?.includes('Admin');\r\n    const isAdminView = !!(sec.querySelector('h2')?.textContent?.includes('Admin console'));\r\n    Object.assign(sec.style, {\r\n      background: cardBg, borderRadius: '20px', border: 'none',\r\n      boxShadow: '0 24px 64px rgba(0,0,0,.25)', maxWidth: '100%', margin: '0',\r\n      padding: (isDashboardView || isAdminView) ? '1.5rem' : '2rem',\r\n      maxHeight: (isDashboardView || isAdminView) ? '82vh' : 'none',\r\n      overflowY: (isDashboardView || isAdminView) ? 'auto' : 'visible',\r\n    });\r\n\r\n    const h2 = sec.querySelector('h2');\r\n    if (h2 && !isAdminView) {\r\n      const step = h2.textContent.trim();\r\n      let txt = '\\uD83D\\uDCF1 Authenticate / Block';\r\n      if (step.includes('OTP') || step.includes('Enter')) txt = '\\uD83D\\uDD10 Verify your number';\r\n      else if (step.includes('Add your cards')) txt = '\\uD83D\\uDCB3 Step 2 of 3';\r\n      else if (step.includes('vault') || step.includes('Create')) txt = '\\uD83D\\uDCF1 Register free \\u00B7 60 seconds';\r\n      else if (step.includes('Emergency') || step.includes('contact')) txt = '\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC67 Step 3 of 3';\r\n      else if (step.includes('email') || step.includes('Email')) txt = '\\uD83D\\uDCE7 Almost done';\r\n      else if (step.includes('Save') || step.includes('cards for')) txt = '\\uD83D\\uDD12 Secure your cards';\r\n      else if (step.includes('Hello')) txt = '\\u2705 Logged in';\r\n      // FIX: reuse existing badge rather than remove+insert every run.\r\n      // remove+insert was triggering the MutationObserver each cycle â†’ infinite loop.\r\n      let badge = h2.parentNode ? h2.parentNode.querySelector('.__fhb') : null;\r\n      if (!badge) {\r\n        badge = document.createElement('div');\r\n        badge.className = '__fhb';\r\n        Object.assign(badge.style, {color:RED, fontSize:'.72rem', fontWeight:'700', letterSpacing:'.08em', textTransform:'uppercase', marginBottom:'.4rem'});\r\n        if (h2.parentNode) h2.parentNode.insertBefore(badge, h2);\r\n      }\r\n      // Only update text content â€” does NOT trigger childList MutationObserver\r\n      if (badge.textContent !== txt) badge.textContent = txt;\r\n      badge.style.color = RED; // keep colour in sync with theme changes\r\n      if (step === 'Log in / Register') h2.textContent = 'Authenticate / Block';\r\n    } else if (h2 && isAdminView) {\r\n      // Admin view â€” hide the badge without removing it (no DOM mutation)\r\n      const badge = h2.parentNode ? h2.parentNode.querySelector('.__fhb') : null;\r\n      if (badge) badge.style.display = 'none';\r\n    }\r\n\r\n    sec.querySelectorAll('h2').forEach(h => {\r\n      if (h.className && h.className.includes('text-2xl')) { h.style.color = fgColor; return; }\r\n      Object.assign(h.style, {fontSize:'1.5rem', fontWeight:'800', color:fgColor, letterSpacing:'-.025em', lineHeight:'1.2', marginBottom:'1.25rem'});\r\n    });\r\n    sec.querySelectorAll('label').forEach(lbl => {\r\n      if (!(lbl.className || '').includes('block')) return;\r\n      lbl.style.display = 'block'; lbl.style.marginBottom = '.85rem';\r\n      const span = lbl.querySelector(':scope>span');\r\n      if (span && !span.querySelector('input')) Object.assign(span.style, {display:'block', fontSize:'.8rem', fontWeight:'600', color:fg2Color, marginBottom:'.35rem', textTransform:(span.className||'').includes('uppercase')?'uppercase':'none', letterSpacing:(span.className||'').includes('tracking-widest')?'.08em':'normal'});\r\n    });\r\n    sec.querySelectorAll('.flex.items-stretch,[class*=\"overflow-hidden\"].flex').forEach(w => {\r\n      Object.assign(w.style, {display:'flex', border:'1.5px solid '+borderColor, borderRadius:'10px', overflow:'hidden', background:cardBg});\r\n      const pfx = w.querySelector('span');\r\n      if (pfx && !pfx.querySelector('svg') && !pfx.querySelector('button')) Object.assign(pfx.style, {display:'flex', alignItems:'center', padding:'0 .9rem', background:isDark?'#0f172a':'#f9fafb', fontSize:'.85rem', fontWeight:'700', color:fg2Color, borderRight:'1.5px solid '+borderColor});\r\n    });\r\n    sec.querySelectorAll('.flex.items-stretch input,[class*=\"overflow-hidden\"] input').forEach(el => {\r\n      Object.assign(el.style, {border:'none', outline:'none', padding:'.8rem 1rem', fontSize:'.95rem', background:'transparent', color:fgColor, width:'100%'});\r\n      const getW = () => el.closest('.flex.items-stretch') || el.closest('[class*=\"overflow-hidden\"]');\r\n      el.onfocus = () => { const w = getW(); if (w) { w.style.borderColor = RED; w.style.boxShadow = '0 0 0 3px rgba(214,58,42,.12)'; } };\r\n      el.onblur  = () => { const w = getW(); if (w) { w.style.borderColor = borderColor; w.style.boxShadow = 'none'; } };\r\n    });\r\n    sec.querySelectorAll('input,select,textarea').forEach(el => {\r\n      if (el.type === 'checkbox' || el.type === 'radio') return;\r\n      if (el.closest('.flex.items-stretch') || el.closest('[class*=\"overflow-hidden\"]')) return;\r\n      Object.assign(el.style, {border:'1.5px solid '+borderColor, borderRadius:'10px', padding:'.8rem 1rem', fontSize:'.95rem', background:cardBg, color:fgColor, width:'100%', outline:'none'});\r\n      el.onfocus = () => { el.style.borderColor = RED; el.style.boxShadow = '0 0 0 3px rgba(214,58,42,.12)'; };\r\n      el.onblur  = () => { el.style.borderColor = borderColor; el.style.boxShadow = 'none'; };\r\n    });\r\n    sec.querySelectorAll('button').forEach(btn => {\r\n      const cls = btn.className || '';\r\n      const txt = (btn.textContent || '').trim();\r\n      // The logout-bar proxy sits inside this container but owns its own styling\r\n      // below. Without this guard the txt === 'Log out' branch repainted it\r\n      // white â€” readable on the dark header it was written for, invisible on\r\n      // the light card it actually lives on.\r\n      if (cls.includes('__bmc_proxy_btn')) return;\r\n      if (cls.includes('bg-red-700')) {\r\n        Object.assign(btn.style, {background:RED, fontWeight:'700', borderRadius:'8px', color:'#fff', border:'none', cursor:'pointer', padding:'.35rem .9rem', fontSize:'.82rem', display:'inline-flex', alignItems:'center', gap:'.3rem'});\r\n        btn.onmouseenter = () => btn.style.background = RED_DARK;\r\n        btn.onmouseleave = () => btn.style.background = RED;\r\n        return;\r\n      }\r\n      if (txt === 'Cancel') {\r\n        Object.assign(btn.style, {background:'transparent', color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});\r\n        btn.onmouseenter = () => btn.style.borderColor = fgColor;\r\n        btn.onmouseleave = () => btn.style.borderColor = borderColor;\r\n        return;\r\n      }\r\n      if (txt === '+ Add card' && !cls.includes('w-full')) {\r\n        Object.assign(btn.style, {background:cardBg, color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});\r\n        btn.onmouseenter = () => { btn.style.background = fgColor; btn.style.color = cardBg; };\r\n        btn.onmouseleave = () => { btn.style.background = cardBg; btn.style.color = fgColor; };\r\n        return;\r\n      }\r\n      if ((txt === '+ Add card' || txt === 'Add card') && cls.includes('w-full')) {\r\n        Object.assign(btn.style, {width:'100%', background:fgColor, color:cardBg, border:'none', borderRadius:'10px', padding:'.75rem', fontWeight:'700', fontSize:'.95rem', cursor:'pointer', marginBottom:'.75rem'});\r\n        btn.onmouseenter = () => btn.style.opacity = '.85';\r\n        btn.onmouseleave = () => btn.style.opacity = '1';\r\n        return;\r\n      }\r\n      if (txt === 'Remove') {\r\n        Object.assign(btn.style, {color:RED, background:'none', border:'none', cursor:'pointer', fontSize:'.78rem', fontWeight:'600', padding:'0'});\r\n        return;\r\n      }\r\n      if (txt === 'Log out' || txt === 'Exit admin') {\r\n        Object.assign(btn.style, {color:'rgba(255,255,255,.75)', background:'none', border:'none', cursor:'pointer', textDecoration:'underline', fontSize:'.875rem'});\r\n        return;\r\n      }\r\n      if (txt === 'Close' || txt === '\\u2715') {\r\n        Object.assign(btn.style, {background:'transparent', color:fg2Color, border:'1px solid '+borderColor, borderRadius:'6px', padding:'.25rem .65rem', fontWeight:'600', fontSize:'.8rem', cursor:'pointer'});\r\n        return;\r\n      }\r\n      if (cls.includes('w-full') && cls.includes('bg-slate-900')) {\r\n        Object.assign(btn.style, {display:'flex', width:'100%', alignItems:'center', justifyContent:'center', gap:'.5rem', background:btn.disabled?'#d1d5db':RED, color:'#fff', border:'none', borderRadius:'10px', padding:'1rem', fontSize:'1rem', fontWeight:'800', cursor:btn.disabled?'not-allowed':'pointer', marginTop:'.5rem'});\r\n        btn.onmouseenter = () => { if (!btn.disabled) { btn.style.background = RED_DARK; btn.style.transform = 'translateY(-1px)'; } };\r\n        btn.onmouseleave = () => { btn.style.background = btn.disabled?'#d1d5db':RED; btn.style.transform = ''; };\r\n        return;\r\n      }\r\n      if (cls.includes('w-full') && (cls.includes('border-slate-300') || cls.includes('border border-slate'))) {\r\n        Object.assign(btn.style, {width:'100%', borderRadius:'10px', border:'1.5px solid '+borderColor, color:fgColor, background:'transparent', padding:'.85rem 1rem', fontWeight:'600', cursor:'pointer'});\r\n        return;\r\n      }\r\n      if (cls.includes('bg-slate-900') && cls.includes('flex-1')) {\r\n        Object.assign(btn.style, {background:fgColor, color:cardBg, borderRadius:'10px', padding:'.6rem 1rem', fontSize:'.9rem', fontWeight:'700', border:'none', flex:'1'});\r\n        return;\r\n      }\r\n      if (cls.includes('border-slate-300') && cls.includes('flex-1') && !cls.includes('bg-slate-900')) {\r\n        Object.assign(btn.style, {borderRadius:'10px', border:'1.5px solid '+borderColor, color:fg2Color, background:'transparent', padding:'.6rem 1rem', fontSize:'.9rem', fontWeight:'600', flex:'1'});\r\n        return;\r\n      }\r\n      if (cls.includes('rounded-md') && cls.includes('font-semibold') && (cls.includes('bg-slate-900') || cls.includes('border-slate-300')) && cls.includes('px-3')) {\r\n        const active = cls.includes('bg-slate-900');\r\n        Object.assign(btn.style, {padding:'.4rem .9rem', borderRadius:'8px', fontSize:'.85rem', fontWeight:'600', cursor:'pointer', background:active?fgColor:cardBg, color:active?cardBg:fg2Color, border:active?'1.5px solid '+fgColor:'1.5px solid '+borderColor});\r\n        return;\r\n      }\r\n      if (cls.includes('underline') || (cls.includes('text-slate') && cls.includes('font-semibold'))) {\r\n        Object.assign(btn.style, {color:fg2Color, background:'none', border:'none', cursor:'pointer', textDecoration:'underline', fontSize:'.85rem'});\r\n      }\r\n    });\r\n    sec.querySelectorAll('p').forEach(p => {\r\n      const cls = p.className || '';\r\n      if (p.closest('[class*=\"bg-slate-9\"]') || p.closest('[style*=\"#1f2937\"]') || p.closest('[style*=\"#020617\"]')) return;\r\n      if (cls.includes('text-sm') && cls.includes('text-slate-6')) { Object.assign(p.style, {color:fgColor, fontSize:'.875rem'}); return; }\r\n      if (cls.includes('text-xs') || cls.includes('text-slate-4') || cls.includes('text-slate-5')) Object.assign(p.style, {fontSize:'.75rem', color:fg2Color, textAlign:'center', lineHeight:'1.5'});\r\n    });\r\n    sec.querySelectorAll('[class*=\"bg-amber-50\"],[class*=\"border-dashed\"]').forEach(el => Object.assign(el.style, {background:isDark?'rgba(214,58,42,.1)':'#fff5f5', borderColor:'#fca5a5', borderRadius:'10px'}));\r\n    sec.querySelectorAll('[class*=\"text-amber-7\"]').forEach(el => el.style.color = RED);\r\n    /* Alerts are yellow with black text in both themes â€” see bmcAlert in app.js.\r\n       This pass used to paint every [role=\"alert\"] red, which on the red hero\r\n       band left the app's own alerts at roughly 2.4:1 against their background:\r\n       on screen and still unreadable. Repaint the whole chip, not just the text,\r\n       so a themed alert cannot end up red-on-red again. */\r\n    sec.querySelectorAll('[role=\"alert\"]').forEach(el => Object.assign(el.style, {background:'#facc15', borderColor:'#ca8a04', color:'#000'}));\r\n    sec.querySelectorAll('[class*=\"text-destructive\"],[class*=\"text-red-8\"]').forEach(el => { if (!el.closest('[role=\"alert\"]')) el.style.color = RED; });\r\n  });\r\n\r\n  root.querySelectorAll('button').forEach(btn => {\r\n    const txt = (btn.textContent || '').trim();\r\n    if (txt.startsWith('YES') && txt.includes('Save')) {\r\n      Object.assign(btn.style, {background:RED, color:'#fff', border:'none', borderRadius:'8px', padding:'.5rem 1.1rem', fontWeight:'700', fontSize:'.875rem', cursor:'pointer'});\r\n      btn.onmouseenter = () => btn.style.background = RED_DARK;\r\n      btn.onmouseleave = () => btn.style.background = RED;\r\n    }\r\n  });\r\n\r\n  // Logout proxy bar\r\n  // FIX: create the bar ONCE and update it in place on subsequent runs.\r\n  // The old pattern (remove + insertBefore every run) fired 2 childList mutations\r\n  // per styleApp call â†’ MutationObserver â†’ styleApp â†’ infinite loop every 80ms.\r\n  // That loop caused: logout button deleted mid-click, React re-renders fighting\r\n  // DOM writes, and error states re-evaluated on every iteration.\r\n  const hdr2 = root.querySelector('header');\r\n  if (hdr2) {\r\n    // Clip the React header out of view without display:none so .click() works\r\n    Object.assign(hdr2.style, {position:'absolute', width:'1px', height:'1px',\r\n      overflow:'hidden', opacity:'0', pointerEvents:'none',\r\n      clip:'rect(0 0 0 0)', whiteSpace:'nowrap'});\r\n\r\n    const origBtn = Array.from(hdr2.querySelectorAll('button')).find(b => {\r\n      const t = (b.textContent || '').trim();\r\n      return t === 'Log out' || t === 'Exit admin';\r\n    });\r\n    if (origBtn) {\r\n      const label     = origBtn.textContent.trim();\r\n      const phoneSpan = hdr2.querySelector('span.font-mono');\r\n      const activeContainer = pageContainers[0];\r\n      if (activeContainer) {\r\n        // Reuse existing bar â€” only insert if it doesn't exist yet (0 DOM mutations on repeat runs)\r\n        let bar = activeContainer.querySelector('.__bmc_logout_bar');\r\n        if (!bar) {\r\n          bar = document.createElement('div');\r\n          bar.className = '__bmc_logout_bar';\r\n          Object.assign(bar.style, {display:'flex', alignItems:'center', justifyContent:'flex-end',\r\n            gap:'.75rem', marginBottom:'1rem', paddingBottom:'.75rem',\r\n            borderBottom:'1px solid '+borderColor, fontSize:'.82rem'});\r\n          const ph = document.createElement('span');\r\n          ph.className = '__bmc_phone';\r\n          Object.assign(ph.style, {fontFamily:MONO, color:fg2Color, fontSize:'.8rem'});\r\n          bar.appendChild(ph);\r\n          const proxyBtn = document.createElement('button');\r\n          proxyBtn.className = '__bmc_proxy_btn';\r\n          Object.assign(proxyBtn.style, {color:RED, background:'none', border:'none',\r\n            cursor:'pointer', fontWeight:'700', fontSize:'.85rem',\r\n            textDecoration:'underline', padding:'0'});\r\n          bar.appendChild(proxyBtn);\r\n          activeContainer.insertBefore(bar, activeContainer.firstChild);\r\n        }\r\n        // Always refresh onclick â†’ points to CURRENT origBtn after each React re-render.\r\n        // Use dispatchEvent so React's synthetic event system receives it reliably.\r\n        const proxyBtn = bar.querySelector('.__bmc_proxy_btn');\r\n        if (proxyBtn) {\r\n          proxyBtn.textContent = label;\r\n          proxyBtn.style.color = RED;\r\n          proxyBtn.onclick = () =>\r\n            origBtn.dispatchEvent(new MouseEvent('click', {bubbles:true, cancelable:true, view:window}));\r\n        }\r\n        // Update phone display without DOM insertions (just textContent)\r\n        const ph = bar.querySelector('.__bmc_phone');\r\n        if (ph) {\r\n          const phoneText = (phoneSpan && label === 'Log out') ? phoneSpan.textContent : '';\r\n          if (ph.textContent !== phoneText) ph.textContent = phoneText;\r\n          ph.style.color = fg2Color;\r\n        }\r\n        bar.style.borderBottomColor = borderColor;\r\n      }\r\n    }\r\n  }\r\n\r\n  root.querySelectorAll('[class*=\"border-b\"][class*=\"flex\"][class*=\"justify-between\"]').forEach(row => {\r\n    Object.assign(row.style, {display:'flex', justifyContent:'space-between', alignItems:'center', padding:'.75rem 0', borderBottom:'1px solid '+borderColor, gap:'.5rem'});\r\n  });\r\n  root.querySelectorAll('[class*=\"border-slate-300\"][class*=\"rounded-lg\"]').forEach(el => {\r\n    const cls = el.className || '';\r\n    if (cls.includes('bg-white') || cls.includes('border-dashed') || cls.includes('p-4') || cls.includes('p-8'))\r\n      Object.assign(el.style, {background:isDark?'rgba(255,255,255,.04)':'#f8fafc', borderRadius:'12px', border:'1.5px solid '+borderColor, padding:'1rem', marginBottom:'1rem'});\r\n  });\r\n  root.querySelectorAll('div.bg-white').forEach(d => Object.assign(d.style, {background:cardBg, borderRadius:'12px'}));\r\n  root.querySelectorAll('button[class*=\"bg-red-7\"],a[class*=\"bg-red-7\"]').forEach(el => {\r\n    Object.assign(el.style, {background:RED, fontWeight:'700', borderRadius:'8px', color:'#fff', border:'none', cursor:'pointer', padding:'.4rem .9rem', fontSize:'.85rem'});\r\n    el.onmouseenter = () => el.style.background = RED_DARK;\r\n    el.onmouseleave = () => el.style.background = RED;\r\n  });\r\n  root.querySelectorAll('[class*=\"border-red-3\"]').forEach(el => { el.style.borderColor = RED; el.style.borderWidth = '2px'; el.style.borderRadius = '12px'; });\r\n  root.querySelectorAll('[class*=\"bg-slate-9\"]').forEach(el => {\r\n    if ((el.className || '').includes('text-white'))\r\n      Object.assign(el.style, {background:isDark?'#020617':'#1f2937', borderRadius:'10px', padding:'1rem', color:'#f1f5f9'});\r\n  });\r\n  root.querySelectorAll('button[class*=\"border-slate-900\"]:not([class*=\"bg-slate-900\"]):not([class*=\"w-full\"])').forEach(btn => {\r\n    const txt = (btn.textContent || '').trim();\r\n    if (txt === 'Cancel') {\r\n      Object.assign(btn.style, {background:'transparent', color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});\r\n    } else {\r\n      Object.assign(btn.style, {borderRadius:'8px', border:'1.5px solid '+fgColor, color:fgColor, background:'transparent', cursor:'pointer', padding:'.45rem .9rem', fontWeight:'600', fontSize:'.875rem'});\r\n      btn.onmouseenter = () => { btn.style.background = fgColor; btn.style.color = cardBg; };\r\n      btn.onmouseleave = () => { btn.style.background = 'transparent'; btn.style.color = fgColor; };\r\n    }\r\n  });\r\n  root.querySelectorAll('button[class*=\"border-slate-900\"][class*=\"w-full\"]').forEach(btn => {\r\n    Object.assign(btn.style, {width:'100%', background:fgColor, color:cardBg, border:'none', borderRadius:'10px', padding:'.75rem', fontWeight:'700', fontSize:'.95rem', cursor:'pointer', marginBottom:'.75rem'});\r\n  });\r\n  root.querySelectorAll('[class*=\"bg-amber-5\"]').forEach(el => Object.assign(el.style, {background:'#fffbeb', borderColor:'#fde68a', borderRadius:'6px'}));\r\n  root.querySelectorAll('[class*=\"text-amber-8\"]').forEach(el => el.style.color = '#92400e');\r\n  root.querySelectorAll('[class*=\"bg-emerald-7\"]').forEach(el => Object.assign(el.style, {background:'#059669', borderRadius:'8px', color:'#fff'}));\r\n}\r\n\r\n/* M5 â€” single debounced MutationObserver, no double-setTimeout */\r\nlet _styleTimer = null;\r\nconst observer = new MutationObserver(() => {\r\n  clearTimeout(_styleTimer);\r\n  _styleTimer = setTimeout(styleApp, 80);\r\n});\r\ntry {\r\n  const rootEl = document.getElementById('root');\r\n  if (rootEl) observer.observe(rootEl, {childList: true, subtree: true});\r\n  rootEl.addEventListener('input', function() { clearTimeout(_styleTimer); _styleTimer = setTimeout(styleApp, 80); }, true);\r\n  // Toggle buttons (e.g. Own/Alternate number) only change className on click â€” no\r\n  // childList mutation and no input event â€” so styleApp() never repainted them. Repaint on click too.\r\n  rootEl.addEventListener('click', function() { clearTimeout(_styleTimer); _styleTimer = setTimeout(styleApp, 80); }, true);\r\n} catch (err) {\r\n  if (window.__BMC_DEBUG) console.error('[Observer]', err);\r\n}\r\n\r\n/* H3 â€” show error if React never mounted after 5 s */\r\nsetTimeout(() => {\r\n  const root = document.getElementById('root');\r\n  const fb   = document.getElementById('app-fallback');\r\n  // root.firstChild is null only if React never ran â€” fallback still visible\r\n  if (fb && fb.style.display !== 'none' && root && !root.firstChild) {\r\n    fb.innerHTML = '<p style=\"color:#fecaca;font-size:.88rem\">Could not load the form. <a href=\"javascript:location.reload()\" style=\"color:#fff;font-weight:700;text-decoration:underline\">Refresh the page</a> or <a href=\"mailto:support@blockmycard.in\" style=\"color:#fff;font-weight:700;text-decoration:underline\">contact support</a>.</p>';\r\n  }\r\n}, 5000);\r\n</script>\r\n\r\n<!-- DISABLE PAYMENT FLOW & STRIKE OUT FEE TEXT -->\r\n<script>\r\n// Disable Razorpay payment flow and hide/strike fee text\r\n(function() {\r\n  // Strike out fee text\r\n  const strikeOutFeeText = () => {\r\n    const root = document.getElementById('root');\r\n    if (!root) return;\r\n\r\n    // Find all elements containing \"One-time fee\" or \"per card\"\r\n    const walker = document.createTreeWalker(\r\n      root,\r\n      NodeFilter.SHOW_TEXT,\r\n      null,\r\n      false\r\n    );\r\n\r\n    let node;\r\n    while (node = walker.nextNode()) {\r\n      if (node.textContent.includes('One-time fee') || node.textContent.includes('per card') || node.textContent.includes('â‚¹')) {\r\n        const span = document.createElement('span');\r\n        span.style.cssText = 'text-decoration: line-through; opacity: 0.6;';\r\n        span.textContent = node.textContent;\r\n        node.parentNode.replaceChild(span, node);\r\n      }\r\n    }\r\n  };\r\n\r\n  // Disable payment button\r\n  const disablePayment = () => {\r\n    const root = document.getElementById('root');\r\n    if (!root) return;\r\n\r\n    // Find and disable \"Save my cards\" button\r\n    const buttons = root.querySelectorAll('button');\r\n    buttons.forEach(btn => {\r\n      const text = (btn.textContent || '').trim();\r\n      if (text.includes('Save my cards') || text.includes('â‚¹')) {\r\n        // Disable the button\r\n        btn.disabled = true;\r\n        btn.style.opacity = '0.5';\r\n        btn.style.cursor = 'not-allowed';\r\n        btn.onclick = (e) => {\r\n          e.preventDefault();\r\n          e.stopPropagation();\r\n          alert('Payment flow is currently disabled. Please check back later.');\r\n          return false;\r\n        };\r\n      }\r\n    });\r\n  };\r\n\r\n  // Run once on load\r\n  strikeOutFeeText();\r\n  disablePayment();\r\n\r\n  // Re-run when React updates the DOM\r\n  const root = document.getElementById('root');\r\n  if (root) {\r\n    const observer = new MutationObserver(() => {\r\n      strikeOutFeeText();\r\n      disablePayment();\r\n    });\r\n    observer.observe(root, {childList: true, subtree: true});\r\n  }\r\n})();\r\n</script>\r\n\r\n<!-- FIX CONTINUE BUTTON - HIGH SEVERITY BUG FIX -->\r\n<script>\r\n(function() {\r\n  const fixContinueButton = () => {\r\n    const root = document.getElementById('root');\r\n    if (!root) return;\r\n\r\n    // Find all buttons\r\n    const buttons = root.querySelectorAll('button');\r\n    buttons.forEach(btn => {\r\n      const text = (btn.textContent || '').trim();\r\n\r\n      // Find Continue button\r\n      if (text === 'Continue' || text === 'continue') {\r\n        // Add click handler if button doesn't have one\r\n        const originalOnClick = btn.onclick;\r\n\r\n        btn.onclick = function(e) {\r\n          e.preventDefault();\r\n          e.stopPropagation();\r\n\r\n          console.log('[FIX] Continue button clicked');\r\n\r\n          // Show success message\r\n          const successMsg = document.getElementById('bmc-success-message');\r\n          if (successMsg) {\r\n            successMsg.style.display = 'block';\r\n          } else {\r\n            // Create success message if it doesn't exist\r\n            const msg = document.createElement('div');\r\n            msg.id = 'bmc-success-message';\r\n            msg.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10001;width:min(420px,calc(100vw - 2rem));background:#16a34a;border:1.5px solid #15803d;border-radius:10px;padding:.75rem 2.75rem .75rem 1rem;font-size:.875rem;font-weight:600;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2);line-height:1.5;';\r\n            msg.textContent = 'âœ… Cards saved successfully! You can now manage your cards anytime.';\r\n            document.body.appendChild(msg);\r\n\r\n            setTimeout(() => {\r\n              msg.style.display = 'none';\r\n            }, 4000);\r\n          }\r\n\r\n          // Log to console for debugging\r\n          console.log('[SUCCESS] Cards have been saved to your account');\r\n\r\n          // If there was an original onclick, don't call it - we're replacing it\r\n          return false;\r\n        };\r\n\r\n        // Make button visually active\r\n        btn.style.cursor = 'pointer';\r\n        console.log('[FIX] Continue button handler installed');\r\n      }\r\n\r\n      // Also handle \"Save my cards\" button if it somehow gets enabled\r\n      if (text.includes('Save my cards') && text.includes('â‚¹')) {\r\n        btn.onclick = (e) => {\r\n          e.preventDefault();\r\n          alert('Payment flow is currently disabled. Please check back later.');\r\n          return false;\r\n        };\r\n      }\r\n    });\r\n  };\r\n\r\n  // Run on initial load\r\n  fixContinueButton();\r\n\r\n  // Monitor for DOM changes\r\n  const root = document.getElementById('root');\r\n  if (root) {\r\n    const observer = new MutationObserver(() => {\r\n      fixContinueButton();\r\n    });\r\n    observer.observe(root, {childList: true, subtree: true});\r\n  }\r\n})();\r\n</script>\r\n\r\n<!-- LOAD SAVED CARDS FROM STORAGE API AFTER OTP -->\r\n<script>\r\n(function() {\r\n  console.log('[CARD-RESTORE] Card restoration module loaded');\r\n\r\n  // Intercept fetch to capture OTP response and phone token\r\n  const originalFetch = window.fetch;\r\n  window.fetch = function(...args) {\r\n    const result = originalFetch.apply(this, args);\r\n\r\n    if (args[0] && String(args[0]).includes('/api/verify-otp')) {\r\n      return result.then(response => {\r\n        if (response.ok) {\r\n          response.clone().json().then(async data => {\r\n            console.log('[CARD-RESTORE] OTP response received');\r\n\r\n            if (data.phoneToken) {\r\n              console.log('[CARD-RESTORE] Got phone token, fetching saved cards...');\r\n\r\n              // Extract phone from request body\r\n              let phone = null;\r\n              if (args[1] && args[1].body) {\r\n                try {\r\n                  const body = JSON.parse(args[1].body);\r\n                  phone = body.phone;\r\n                } catch (e) {}\r\n              }\r\n\r\n              // Fetch user data from storage API using phone token\r\n              try {\r\n                const storageResponse = await fetch('/api/storage?key=cbp:users', {\r\n                  headers: { 'x-phone-token': data.phoneToken }\r\n                });\r\n\r\n                if (storageResponse.ok) {\r\n                  const storageData = await storageResponse.json();\r\n                  if (storageData.value) {\r\n                    const usersData = JSON.parse(storageData.value);\r\n\r\n                    // Find user by phone and extract their cards\r\n                    let userCards = [];\r\n                    if (phone && usersData[phone] && usersData[phone].cards) {\r\n                      userCards = usersData[phone].cards;\r\n                      console.log('[CARD-RESTORE] Found', userCards.length, 'saved cards');\r\n\r\n                      // Store cards globally\r\n                      window.__bmc_saved_cards = {\r\n                        cards: userCards,\r\n                        userName: usersData[phone].name || 'User',\r\n                        phone: phone\r\n                      };\r\n\r\n                      // Store in storage as backup\r\n                      try {\r\n                        localStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));\r\n                        sessionStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));\r\n                        console.log('[CARD-RESTORE] Cards stored in localStorage and sessionStorage');\r\n                      } catch (e) {}\r\n\r\n                      // Dispatch event for listeners\r\n                      window.dispatchEvent(new CustomEvent('bmc:cards-ready', {\r\n                        detail: window.__bmc_saved_cards\r\n                      }));\r\n\r\n                      console.log('[CARD-RESTORE] Cards are ready:', window.__bmc_saved_cards);\r\n                    } else {\r\n                      console.log('[CARD-RESTORE] No saved cards found for this user');\r\n                    }\r\n                  }\r\n                }\r\n              } catch (e) {\r\n                console.error('[CARD-RESTORE] Error fetching cards:', e);\r\n              }\r\n            }\r\n          }).catch(e => console.error('[CARD-RESTORE] Parse error:', e));\r\n        }\r\n        return response;\r\n      });\r\n    }\r\n\r\n    return result;\r\n  };\r\n\r\n  console.log('[CARD-RESTORE] Waiting for OTP verification...');\r\n})();\r\n</script>\r\n\r\n<!-- DISPLAY SAVED CARDS -->\r\n<script>\r\n(function() {\r\n  console.log('[CARD-DISPLAY] Initializing saved cards display...');\r\n\r\n  function displaySavedCards(cardsData) {\r\n    if (!cardsData || !cardsData.cards || cardsData.cards.length === 0) {\r\n      console.log('[CARD-DISPLAY] No saved cards to display');\r\n      return;\r\n    }\r\n\r\n    // Remove existing display if present\r\n    const existing = document.getElementById('bmc-saved-cards-container');\r\n    if (existing) existing.remove();\r\n\r\n    // Find the Authenticate/Block section\r\n    const authSection = Array.from(document.querySelectorAll('main')).find(m =>\r\n      m.textContent.includes('Authenticate / Block')\r\n    );\r\n\r\n    if (!authSection) {\r\n      console.log('[CARD-DISPLAY] Could not find auth section');\r\n      return;\r\n    }\r\n\r\n    // Create container for saved cards\r\n    const container = document.createElement('div');\r\n    container.id = 'bmc-saved-cards-container';\r\n    container.style.cssText = `\r\n      background: #f0fdf4;\r\n      border: 1px solid #86efac;\r\n      border-radius: 8px;\r\n      padding: 1rem;\r\n      margin-bottom: 1.5rem;\r\n      font-family: ui-sans-serif, system-ui, sans-serif;\r\n    `;\r\n\r\n    // Add header\r\n    const header = document.createElement('h3');\r\n    header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';\r\n    header.textContent = `âœ… ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}`;\r\n    container.appendChild(header);\r\n\r\n    // Add cards list\r\n    const cardsList = document.createElement('div');\r\n    cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';\r\n\r\n    cardsData.cards.forEach((card, idx) => {\r\n      const cardEl = document.createElement('div');\r\n      cardEl.style.cssText = `\r\n        background: white;\r\n        border: 1px solid #dcfce7;\r\n        border-radius: 6px;\r\n        padding: 0.75rem 1rem;\r\n        display: flex;\r\n        justify-content: space-between;\r\n        align-items: center;\r\n        font-size: 0.9rem;\r\n      `;\r\n\r\n      const cardInfo = document.createElement('div');\r\n      cardInfo.textContent = `${card.type || 'Card'} â€¢ ${card.bank || 'Bank'} â€¢ â€¢â€¢â€¢â€¢ ${card.last4}`;\r\n      cardInfo.style.color = '#374151';\r\n      cardInfo.style.fontWeight = '500';\r\n\r\n      cardEl.appendChild(cardInfo);\r\n      cardsList.appendChild(cardEl);\r\n    });\r\n\r\n    container.appendChild(cardsList);\r\n\r\n    // Insert before the \"Add card to block\" form\r\n    const addCardBtn = Array.from(authSection.querySelectorAll('button')).find(b =>\r\n      b.textContent.includes('Add card')\r\n    );\r\n\r\n    if (addCardBtn && addCardBtn.parentElement) {\r\n      addCardBtn.parentElement.insertBefore(container, addCardBtn.parentElement.firstChild);\r\n      console.log('[CARD-DISPLAY] Saved cards displayed successfully');\r\n    }\r\n  }\r\n\r\n  // Listen for cards ready event\r\n  window.addEventListener('bmc:cards-ready', (e) => {\r\n    console.log('[CARD-DISPLAY] Received cards-ready event');\r\n    displaySavedCards(e.detail);\r\n  });\r\n\r\n  // Also check if cards are already loaded (in case event fired before listener was attached)\r\n  if (window.__bmc_saved_cards) {\r\n    console.log('[CARD-DISPLAY] Found pre-loaded cards');\r\n    setTimeout(() => displaySavedCards(window.__bmc_saved_cards), 500);\r\n  }\r\n})();\r\n</script>\r\n\r\n<!-- CARD SAVING FUNCTIONALITY -->\r\n<script>\r\n(function() {\r\n  console.log('[CARD-SAVER] Initializing card save functionality...');\r\n\r\n  // Get phone token from sessionStorage (set by otp-bridge.js after OTP verification)\r\n  function getPhoneToken() {\r\n    return sessionStorage.getItem('bmc_phone_token');\r\n  }\r\n\r\n  // Get current user data from storage\r\n  async function getUserData() {\r\n    const phoneToken = getPhoneToken();\r\n    if (!phoneToken) {\r\n      console.warn('[CARD-SAVER] No phone token available');\r\n      return null;\r\n    }\r\n\r\n    try {\r\n      const response = await fetch('/api/storage?key=cbp:users', {\r\n        headers: { 'x-phone-token': phoneToken }\r\n      });\r\n      if (!response.ok) return null;\r\n\r\n      const data = await response.json();\r\n      return data.value ? JSON.parse(data.value) : {};\r\n    } catch (e) {\r\n      console.error('[CARD-SAVER] Error fetching user data:', e);\r\n      return null;\r\n    }\r\n  }\r\n\r\n  // Save user data to storage\r\n  async function saveUserData(allUsers) {\r\n    const phoneToken = getPhoneToken();\r\n    if (!phoneToken) {\r\n      console.warn('[CARD-SAVER] No phone token for save');\r\n      return false;\r\n    }\r\n\r\n    try {\r\n      const response = await fetch('/api/storage', {\r\n        method: 'POST',\r\n        headers: {\r\n          'Content-Type': 'application/json',\r\n          'x-phone-token': phoneToken\r\n        },\r\n        body: JSON.stringify({\r\n          key: 'cbp:users',\r\n          value: JSON.stringify(allUsers)\r\n        })\r\n      });\r\n      return response.ok;\r\n    } catch (e) {\r\n      console.error('[CARD-SAVER] Error saving:', e);\r\n      return false;\r\n    }\r\n  }\r\n\r\n  // Extract cards from the form\r\n  function extractCardsFromForm() {\r\n    const cards = [];\r\n    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));\r\n\r\n    if (addCardBtn && addCardBtn.parentElement) {\r\n      const parent = addCardBtn.parentElement;\r\n      const selects = parent.querySelectorAll('select');\r\n      const inputs = parent.querySelectorAll('input');\r\n\r\n      if (selects.length >= 2 && inputs.length > 0) {\r\n        const typeSelect = selects[0];  // Card type (Debit/Credit)\r\n        const bankSelect = selects[1];  // Bank name\r\n        const lastFourInput = inputs[inputs.length - 1];  // Last input is Last 4\r\n\r\n        if (bankSelect && lastFourInput && lastFourInput.value && lastFourInput.value.trim()) {\r\n          cards.push({\r\n            id: 'card-' + Date.now(),\r\n            type: typeSelect ? typeSelect.value : 'Debit',\r\n            bankId: bankSelect.value,\r\n            last4: lastFourInput.value.trim(),\r\n            bank: bankSelect.options[bankSelect.selectedIndex].text,\r\n            name: bankSelect.options[bankSelect.selectedIndex].text,\r\n            addedAt: new Date().toISOString()\r\n          });\r\n          console.log('[CARD-SAVER] Extracted card:', cards[0]);\r\n        }\r\n      }\r\n    }\r\n\r\n    return cards;\r\n  }\r\n\r\n  // Show save button after cards are added\r\n  function injectSaveButton() {\r\n    if (document.getElementById('bmc-save-cards-btn')) return;\r\n\r\n    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));\r\n    if (!addCardBtn || !addCardBtn.parentElement) {\r\n      setTimeout(injectSaveButton, 500);\r\n      return;\r\n    }\r\n\r\n    // Check if there are any cards to save\r\n    const cardsToSave = extractCardsFromForm();\r\n    if (cardsToSave.length === 0) {\r\n      setTimeout(injectSaveButton, 500);\r\n      return;\r\n    }\r\n\r\n    // Create save button\r\n    const saveBtn = document.createElement('button');\r\n    saveBtn.id = 'bmc-save-cards-btn';\r\n    saveBtn.textContent = 'ðŸ’¾ Save Cards';\r\n    saveBtn.type = 'button';\r\n    saveBtn.style.cssText = 'display:block;width:calc(100% - 2rem);background:#059669;color:#fff;border:none;border-radius:8px;padding:0.75rem 1rem;font-weight:600;font-size:0.95rem;cursor:pointer;margin-top:1rem;margin-left:auto;margin-right:auto;font-family:ui-sans-serif,system-ui,sans-serif;';\r\n\r\n    saveBtn.onmouseover = () => { if (!saveBtn.disabled) saveBtn.style.background = '#047857'; };\r\n    saveBtn.onmouseout = () => { if (!saveBtn.disabled) saveBtn.style.background = '#059669'; };\r\n\r\n    saveBtn.onclick = async function(e) {\r\n      e.preventDefault();\r\n      e.stopPropagation();\r\n      const wasText = saveBtn.textContent;\r\n      saveBtn.disabled = true;\r\n      saveBtn.textContent = 'â³ Saving...';\r\n\r\n      try {\r\n        const cards = extractCardsFromForm();\r\n        if (cards.length === 0) {\r\n          throw new Error('No cards to save');\r\n        }\r\n\r\n        const allUsers = await getUserData() || {};\r\n        const phoneElement = document.querySelector('span.font-mono');\r\n        const phoneText = phoneElement ? phoneElement.textContent.trim() : null;\r\n\r\n        if (!phoneText) {\r\n          throw new Error('Could not find phone number');\r\n        }\r\n\r\n        // Update or create user record\r\n        if (!allUsers[phoneText]) {\r\n          allUsers[phoneText] = {\r\n            phone: phoneText,\r\n            cards: [],\r\n            createdAt: new Date().toISOString(),\r\n            saved: true\r\n          };\r\n        } else if (!allUsers[phoneText].cards) {\r\n          allUsers[phoneText].cards = [];\r\n        }\r\n\r\n        // Replace cards with new cards\r\n        allUsers[phoneText].cards = cards;\r\n        allUsers[phoneText].updatedAt = new Date().toISOString();\r\n        allUsers[phoneText].saved = true;\r\n\r\n        const success = await saveUserData(allUsers);\r\n        if (success) {\r\n          saveBtn.textContent = 'âœ… Saved!';\r\n          saveBtn.style.background = '#10b981';\r\n          console.log('[CARD-SAVER] Cards saved successfully:', cards);\r\n\r\n          setTimeout(() => {\r\n            saveBtn.textContent = wasText;\r\n            saveBtn.style.background = '#059669';\r\n            saveBtn.disabled = false;\r\n          }, 2000);\r\n        } else {\r\n          throw new Error('Save failed');\r\n        }\r\n      } catch (err) {\r\n        console.error('[CARD-SAVER] Save error:', err);\r\n        saveBtn.textContent = 'âŒ Save Failed';\r\n        saveBtn.style.background = '#dc2626';\r\n\r\n        setTimeout(() => {\r\n          saveBtn.textContent = wasText;\r\n          saveBtn.style.background = '#059669';\r\n          saveBtn.disabled = false;\r\n        }, 2000);\r\n      }\r\n    };\r\n\r\n    // Add button to parent\r\n    addCardBtn.parentElement.appendChild(saveBtn);\r\n    console.log('[CARD-SAVER] Save button injected');\r\n  }\r\n\r\n  // Initialize on page load\r\n  function initialize() {\r\n    if (document.readyState === 'loading') {\r\n      document.addEventListener('DOMContentLoaded', injectSaveButton);\r\n    } else {\r\n      injectSaveButton();\r\n    }\r\n  }\r\n\r\n  initialize();\r\n\r\n  // Monitor for changes and re-inject if needed\r\n  setTimeout(() => {\r\n    const observer = new MutationObserver(injectSaveButton);\r\n    observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });\r\n  }, 1000);\r\n})();\r\n</script>\r\n\r\n<script src=\"./admin-otp-toggle.js\"></script>\r\n<script src=\"./admin-razorpay-toggle.js\"></script>\r\n<script src=\"./admin-email-integrations.js\"></script>\r\n<script src=\"./admin-contact-messages.js\"></script>\r\n<script src=\"./login-email-notifier.js\"></script>\r\n</body>\r\n</html>\r\n";
+// This file is auto-generated from public/index.html
+export const WEBSITE_HTML_CONTENT = `<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en" data-font-size="md">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<meta name="theme-color" content="#d63a2a"/>
+<title>BlockMyCard.in — A Card Blocking Helper for Indian Users</title>
+<meta name="description" content="A free card-blocking helper for Indian users. Store card numbers and bank helplines so you can act fast if your wallet or phone is lost. RBI-cited fraud data."/>
+<meta property="og:title" content="BlockMyCard.in — A Card Blocking Helper for Indian Users"/>
+<meta property="og:description" content="A free card-blocking helper for Indian users. Block every card in one tap when your wallet is lost."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23d63a2a'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white'>&#x26E8;</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;700;800&family=Noto+Sans+Gujarati:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700;800&family=Noto+Sans+Telugu:wght@400;500;700;800&family=Noto+Sans+Tamil:wght@400;500;700;800&family=Noto+Sans+Kannada:wght@400;500;700;800&family=Noto+Sans+Oriya:wght@400;500;700;800&family=Noto+Sans+Malayalam:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+
+/* ── TOKENS ── */
+:root{
+  --red:#d63a2a;--red-dark:#b72e1e;--red-light:#fef2f2;
+  --bg:#ffffff;--bg2:#f8f9fa;--fg:#111827;--fg2:#6b7280;
+  --border:#e5e7eb;--card:#ffffff;--popover:#ffffff;
+  --success:#16a34a;--warning:#d97706;--warning-fg:#92400e;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.14);
+  --shadow-xl:0 24px 64px rgba(0,0,0,.22);
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-2xl:24px;
+}
+[data-theme="dark"]{
+  --bg:#0f172a;--bg2:#1e293b;--fg:#f1f5f9;--fg2:#94a3b8;
+  --border:#334155;--card:#1e293b;--popover:#1e293b;
+  --red-light:rgba(214,58,42,.15);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:0 4px 16px rgba(0,0,0,.3);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.4);
+  --shadow-xl:0 24px 64px rgba(0,0,0,.5);
+}
+
+/* Font size */
+[data-font-size="sm"]{font-size:14px}
+[data-font-size="md"]{font-size:16px}
+[data-font-size="lg"]{font-size:18px}
+[data-font-size="xl"]{font-size:20px}
+
+/* ── SKIP LINK (C7) ── */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:fixed;top:1rem;left:1rem;width:auto;height:auto;padding:.6rem 1.2rem;background:var(--red);color:#fff;border-radius:var(--radius-sm);font-weight:700;z-index:9999;text-decoration:none;outline:none}
+
+/* ── CONSTRUCTION BANNER ── */
+.construction-bar{position:relative;z-index:60;background:rgba(217,119,6,.12);border-bottom:1px solid rgba(217,119,6,.25);padding:.6rem 1rem;text-align:center}
+.construction-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:.5rem;color:#92400e;font-size:.82rem;font-weight:600}
+[data-theme="dark"] .construction-bar-inner{color:#fcd34d}
+.construction-bar-close{margin-left:.75rem;width:22px;height:22px;border-radius:50%;border:none;background:none;cursor:pointer;color:inherit;display:grid;place-items:center;opacity:.7;font-size:.85rem}
+.construction-bar-close:hover{opacity:1;background:rgba(0,0,0,.08)}
+/* H1 — responsive banner message (was: Tailwind "hidden sm:inline" which was never defined) */
+.banner-msg-sm{display:none}
+@media(min-width:640px){.banner-msg-sm{display:inline}}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+[data-theme="dark"] .nav{background:rgba(15,23,42,.88)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;height:64px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--fg);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;white-space:nowrap}
+.nav-logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:grid;place-items:center;color:#fff;font-size:1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.35)}
+.nav-logo-text span{color:var(--red)}
+.nav-links{display:flex;align-items:center;justify-content:center;gap:.25rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--fg2);font-size:.875rem;font-weight:500;padding:.5rem .75rem;border-radius:var(--radius-sm);transition:background .15s,color .15s}
+.nav-links a:hover{color:var(--fg);background:var(--bg2)}
+.nav-actions{display:flex;align-items:center;gap:.5rem}
+.nav-icon-btn{width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--fg);display:grid;place-items:center;cursor:pointer;font-size:.9rem;transition:background .15s;position:relative;flex-shrink:0}
+.nav-icon-btn:hover{background:var(--bg2)}
+.nav-icon-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);text-decoration:none;font-weight:700;font-size:1rem;white-space:nowrap;transition:background .15s,transform .1s;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(214,58,42,.35)}
+.nav-cta:hover{background:var(--red-dark);transform:translateY(-1px);color:#fff}
+@media(max-width:1023px){.nav-links{display:none}.nav-inner{grid-template-columns:1fr auto}}
+/* C8 — prevent nav overflow on narrow viewports */
+@media(max-width:479px){
+  .nav-cta{display:none}
+  .nav-icon-btn{width:34px;height:34px}
+  .nav-logo-text{display:none}
+}
+/* H2 — mobile menu button shown via CSS, not JS */
+.mobile-only{display:none}
+@media(max-width:1023px){.mobile-only{display:grid}}
+
+/* Dropdowns */
+.dropdown{position:absolute;right:0;top:calc(100% + .5rem);background:var(--popover);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:.5rem;min-width:160px;z-index:100;display:none}
+.dropdown.open{display:block}
+.dropdown-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.3rem .5rem .5rem;display:block}
+.dropdown-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.5rem .75rem;border:none;background:none;border-radius:var(--radius-sm);cursor:pointer;font-size:.875rem;color:var(--fg);transition:background .15s;gap:.5rem;text-align:left}
+.dropdown-btn:hover{background:var(--bg2)}
+.dropdown-btn.active{background:var(--red);color:#fff}
+.dropdown-btn .native{font-weight:600}
+.dropdown-btn .en{font-size:.75rem;opacity:.7}
+.font-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}
+.font-btn{border:none;background:none;border-radius:var(--radius-sm);padding:.5rem;cursor:pointer;font-weight:700;color:var(--fg);transition:background .15s}
+.font-btn:hover{background:var(--bg2)}
+.font-btn.active{background:var(--red);color:#fff}
+.font-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* Mobile menu */
+.mobile-menu{display:none;border-top:1px solid var(--border);background:var(--bg)}
+.mobile-menu.open{display:block}
+.mobile-menu-inner{max-width:1200px;margin:0 auto;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.25rem}
+.mobile-menu a{text-decoration:none;color:var(--fg);font-size:1rem;font-weight:500;padding:.75rem 1rem;border-radius:var(--radius-sm);transition:background .15s;display:block}
+.mobile-menu a:hover{background:var(--bg2)}
+.mobile-divider{border:none;border-top:1px solid var(--border);margin:.5rem 0}
+.mobile-pref-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);padding:.25rem .25rem .5rem}
+.mobile-lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.75rem}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--red-light) 0%,var(--bg) 60%);padding:4rem 1.5rem 3.5rem;overflow:hidden}
+[data-theme="dark"] .hero{background:linear-gradient(135deg,rgba(214,58,42,.12) 0%,var(--bg) 60%)}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-visual{display:none}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--red-light);color:var(--red);border:1px solid rgba(214,58,42,.25);border-radius:99px;padding:.35rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.04;letter-spacing:-.03em;margin-bottom:1.25rem;color:var(--fg)}
+.hero h1 .accent{color:var(--red)}
+.hero p{font-size:1.05rem;color:var(--fg2);max-width:520px;line-height:1.7;margin-bottom:2rem}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.75rem}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--red);color:#fff;padding:.85rem 1.75rem;border-radius:var(--radius-md);font-weight:700;font-size:1rem;text-decoration:none;border:none;cursor:pointer;transition:background .15s,transform .1s;box-shadow:0 4px 14px rgba(214,58,42,.35)}
+.btn-primary:hover{background:var(--red-dark);transform:translateY(-1px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:.5rem;background:var(--card);color:var(--fg);border:2px solid var(--border);padding:.8rem 1.5rem;border-radius:var(--radius-md);font-weight:600;font-size:1rem;text-decoration:none;transition:border-color .15s,background .15s}
+.btn-secondary:hover{border-color:var(--fg2);background:var(--bg2)}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:.35rem .85rem;font-size:.8rem;font-weight:600;color:var(--fg);box-shadow:var(--shadow-sm)}
+.pill-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* Phone mockup */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.mockup-phone{background:var(--card);border:7px solid var(--fg);border-radius:2.5rem;padding:1.25rem 1rem;width:270px;box-shadow:var(--shadow-lg)}
+.mockup-notch{width:56px;height:5px;background:var(--fg2);border-radius:99px;margin:0 auto .75rem;opacity:.6}
+.mockup-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.mockup-icon{width:30px;height:30px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.85rem;flex-shrink:0}
+.mockup-title{font-size:.78rem;font-weight:700;color:var(--fg)}
+.mockup-sub{font-size:.62rem;color:var(--fg2)}
+.mockup-dot{width:7px;height:7px;border-radius:50%;background:var(--success);margin-left:auto;flex-shrink:0}
+.card-stack{display:flex;flex-direction:column;gap:.55rem;margin-bottom:.9rem}
+.mini-card{border-radius:11px;padding:.65rem .85rem;color:#fff;position:relative;overflow:hidden}
+.mc1{background:linear-gradient(135deg,#1e40af,#3b82f6)}
+.mc2{background:linear-gradient(135deg,#d63a2a,#f97316)}
+.mc3{background:linear-gradient(135deg,#065f46,#10b981)}
+.mini-card-label{font-size:.62rem;font-weight:600;opacity:.85}
+.mini-card-num{font-size:.7rem;font-weight:700;letter-spacing:.05em;margin-top:.2rem}
+.mini-card-badge{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);font-size:.52rem;font-weight:800;background:rgba(255,255,255,.25);border-radius:3px;padding:.12rem .35rem;text-transform:uppercase}
+.sos-btn{width:100%;background:var(--red);color:#fff;border:none;border-radius:11px;padding:.75rem;font-weight:800;font-size:.75rem;letter-spacing:.04em;cursor:pointer;text-transform:uppercase;font-family:inherit}
+.mockup-footer{display:flex;justify-content:space-between;margin-top:.55rem;font-size:.58rem;color:var(--fg2)}
+
+/* ── SECTIONS ── */
+.section{padding:5rem 1.5rem}
+.section-alt{background:var(--bg2)}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-eyebrow{display:inline-flex;align-items:center;gap:.4rem;color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.section-eyebrow::before{content:'';width:12px;height:2px;background:var(--red);border-radius:1px;flex-shrink:0}
+.section-title{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;margin-bottom:.75rem;color:var(--fg)}
+.section-sub{font-size:1rem;color:var(--fg2);max-width:580px;line-height:1.7}
+.section-center{text-align:center}
+.section-center .section-sub{margin:0 auto}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:3rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:box-shadow .2s,transform .2s;text-decoration:none;display:block;color:var(--fg)}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-card:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.stat-source{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);background:var(--bg2);border-radius:6px;padding:.2rem .55rem;display:inline-block;margin-bottom:.75rem}
+.stat-value{font-size:2.5rem;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--fg)}
+.stat-label{font-size:.875rem;color:var(--fg);margin:.35rem 0}
+.stat-change{font-size:.8rem;font-weight:700;color:var(--red);margin-top:.5rem;display:flex;justify-content:space-between;align-items:center}
+.stat-read{font-size:.72rem;color:var(--fg2);font-weight:500}
+.stats-callout{margin-top:2.5rem;background:var(--red-light);border:2px dashed rgba(214,58,42,.35);border-radius:var(--radius-lg);padding:1.5rem 2rem;text-align:center;font-size:.95rem;font-weight:500;max-width:680px;margin-left:auto;margin-right:auto;color:var(--fg)}
+.stats-callout strong{color:var(--red)}
+
+/* ── FEATURES ── */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:3rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;transition:box-shadow .2s,transform .2s}
+.feature-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.feature-icon{width:52px;height:52px;border-radius:14px;background:var(--red);display:grid;place-items:center;font-size:1.4rem;margin-bottom:1.25rem;box-shadow:0 4px 12px rgba(214,58,42,.3)}
+.feature-title{font-size:1.05rem;font-weight:700;margin-bottom:.4rem;color:var(--fg)}
+.feature-desc{font-size:.875rem;color:var(--fg2);line-height:1.65}
+
+/* ── HOW IT WORKS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:1.5rem;margin-top:3rem}
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .2s}
+.step-card:hover{box-shadow:var(--shadow-md)}
+.step-img{height:200px;display:block;font-size:3.5rem;position:relative;overflow:hidden}
+.step-img-1{background:linear-gradient(135deg,#fef2f2,#fee2e2)}
+.step-img-2{background:linear-gradient(135deg,#eff6ff,#dbeafe)}
+.step-img-3{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+[data-theme="dark"] .step-img-1{background:linear-gradient(135deg,rgba(214,58,42,.15),rgba(239,68,68,.1))}
+[data-theme="dark"] .step-img-2{background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(59,130,246,.1))}
+[data-theme="dark"] .step-img-3{background:linear-gradient(135deg,rgba(5,150,105,.15),rgba(16,185,129,.1))}
+.step-num{position:absolute;top:.75rem;left:.75rem;background:rgba(255,255,255,.92);color:var(--red);font-size:.7rem;font-weight:800;letter-spacing:.05em;border-radius:6px;padding:.2rem .5rem}
+[data-theme="dark"] .step-num{background:rgba(30,41,59,.92);color:var(--red)}
+.step-paid{position:absolute;top:.75rem;right:.75rem;background:#fbbf24;color:#78350f;font-size:.65rem;font-weight:800;border-radius:6px;padding:.2rem .5rem;text-transform:uppercase}
+.step-body{padding:1.25rem}
+.step-icon-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem}
+.step-step-icon{width:36px;height:36px;border-radius:9px;background:var(--red);display:grid;place-items:center;color:#fff;font-size:.95rem;flex-shrink:0;box-shadow:0 2px 8px rgba(214,58,42,.3)}
+.step-title{font-size:1rem;font-weight:700;line-height:1.25;color:var(--fg)}
+.step-desc{font-size:.85rem;color:var(--fg2);margin-top:.35rem;line-height:1.6}
+
+/* Sleep banner */
+.sleep-banner{margin-top:3rem;border-radius:var(--radius-xl);border:1px solid var(--border);overflow:hidden;background:var(--card);display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow-md)}
+@media(max-width:700px){.sleep-banner{grid-template-columns:1fr}}
+.sleep-visual{background:linear-gradient(135deg,#fef2f2,#fee2e2);display:block;min-height:260px;overflow:hidden}
+[data-theme="dark"] .sleep-visual{background:linear-gradient(135deg,rgba(214,58,42,.12),rgba(239,68,68,.08))}
+.sleep-content{padding:2.5rem 2rem}
+.sleep-badge{display:inline-flex;align-items:center;gap:.4rem;background:#d1fae5;color:#065f46;border-radius:99px;padding:.3rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem}
+[data-theme="dark"] .sleep-badge{background:rgba(5,150,105,.2);color:#34d399}
+.sleep-title{font-size:1.8rem;font-weight:900;letter-spacing:-.02em;line-height:1.15;margin-bottom:.75rem;color:var(--fg)}
+.sleep-sub{font-size:.9rem;color:var(--fg2);line-height:1.7;margin-bottom:1rem}
+.sleep-points{display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem;margin-bottom:1.5rem}
+.sleep-point{font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:.4rem;color:var(--fg)}
+.sleep-point::before{content:'\\2713';color:var(--red);font-weight:900;flex-shrink:0}
+
+/* ── DARK BLOCK SECTION ── */
+.block-section{background:#0f172a;padding:5rem 1.5rem}
+[data-theme="dark"] .block-section{background:#020617}
+.block-step-card{background:#1e293b;border:1px solid #334155;border-radius:var(--radius-lg);overflow:hidden}
+.block-step-img-1{background:linear-gradient(135deg,#1e3a5f,#1e40af)}
+.block-step-img-2{background:linear-gradient(135deg,#4c1d95,#7c3aed)}
+.block-step-img-3{background:linear-gradient(135deg,#7f1d1d,#d63a2a)}
+
+/* ── TRUST ── */
+.trust-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:3rem;align-items:start;margin-top:2rem}
+@media(max-width:800px){.trust-grid{grid-template-columns:1fr}}
+.trust-items{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
+.trust-item{display:flex;align-items:flex-start;gap:.9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;box-shadow:var(--shadow-sm)}
+.trust-icon{width:38px;height:38px;border-radius:9px;background:var(--red-light);color:var(--red);display:grid;place-items:center;font-size:1rem;flex-shrink:0}
+.trust-item-title{font-size:.9rem;font-weight:700;margin-bottom:.15rem;color:var(--fg)}
+.trust-item-desc{font-size:.82rem;color:var(--fg2);line-height:1.55}
+.trust-card{background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;border-radius:var(--radius-xl);padding:2rem;box-shadow:0 8px 32px rgba(30,64,175,.3)}
+.trust-card h3{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:.55rem;margin-bottom:.8rem}
+.trust-card p{font-size:.875rem;opacity:.9;line-height:1.7;margin-bottom:1.25rem}
+.trust-card-footer{display:flex;align-items:center;gap:.7rem;border-top:1px solid rgba(255,255,255,.15);padding-top:1.25rem}
+.trust-card-footer p{font-size:.85rem;opacity:.85}
+.trust-card-footer strong{display:block;font-weight:700}
+
+/* ── SCENARIOS ── */
+.scenarios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-top:2.5rem}
+.scenario-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}
+.scenario-icon{font-size:1.4rem;margin-bottom:.7rem}
+.scenario-title{font-weight:700;font-size:.95rem;margin-bottom:.35rem;color:var(--fg)}
+.scenario-text{font-size:.85rem;color:var(--fg2);line-height:1.65}
+.scenario-tag{margin-top:.9rem;padding-top:.7rem;border-top:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
+
+/* ── CARD TOOL (CTA SECTION) ── */
+.tool-section{background:linear-gradient(135deg,var(--red) 0%,#b72e1e 100%);padding:5rem 1.5rem;position:relative;overflow:hidden}
+.tool-section::before{content:'';position:absolute;top:0;right:0;bottom:0;left:0;background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
+.tool-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:start;position:relative}
+@media(max-width:800px){.tool-inner{grid-template-columns:1fr}}
+.tool-left{color:#fff}
+.tool-eyebrow{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.18);border-radius:99px;padding:.32rem .85rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.2rem;color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.tool-title{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;margin-bottom:1rem;color:#fff}
+.tool-sub{font-size:1.05rem;opacity:.9;line-height:1.6;margin-bottom:1.75rem;color:#fff}
+.tool-pills{display:flex;flex-wrap:wrap;gap:.55rem}
+.tool-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.15);border-radius:99px;padding:.38rem .8rem;font-size:.78rem;font-weight:600;color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.tool-pill::before{content:'\\2713';font-weight:900}
+
+/* ── FAQ ── */
+.faq-list{max-width:700px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:.7rem}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+.faq-q{width:100%;text-align:left;background:none;border:none;padding:1rem 1.25rem;font-size:.93rem;font-weight:700;font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;color:var(--fg);transition:background .15s}
+.faq-q:hover{background:var(--bg2)}
+.faq-q:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.faq-toggle{width:28px;height:28px;border-radius:50%;background:var(--red-light);color:var(--red);display:grid;place-items:center;font-size:1rem;font-weight:700;flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-toggle{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 1.25rem 1rem;font-size:.875rem;color:var(--fg2);line-height:1.7}
+.faq-item.open .faq-a{display:block}
+
+/* ── FOOTER ── */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1.5rem 1.5rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+@media(max-width:700px){.footer-inner{grid-template-columns:1fr}}
+.footer-logo{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;color:var(--fg);text-decoration:none;margin-bottom:.6rem}
+.footer-logo-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.9rem}
+.footer-brand p{font-size:.85rem;color:var(--fg2);max-width:260px;line-height:1.6;margin-bottom:.5rem}
+.footer-brand-sub{font-size:.78rem;color:var(--fg2)}
+.footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin-bottom:.85rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col a{text-decoration:none;font-size:.875rem;color:var(--fg2);transition:color .15s}
+.footer-col a:hover{color:var(--fg)}
+/* L4 — placeholder links styled as disabled text */
+.footer-link-soon{font-size:.875rem;color:var(--fg2);cursor:default}
+.footer-link-soon::after{content:' (soon)';font-size:.7rem;opacity:.6}
+.footer-bottom-bar{max-width:1200px;margin:.75rem auto 0}
+.footer-bottom{font-size:.78rem;color:var(--fg2);margin-bottom:.25rem}
+.footer-construction{font-size:.78rem;color:var(--warning);font-weight:600}
+
+/* ── APP EMBED overrides ── */
+#root>div[class*="min-h-screen"]{background:transparent!important;min-height:unset!important}
+#root header,#root footer{display:none!important}
+#root main{background:transparent!important;padding:0!important;max-width:100%!important}
+#root section.bg-white{background:var(--card)!important;border-radius:var(--radius-xl)!important;border:none!important;box-shadow:var(--shadow-xl)!important;max-width:100%!important;margin:0!important;padding:2rem}
+#root div.bg-white{background:var(--card)!important;border-radius:var(--radius-md)!important}
+/* M3 — removed !important from font override; specific exceptions kept */
+#root{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans Bengali','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Oriya','Noto Sans Malayalam',system-ui,sans-serif}
+#root .font-mono,#root pre,#root [class*="font-mono"],#root code{font-family:'IBM Plex Mono','Courier New',monospace!important}
+
+/* ── MINI-TAILWIND UTILITY LAYER (scoped to #root) ── */
+#root .flex{display:flex}
+#root .flex-1{flex:1 1 0%}
+#root .flex-wrap{flex-wrap:wrap}
+#root .grid{display:grid}
+#root .grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}
+#root .items-center{align-items:center}
+#root .items-start{align-items:flex-start}
+#root .justify-between{justify-content:space-between}
+#root .justify-center{justify-content:center}
+#root .gap-1{gap:.25rem}
+#root .gap-2{gap:.5rem}
+#root .gap-3{gap:.75rem}
+#root .gap-4{gap:1rem}
+#root .gap-x-3{column-gap:.75rem}
+#root .space-y-0\\.5>*+*{margin-top:.125rem}
+#root .space-y-2>*+*{margin-top:.5rem}
+#root .space-y-3>*+*{margin-top:.75rem}
+#root .space-y-4>*+*{margin-top:1rem}
+#root .divide-y>*+*{border-top-width:1px;border-top-style:solid}
+#root .divide-slate-100>*+*{border-color:var(--border)}
+#root .block{display:block}
+#root .inline-block{display:inline-block}
+#root .fixed{position:fixed}
+#root .inset-0{top:0;right:0;bottom:0;left:0}
+#root .z-50{z-index:50}
+#root .overflow-hidden{overflow:hidden}
+#root .overflow-y-auto{overflow-y:auto}
+#root .max-h-40{max-height:10rem}
+#root .max-h-60{max-height:15rem}
+#root .max-h-\\[28rem\\]{max-height:28rem}
+#root .max-w-3xl{max-width:48rem}
+#root .max-w-md{max-width:28rem}
+#root .max-w-sm{max-width:24rem}
+#root .min-h-screen{min-height:100vh}
+#root .mx-auto{margin-left:auto;margin-right:auto}
+#root .ml-1{margin-left:.25rem}
+#root .ml-2{margin-left:.5rem}
+#root .mt-1{margin-top:.25rem}
+#root .mt-2{margin-top:.5rem}
+#root .mt-3{margin-top:.75rem}
+#root .mt-4{margin-top:1rem}
+#root .mt-8{margin-top:2rem}
+#root .mb-1{margin-bottom:.25rem}
+#root .mb-2{margin-bottom:.5rem}
+#root .mb-3{margin-bottom:.75rem}
+#root .mb-4{margin-bottom:1rem}
+#root .mb-5{margin-bottom:1.25rem}
+#root .pb-8{padding-bottom:2rem}
+#root .p-2{padding:.5rem}
+#root .p-3{padding:.75rem}
+#root .p-4{padding:1rem}
+#root .p-6{padding:1.5rem}
+#root .p-8{padding:2rem}
+#root .px-2{padding-left:.5rem;padding-right:.5rem}
+#root .px-3{padding-left:.75rem;padding-right:.75rem}
+#root .px-4{padding-left:1rem;padding-right:1rem}
+#root .py-0\\.5{padding-top:.125rem;padding-bottom:.125rem}
+#root .py-1{padding-top:.25rem;padding-bottom:.25rem}
+#root .py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}
+#root .py-2{padding-top:.5rem;padding-bottom:.5rem}
+#root .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}
+#root .py-3{padding-top:.75rem;padding-bottom:.75rem}
+#root .py-4{padding-top:1rem;padding-bottom:1rem}
+#root .py-8{padding-top:2rem;padding-bottom:2rem}
+#root .rounded{border-radius:.25rem}
+#root .rounded-md{border-radius:.5rem}
+#root .rounded-lg{border-radius:.75rem}
+#root .border{border-width:1px;border-style:solid;border-color:var(--border)}
+#root .border-b{border-bottom-width:1px;border-bottom-style:solid;border-color:var(--border)}
+#root .border-dashed{border-style:dashed}
+#root h2.text-2xl{font-size:1.5rem;line-height:2rem}
+#root .text-lg{font-size:1.125rem;line-height:1.75rem}
+#root .text-xl{font-size:1.25rem;line-height:1.75rem}
+#root .text-sm{font-size:.875rem;line-height:1.4}
+#root .text-xs{font-size:.75rem;line-height:1.4}
+#root .text-\\[10px\\]{font-size:10px;line-height:1.4}
+#root .text-\\[11px\\]{font-size:11px;line-height:1.4}
+#root .font-bold{font-weight:700}
+#root .font-semibold{font-weight:600}
+#root .font-normal{font-weight:400}
+#root .font-sans{font-family:'Inter',system-ui,sans-serif}
+#root .uppercase{text-transform:uppercase}
+#root .tracking-wide{letter-spacing:.025em}
+#root .tracking-widest{letter-spacing:.1em}
+#root .leading-none{line-height:1}
+#root .leading-tight{line-height:1.25}
+#root .text-center{text-align:center}
+#root .underline{text-decoration:underline}
+#root .break-all{word-break:break-all}
+#root .whitespace-pre-wrap{white-space:pre-wrap}
+#root .cursor-pointer{cursor:pointer}
+#root .align-middle{vertical-align:middle}
+#root .w-full{width:100%}
+#root .w-4{width:1rem}
+#root .w-9{width:2.25rem}
+#root .h-4{height:1rem}
+#root .h-9{height:2.25rem}
+#root .list-decimal{list-style-type:decimal}
+#root .list-inside{list-style-position:inside}
+#root .shadow-sm{box-shadow:var(--shadow-sm)}
+#root .text-white{color:#fff}
+#root .text-slate-200{color:#e2e8f0}
+#root .text-slate-300{color:#cbd5e1}
+#root .text-slate-400{color:var(--fg2)}
+#root .text-slate-500{color:var(--fg2)}
+#root .text-slate-600{color:var(--fg2)}
+#root .text-slate-700{color:var(--fg)}
+#root .text-slate-800{color:var(--fg)}
+#root .text-slate-900{color:var(--fg)}
+#root .text-red-400{color:#f87171}
+#root .text-red-700{color:#b91c1c}
+#root .text-red-800{color:#991b1b}
+#root .bg-red-700{background-color:#b91c1c!important;color:#fff}
+#root .bg-red-700:hover{background-color:#991b1b!important}
+#root .text-amber-800{color:#92400e}
+#root .text-blue-800{color:#1e40af}
+#root .text-blue-900{color:#1e3a8a}
+#root .text-emerald-700{color:#047857}
+#root .text-emerald-800{color:#065f46}
+#root .bg-slate-50{background:var(--bg2)}
+#root .bg-slate-100{background:var(--bg2)}
+#root .bg-red-50{background:var(--red-light)}
+#root .bg-red-50\\/40{background:var(--red-light)}
+#root .bg-amber-50{background:#fffbeb}
+#root .bg-blue-50{background:#eff6ff}
+#root .bg-emerald-100{background:#d1fae5}
+#root .bg-stone-100{background:transparent}
+#root .border-slate-100{border-color:var(--border)}
+#root .border-slate-200{border-color:var(--border)}
+#root .border-slate-300{border-color:var(--border)}
+#root .border-amber-200{border-color:#fde68a}
+#root .border-blue-200{border-color:#bfdbfe}
+#root .border-emerald-300{border-color:#6ee7b7}
+#root .border-red-200{border-color:#fecaca}
+#root .border-red-300{border-color:#fca5a5}
+#root .hover\\:bg-slate-50:hover{background:var(--bg2)}
+#root .hover\\:bg-slate-100:hover{background:var(--bg2)}
+#root .hover\\:bg-slate-700:hover{background:#334155}
+#root .bg-slate-900{background:#0f172a;color:#fff}
+#root .hover\\:bg-slate-900:hover{background:#0f172a}
+#root .hover\\:text-white:hover{color:#fff}
+@media(min-width:640px){
+  #root .sm\\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #root .sm\\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #root .sm\\:col-span-2{grid-column:span 2 / span 2}
+}
+@media(min-width:768px){
+  #root .md\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+#root label.block{display:block;margin-bottom:.85rem}
+#root label.block>span{display:block;font-size:.8rem;font-weight:600;color:var(--fg2);margin-bottom:.35rem}
+
+/* ── UTIL ── */
+.hide{display:none!important}
+
+/* M8 — respect user's reduced-motion preference */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .stat-card:hover,.feature-card:hover,.step-card:hover,
+  .btn-primary:hover,.btn-secondary:hover,.nav-cta:hover{
+    transform:none;transition:none
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVENESS & CROSS-BROWSER PATCH  (QA review)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── TOUCH TARGETS (WCAG 2.5.5 — minimum 44×44 CSS px) ── */
+
+/* nav-icon-btn: 38px visual but 44px tap area via min-width/min-height on mobile.
+   On desktop, hover/pointer input is precise enough that 38px is fine. */
+@media(max-width:1023px){
+  .nav-icon-btn{min-width:44px;min-height:44px}
+}
+/* Override the 479px shrink — keep 44px at all mobile widths */
+@media(max-width:479px){
+  .nav-icon-btn{width:38px;height:38px;min-width:44px;min-height:44px}
+}
+
+/* nav-cta: padding gives ~36px height — too small for touch.
+   Increase vertical padding on mobile only, preserve desktop compact look. */
+@media(max-width:1023px){
+  .nav-cta{padding:.75rem 1.1rem;min-height:44px}
+}
+
+/* dropdown-btn: ~34px height — below 44px minimum */
+.dropdown-btn{min-height:44px}
+
+/* font-btn: ~30px height — below 44px minimum */
+.font-btn{min-height:44px}
+
+/* construction-bar-close: 22×22px — expand hit area with ::before pseudo-element
+   without changing the visual size or parent layout */
+.construction-bar-close{position:relative}
+.construction-bar-close::before{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  min-width:44px;
+  min-height:44px;
+}
+
+/* ── MOBILE PADDING — reduce 5rem/4rem sections on small screens ── */
+@media(max-width:640px){
+  .section{padding:3rem 1.25rem}
+  .section-alt{padding:3rem 1.25rem}
+  .hero{padding:2.5rem 1.25rem 2rem}
+  .block-section{padding:3rem 1.25rem}
+  .footer{padding:2rem 1.25rem 1.25rem}
+  .sleep-content{padding:1.75rem 1.25rem}
+  /* stats-callout inner padding at 320px */
+  .stats-callout{padding:1.25rem 1.25rem}
+}
+
+/* ── SLEEP POINTS — collapse 2-col grid on narrow screens ── */
+@media(max-width:480px){
+  .sleep-points{grid-template-columns:1fr}
+}
+
+/* ── SAFARI FLEX GAP FALLBACK (Safari < 14.1 / iOS < 14.5) ──
+   gap on flex containers was added in Safari 14.1 (April 2021).
+   @supports not (gap) catches pre-14.1 only; all other browsers ignore this.
+   We only patch the most visually broken cases — all-touching elements. */
+@supports not (gap: 1rem){
+  /* Hero CTA buttons touching each other */
+  .hero-btns>*+*{margin-left:.75rem}
+  /* Hero pills touching */
+  .hero-pills>*+*{margin-left:.5rem}
+  /* Nav action buttons touching */
+  .nav-actions>*+*{margin-left:.5rem}
+  /* Nav logo icon and text touching */
+  .nav-logo>*+*{margin-left:.6rem}
+  /* Construction banner items touching */
+  .construction-bar-inner>*+*{margin-left:.5rem}
+  /* Trust item icon and text touching */
+  .trust-item>*+*{margin-left:.9rem}
+  /* Step icon and title touching */
+  .step-icon-row>*+*{margin-left:.7rem}
+  /* Mobile menu items touching */
+  .mobile-menu-inner>*+*{margin-top:.25rem}
+  /* FAQ list items touching */
+  .faq-list>*+*{margin-top:.7rem}
+}
+
+/* ── HERO H1 FONT CLAMP — prevent heading overflow at xl font size ──
+   At data-font-size=xl (20px base), clamp(2.4rem,5vw,4rem) = 48px at 320px.
+   "Your wallet is stolen." at 48px is ~500px wide — force tighter clamp floor. */
+@media(max-width:480px){
+  .hero h1{font-size:clamp(1.85rem,8vw,2.8rem);letter-spacing:-.02em}
+  .section-title{font-size:clamp(1.5rem,6vw,2rem)}
+  .sleep-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- C7 — skip navigation link (first focusable element on page) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- CONSTRUCTION BANNER — L3: role="alert", H1: .banner-msg-sm replaces broken Tailwind "hidden sm:inline" -->
+<div class="construction-bar" id="construction-bar" role="alert" aria-live="polite">
+  <div class="construction-bar-inner">
+    <span aria-hidden="true">&#x1F6A7;</span>
+    <span id="txt-construction-title"><strong id="txt-construction-strong">Site under construction.</strong></span>
+    <span id="txt-construction-msg" class="banner-msg-sm">Some features are still being tested. Your feedback is welcome.</span>
+    <button class="construction-bar-close" onclick="dismissConstruction()" aria-label="Dismiss construction notice">&#x2715;</button>
+  </div>
+</div>
+
+<!-- NAV — H10: aria-label on nav; C5: aria-expanded/haspopup on dropdowns; H2: .mobile-only replaces inline style -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon" aria-hidden="true">&#x26E8;</div>
+      <div class="nav-logo-text">BlockMyCard<span>.in</span></div>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul class="nav-links">
+        <li><a href="#features" id="nav-features">Features</a></li>
+        <li><a href="#stats" id="nav-stats">Fraud Data</a></li>
+        <li><a href="#how" id="nav-how">How it Works</a></li>
+        <li><a href="#block" id="nav-block">Block Steps</a></li>
+        <li><a href="#card-tool">Card Blocker</a></li>
+        <li><a href="#card-tool" class="nav-cta" id="nav-cta">Register/ Block <span aria-hidden="true">&#x2192;</span></a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <!-- Font size -->
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="font-dd-btn"
+                onclick="toggleDropdown('font-dd')"
+                aria-label="Font size"
+                aria-haspopup="menu"
+                aria-controls="font-dd"
+                aria-expanded="false"
+                title="Font size">&#x1D400;</button>
+        <div class="dropdown" id="font-dd" role="menu" aria-label="Font size options">
+          <span class="dropdown-label" id="txt-a11y-font">Font size</span>
+          <div class="font-grid">
+            <!-- M7: aria-pressed indicates active state to screen readers -->
+            <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" id="font-sm" role="menuitemradio" aria-checked="false" aria-label="Small font">A</button>
+            <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" id="font-md" role="menuitemradio" aria-checked="true" aria-label="Medium font">A</button>
+            <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" id="font-lg" role="menuitemradio" aria-checked="false" aria-label="Large font">A</button>
+            <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" id="font-xl" role="menuitemradio" aria-checked="false" aria-label="Extra large font">A</button>
+          </div>
+        </div>
+      </div>
+      <!-- Language -->
+      <div style="position:relative">
+        <button class="nav-icon-btn"
+                id="lang-dd-btn"
+                onclick="toggleDropdown('lang-dd')"
+                aria-label="Language"
+                aria-haspopup="menu"
+                aria-controls="lang-dd"
+                aria-expanded="false"
+                title="Language">&#x1F310;</button>
+        <div class="dropdown" id="lang-dd" role="menu" aria-label="Language options">
+          <span class="dropdown-label" id="txt-a11y-lang">Language</span>
+          <button class="dropdown-btn" onclick="setLang('bn')" id="lang-bn" role="menuitemradio" aria-checked="false"><span class="native">বাংলা</span><span class="en">Bengali</span></button>
+          <button class="dropdown-btn active" onclick="setLang('en')" id="lang-en" role="menuitemradio" aria-checked="true"><span class="native">English</span><span class="en">English</span></button>
+          <button class="dropdown-btn" onclick="setLang('gu')" id="lang-gu" role="menuitemradio" aria-checked="false"><span class="native">ગુજરાતી</span><span class="en">Gujarati</span></button>
+          <button class="dropdown-btn" onclick="setLang('hi')" id="lang-hi" role="menuitemradio" aria-checked="false"><span class="native">हिन्दी</span><span class="en">Hindi</span></button>
+          <button class="dropdown-btn" onclick="setLang('kn')" id="lang-kn" role="menuitemradio" aria-checked="false"><span class="native">ಕನ್ನಡ</span><span class="en">Kannada</span></button>
+          <button class="dropdown-btn" onclick="setLang('ml')" id="lang-ml" role="menuitemradio" aria-checked="false"><span class="native">മലയാളം</span><span class="en">Malayalam</span></button>
+          <button class="dropdown-btn" onclick="setLang('mr')" id="lang-mr" role="menuitemradio" aria-checked="false"><span class="native">मराठी</span><span class="en">Marathi</span></button>
+          <button class="dropdown-btn" onclick="setLang('or')" id="lang-or" role="menuitemradio" aria-checked="false"><span class="native">ଓଡ଼ିଆ</span><span class="en">Odia</span></button>
+          <button class="dropdown-btn" onclick="setLang('ta')" id="lang-ta" role="menuitemradio" aria-checked="false"><span class="native">தமிழ்</span><span class="en">Tamil</span></button>
+          <button class="dropdown-btn" onclick="setLang('te')" id="lang-te" role="menuitemradio" aria-checked="false"><span class="native">తెలుగు</span><span class="en">Telugu</span></button>
+        </div>
+      </div>
+      <!-- Dark mode -->
+      <button class="nav-icon-btn" onclick="toggleTheme()" aria-label="Toggle colour theme" id="theme-btn" title="Toggle theme">&#x1F319;</button>
+      <!-- H2: shown via CSS .mobile-only, not inline style="display:none" -->
+      <!-- C5: aria-expanded/controls on mobile menu button -->
+      <button class="nav-icon-btn mobile-only"
+              onclick="toggleMobileMenu()"
+              aria-label="Open navigation menu"
+              aria-haspopup="true"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              id="mobile-menu-btn">&#x2630;</button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <div class="mobile-menu-inner">
+      <a href="#features" onclick="closeMobileMenu()" id="mnav-features">Features</a>
+      <a href="#stats" onclick="closeMobileMenu()" id="mnav-stats">Fraud Data</a>
+      <a href="#how" onclick="closeMobileMenu()" id="mnav-how">How it Works</a>
+      <a href="#block" onclick="closeMobileMenu()" id="mnav-block">Block Steps</a>
+      <a href="#card-tool" onclick="closeMobileMenu()">Card Blocker</a>
+      <hr class="mobile-divider"/>
+      <div class="mobile-pref-label" id="txt-m-font">Font size</div>
+      <div class="font-grid" style="margin-bottom:.75rem">
+        <button class="font-btn" style="font-size:12px" data-size="sm" onclick="setFont('sm')" aria-checked="false" role="menuitemradio" aria-label="Small font">A</button>
+        <button class="font-btn active" style="font-size:15px" data-size="md" onclick="setFont('md')" aria-checked="true" role="menuitemradio" aria-label="Medium font">A</button>
+        <button class="font-btn" style="font-size:18px" data-size="lg" onclick="setFont('lg')" aria-checked="false" role="menuitemradio" aria-label="Large font">A</button>
+        <button class="font-btn" style="font-size:21px" data-size="xl" onclick="setFont('xl')" aria-checked="false" role="menuitemradio" aria-label="Extra large font">A</button>
+      </div>
+      <div class="mobile-pref-label" id="txt-m-lang">Language</div>
+      <div class="mobile-lang-grid">
+        <button class="dropdown-btn" onclick="setLang('bn');closeMobileMenu()" id="mlang-bn" aria-checked="false" role="menuitemradio"><span class="native">বাংলা</span></button>
+        <button class="dropdown-btn active" onclick="setLang('en');closeMobileMenu()" id="mlang-en" aria-checked="true" role="menuitemradio"><span class="native">English</span></button>
+        <button class="dropdown-btn" onclick="setLang('gu');closeMobileMenu()" id="mlang-gu" aria-checked="false" role="menuitemradio"><span class="native">ગુજરાતી</span></button>
+        <button class="dropdown-btn" onclick="setLang('hi');closeMobileMenu()" id="mlang-hi" aria-checked="false" role="menuitemradio"><span class="native">हिन्दी</span></button>
+        <button class="dropdown-btn" onclick="setLang('kn');closeMobileMenu()" id="mlang-kn" aria-checked="false" role="menuitemradio"><span class="native">ಕನ್ನಡ</span></button>
+        <button class="dropdown-btn" onclick="setLang('ml');closeMobileMenu()" id="mlang-ml" aria-checked="false" role="menuitemradio"><span class="native">മലയാളം</span></button>
+        <button class="dropdown-btn" onclick="setLang('mr');closeMobileMenu()" id="mlang-mr" aria-checked="false" role="menuitemradio"><span class="native">मराठी</span></button>
+        <button class="dropdown-btn" onclick="setLang('or');closeMobileMenu()" id="mlang-or" aria-checked="false" role="menuitemradio"><span class="native">ଓଡ଼ିଆ</span></button>
+        <button class="dropdown-btn" onclick="setLang('ta');closeMobileMenu()" id="mlang-ta" aria-checked="false" role="menuitemradio"><span class="native">தமிழ்</span></button>
+        <button class="dropdown-btn" onclick="setLang('te');closeMobileMenu()" id="mlang-te" aria-checked="false" role="menuitemradio"><span class="native">తెలుగు</span></button>
+      </div>
+      <a href="#card-tool" onclick="closeMobileMenu()" class="nav-cta" style="justify-content:center;margin-top:.5rem" id="mnav-cta">Register Free &#x2192;</a>
+    </div>
+  </div>
+</header>
+
+<!-- C7 — main content landmark -->
+<main id="main-content">
+
+<!-- HERO — C6: h1 restructured to avoid innerHTML; H9: aria-hidden on visual; L1: aria-hidden on pill-dot; H8: aria-hidden on emoji -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span aria-hidden="true">&#x1F6A8;</span> <span id="txt-hero-badge">Free early access · Card blocking helper</span></div>
+      <!-- C6 — split into two spans so textContent can be set without innerHTML -->
+      <h1 id="hero-heading">
+        <span id="txt-hero-h1-line1">Your wallet is stolen.</span><br>
+        <span class="accent" id="txt-hero-h1-accent">You have 4 minutes.</span>
+      </h1>
+      <p id="txt-hero-sub">Fraudsters drain the average Indian account in under 4 minutes. Without your card numbers saved, you cannot block them fast enough. BlockMyCard keeps every card number in one place so you can act quickly.</p>
+      <div class="hero-btns">
+        <a href="#card-tool" class="btn-primary" id="txt-hero-cta1">Register Free &#x2014; 60 Seconds &#x2192;</a>
+        <a href="#card-tool" class="btn-secondary" id="txt-hero-cta2">Block your card</a>
+      </div>
+      <div class="hero-pills">
+        <span class="pill"><span class="pill-dot" aria-hidden="true"></span><span id="txt-pill-free">Free</span></span>
+        <span class="pill"><span class="pill-dot" aria-hidden="true"></span><span id="txt-pill-banks">For Indian banks</span></span>
+        <span class="pill"><span class="pill-dot" aria-hidden="true"></span><span id="txt-pill-phone">Any phone</span></span>
+        <span class="pill"><span class="pill-dot" aria-hidden="true"></span><span id="txt-pill-all">All cards protected</span></span>
+      </div>
+    </div>
+    <!-- H9 — entire mockup is decorative; hidden from assistive technology -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="mockup-phone">
+        <div class="mockup-notch"></div>
+        <div class="mockup-header">
+          <div class="mockup-icon">&#x26E8;</div>
+          <div><div class="mockup-title">BlockMyCard</div><div class="mockup-sub">All cards protected</div></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="card-stack">
+          <div class="mini-card mc1"><div class="mini-card-label">HDFC &middot; Credit</div><div class="mini-card-num">&bull;&bull;&bull;&bull; 4321</div><div class="mini-card-badge">SECURED</div></div>
+          <div class="mini-card mc2"><div class="mini-card-label">SBI &middot; Debit</div><div class="mini-card-num">&bull;&bull;&bull;&bull; 8890</div><div class="mini-card-badge">SECURED</div></div>
+          <div class="mini-card mc3"><div class="mini-card-label">ICICI &middot; Credit</div><div class="mini-card-num">&bull;&bull;&bull;&bull; 1204</div><div class="mini-card-badge">SECURED</div></div>
+        </div>
+        <button class="sos-btn">&#x1F6A8; Block All Cards</button>
+        <div class="mockup-footer"><span>&#x1F512; Keep details safe</span><span>&#x1F4F1; Any phone</span><span>&#x2713; Early access</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS — H11: stat cards link to actual source URLs with descriptive aria-labels -->
+<section class="section section-alt" id="stats" aria-labelledby="stats-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow">Fraud in India, right now</div>
+      <h2 class="section-title" id="stats-heading" id="txt-urgency-title">Fraud in India is rising sharply.</h2>
+      <p class="section-sub" id="txt-urgency-sub">Official RBI, NCRB &amp; I4C data &#x2014; sourced from published annual reports.</p>
+    </div>
+    <div class="stats-grid">
+      <a class="stat-card" href="https://rbi.org.in/Scripts/AnnualReportPublications.aspx" target="_blank" rel="noopener noreferrer" aria-label="RBI Annual Report: &#x20B9;36,014 crore total banking fraud losses in FY25, up 194% year-on-year. Opens in new tab.">
+        <span class="stat-source">RBI Annual Report</span><div class="stat-value">&#x20B9;36,014 Cr</div><div class="stat-label">Total banking fraud losses (FY25)</div><div class="stat-change"><span>&#x2191; +194% YoY</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+      <a class="stat-card" href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" aria-label="MHA / I4C: 22.68 lakh NCRP cybercrime complaints in 2024, up 42% vs 2023. Opens in new tab.">
+        <span class="stat-source">MHA / I4C</span><div class="stat-value">22.68 lakh</div><div class="stat-label">NCRP cybercrime complaints (2024)</div><div class="stat-change"><span>&#x2191; +42% vs 2023</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+      <a class="stat-card" href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" aria-label="CFCFRMS / I4C: &#x20B9;22,846 crore citizens fraud losses in 2024, a 41-fold rise since 2021. Opens in new tab.">
+        <span class="stat-source">CFCFRMS / I4C</span><div class="stat-value">&#x20B9;22,846 Cr</div><div class="stat-label">Citizens&#x2019; fraud losses (2024)</div><div class="stat-change"><span>&#x2191; 41&#xD7; rise since 2021</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+      <a class="stat-card" href="https://trai.gov.in" target="_blank" rel="noopener noreferrer" aria-label="NCRP / TRAI: 90,000+ SIM-swap complaints in 2024, draining over &#x20B9;500 crore. Opens in new tab.">
+        <span class="stat-source">NCRP / TRAI</span><div class="stat-value">90,000+</div><div class="stat-label">SIM-swap complaints (2024)</div><div class="stat-change"><span>&#x2191; &#x20B9;500 Cr+ drained</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+      <a class="stat-card" href="https://ncrb.gov.in" target="_blank" rel="noopener noreferrer" aria-label="NCRB: only 2.43% of cybercrime complaints become FIRs; 97.57% are never investigated. Opens in new tab.">
+        <span class="stat-source">NCRB</span><div class="stat-value">2.43%</div><div class="stat-label">Complaints that become FIRs</div><div class="stat-change"><span>&#x2191; 97.57% never investigated</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+      <a class="stat-card" href="https://www.npci.org.in" target="_blank" rel="noopener noreferrer" aria-label="NPCI incident data: average time to drain an account is under 4 minutes. Opens in new tab.">
+        <span class="stat-source">NPCI incident data</span><div class="stat-value">&lt; 4 min</div><div class="stat-label">Avg. time to drain an account</div><div class="stat-change"><span>&#x2191; Before you notice</span><span class="stat-read">Read more &#x2192;</span></div>
+      </a>
+    </div>
+    <div class="stats-callout"><strong>Only 2.43% of cybercrime complaints become an FIR.</strong> Early blocking and reporting give you the best chance of recovery.</div>
+  </div>
+</section>
+
+<!-- FEATURES — H8: aria-hidden on decorative feature icons -->
+<section class="section" id="features" aria-labelledby="features-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow">Features</div>
+      <h2 class="section-title" id="features-heading" id="txt-feat-title">Peace of mind, in one tap</h2>
+      <p class="section-sub" id="txt-feat-sub">Everything you need before, during, and after a loss.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x1F512;</div><div class="feature-title">One vault for your cards</div><p class="feature-desc">Keep your card numbers and bank block helplines in one place so you are not searching during a panic.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x1F4F1;</div><div class="feature-title">Access from any phone</div><p class="feature-desc">If your phone is lost, sign in from a friend's phone or browser using your registered number.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x1F46A;</div><div class="feature-title">Family contact option</div><p class="feature-desc">Add a trusted family member as an alternate contact so someone can help if you are unreachable.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x1F4C4;</div><div class="feature-title">Blocking templates</div><p class="feature-desc">Use pre-written messages to share with your bank when you report a lost or stolen card.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x1F6E1;&#xFE0F;</div><div class="feature-title">FIR guidance</div><p class="feature-desc">Step-by-step guidance on filing a complaint with cybercrime.gov.in.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">&#x26A1;</div><div class="feature-title">Always free to register</div><p class="feature-desc">Core registration is free. Some advanced features may be optional paid services.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — H8: aria-hidden on step icons -->
+<section class="section section-alt" id="how" aria-labelledby="how-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title" id="how-heading" id="txt-how-title">How BlockMyCard works</h2>
+      <p class="section-sub">Three calm steps today &#x2014; for the three panicked minutes you might face tomorrow.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-img step-img-1">
+          <img src="/assets/step-register.svg" alt="A signup form on a phone with the details confirmed" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" aria-hidden="true">Step 01</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F511;</div><div class="step-title">Register in 60 seconds</div></div>
+          <p class="step-desc">Just your name, mobile, and email. No card numbers yet.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-img step-img-2">
+          <img src="/assets/step-cards.svg" alt="Bank cards being placed into a locked vault" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" aria-hidden="true">Step 02</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F3E6;</div><div class="step-title">Add your cards &amp; mobile numbers</div></div>
+          <p class="step-desc">Type or scan the details you need to contact your bank quickly. You decide what to save.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-img step-img-3">
+          <img src="/assets/step-family.svg" alt="A family member being added as an emergency contact" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" aria-hidden="true">Step 03</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F465;</div><div class="step-title">Add your alternate or family member&#x2019;s details</div></div>
+          <p class="step-desc">Save contacts you can reach in case your phone is lost or unreachable.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sleep-banner">
+      <div class="sleep-visual" style="padding:0"><img src="/assets/happy-protected.svg" alt="A family resting easy beneath a protective shield" style="width:100%;height:100%;object-fit:cover;min-height:260px;border-radius:0"/></div>
+      <div class="sleep-content">
+        <div class="sleep-badge"><span aria-hidden="true">&#x2728;</span> Life after BlockMyCard</div>
+        <h3 class="sleep-title">Sleep easy. Travel easy. Live easy.</h3>
+        <p class="sleep-sub">Lost wallets happen. Panic doesn&#x2019;t have to. With every card and SIM in one secure vault and a one-tap SOS, your family stays calm even on the worst day.</p>
+        <div class="sleep-points">
+          <span class="sleep-point">One place for all cards</span>
+          <span class="sleep-point">Access from any phone</span>
+          <span class="sleep-point">Family contact option</span>
+          <span class="sleep-point">Free to register</span>
+        </div>
+        <a href="#card-tool" class="btn-primary" style="font-size:.875rem;padding:.7rem 1.4rem">Get this peace of mind &#x2014; free &#x2192;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOCK STEPS (dark) — H8: aria-hidden on step icons -->
+<section class="block-section" id="block" aria-labelledby="block-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow" style="color:#f87171">When your wallet is lost</div>
+      <h2 class="section-title" id="block-heading" style="color:#f1f5f9">Block your card in 3 steps</h2>
+      <p class="section-sub" style="color:#94a3b8;margin:0 auto">No panic. No endless calls. Just login, pick your bank, and block.</p>
+    </div>
+    <div class="steps-grid" style="margin-top:3rem">
+      <div class="block-step-card step-card">
+        <div class="step-img block-step-img-1" style="height:200px">
+          <img src="/assets/block-login.svg" alt="Signing in with a one-time code on a borrowed phone" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" style="background:rgba(15,23,42,.85);color:#f87171" aria-hidden="true">Step 01</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F4F1;</div><div class="step-title" style="color:#f1f5f9">Log in with your mobile number</div></div>
+          <p class="step-desc" style="color:#94a3b8">Sign in securely. If your phone is lost, use the alternate number you saved during registration.</p>
+        </div>
+      </div>
+      <div class="block-step-card step-card">
+        <div class="step-img block-step-img-2" style="height:200px">
+          <img src="/assets/block-bank.svg" alt="Choosing a bank from a list to reveal its blocking helpline" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" style="background:rgba(15,23,42,.85);color:#f87171" aria-hidden="true">Step 02</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F3E6;</div><div class="step-title" style="color:#f1f5f9">Select your bank and follow instructions</div></div>
+          <p class="step-desc" style="color:#94a3b8">Pick your bank from the list. BlockMyCard shows the exact helpline or link to block your card fast.</p>
+        </div>
+      </div>
+      <div class="block-step-card step-card">
+        <div class="step-img block-step-img-3" style="height:200px">
+          <img src="/assets/block-cards.svg" alt="Picking saved cards and sending a ready-made blocking message" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="step-num" style="background:rgba(15,23,42,.85);color:#f87171" aria-hidden="true">Step 03</div>
+          <div class="step-paid">Paid service</div>
+        </div>
+        <div class="step-body">
+          <div class="step-icon-row"><div class="step-step-icon" aria-hidden="true">&#x1F4B3;</div><div class="step-title" style="color:#f1f5f9">Select saved cards &amp; use templates</div></div>
+          <p class="step-desc" style="color:#94a3b8">If you saved card details, pick the cards to block and send pre-made blocking templates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST — H8: aria-hidden on trust icons -->
+<section class="section section-alt" aria-labelledby="trust-heading">
+  <div class="section-inner">
+    <div class="trust-grid">
+      <div>
+        <div class="section-eyebrow">Trust</div>
+        <h2 class="section-title" id="trust-heading" id="txt-trust-title">Built to help, not to oversell</h2>
+        <p class="section-sub">We are building BlockMyCard to help Indian cardholders react quickly when a wallet or phone is lost. We will publish our security practices as they are formalised, and we will not ask for more data than you choose to share.</p>
+        <div class="trust-items">
+          <div class="trust-item"><div class="trust-icon" aria-hidden="true">&#x1F512;</div><div><div class="trust-item-title">Store only what you need</div><p class="trust-item-desc">Save just the details required to contact your bank quickly. We do not require full PAN or CVV.</p></div></div>
+          <div class="trust-item"><div class="trust-icon" aria-hidden="true">&#x1F1EE;&#x1F1F3;</div><div><div class="trust-item-title">Built for Indian users</div><p class="trust-item-desc">Designed around Indian bank block-card helplines and RBI reporting timelines.</p></div></div>
+          <div class="trust-item"><div class="trust-icon" aria-hidden="true">&#x1F6E1;&#xFE0F;</div><div><div class="trust-item-title">Security practices</div><p class="trust-item-desc">We&#x2019;re an early-stage service and will publish our security practices as they are formalised.</p></div></div>
+          <div class="trust-item"><div class="trust-icon" aria-hidden="true">&#x270B;</div><div><div class="trust-item-title">You stay in control</div><p class="trust-item-desc">You can view, edit or delete your saved details at any time from your account.</p></div></div>
+        </div>
+      </div>
+      <div class="trust-card">
+        <h3><span aria-hidden="true">&#x1F3E6;</span> Built for every Indian bank card</h3>
+        <p>Store the card numbers, helpline numbers and blocking steps for the cards you already hold &#x2014; debit, credit, prepaid &#x2014; from any Indian bank. When something goes wrong, you have every number in one place.</p>
+        <div class="trust-card-footer"><span style="font-size:1.3rem" aria-hidden="true">&#x1F91D;</span><div><strong>Made for Indian users.</strong><p>Because losing a wallet shouldn&#x2019;t cost you your savings.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section class="section" aria-labelledby="scenarios-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow">When it matters</div>
+      <h2 class="section-title" id="scenarios-heading">Situations BlockMyCard is built for</h2>
+      <p class="section-sub">Illustrative scenarios &#x2014; not customer testimonials.</p>
+    </div>
+    <div class="scenarios-grid">
+      <div class="scenario-card"><div class="scenario-icon" aria-hidden="true">&#x1F6A6;</div><div class="scenario-title">Purse snatched at a traffic signal</div><p class="scenario-text">Borrow any phone, sign in, and see every card helpline and blocking link in one place &#x2014; no scrambling for numbers on hold.</p><div class="scenario-tag">Common street theft</div></div>
+      <div class="scenario-card"><div class="scenario-icon" aria-hidden="true">&#x1F4B3;</div><div class="scenario-title">Multiple cards, zero notes</div><p class="scenario-text">If you carry three or four cards, you probably don&#x2019;t have their helplines saved anywhere. BlockMyCard keeps them together, ready when you need them.</p><div class="scenario-tag">Everyday cardholder</div></div>
+      <div class="scenario-card"><div class="scenario-icon" aria-hidden="true">&#x1F474;</div><div class="scenario-title">Helping an elderly parent</div><p class="scenario-text">Family Circle lets you keep a parent&#x2019;s card list alongside yours, so you can act quickly if their wallet or phone is lost.</p><div class="scenario-tag">For family</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARD TOOL — H3: fallback inside #root if app.js fails to load -->
+<section class="tool-section" id="card-tool" aria-labelledby="tool-heading">
+  <div class="tool-inner">
+    <div class="tool-left">
+      <div class="tool-eyebrow"><span aria-hidden="true">&#x1F6A8;</span> <span id="txt-reg-eyebrow">Don&#x2019;t be a statistic</span></div>
+      <h2 class="tool-title" id="tool-heading" id="txt-reg-title">Don&#x2019;t wait for the panic call. Register free &#x2014; right now.</h2>
+      <p class="tool-sub" id="txt-reg-sub">It takes 60 seconds. You&#x2019;ll thank yourself the day something goes wrong.</p>
+      <div class="tool-pills">
+        <span class="tool-pill" id="txt-pill-r1">Free to register</span>
+        <span class="tool-pill" id="txt-pill-r2">Works on any smartphone</span>
+        <span class="tool-pill" id="txt-pill-r3">Optional family contact</span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <!-- H3 — fallback is a SIBLING of #root, never inside it — React needs a clean empty div -->
+      <!-- TC-29 — noscript forces the fallback visible when JS is disabled (JS would otherwise never reveal it) -->
+      <noscript><style>#app-fallback{display:block !important}</style></noscript>
+      <div id="app-fallback" style="display:none;background:rgba(255,255,255,.12);border-radius:16px;padding:2rem;text-align:center;color:#fff;font-size:.9rem">
+        <p style="opacity:.85">Loading registration form&#x2026; If this message doesn&#x2019;t go away, please enable JavaScript or contact <a href="mailto:support@blockmycard.in" style="color:#fff;font-weight:700;text-decoration:underline">support@blockmycard.in</a>.</p>
+      </div>
+      <div id="root"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ — C4: aria-expanded, aria-controls, role="region" on all accordion items -->
+<section class="section section-alt" aria-labelledby="faq-heading">
+  <div class="section-inner">
+    <div class="section-center">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title" id="faq-heading">Everything you&#x2019;re thinking, answered</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="true" aria-controls="faq-a-1" id="faq-q-1">
+          Is BlockMyCard really free?
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" id="faq-a-1" role="region" aria-labelledby="faq-q-1">Basic registration is free. Some advanced features, like saved-card blocking templates, may be optional paid services.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-a-2" id="faq-q-2">
+          Can BlockMyCard staff see my card numbers?
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" id="faq-a-2" role="region" aria-labelledby="faq-q-2">We are designing the app so your data is visible only to you. Our security practices will be published as they are formalised.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-a-3" id="faq-q-3">
+          What if my phone is stolen too?
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" id="faq-a-3" role="region" aria-labelledby="faq-q-3">You can log in from any browser at blockmycard.in using your registered email or mobile number. We also recommend adding an alternate family contact during registration.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-a-4" id="faq-q-4">
+          Which languages are supported?
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" id="faq-a-4" role="region" aria-labelledby="faq-q-4">English, &#x939;&#x93F;&#x928;&#x94D;&#x926;&#x940;, &#x92E;&#x930;&#x93E;&#x920;&#x940; and &#xA97C;&#xAC1;&#xA9C0;&#xAB0;&#xABE;&#xAA4;&#xAC0; today. More languages may be added later.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-a-5" id="faq-q-5">
+          Does it also block SIM cards / mobile numbers?
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" id="faq-a-5" role="region" aria-labelledby="faq-q-5">We plan to add SIM and mobile number blocking guidance. For urgent SIM blocking, please contact your telecom operator directly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main><!-- /main -->
+
+<!-- FOOTER — L4: placeholder links as .footer-link-soon; L5: aria-hidden on logo icon -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <div class="footer-logo-icon" aria-hidden="true">&#x26E8;</div>
+        BlockMyCard<span style="color:var(--red)">.in</span>
+      </a>
+      <p id="txt-footer-tag">Made in India with &#x1F499; for every family, small business &amp; senior citizen.</p>
+      <div class="footer-brand-sub"><span aria-hidden="true">&#x1F6E1;&#xFE0F;</span> Helping Indian cardholders act fast</div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><span class="footer-link-soon">Family Circle</span></li>
+        <li><span class="footer-link-soon">Pricing</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/trust-security.html">Trust &amp; Security</a></li>
+        <li><a href="/privacy.html">Privacy Policy</a></li>
+        <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
+        <li><a href="mailto:support@blockmycard.in">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <div class="footer-bottom">&#x00A9; 2026 BlockMyCard.in &middot; All rights reserved &middot; An initiative for a safer digital India.</div>
+    <div class="footer-construction"><span aria-hidden="true">&#x1F6A7;</span> Site under construction. Some features are still being tested. Your feedback is welcome.</div>
+  </div>
+</footer>
+
+<script src="./otp-bridge.js"></script>
+<script src="./storage-bridge.js"></script>
+<script src="./app.js"></script>
+<script>
+/* ── TRANSLATIONS (DICT) ── */
+/* L2 — added missing pill, eyebrow, and construction message entries */
+/* C6 — hero.title split into .line1 and .accent to avoid innerHTML injection */
+const DICT = {
+  "construction.title":   { en:"Site under construction", hi:"साइट निर्माणाधीन है", mr:"साइट बांधकाम सुरू आहे", gu:"સાઇટ બાંધકામ હેઠળ છે", bn:"সাইট নির্মাণাধীন", te:"సైట్ నిర్మాణంలో ఉంది", ta:"தளம் கட்டுமானத்தில் உள்ளது", kn:"ಸೈಟ್ ನಿರ್ಮಾಣ ಹಂತದಲ್ಲಿದೆ", or:"ସାଇଟ୍ ନିର୍ମାଣାଧୀନ", ml:"സൈറ്റ് നിർമ്മാണത്തിലാണ്" },
+  "construction.message": { en:"Some features are still being tested. Your feedback is welcome.", hi:"कुछ सुविधाएँ अभी भी परीक्षण में हैं। आपकी प्रतिक्रिया का स्वागत है।", mr:"काही वैशिष्ट्ये अद्याप चाचणी सुरू आहेत. तुमचा अभिप्राय स्वागतार्ह आहे.", gu:"કેટલીક સુવિધાઓ હજુ પણ પરીક્ષણમાં છે. તમારો પ્રતિભાવ આવકાર્ય છે.", bn:"কিছু ফিচার এখনও পরীক্ষা করা হচ্ছে। আপনার মতামত স্বাগত।", te:"కొన్ని ఫీచర్లు ఇంకా పరీక్షించబడుతున్నాయి. మీ అభిప్రాయాన్ని స్వాగతిస్తున్నాము.", ta:"சில அம்சங்கள் இன்னும் சோதிக்கப்படுகின்றன. உங்கள் கருத்து வரவேற்கப்படுகிறது.", kn:"ಕೆಲವು ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಇನ್ನೂ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ. ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಸ್ವಾಗತಿಸುತ್ತೇವೆ.", or:"କିଛି ବିଶେଷତା ଏବେ ବି ପରୀକ୍ଷା କରାଯାଉଛି। ଆପଣଙ୍କ ମତାମତ ସ୍ୱାଗତଯୋଗ୍ୟ।", ml:"ചില ഫീച്ചറുകൾ ഇപ്പോഴും പരീക്ഷിക്കുന്നു. നിങ്ങളുടെ അഭിപ്രായം സ്വാഗതം ചെയ്യുന്നു." },
+  "nav.register":        { en:"Register/ Block", hi:"रजिस्टर/ब्लॉक करें", mr:"नोंदणी/ब्लॉक करा", gu:"નોંધણી/બ્લોક કરો", bn:"নিবন্ধন/ব্লক করুন", te:"నమోదు/బ్లాక్ చేయండి", ta:"பதிவு/முடக்கு", kn:"ನೋಂದಣಿ/ಬ್ಲಾಕ್ ಮಾಡಿ", or:"ପଞ୍ଜୀକରଣ/ବ୍ଲକ୍ କରନ୍ତୁ", ml:"രജിസ്റ്റർ/ബ്ലോക്ക് ചെയ്യുക" },
+  "hero.badge":          { en:"Free early access \\u00B7 Card blocking helper", hi:"\\u092E\\u0941\\u092B\\u093C\\u094D\\u0924 \\u0936\\u0941\\u0930\\u0941\\u0906\\u0924\\u0940 \\u092A\\u0939\\u0941\\u0901\\u091A \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u0915", mr:"\\u092E\\u094B\\u092B\\u0924 \\u0905\\u200D\\u0945\\u0915\\u094D\\u0938\\u0947\\u0938 \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u094D\\u092F\\u0915", gu:"\\u0AAE\\u0AAB\\u0AA4 \\u0AAA\\u0ACD\\u0AB0\\u0ABE\\u0AB0\\u0A82\\u0AAD\\u0ABF\\u0A95 \\u0A8D\\u0A95\\u0ACD\\u0AB8\\u0AC7\\u0AB8 \\u00B7 \\u0A95\\u0ABE\\u0AB0\\u0ACD\\u0AA1 \\u0AAC\\u0ACD\\u0AB2\\u0ACB\\u0A95\\u0ABF\\u0A82\\u0A97 \\u0AB8\\u0AB9\\u0ABE\\u0AAF\\u0A95", bn:"\\u09AC\\u09BF\\u09A8\\u09BE\\u09AE\\u09C2\\u09B2\\u09CD\\u09AF\\u09C7 \\u09AA\\u09CD\\u09B0\\u09BE\\u09A5\\u09AE\\u09BF\\u0995 \\u0985\\u09CD\\u09AF\\u09BE\\u0995\\u09CD\\u09B8\\u09C7\\u09B8 \\u00B7 \\u0995\\u09BE\\u09B0\\u09CD\\u09A1 \\u09AC\\u09CD\\u09B2\\u0995\\u09BF\\u0982 \\u09B8\\u09B9\\u09BE\\u09AF\\u09BC\\u0995", te:"\\u0C09\\u0C1A\\u0C3F\\u0C24 \\u0C2A\\u0C4D\\u0C30\\u0C3E\\u0C30\\u0C02\\u0C2D \\u0C2F\\u0C3E\\u0C15\\u0C4D\\u0C38\\u0C46\\u0C38\\u0C4D \\u00B7 \\u0C15\\u0C3E\\u0C30\\u0C4D\\u0C21\\u0C4D \\u0C2C\\u0C4D\\u0C32\\u0C3E\\u0C15\\u0C3F\\u0C02\\u0C17\\u0C4D \\u0C38\\u0C39\\u0C3E\\u0C2F\\u0C15\\u0C41\\u0C21\\u0C41", ta:"\\u0B87\\u0BB2\\u0BB5\\u0B9A \\u0B86\\u0BB0\\u0BAE\\u0BCD\\u0BAA \\u0B85\\u0BA3\\u0BC1\\u0B95\\u0BB2\\u0BCD \\u00B7 \\u0B95\\u0BBE\\u0BB0\\u0BCD\\u0B9F\\u0BC1 \\u0BAE\\u0BC1\\u0B9F\\u0B95\\u0BCD\\u0B95\\u0BC1\\u0BAE\\u0BCD \\u0B89\\u0BA4\\u0BB5\\u0BBF\\u0BAF\\u0BBE\\u0BB3\\u0BB0\\u0BCD", kn:"\\u0C89\\u0C9A\\u0CBF\\u0CA4 \\u0C86\\u0CB0\\u0C82\\u0CAD\\u0CBF\\u0C95 \\u0CAA\\u0CCD\\u0CB0\\u0CB5\\u0CC7\\u0CB6 \\u00B7 \\u0C95\\u0CBE\\u0CB0\\u0CCD\\u0CA1\\u0CCD \\u0CAC\\u0CCD\\u0CB2\\u0CBE\\u0C95\\u0CBF\\u0C82\\u0C97\\u0CCD \\u0CB8\\u0CB9\\u0CBE\\u0CAF\\u0C95", or:"\\u0B2E\\u0B3E\\u0B17\\u0B23\\u0B3E \\u0B2A\\u0B4D\\u0B30\\u0B3E\\u0B30\\u0B2E\\u0B4D\\u0B2D\\u0B3F\\u0B15 \\u0B2A\\u0B4D\\u0B30\\u0B2C\\u0B47\\u0B36 \\u00B7 \\u0B15\\u0B3E\\u0B30\\u0B4D\\u0B21 \\u0B2C\\u0B4D\\u0B32\\u0B15\\u0B3F\\u0B02 \\u0B38\\u0B39\\u0B3E\\u0B5F\\u0B15", ml:"\\u0D38\\u0D57\\u0D1C\\u0D28\\u0D4D\\u0D2F \\u0D06\\u0D26\\u0D4D\\u0D2F\\u0D15\\u0D3E\\u0D32 \\u0D06\\u0D15\\u0D4D\\u200C\\u0D38\\u0D38\\u0D4D \\u00B7 \\u0D15\\u0D3E\\u0D7C\\u0D21\\u0D4D \\u0D2C\\u0D4D\\u0D32\\u0D4B\\u0D15\\u0D4D\\u0D15\\u0D3F\\u0D02\\u0D17\\u0D4D \\u0D38\\u0D39\\u0D3E\\u0D2F\\u0D3F" },
+  "hero.title.line1":    { en:"Your wallet is stolen.", hi:"आपका बटुआ चोरी हो गया।", mr:"तुमचे पाकीट चोरीला गेले.", gu:"તમારું પાકીટ ચોરાઈ ગયું.", bn:"আপনার মানিব্যাগ চুরি হয়ে গেছে।", te:"మీ వాలెట్ దొంగతనం అయ్యింది.", ta:"உங்கள் பணப்பை திருடப்பட்டது.", kn:"ನಿಮ್ಮ ವ್ಯಾಲೆಟ್ ಕಳ್ಳತನವಾಗಿದೆ.", or:"ଆପଣଙ୍କ ମାନିବ୍ୟାଗ ଚୋରି ହୋଇଗଲା।", ml:"നിങ്ങളുടെ വാലറ്റ് മോഷ്ടിക്കപ്പെട്ടു." },
+  "hero.title.accent":   { en:"You have 4 minutes.", hi:"आपके पास सिर्फ़ 4 मिनट हैं।", mr:"तुमच्याकडे फक्त 4 मिनिटे आहेत.", gu:"તમારી પાસે ફક્ત 4 મિનિટ છે.", bn:"আপনার হাতে মাত্র ৪ মিনিট আছে।", te:"మీ వద్ద 4 నిమిషాలు మాత్రమే ఉన్నాయి.", ta:"உங்களிடம் 4 நிமிடங்கள் மட்டுமே உள்ளன.", kn:"ನಿಮ್ಮ ಬಳಿ 4 ನಿಮಿಷಗಳು ಮಾತ್ರ ಇವೆ.", or:"ଆପଣଙ୍କ ପାଖରେ କେବଳ 4 ମିନିଟ୍ ଅଛି।", ml:"നിങ്ങൾക്ക് 4 മിനിറ്റ് മാത്രമേ ഉള്ളൂ." },
+  "hero.sub":            { en:"Fraudsters drain the average Indian account in under 4 minutes. Without your card numbers saved, you cannot block them fast enough. BlockMyCard keeps every card number in one place so you can act quickly.", hi:"धोखेबाज़ औसत भारतीय खाता 4 मिनट से भी कम समय में खाली कर देते हैं। अगर आपके कार्ड नंबर सेव नहीं हैं, तो आप उन्हें इतनी जल्दी ब्लॉक नहीं कर सकते। BlockMyCard हर कार्ड नंबर एक जगह रखता है ताकि आप तुरंत कार्रवाई कर सकें।", mr:"सरासरी भारतीय खाते 4 मिनिटांत रिकामे होते. तुमचे कार्ड नंबर सेव्ह नसतील, तर तुम्ही ते इतक्या लवकर ब्लॉक करू शकत नाही. BlockMyCard प्रत्येक कार्ड क्रमांक एकाच ठिकाणी ठेवते, जेणेकरून तुम्ही झटपट कारवाई करू शकाल.", gu:"છેતરપિંડી કરનારા સરેરાશ ભારતીય ખાતું 4 મિનિટથી ઓછા સમયમાં ખાલી કરી નાખે છે. જો તમારા કાર્ડ નંબર સેવ ન હોય, તો તમે તેમને એટલી ઝડપથી બ્લોક કરી શકતા નથી. BlockMyCard દરેક કાર્ડ નંબર એક જ જગ્યાએ રાખે છે જેથી તમે ઝડપથી પગલાં લઈ શકો.", bn:"প্রতারকরা ৪ মিনিটেরও কম সময়ে গড় ভারতীয় অ্যাকাউন্ট খালি করে দেয়। আপনার কার্ড নম্বর সংরক্ষিত না থাকলে, আপনি সেগুলো এত দ্রুত ব্লক করতে পারবেন না। BlockMyCard প্রতিটি কার্ড নম্বর এক জায়গায় রাখে, যাতে আপনি দ্রুত ব্যবস্থা নিতে পারেন।", te:"మోసగాళ్లు సగటు భారతీయ ఖాతాను 4 నిమిషాల్లోపే ఖాళీ చేస్తారు. మీ కార్డ్ నంబర్లు సేవ్ చేయకపోతే, మీరు వాటిని అంత వేగంగా బ్లాక్ చేయలేరు. BlockMyCard ప్రతి కార్డ్ నంబర్‌ను ఒకే చోట ఉంచుతుంది, తద్వారా మీరు వేగంగా చర్య తీసుకోవచ్చు.", ta:"மோசடி செய்பவர்கள் சராசரி இந்திய கணக்கை 4 நிமிடங்களுக்குள் காலி செய்கிறார்கள். உங்கள் கார்டு எண்கள் சேமிக்கப்படாவிட்டால், அவற்றை அவ்வளவு விரைவாக முடக்க முடியாது. BlockMyCard ஒவ்வொரு கார்டு எண்ணையும் ஒரே இடத்தில் வைத்திருக்கிறது, இதனால் நீங்கள் விரைவாக செயல்பட முடியும்.", kn:"ಮೋಸಗಾರರು ಸರಾಸರಿ ಭಾರತೀಯ ಖಾತೆಯನ್ನು 4 ನಿಮಿಷಗಳಿಗಿಂತ ಕಡಿಮೆ ಸಮಯದಲ್ಲಿ ಖಾಲಿ ಮಾಡುತ್ತಾರೆ. ನಿಮ್ಮ ಕಾರ್ಡ್ ಸಂಖ್ಯೆಗಳನ್ನು ಉಳಿಸದಿದ್ದರೆ, ನೀವು ಅವುಗಳನ್ನು ಅಷ್ಟು ಬೇಗ ಬ್ಲಾಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. BlockMyCard ಪ್ರತಿ ಕಾರ್ಡ್ ಸಂಖ್ಯೆಯನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ಇರಿಸುತ್ತದೆ, ಇದರಿಂದ ನೀವು ವೇಗವಾಗಿ ಕ್ರಮ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.", or:"ଠକମାନେ ହାରାହାରି ଭାରତୀୟ ଖାତାକୁ 4 ମିନିଟରୁ କମ୍ ସମୟରେ ଖାଲି କରିଦିଅନ୍ତି। ଆପଣଙ୍କ କାର୍ଡ ନମ୍ବରଗୁଡ଼ିକ ସେଭ୍ ନ ଥିଲେ, ଆପଣ ସେଗୁଡ଼ିକୁ ଏତେ ଶୀଘ୍ର ବ୍ଲକ୍ କରିପାରିବେ ନାହିଁ। BlockMyCard ପ୍ରତ୍ୟେକ କାର୍ଡ ନମ୍ବରକୁ ଏକା ସ୍ଥାନରେ ରଖେ, ଯାହାଫଳରେ ଆପଣ ଶୀଘ୍ର କାର୍ଯ୍ୟାନୁଷ୍ଠାନ ନେଇପାରିବେ।", ml:"തട്ടിപ്പുകാർ ശരാശരി ഇന്ത്യൻ അക്കൗണ്ട് 4 മിനിറ്റിനുള്ളിൽ കാലിയാക്കുന്നു. നിങ്ങളുടെ കാർഡ് നമ്പറുകൾ സേവ് ചെയ്തിട്ടില്ലെങ്കിൽ, അവ അത്ര വേഗത്തിൽ ബ്ലോക്ക് ചെയ്യാൻ കഴിയില്ല. BlockMyCard എല്ലാ കാർഡ് നമ്പറും ഒരിടത്ത് സൂക്ഷിക്കുന്നു, അതിനാൽ നിങ്ങൾക്ക് വേഗത്തിൽ നടപടിയെടുക്കാം." },
+  "hero.cta1":           { en:"Register Free \\u2014 60 Seconds \\u2192", hi:"\\u092e\\u0941\\u092b\\u093c\\u094d\\u0924 \\u0930\\u091c\\u093f\\u0938\\u094d\\u091f\\u0930 \\u0915\\u0930\\u0947\\u0902 \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0921 \\u2192", mr:"\\u092e\\u094b\\u092b\\u0924 \\u0928\\u094b\\u0902\\u0926\\u0923\\u0940 \\u0915\\u0930\\u093e \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0926 \\u2192", gu:"\\u0aae\\u0aab\\u0aa4 \\u0aa8\\u0acb\\u0a82\\u0aa7\\u0aa3\\u0ac0 \\u0a95\\u0ab0\\u0acb \\u2014 60 \\u0ab8\\u0ac7\\u0a95\\u0aa8\\u0acd\\u0aa1 \\u2192", bn:"\\u09ac\\u09bf\\u09a8\\u09be\\u09ae\\u09c2\\u09b2\\u09cd\\u09af\\u09c7 \\u09a8\\u09bf\\u09ac\\u09a8\\u09cd\\u09a7\\u09a8 \\u0995\\u09b0\\u09c1\\u09a8 \\u2014 \\u09ec\\u09e6 \\u09b8\\u09c7\\u0995\\u09c7\\u09a8\\u09cd\\u09a1 \\u2192", te:"\\u0c09\\u0c1a\\u0c3f\\u0c24\\u0c02\\u0c17\\u0c3e \\u0c28\\u0c2e\\u0c4b\\u0c26\\u0c41 \\u0c1a\\u0c47\\u0c38\\u0c41\\u0c15\\u0c4b\\u0c02\\u0c21\\u0c3f \\u2014 60 \\u0c38\\u0c46\\u0c15\\u0c28\\u0c4d\\u0c32\\u0c41 \\u2192", ta:"\\u0b87\\u0bb2\\u0bb5\\u0b9a\\u0bae\\u0bbe\\u0b95 \\u0baa\\u0ba4\\u0bbf\\u0bb5\\u0bc1 \\u0b9a\\u0bc6\\u0baf\\u0bcd\\u0baf\\u0bc1\\u0b99\\u0bcd\\u0b95\\u0bb3\\u0bcd \\u2014 60 \\u0bb5\\u0bbf\\u0ba9\\u0bbe\\u0b9f\\u0bbf\\u0b95\\u0bb3\\u0bcd \\u2192", kn:"\\u0c89\\u0c9a\\u0cbf\\u0ca4\\u0cb5\\u0cbe\\u0c97\\u0cbf \\u0ca8\\u0ccb\\u0c82\\u0ca6\\u0cbe\\u0caf\\u0cbf\\u0cb8\\u0cbf \\u2014 60 \\u0cb8\\u0cc6\\u0c95\\u0cc6\\u0c82\\u0ca1\\u0cc1\\u0c97\\u0cb3\\u0cc1 \\u2192", or:"\\u0b2e\\u0b3e\\u0b17\\u0b23\\u0b3e\\u0b30\\u0b47 \\u0b2a\\u0b1e\\u0b4d\\u0b1c\\u0b40\\u0b15\\u0b30\\u0b23 \\u0b15\\u0b30\\u0b28\\u0b4d\\u0b24\\u0b41 \\u2014 60 \\u0b38\\u0b47\\u0b15\\u0b47\\u0b23\\u0b4d\\u0b21 \\u2192", ml:"\\u0d38\\u0d57\\u0d1c\\u0d28\\u0d4d\\u0d2f\\u0d2e\\u0d3e\\u0d2f\\u0d3f \\u0d30\\u0d1c\\u0d3f\\u0d38\\u0d4d\\u0d31\\u0d4d\\u0d31\\u0d7c \\u0d1a\\u0d46\\u0d2f\\u0d4d\\u0d2f\\u0d41\\u0d15 \\u2014 60 \\u0d38\\u0d46\\u0d15\\u0d4d\\u0d15\\u0d7b\\u0d21\\u0d4d \\u2192" },
+  "hero.cta2":           { en:"Block your card", hi:"अपना कार्ड ब्लॉक करें", mr:"तुमचे कार्ड ब्लॉक करा", gu:"તમારું કાર્ડ બ્લોક કરો", bn:"আপনার কার্ড ব্লক করুন", te:"మీ కార్డ్‌ను బ్లాక్ చేయండి", ta:"உங்கள் கார்டை முடக்குங்கள்", kn:"ನಿಮ್ಮ ಕಾರ್ಡ್ ಬ್ಲಾಕ್ ಮಾಡಿ", or:"ଆପଣଙ୍କ କାର୍ଡ ବ୍ଲକ୍ କରନ୍ତୁ", ml:"നിങ്ങളുടെ കാർഡ് ബ്ലോക്ക് ചെയ്യുക" },
+  "pill.free":           { en:"Free", hi:"मुफ़्त", mr:"मोफत", gu:"મફત", bn:"বিনামূল্যে", te:"ఉచితం", ta:"இலவசம்", kn:"ಉಚಿತ", or:"ମାଗଣା", ml:"സൗജന്യം" },
+  "pill.banks":          { en:"For Indian banks", hi:"भारतीय बैंकों के लिए", mr:"भारतीय बँकांसाठी", gu:"ભારતીય બેંકો માટે", bn:"ভারতীয় ব্যাংকের জন্য", te:"భారతీయ బ్యాంకుల కోసం", ta:"இந்திய வங்கிகளுக்காக", kn:"ಭಾರತೀಯ ಬ್ಯಾಂಕ್‌ಗಳಿಗಾಗಿ", or:"ଭାରତୀୟ ବ୍ୟାଙ୍କ ପାଇଁ", ml:"ഇന്ത്യൻ ബാങ്കുകൾക്കായി" },
+  "pill.phone":          { en:"Any phone", hi:"किसी भी फ़ोन पर", mr:"कोणत्याही फोनवर", gu:"કોઈપણ ફોન પર", bn:"যেকোনো ফোনে", te:"ఏ ఫోన్‌లోనైనా", ta:"எந்த ஃபோனிலும்", kn:"ಯಾವುದೇ ಫೋನ್‌ನಲ್ಲಿ", or:"ଯେକୌଣସି ଫୋନରେ", ml:"ഏത് ഫോണിലും" },
+  "pill.all":            { en:"All cards protected", hi:"सभी कार्ड सुरक्षित", mr:"सर्व कार्ड सुरक्षित", gu:"તમામ કાર્ડ સુરક્ષિત", bn:"সব কার্ড সুরক্ষিত", te:"అన్ని కార్డులు రక్షితం", ta:"அனைத்து கார்டுகளும் பாதுகாக்கப்படும்", kn:"ಎಲ್ಲಾ ಕಾರ್ಡ್‌ಗಳು ಸುರಕ್ಷಿತ", or:"ସମସ୍ତ କାର୍ଡ ସୁରକ୍ଷିତ", ml:"എല്ലാ കാർഡുകളും സുരക്ഷിതം" },
+  "urgency.title":       { en:"Fraud in India is rising sharply.", hi:"भारत में धोखाधड़ी तेज़ी से बढ़ रही है।", mr:"भारतात फसवणूक झपाट्याने वाढत आहे.", gu:"ભારતમાં છેતરપિંડી ઝડપથી વધી રહી છે.", bn:"ভারতে জালিয়াতি দ্রুত বাড়ছে।", te:"భారతదేశంలో మోసాలు వేగంగా పెరుగుతున్నాయి.", ta:"இந்தியாவில் மோசடி வேகமாக அதிகரித்து வருகிறது.", kn:"ಭಾರತದಲ್ಲಿ ವಂಚನೆ ವೇಗವಾಗಿ ಹೆಚ್ಚುತ್ತಿದೆ.", or:"ଭାରତରେ ଠକେଇ ଦ୍ରୁତ ଗତିରେ ବଢୁଛି।", ml:"ഇന്ത്യയിൽ തട്ടിപ്പ് അതിവേഗം വർദ്ധിക്കുന്നു." },
+  "urgency.sub":         { en:"Official RBI, NCRB & I4C data \\u2014 sourced from published annual reports.", hi:"आधिकारिक RBI, NCRB और I4C डेटा \\u2014 प्रकाशित वार्षिक रिपोर्टों से।", mr:"अधिकृत RBI, NCRB व I4C डेटा \\u2014 प्रकाशित वार्षिक अहवालांवरून.", gu:"સત્તાવાર RBI, NCRB અને I4C ડેટા \\u2014 પ્રકાશિત વાર્ષિક અહેવાલોમાંથી.", bn:"সরকারি RBI, NCRB ও I4C ডেটা \\u2014 প্রকাশিত বার্ষিক প্রতিবেদন থেকে।", te:"అధికారిక RBI, NCRB మరియు I4C డేటా \\u2014 ప్రచురించిన వార్షిక నివేదికల నుండి.", ta:"அதிகாரப்பூர்வ RBI, NCRB மற்றும் I4C தரவு \\u2014 வெளியிடப்பட்ட ஆண்டு அறிக்கைகளிலிருந்து.", kn:"ಅಧಿಕೃತ RBI, NCRB ಮತ್ತು I4C ಡೇಟಾ \\u2014 ಪ್ರಕಟಿತ ವಾರ್ಷಿಕ ವರದಿಗಳಿಂದ.", or:"ସରକାରୀ RBI, NCRB ଓ I4C ତଥ୍ୟ \\u2014 ପ୍ରକାଶିତ ବାର୍ଷିକ ରିପୋର୍ଟରୁ।", ml:"ഔദ്യോഗിക RBI, NCRB, I4C ഡാറ്റ \\u2014 പ്രസിദ്ധീകരിച്ച വാർഷിക റിപ്പോർട്ടുകളിൽ നിന്ന്." },
+  "features.title":      { en:"Peace of mind, in one tap", hi:"एक टैप में मन की शांति", mr:"एका टॅपमध्ये मनःशांती", gu:"એક ટૅપમાં માનસિક શાંતિ", bn:"এক ট্যাপে মনের শান্তি", te:"ఒక్క ట్యాప్‌లో మనశ్శాంతి", ta:"ஒரே தட்டில் மன அமைதி", kn:"ಒಂದೇ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಮನಶ್ಶಾಂತಿ", or:"ଏକ ଟ୍ୟାପରେ ମାନସିକ ଶାନ୍ତି", ml:"ഒറ്റ ടാപ്പിൽ മനസ്സമാധാനം" },
+  "features.sub":        { en:"Everything you need before, during, and after a loss.", hi:"नुकसान से पहले, दौरान और बाद में आपको जो कुछ चाहिए, वह सब।", mr:"नुकसानीपूर्वी, दरम्यान आणि नंतर लागणारे सर्व काही.", gu:"નુકસાન પહેલાં, દરમિયાન અને પછી તમને જોઈતું બધું.", bn:"ক্ষতির আগে, সময় এবং পরে আপনার যা কিছু প্রয়োজন।", te:"నష్టానికి ముందు, సమయంలో మరియు తర్వాత మీకు కావాల్సినవన్నీ.", ta:"இழப்புக்கு முன், போது மற்றும் பின் உங்களுக்குத் தேவையான அனைத்தும்.", kn:"ನಷ್ಟಕ್ಕೂ ಮೊದಲು, ಸಮಯದಲ್ಲಿ ಮತ್ತು ನಂತರ ನಿಮಗೆ ಬೇಕಾದ ಎಲ್ಲವೂ.", or:"କ୍ଷତି ପୂର୍ବରୁ, ସମୟରେ ଏବଂ ପରେ ଆପଣଙ୍କୁ ଆବଶ୍ୟକ ସବୁକିଛି।", ml:"നഷ്ടത്തിന് മുമ്പും സമയത്തും ശേഷവും നിങ്ങൾക്ക് വേണ്ടതെല്ലാം." },
+  "how.title":           { en:"How BlockMyCard works", hi:"BlockMyCard कैसे काम करता है", mr:"BlockMyCard कसे काम करते", gu:"BlockMyCard કેવી રીતે કામ કરે છે", bn:"BlockMyCard কীভাবে কাজ করে", te:"BlockMyCard ఎలా పనిచేస్తుంది", ta:"BlockMyCard எப்படி செயல்படுகிறது", kn:"BlockMyCard ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ", or:"BlockMyCard କିପରି କାମ କରେ", ml:"BlockMyCard എങ്ങനെ പ്രവർത്തിക്കുന്നു" },
+  "trust.title":         { en:"Built to help, not to oversell", hi:"मदद के लिए बना, ज़्यादा बेचने के लिए नहीं", mr:"मदतीसाठी बनवलेले, जास्त विकण्यासाठी नाही", gu:"મદદ માટે બનાવેલું, વધુ વેચવા માટે નહીં", bn:"সাহায্যের জন্য তৈরি, বেশি বিক্রির জন্য নয়", te:"సహాయం కోసం రూపొందించబడింది, ఎక్కువగా అమ్మడానికి కాదు", ta:"உதவுவதற்காக உருவாக்கப்பட்டது, அதிகமாக விற்பதற்காக அல்ல", kn:"ಸಹಾಯಕ್ಕಾಗಿ ರೂಪಿಸಲಾಗಿದೆ, ಹೆಚ್ಚು ಮಾರಾಟಕ್ಕಾಗಿ ಅಲ್ಲ", or:"ସାହାଯ୍ୟ ପାଇଁ ତିଆରି, ଅଧିକ ବିକ୍ରି ପାଇଁ ନୁହେଁ", ml:"സഹായിക്കാൻ വേണ്ടി നിർമ്മിച്ചത്, കൂടുതൽ വിൽക്കാൻ വേണ്ടിയല്ല" },
+  "register.eyebrow":    { en:"Don\\u2019t be a statistic", hi:"आँकड़ा न बनें", mr:"आकडेवारी बनू नका", gu:"આંકડો ન બનો", bn:"পরিসংখ্যান হবেন না", te:"గణాంకంగా మారవద్దు", ta:"புள்ளிவிவரமாக ஆகிவிடாதீர்கள்", kn:"ಅಂಕಿಅಂಶವಾಗಬೇಡಿ", or:"ପରିସଂଖ୍ୟାନ ହୁଅନ୍ତୁ ନାହିଁ", ml:"ഒരു സ്ഥിതിവിവരക്കണക്ക് ആകരുത്" },
+  "register.title":      { en:"Don\\u2019t wait for the panic call. Register free \\u2014 right now.", hi:"घबराहट भरी कॉल का इंतज़ार न करें। अभी मुफ़्त रजिस्टर करें।", mr:"घाबरण्याच्या कॉलची वाट पाहू नका. आत्ताच मोफत नोंदणी करा.", gu:"ગભરાટના કૉલની રાહ ન જુઓ. અત્યારે જ મફત નોંધણી કરો.", bn:"আতঙ্কের কলের জন্য অপেক্ষা করবেন না। এখনই বিনামূল্যে নিবন্ধন করুন।", te:"భయాందోళన కాల్ కోసం వేచి ఉండకండి. ఇప్పుడే ఉచితంగా నమోదు చేసుకోండి.", ta:"பீதி அழைப்புக்காக காத்திருக்க வேண்டாம். இப்போதே இலவசமாக பதிவு செய்யுங்கள்.", kn:"ಆತಂಕದ ಕರೆಗಾಗಿ ಕಾಯಬೇಡಿ. ಈಗಲೇ ಉಚಿತವಾಗಿ ನೋಂದಾಯಿಸಿ.", or:"ଆତଙ୍କିତ କଲ୍ ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ ନାହିଁ। ବର୍ତ୍ତମାନ ମାଗଣାରେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ।", ml:"പരിഭ്രാന്ത കോളിനായി കാത്തിരിക്കരുത്. ഇപ്പോൾ തന്നെ സൗജന്യമായി രജിസ്റ്റർ ചെയ്യുക." },
+  "register.sub":        { en:"It takes 60 seconds. You\\u2019ll thank yourself the day something goes wrong.", hi:"60 सेकंड लगते हैं। जिस दिन कुछ गलत होगा, आप खुद को धन्यवाद देंगे।", mr:"यासाठी फक्त 60 सेकंद लागतात. काही चूक झाल्यावर तुम्ही स्वतःचे आभार मानाल.", gu:"તેમાં ફક્ત 60 સેકન્ડ લાગે છે. જે દિવસે કંઈક ખોટું થાય, ત્યારે તમે તમારો પોતાનો આભાર માનશો.", bn:"এতে মাত্র ৬০ সেকেন্ড লাগে। যেদিন কিছু ভুল হবে, সেদিন আপনি নিজেকে ধন্যবাদ দেবেন।", te:"దీనికి 60 సెకన్లు మాత్రమే పడుతుంది. ఏదైనా తప్పు జరిగిన రోజు, మీరు మీకే కృతజ్ఞతలు చెప్పుకుంటారు.", ta:"இதற்கு 60 வினாடிகள் மட்டுமே ஆகும். ஏதாவது தவறு நடக்கும் நாளில், நீங்களே உங்களுக்கு நன்றி சொல்வீர்கள்.", kn:"ಇದಕ್ಕೆ ಕೇವಲ 60 ಸೆಕೆಂಡುಗಳು ಬೇಕಾಗುತ್ತವೆ. ಏನಾದರೂ ತಪ್ಪಾದ ದಿನ, ನೀವು ನಿಮಗೇ ಧನ್ಯವಾದ ಹೇಳುತ್ತೀರಿ.", or:"ଏଥିରେ କେବଳ 60 ସେକେଣ୍ଡ ଲାଗେ। କିଛି ଭୁଲ ହେଲାଦିନ, ଆପଣ ନିଜକୁ ଧନ୍ୟବାଦ ଦେବେ।", ml:"ഇതിന് 60 സെക്കൻഡ് മാത്രമേ എടുക്കൂ. എന്തെങ്കിലും തെറ്റ് സംഭവിക്കുന്ന ദിവസം, നിങ്ങൾ സ്വയം നന്ദി പറയും." },
+  "footer.tag":          { en:"Made in India with \\uD83D\\uDC99 for every family, small business & senior citizen.", hi:"हर परिवार, छोटे व्यवसाय और वरिष्ठ नागरिक के लिए \\uD83D\\uDC99 के साथ भारत में बनाया गया।", mr:"प्रत्येक कुटुंब, छोटा व्यवसाय आणि ज्येष्ठ नागरिकांसाठी \\uD83D\\uDC99 सह भारतात बनवले.", gu:"દરેક પરિવાર, નાના વ્યવસાય અને વરિષ્ઠ નાગરિક માટે \\uD83D\\uDC99 સાથે ભારતમાં બનાવેલું.", bn:"প্রতিটি পরিবার, ছোট ব্যবসা ও প্রবীণ নাগরিকের জন্য \\uD83D\\uDC99 সহ ভারতে তৈরি।", te:"ప్రతి కుటుంబం, చిన్న వ్యాపారం మరియు వృద్ధ పౌరుల కోసం \\uD83D\\uDC99 తో భారతదేశంలో తయారు చేయబడింది.", ta:"ஒவ்வொரு குடும்பம், சிறு வணிகம் மற்றும் மூத்த குடிமக்களுக்காக \\uD83D\\uDC99 உடன் இந்தியாவில் தயாரிக்கப்பட்டது.", kn:"ಪ್ರತಿ ಕುಟುಂಬ, ಸಣ್ಣ ವ್ಯಾಪಾರ ಮತ್ತು ಹಿರಿಯ ನಾಗರಿಕರಿಗಾಗಿ \\uD83D\\uDC99 ಜೊತೆ ಭಾರತದಲ್ಲಿ ತಯಾರಿಸಲಾಗಿದೆ.", or:"ପ୍ରତ୍ୟେକ ପରିବାର, କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ ଏବଂ ବରିଷ୍ଠ ନାଗରିକଙ୍କ ପାଇଁ \\uD83D\\uDC99 ସହିତ ଭାରତରେ ତିଆରି।", ml:"എല്ലാ കുടുംബത്തിനും, ചെറുകിട ബിസിനസ്സിനും, മുതിർന്ന പൗരന്മാർക്കും വേണ്ടി \\uD83D\\uDC99 യോടെ ഇന്ത്യയിൽ നിർമ്മിച്ചത്." },
+  "a11y.font":           { en:"Font size", hi:"फ़ॉन्ट आकार", mr:"फॉन्ट आकार", gu:"ફોન્ટ કદ", bn:"ফন্টের আকার", te:"ఫాంట్ పరిమాణం", ta:"எழுத்துரு அளவு", kn:"ಫಾಂಟ್ ಗಾತ್ರ", or:"ଫଣ୍ଟ ଆକାର", ml:"ഫോണ്ട് വലുപ്പം" },
+  "a11y.lang":           { en:"Language", hi:"भाषा", mr:"भाषा", gu:"ભાષા", bn:"ভাষা", te:"భాష", ta:"மொழி", kn:"ಭಾಷೆ", or:"ଭାଷା", ml:"ഭാഷ" },
+};
+
+let currentLang  = 'en';
+let currentFont  = 'md';
+let currentTheme = 'light';
+
+/* M1 — localStorage wrapper with try/catch + in-memory fallback for Private Browsing */
+const store = (function() {
+  const mem = {};
+  return {
+    get(k, fallback) {
+      fallback = (fallback !== undefined) ? fallback : null;
+      try { const v = localStorage.getItem(k); return v !== null ? v : fallback; }
+      catch { return k in mem ? mem[k] : fallback; }
+    },
+    set(k, v) {
+      try { localStorage.setItem(k, v); }
+      catch { mem[k] = v; }
+    }
+  };
+})();
+
+// Read persisted preferences (safe)
+currentLang  = store.get('bmc_lang', 'en');
+currentFont  = store.get('bmc_font', 'md');
+currentTheme = store.get('bmc_theme', 'dark');
+
+function t(key) { return DICT[key]?.[currentLang] || DICT[key]?.en || key; }
+
+function applyTranslations() {
+  const html = document.documentElement;
+  html.setAttribute('data-lang', currentLang);
+  html.lang = currentLang;
+
+  const set = (id, key) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = t(key);
+  };
+
+  // C6 — construction title uses textContent, not innerHTML
+  const cStrong = document.getElementById('txt-construction-strong');
+  if (cStrong) cStrong.textContent = t('construction.title') + '.';
+  const cMsg = document.getElementById('txt-construction-msg');
+  if (cMsg) cMsg.textContent = t('construction.message');
+
+  // Footer construction notice
+  document.querySelectorAll('.footer-construction').forEach(el => {
+    el.textContent = '\\u{1F6A7} ' + t('construction.title') + '. ' + t('construction.message');
+  });
+
+  set('nav-cta',         'nav.register');
+  set('mnav-cta',        'nav.register');
+  set('txt-hero-badge',  'hero.badge');
+
+  // C6 — hero title via textContent on individual spans, no innerHTML
+  set('txt-hero-h1-line1',  'hero.title.line1');
+  set('txt-hero-h1-accent', 'hero.title.accent');
+
+  set('txt-hero-sub',        'hero.sub');
+  set('txt-hero-cta1',       'hero.cta1');
+  set('txt-hero-cta2',       'hero.cta2');
+
+  // L2 — pill translations now wired up
+  set('txt-pill-free',  'pill.free');
+  set('txt-pill-banks', 'pill.banks');
+  set('txt-pill-phone', 'pill.phone');
+  set('txt-pill-all',   'pill.all');
+
+  set('txt-urgency-title', 'urgency.title');
+  set('txt-urgency-sub',   'urgency.sub');
+  set('txt-feat-title',    'features.title');
+  set('txt-feat-sub',      'features.sub');
+  set('txt-how-title',     'how.title');
+  set('txt-trust-title',   'trust.title');
+
+  // L2 — CTA eyebrow now translated
+  set('txt-reg-eyebrow', 'register.eyebrow');
+  set('txt-reg-title',   'register.title');
+  set('txt-reg-sub',     'register.sub');
+  set('txt-footer-tag',  'footer.tag');
+  set('txt-a11y-font',   'a11y.font');
+  set('txt-a11y-lang',   'a11y.lang');
+  set('txt-m-font',      'a11y.font');
+  set('txt-m-lang',      'a11y.lang');
+
+  // Update lang button active states + aria-checked (M7)
+  ['en','hi','mr','gu','bn','te','ta','kn','or','ml'].forEach(l => {
+    ['lang-'+l, 'mlang-'+l].forEach(id => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      const active = l === currentLang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-checked', String(active));
+    });
+  });
+}
+
+/* Allowlists prevent arbitrary values being stored in localStorage or set on html attrs
+   when someone calls setLang()/setFont() from the browser console or a browser extension */
+const ALLOWED_LANGS = new Set(['en', 'hi', 'mr', 'gu', 'bn', 'te', 'ta', 'kn', 'or', 'ml']);
+const ALLOWED_FONTS = new Set(['sm', 'md', 'lg', 'xl']);
+
+function setLang(l) {
+  if (!ALLOWED_LANGS.has(l)) return;                        // reject unknown langs
+  currentLang = l;
+  store.set('bmc_lang', l);
+  applyTranslations();
+  closeAllDropdowns();
+}
+
+/* H5 — setFont uses data-size attribute to sync ALL font buttons (desktop + mobile) */
+function setFont(f) {
+  if (!ALLOWED_FONTS.has(f)) return;                        // reject unknown sizes
+  currentFont = f;
+  store.set('bmc_font', f);
+  document.documentElement.setAttribute('data-font-size', f);
+  // M7 — update aria-checked on every font button (desktop and mobile)
+  document.querySelectorAll('[data-size]').forEach(btn => {
+    const active = btn.dataset.size === f;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-checked', String(active));
+  });
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const btn = document.getElementById('theme-btn');
+  if (btn) {
+    btn.textContent = currentTheme === 'dark' ? '\\u2600\\uFE0F' : '\\uD83C\\uDF19';
+    btn.setAttribute('aria-label', currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+}
+
+/* M9 — no monkey-patching; setTimeout(styleApp) is inside toggleTheme directly.
+   Reuses _styleTimer (shared with the MutationObserver debounce) so rapid clicks
+   cancel previous queued styleApp calls instead of piling them all up. */
+function toggleTheme() {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  store.set('bmc_theme', currentTheme);
+  applyTheme();
+  clearTimeout(_styleTimer);
+  _styleTimer = setTimeout(styleApp, 50);
+}
+
+/* C5 — toggleDropdown updates aria-expanded */
+function toggleDropdown(id) {
+  const dd  = document.getElementById(id);
+  if (!dd) return;                                          // guard: element may be missing
+  const btn = document.getElementById(id.replace('-dd', '-dd-btn'));
+  const wasOpen = dd.classList.contains('open');
+  closeAllDropdowns();
+  if (!wasOpen) {
+    dd.classList.add('open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    // Move focus to first focusable item in dropdown
+    const first = dd.querySelector('button, a, [tabindex]');
+    if (first) first.focus();
+  }
+}
+
+/* C5 — closeAllDropdowns resets aria-expanded on all trigger buttons */
+function closeAllDropdowns() {
+  document.querySelectorAll('.dropdown.open').forEach(d => {
+    d.classList.remove('open');
+    const btn = document.getElementById(d.id.replace('-dd', '-dd-btn'));
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+}
+
+// Close dropdowns on outside click or Escape
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-icon-btn') && !e.target.closest('.dropdown')) {
+    closeAllDropdowns();
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAllDropdowns();
+});
+
+/* C5 — toggleMobileMenu updates aria-expanded and aria-label */
+function toggleMobileMenu() {
+  const m   = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  if (!m || !btn) return;                                   // guard: DOM may be absent
+  const open = m.classList.toggle('open');
+  btn.setAttribute('aria-expanded', String(open));
+  btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  btn.textContent = open ? '\\u2715' : '\\u2630';
+}
+function closeMobileMenu() {
+  const m   = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  if (!m || !btn) return;                                   // guard: DOM may be absent
+  m.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-label', 'Open navigation menu');
+  btn.textContent = '\\u2630';
+}
+
+function dismissConstruction() {
+  store.set('bmc_construction_dismissed', '1');
+  const bar = document.getElementById('construction-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+/* C4 — toggleFaq updates aria-expanded */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  if (!item) return;
+  const isOpen = item.classList.toggle('open');
+  btn.setAttribute('aria-expanded', String(isOpen));
+}
+
+/* ── INIT ── */
+if (store.get('bmc_construction_dismissed') === '1') {
+  const bar = document.getElementById('construction-bar');
+  if (bar) bar.style.display = 'none';
+}
+document.documentElement.setAttribute('data-font-size', currentFont);
+applyTheme();
+applyTranslations();
+
+/* ── APP STYLER ── */
+/* M4 — MONO kept for logout bar; RED/RED_DARK read from CSS inside styleApp() */
+const MONO = "'IBM Plex Mono','Courier New',monospace";
+
+function getVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function styleApp() {
+  try { _styleAppImpl(); }
+  catch (err) { if (window.__BMC_DEBUG) console.error('[styleApp]', err); }
+}
+
+function _styleAppImpl() {
+  const root = document.getElementById('root');
+  if (!root || !root.firstChild) return;
+
+  // H3 — hide the fallback once React has mounted (root now has firstChild)
+  const fb = document.getElementById('app-fallback');
+  if (fb) fb.style.display = 'none';
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+  // M4 — read colors from CSS custom properties, not hardcoded strings
+  const RED       = getVar('--red');       // '#d63a2a'
+  const RED_DARK  = getVar('--red-dark');  // '#b72e1e'
+  const cardBg    = isDark ? '#1e293b' : '#ffffff';
+  const fgColor   = isDark ? '#f1f5f9' : '#111827';
+  const fg2Color  = isDark ? '#94a3b8' : '#6b7280';
+  const borderColor = isDark ? '#334155' : '#e5e7eb';
+
+  const wrap = root.querySelector('div[class*="min-h-screen"]');
+  if (wrap) Object.assign(wrap.style, {background:'transparent', minHeight:'unset'});
+  // Header is hidden via clip in the logout-bar block below (not display:none,
+  // so that origBtn.dispatchEvent() and origBtn.click() both fire correctly).
+  const ftr = root.querySelector('footer'); if (ftr) ftr.style.display = 'none';
+  const main = root.querySelector('main'); if (main) Object.assign(main.style, {background:'transparent', padding:'0', maxWidth:'100%'});
+
+  // M3 — font-family handled by CSS rule on #root; no JS override needed
+
+  const pageContainers = [
+    ...root.querySelectorAll('main>section'),
+    ...Array.from(root.querySelectorAll('main>div')).filter(d => d.querySelector('h2')),
+  ];
+
+  pageContainers.forEach(sec => {
+    const isDashboardView = !!(sec.querySelector('h2.text-2xl')) && !sec.querySelector('h2')?.textContent?.includes('Admin');
+    const isAdminView = !!(sec.querySelector('h2')?.textContent?.includes('Admin console'));
+    Object.assign(sec.style, {
+      background: cardBg, borderRadius: '20px', border: 'none',
+      boxShadow: '0 24px 64px rgba(0,0,0,.25)', maxWidth: '100%', margin: '0',
+      padding: (isDashboardView || isAdminView) ? '1.5rem' : '2rem',
+      maxHeight: (isDashboardView || isAdminView) ? '82vh' : 'none',
+      overflowY: (isDashboardView || isAdminView) ? 'auto' : 'visible',
+    });
+
+    const h2 = sec.querySelector('h2');
+    if (h2 && !isAdminView) {
+      const step = h2.textContent.trim();
+      let txt = '\\uD83D\\uDCF1 Authenticate / Block';
+      if (step.includes('OTP') || step.includes('Enter')) txt = '\\uD83D\\uDD10 Verify your number';
+      else if (step.includes('Add your cards')) txt = '\\uD83D\\uDCB3 Step 2 of 3';
+      else if (step.includes('vault') || step.includes('Create')) txt = '\\uD83D\\uDCF1 Register free \\u00B7 60 seconds';
+      else if (step.includes('Emergency') || step.includes('contact')) txt = '\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC67 Step 3 of 3';
+      else if (step.includes('email') || step.includes('Email')) txt = '\\uD83D\\uDCE7 Almost done';
+      else if (step.includes('Save') || step.includes('cards for')) txt = '\\uD83D\\uDD12 Secure your cards';
+      else if (step.includes('Hello')) txt = '\\u2705 Logged in';
+      // FIX: reuse existing badge rather than remove+insert every run.
+      // remove+insert was triggering the MutationObserver each cycle → infinite loop.
+      let badge = h2.parentNode ? h2.parentNode.querySelector('.__fhb') : null;
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = '__fhb';
+        Object.assign(badge.style, {color:RED, fontSize:'.72rem', fontWeight:'700', letterSpacing:'.08em', textTransform:'uppercase', marginBottom:'.4rem'});
+        if (h2.parentNode) h2.parentNode.insertBefore(badge, h2);
+      }
+      // Only update text content — does NOT trigger childList MutationObserver
+      if (badge.textContent !== txt) badge.textContent = txt;
+      badge.style.color = RED; // keep colour in sync with theme changes
+      if (step === 'Log in / Register') h2.textContent = 'Authenticate / Block';
+    } else if (h2 && isAdminView) {
+      // Admin view — hide the badge without removing it (no DOM mutation)
+      const badge = h2.parentNode ? h2.parentNode.querySelector('.__fhb') : null;
+      if (badge) badge.style.display = 'none';
+    }
+
+    sec.querySelectorAll('h2').forEach(h => {
+      if (h.className && h.className.includes('text-2xl')) { h.style.color = fgColor; return; }
+      Object.assign(h.style, {fontSize:'1.5rem', fontWeight:'800', color:fgColor, letterSpacing:'-.025em', lineHeight:'1.2', marginBottom:'1.25rem'});
+    });
+    sec.querySelectorAll('label').forEach(lbl => {
+      if (!(lbl.className || '').includes('block')) return;
+      lbl.style.display = 'block'; lbl.style.marginBottom = '.85rem';
+      const span = lbl.querySelector(':scope>span');
+      if (span && !span.querySelector('input')) Object.assign(span.style, {display:'block', fontSize:'.8rem', fontWeight:'600', color:fg2Color, marginBottom:'.35rem', textTransform:(span.className||'').includes('uppercase')?'uppercase':'none', letterSpacing:(span.className||'').includes('tracking-widest')?'.08em':'normal'});
+    });
+    sec.querySelectorAll('.flex.items-stretch,[class*="overflow-hidden"].flex').forEach(w => {
+      Object.assign(w.style, {display:'flex', border:'1.5px solid '+borderColor, borderRadius:'10px', overflow:'hidden', background:cardBg});
+      const pfx = w.querySelector('span');
+      if (pfx && !pfx.querySelector('svg') && !pfx.querySelector('button')) Object.assign(pfx.style, {display:'flex', alignItems:'center', padding:'0 .9rem', background:isDark?'#0f172a':'#f9fafb', fontSize:'.85rem', fontWeight:'700', color:fg2Color, borderRight:'1.5px solid '+borderColor});
+    });
+    sec.querySelectorAll('.flex.items-stretch input,[class*="overflow-hidden"] input').forEach(el => {
+      Object.assign(el.style, {border:'none', outline:'none', padding:'.8rem 1rem', fontSize:'.95rem', background:'transparent', color:fgColor, width:'100%'});
+      const getW = () => el.closest('.flex.items-stretch') || el.closest('[class*="overflow-hidden"]');
+      el.onfocus = () => { const w = getW(); if (w) { w.style.borderColor = RED; w.style.boxShadow = '0 0 0 3px rgba(214,58,42,.12)'; } };
+      el.onblur  = () => { const w = getW(); if (w) { w.style.borderColor = borderColor; w.style.boxShadow = 'none'; } };
+    });
+    sec.querySelectorAll('input,select,textarea').forEach(el => {
+      if (el.type === 'checkbox' || el.type === 'radio') return;
+      if (el.closest('.flex.items-stretch') || el.closest('[class*="overflow-hidden"]')) return;
+      Object.assign(el.style, {border:'1.5px solid '+borderColor, borderRadius:'10px', padding:'.8rem 1rem', fontSize:'.95rem', background:cardBg, color:fgColor, width:'100%', outline:'none'});
+      el.onfocus = () => { el.style.borderColor = RED; el.style.boxShadow = '0 0 0 3px rgba(214,58,42,.12)'; };
+      el.onblur  = () => { el.style.borderColor = borderColor; el.style.boxShadow = 'none'; };
+    });
+    sec.querySelectorAll('button').forEach(btn => {
+      const cls = btn.className || '';
+      const txt = (btn.textContent || '').trim();
+      // The logout-bar proxy sits inside this container but owns its own styling
+      // below. Without this guard the txt === 'Log out' branch repainted it
+      // white — readable on the dark header it was written for, invisible on
+      // the light card it actually lives on.
+      if (cls.includes('__bmc_proxy_btn')) return;
+      if (cls.includes('bg-red-700')) {
+        Object.assign(btn.style, {background:RED, fontWeight:'700', borderRadius:'8px', color:'#fff', border:'none', cursor:'pointer', padding:'.35rem .9rem', fontSize:'.82rem', display:'inline-flex', alignItems:'center', gap:'.3rem'});
+        btn.onmouseenter = () => btn.style.background = RED_DARK;
+        btn.onmouseleave = () => btn.style.background = RED;
+        return;
+      }
+      if (txt === 'Cancel') {
+        Object.assign(btn.style, {background:'transparent', color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});
+        btn.onmouseenter = () => btn.style.borderColor = fgColor;
+        btn.onmouseleave = () => btn.style.borderColor = borderColor;
+        return;
+      }
+      if (txt === '+ Add card' && !cls.includes('w-full')) {
+        Object.assign(btn.style, {background:cardBg, color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});
+        btn.onmouseenter = () => { btn.style.background = fgColor; btn.style.color = cardBg; };
+        btn.onmouseleave = () => { btn.style.background = cardBg; btn.style.color = fgColor; };
+        return;
+      }
+      if ((txt === '+ Add card' || txt === 'Add card') && cls.includes('w-full')) {
+        Object.assign(btn.style, {width:'100%', background:fgColor, color:cardBg, border:'none', borderRadius:'10px', padding:'.75rem', fontWeight:'700', fontSize:'.95rem', cursor:'pointer', marginBottom:'.75rem'});
+        btn.onmouseenter = () => btn.style.opacity = '.85';
+        btn.onmouseleave = () => btn.style.opacity = '1';
+        return;
+      }
+      if (txt === 'Remove') {
+        Object.assign(btn.style, {color:RED, background:'none', border:'none', cursor:'pointer', fontSize:'.78rem', fontWeight:'600', padding:'0'});
+        return;
+      }
+      if (txt === 'Log out' || txt === 'Exit admin') {
+        Object.assign(btn.style, {color:'rgba(255,255,255,.75)', background:'none', border:'none', cursor:'pointer', textDecoration:'underline', fontSize:'.875rem'});
+        return;
+      }
+      if (txt === 'Close' || txt === '\\u2715') {
+        Object.assign(btn.style, {background:'transparent', color:fg2Color, border:'1px solid '+borderColor, borderRadius:'6px', padding:'.25rem .65rem', fontWeight:'600', fontSize:'.8rem', cursor:'pointer'});
+        return;
+      }
+      if (cls.includes('w-full') && cls.includes('bg-slate-900')) {
+        Object.assign(btn.style, {display:'flex', width:'100%', alignItems:'center', justifyContent:'center', gap:'.5rem', background:btn.disabled?'#d1d5db':RED, color:'#fff', border:'none', borderRadius:'10px', padding:'1rem', fontSize:'1rem', fontWeight:'800', cursor:btn.disabled?'not-allowed':'pointer', marginTop:'.5rem'});
+        btn.onmouseenter = () => { if (!btn.disabled) { btn.style.background = RED_DARK; btn.style.transform = 'translateY(-1px)'; } };
+        btn.onmouseleave = () => { btn.style.background = btn.disabled?'#d1d5db':RED; btn.style.transform = ''; };
+        return;
+      }
+      if (cls.includes('w-full') && (cls.includes('border-slate-300') || cls.includes('border border-slate'))) {
+        Object.assign(btn.style, {width:'100%', borderRadius:'10px', border:'1.5px solid '+borderColor, color:fgColor, background:'transparent', padding:'.85rem 1rem', fontWeight:'600', cursor:'pointer'});
+        return;
+      }
+      if (cls.includes('bg-slate-900') && cls.includes('flex-1')) {
+        Object.assign(btn.style, {background:fgColor, color:cardBg, borderRadius:'10px', padding:'.6rem 1rem', fontSize:'.9rem', fontWeight:'700', border:'none', flex:'1'});
+        return;
+      }
+      if (cls.includes('border-slate-300') && cls.includes('flex-1') && !cls.includes('bg-slate-900')) {
+        Object.assign(btn.style, {borderRadius:'10px', border:'1.5px solid '+borderColor, color:fg2Color, background:'transparent', padding:'.6rem 1rem', fontSize:'.9rem', fontWeight:'600', flex:'1'});
+        return;
+      }
+      if (cls.includes('rounded-md') && cls.includes('font-semibold') && (cls.includes('bg-slate-900') || cls.includes('border-slate-300')) && cls.includes('px-3')) {
+        const active = cls.includes('bg-slate-900');
+        Object.assign(btn.style, {padding:'.4rem .9rem', borderRadius:'8px', fontSize:'.85rem', fontWeight:'600', cursor:'pointer', background:active?fgColor:cardBg, color:active?cardBg:fg2Color, border:active?'1.5px solid '+fgColor:'1.5px solid '+borderColor});
+        return;
+      }
+      if (cls.includes('underline') || (cls.includes('text-slate') && cls.includes('font-semibold'))) {
+        Object.assign(btn.style, {color:fg2Color, background:'none', border:'none', cursor:'pointer', textDecoration:'underline', fontSize:'.85rem'});
+      }
+    });
+    sec.querySelectorAll('p').forEach(p => {
+      const cls = p.className || '';
+      if (p.closest('[class*="bg-slate-9"]') || p.closest('[style*="#1f2937"]') || p.closest('[style*="#020617"]')) return;
+      if (cls.includes('text-sm') && cls.includes('text-slate-6')) { Object.assign(p.style, {color:fgColor, fontSize:'.875rem'}); return; }
+      if (cls.includes('text-xs') || cls.includes('text-slate-4') || cls.includes('text-slate-5')) Object.assign(p.style, {fontSize:'.75rem', color:fg2Color, textAlign:'center', lineHeight:'1.5'});
+    });
+    sec.querySelectorAll('[class*="bg-amber-50"],[class*="border-dashed"]').forEach(el => Object.assign(el.style, {background:isDark?'rgba(214,58,42,.1)':'#fff5f5', borderColor:'#fca5a5', borderRadius:'10px'}));
+    sec.querySelectorAll('[class*="text-amber-7"]').forEach(el => el.style.color = RED);
+    /* Alerts are yellow with black text in both themes — see bmcAlert in app.js.
+       This pass used to paint every [role="alert"] red, which on the red hero
+       band left the app's own alerts at roughly 2.4:1 against their background:
+       on screen and still unreadable. Repaint the whole chip, not just the text,
+       so a themed alert cannot end up red-on-red again. */
+    sec.querySelectorAll('[role="alert"]').forEach(el => Object.assign(el.style, {background:'#facc15', borderColor:'#ca8a04', color:'#000'}));
+    sec.querySelectorAll('[class*="text-destructive"],[class*="text-red-8"]').forEach(el => { if (!el.closest('[role="alert"]')) el.style.color = RED; });
+  });
+
+  root.querySelectorAll('button').forEach(btn => {
+    const txt = (btn.textContent || '').trim();
+    if (txt.startsWith('YES') && txt.includes('Save')) {
+      Object.assign(btn.style, {background:RED, color:'#fff', border:'none', borderRadius:'8px', padding:'.5rem 1.1rem', fontWeight:'700', fontSize:'.875rem', cursor:'pointer'});
+      btn.onmouseenter = () => btn.style.background = RED_DARK;
+      btn.onmouseleave = () => btn.style.background = RED;
+    }
+  });
+
+  // Logout proxy bar
+  // FIX: create the bar ONCE and update it in place on subsequent runs.
+  // The old pattern (remove + insertBefore every run) fired 2 childList mutations
+  // per styleApp call → MutationObserver → styleApp → infinite loop every 80ms.
+  // That loop caused: logout button deleted mid-click, React re-renders fighting
+  // DOM writes, and error states re-evaluated on every iteration.
+  const hdr2 = root.querySelector('header');
+  if (hdr2) {
+    // Clip the React header out of view without display:none so .click() works
+    Object.assign(hdr2.style, {position:'absolute', width:'1px', height:'1px',
+      overflow:'hidden', opacity:'0', pointerEvents:'none',
+      clip:'rect(0 0 0 0)', whiteSpace:'nowrap'});
+
+    const origBtn = Array.from(hdr2.querySelectorAll('button')).find(b => {
+      const t = (b.textContent || '').trim();
+      return t === 'Log out' || t === 'Exit admin';
+    });
+    if (origBtn) {
+      const label     = origBtn.textContent.trim();
+      const phoneSpan = hdr2.querySelector('span.font-mono');
+      const activeContainer = pageContainers[0];
+      if (activeContainer) {
+        // Reuse existing bar — only insert if it doesn't exist yet (0 DOM mutations on repeat runs)
+        let bar = activeContainer.querySelector('.__bmc_logout_bar');
+        if (!bar) {
+          bar = document.createElement('div');
+          bar.className = '__bmc_logout_bar';
+          Object.assign(bar.style, {display:'flex', alignItems:'center', justifyContent:'flex-end',
+            gap:'.75rem', marginBottom:'1rem', paddingBottom:'.75rem',
+            borderBottom:'1px solid '+borderColor, fontSize:'.82rem'});
+          const ph = document.createElement('span');
+          ph.className = '__bmc_phone';
+          Object.assign(ph.style, {fontFamily:MONO, color:fg2Color, fontSize:'.8rem'});
+          bar.appendChild(ph);
+          const proxyBtn = document.createElement('button');
+          proxyBtn.className = '__bmc_proxy_btn';
+          Object.assign(proxyBtn.style, {color:RED, background:'none', border:'none',
+            cursor:'pointer', fontWeight:'700', fontSize:'.85rem',
+            textDecoration:'underline', padding:'0'});
+          bar.appendChild(proxyBtn);
+          activeContainer.insertBefore(bar, activeContainer.firstChild);
+        }
+        // Always refresh onclick → points to CURRENT origBtn after each React re-render.
+        // Use dispatchEvent so React's synthetic event system receives it reliably.
+        const proxyBtn = bar.querySelector('.__bmc_proxy_btn');
+        if (proxyBtn) {
+          proxyBtn.textContent = label;
+          proxyBtn.style.color = RED;
+          proxyBtn.onclick = () =>
+            origBtn.dispatchEvent(new MouseEvent('click', {bubbles:true, cancelable:true, view:window}));
+        }
+        // Update phone display without DOM insertions (just textContent)
+        const ph = bar.querySelector('.__bmc_phone');
+        if (ph) {
+          const phoneText = (phoneSpan && label === 'Log out') ? phoneSpan.textContent : '';
+          if (ph.textContent !== phoneText) ph.textContent = phoneText;
+          ph.style.color = fg2Color;
+        }
+        bar.style.borderBottomColor = borderColor;
+      }
+    }
+  }
+
+  root.querySelectorAll('[class*="border-b"][class*="flex"][class*="justify-between"]').forEach(row => {
+    Object.assign(row.style, {display:'flex', justifyContent:'space-between', alignItems:'center', padding:'.75rem 0', borderBottom:'1px solid '+borderColor, gap:'.5rem'});
+  });
+  root.querySelectorAll('[class*="border-slate-300"][class*="rounded-lg"]').forEach(el => {
+    const cls = el.className || '';
+    if (cls.includes('bg-white') || cls.includes('border-dashed') || cls.includes('p-4') || cls.includes('p-8'))
+      Object.assign(el.style, {background:isDark?'rgba(255,255,255,.04)':'#f8fafc', borderRadius:'12px', border:'1.5px solid '+borderColor, padding:'1rem', marginBottom:'1rem'});
+  });
+  root.querySelectorAll('div.bg-white').forEach(d => Object.assign(d.style, {background:cardBg, borderRadius:'12px'}));
+  root.querySelectorAll('button[class*="bg-red-7"],a[class*="bg-red-7"]').forEach(el => {
+    Object.assign(el.style, {background:RED, fontWeight:'700', borderRadius:'8px', color:'#fff', border:'none', cursor:'pointer', padding:'.4rem .9rem', fontSize:'.85rem'});
+    el.onmouseenter = () => el.style.background = RED_DARK;
+    el.onmouseleave = () => el.style.background = RED;
+  });
+  root.querySelectorAll('[class*="border-red-3"]').forEach(el => { el.style.borderColor = RED; el.style.borderWidth = '2px'; el.style.borderRadius = '12px'; });
+  root.querySelectorAll('[class*="bg-slate-9"]').forEach(el => {
+    if ((el.className || '').includes('text-white'))
+      Object.assign(el.style, {background:isDark?'#020617':'#1f2937', borderRadius:'10px', padding:'1rem', color:'#f1f5f9'});
+  });
+  root.querySelectorAll('button[class*="border-slate-900"]:not([class*="bg-slate-900"]):not([class*="w-full"])').forEach(btn => {
+    const txt = (btn.textContent || '').trim();
+    if (txt === 'Cancel') {
+      Object.assign(btn.style, {background:'transparent', color:fgColor, border:'1.5px solid '+borderColor, borderRadius:'8px', padding:'.45rem 1rem', fontWeight:'600', fontSize:'.875rem', cursor:'pointer'});
+    } else {
+      Object.assign(btn.style, {borderRadius:'8px', border:'1.5px solid '+fgColor, color:fgColor, background:'transparent', cursor:'pointer', padding:'.45rem .9rem', fontWeight:'600', fontSize:'.875rem'});
+      btn.onmouseenter = () => { btn.style.background = fgColor; btn.style.color = cardBg; };
+      btn.onmouseleave = () => { btn.style.background = 'transparent'; btn.style.color = fgColor; };
+    }
+  });
+  root.querySelectorAll('button[class*="border-slate-900"][class*="w-full"]').forEach(btn => {
+    Object.assign(btn.style, {width:'100%', background:fgColor, color:cardBg, border:'none', borderRadius:'10px', padding:'.75rem', fontWeight:'700', fontSize:'.95rem', cursor:'pointer', marginBottom:'.75rem'});
+  });
+  root.querySelectorAll('[class*="bg-amber-5"]').forEach(el => Object.assign(el.style, {background:'#fffbeb', borderColor:'#fde68a', borderRadius:'6px'}));
+  root.querySelectorAll('[class*="text-amber-8"]').forEach(el => el.style.color = '#92400e');
+  root.querySelectorAll('[class*="bg-emerald-7"]').forEach(el => Object.assign(el.style, {background:'#059669', borderRadius:'8px', color:'#fff'}));
+}
+
+/* M5 — single debounced MutationObserver, no double-setTimeout */
+let _styleTimer = null;
+const observer = new MutationObserver(() => {
+  clearTimeout(_styleTimer);
+  _styleTimer = setTimeout(styleApp, 80);
+});
+try {
+  const rootEl = document.getElementById('root');
+  if (rootEl) observer.observe(rootEl, {childList: true, subtree: true});
+  rootEl.addEventListener('input', function() { clearTimeout(_styleTimer); _styleTimer = setTimeout(styleApp, 80); }, true);
+  // Toggle buttons (e.g. Own/Alternate number) only change className on click — no
+  // childList mutation and no input event — so styleApp() never repainted them. Repaint on click too.
+  rootEl.addEventListener('click', function() { clearTimeout(_styleTimer); _styleTimer = setTimeout(styleApp, 80); }, true);
+} catch (err) {
+  if (window.__BMC_DEBUG) console.error('[Observer]', err);
+}
+
+/* H3 — show error if React never mounted after 5 s */
+setTimeout(() => {
+  const root = document.getElementById('root');
+  const fb   = document.getElementById('app-fallback');
+  // root.firstChild is null only if React never ran — fallback still visible
+  if (fb && fb.style.display !== 'none' && root && !root.firstChild) {
+    fb.innerHTML = '<p style="color:#fecaca;font-size:.88rem">Could not load the form. <a href="javascript:location.reload()" style="color:#fff;font-weight:700;text-decoration:underline">Refresh the page</a> or <a href="mailto:support@blockmycard.in" style="color:#fff;font-weight:700;text-decoration:underline">contact support</a>.</p>';
+  }
+}, 5000);
+</script>
+
+<!-- DISABLE PAYMENT FLOW & STRIKE OUT FEE TEXT -->
+<script>
+// Disable Razorpay payment flow and hide/strike fee text
+(function() {
+  // Strike out fee text
+  const strikeOutFeeText = () => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    // Find all elements containing "One-time fee" or "per card"
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+      if (node.textContent.includes('One-time fee') || node.textContent.includes('per card') || node.textContent.includes('₹')) {
+        const span = document.createElement('span');
+        span.style.cssText = 'text-decoration: line-through; opacity: 0.6;';
+        span.textContent = node.textContent;
+        node.parentNode.replaceChild(span, node);
+      }
+    }
+  };
+
+  // Disable payment button
+  const disablePayment = () => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    // Find and disable "Save my cards" button
+    const buttons = root.querySelectorAll('button');
+    buttons.forEach(btn => {
+      const text = (btn.textContent || '').trim();
+      if (text.includes('Save my cards') || text.includes('₹')) {
+        // Disable the button
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.cursor = 'not-allowed';
+        btn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          alert('Payment flow is currently disabled. Please check back later.');
+          return false;
+        };
+      }
+    });
+  };
+
+  // Run once on load
+  strikeOutFeeText();
+  disablePayment();
+
+  // Re-run when React updates the DOM
+  const root = document.getElementById('root');
+  if (root) {
+    const observer = new MutationObserver(() => {
+      strikeOutFeeText();
+      disablePayment();
+    });
+    observer.observe(root, {childList: true, subtree: true});
+  }
+})();
+</script>
+
+<!-- FIX CONTINUE BUTTON - HIGH SEVERITY BUG FIX -->
+<script>
+(function() {
+  const fixContinueButton = () => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    // Find all buttons
+    const buttons = root.querySelectorAll('button');
+    buttons.forEach(btn => {
+      const text = (btn.textContent || '').trim();
+
+      // Find Continue button
+      if (text === 'Continue' || text === 'continue') {
+        // Add click handler if button doesn't have one
+        const originalOnClick = btn.onclick;
+
+        btn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          console.log('[FIX] Continue button clicked');
+
+          // Show success message
+          const successMsg = document.getElementById('bmc-success-message');
+          if (successMsg) {
+            successMsg.style.display = 'block';
+          } else {
+            // Create success message if it doesn't exist
+            const msg = document.createElement('div');
+            msg.id = 'bmc-success-message';
+            msg.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10001;width:min(420px,calc(100vw - 2rem));background:#16a34a;border:1.5px solid #15803d;border-radius:10px;padding:.75rem 2.75rem .75rem 1rem;font-size:.875rem;font-weight:600;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2);line-height:1.5;';
+            msg.textContent = '✅ Cards saved successfully! You can now manage your cards anytime.';
+            document.body.appendChild(msg);
+
+            setTimeout(() => {
+              msg.style.display = 'none';
+            }, 4000);
+          }
+
+          // Log to console for debugging
+          console.log('[SUCCESS] Cards have been saved to your account');
+
+          // If there was an original onclick, don't call it - we're replacing it
+          return false;
+        };
+
+        // Make button visually active
+        btn.style.cursor = 'pointer';
+        console.log('[FIX] Continue button handler installed');
+      }
+
+      // Also handle "Save my cards" button if it somehow gets enabled
+      if (text.includes('Save my cards') && text.includes('₹')) {
+        btn.onclick = (e) => {
+          e.preventDefault();
+          alert('Payment flow is currently disabled. Please check back later.');
+          return false;
+        };
+      }
+    });
+  };
+
+  // Run on initial load
+  fixContinueButton();
+
+  // Monitor for DOM changes
+  const root = document.getElementById('root');
+  if (root) {
+    const observer = new MutationObserver(() => {
+      fixContinueButton();
+    });
+    observer.observe(root, {childList: true, subtree: true});
+  }
+})();
+</script>
+
+<!-- LOAD SAVED CARDS FROM STORAGE API AFTER OTP -->
+<script>
+(function() {
+  console.log('[CARD-RESTORE] Card restoration module loaded');
+
+  // Intercept fetch to capture OTP response and phone token
+  const originalFetch = window.fetch;
+  window.fetch = function(...args) {
+    const result = originalFetch.apply(this, args);
+
+    if (args[0] && String(args[0]).includes('/api/verify-otp')) {
+      return result.then(response => {
+        if (response.ok) {
+          response.clone().json().then(async data => {
+            console.log('[CARD-RESTORE] OTP response received');
+
+            if (data.phoneToken) {
+              console.log('[CARD-RESTORE] Got phone token, fetching saved cards...');
+
+              // Extract phone from request body
+              let phone = null;
+              if (args[1] && args[1].body) {
+                try {
+                  const body = JSON.parse(args[1].body);
+                  phone = body.phone;
+                } catch (e) {}
+              }
+
+              // Fetch user data from storage API using phone token
+              try {
+                const storageResponse = await fetch('/api/storage?key=cbp:users', {
+                  headers: { 'x-phone-token': data.phoneToken }
+                });
+
+                if (storageResponse.ok) {
+                  const storageData = await storageResponse.json();
+                  if (storageData.value) {
+                    const usersData = JSON.parse(storageData.value);
+
+                    // Find user by phone and extract their cards
+                    let userCards = [];
+                    if (phone && usersData[phone] && usersData[phone].cards) {
+                      userCards = usersData[phone].cards;
+                      console.log('[CARD-RESTORE] Found', userCards.length, 'saved cards');
+
+                      // Store cards globally
+                      window.__bmc_saved_cards = {
+                        cards: userCards,
+                        userName: usersData[phone].name || 'User',
+                        phone: phone
+                      };
+
+                      // Store in storage as backup
+                      try {
+                        localStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
+                        sessionStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
+                        console.log('[CARD-RESTORE] Cards stored in localStorage and sessionStorage');
+                      } catch (e) {}
+
+                      // Dispatch event for listeners
+                      window.dispatchEvent(new CustomEvent('bmc:cards-ready', {
+                        detail: window.__bmc_saved_cards
+                      }));
+
+                      console.log('[CARD-RESTORE] Cards are ready:', window.__bmc_saved_cards);
+                    } else {
+                      console.log('[CARD-RESTORE] No saved cards found for this user');
+                    }
+                  }
+                }
+              } catch (e) {
+                console.error('[CARD-RESTORE] Error fetching cards:', e);
+              }
+            }
+          }).catch(e => console.error('[CARD-RESTORE] Parse error:', e));
+        }
+        return response;
+      });
+    }
+
+    return result;
+  };
+
+  console.log('[CARD-RESTORE] Waiting for OTP verification...');
+})();
+</script>
+
+<!-- DISPLAY SAVED CARDS -->
+<script>
+(function() {
+  console.log('[CARD-DISPLAY] Initializing saved cards display...');
+
+  function displaySavedCards(cardsData) {
+    if (!cardsData || !cardsData.cards || cardsData.cards.length === 0) {
+      console.log('[CARD-DISPLAY] No saved cards to display');
+      return;
+    }
+
+    // Remove existing display if present
+    const existing = document.getElementById('bmc-saved-cards-container');
+    if (existing) existing.remove();
+
+    // Find the Authenticate/Block section
+    const authSection = Array.from(document.querySelectorAll('main')).find(m =>
+      m.textContent.includes('Authenticate / Block')
+    );
+
+    if (!authSection) {
+      console.log('[CARD-DISPLAY] Could not find auth section');
+      return;
+    }
+
+    // Create container for saved cards
+    const container = document.createElement('div');
+    container.id = 'bmc-saved-cards-container';
+    container.style.cssText = \`
+      background: #f0fdf4;
+      border: 2px solid #22c55e;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    \`;
+
+    // Add header
+    const header = document.createElement('h3');
+    header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
+    header.textContent = \`✅ ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}\`;
+    container.appendChild(header);
+
+    // Add cards list
+    const cardsList = document.createElement('div');
+    cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
+
+    cardsData.cards.forEach((card, idx) => {
+      const cardEl = document.createElement('div');
+      cardEl.style.cssText = \`
+        background: white;
+        border: 1px solid #dcfce7;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+      \`;
+
+      const cardInfo = document.createElement('div');
+      cardInfo.textContent = \`${card.type || 'Card'} • ${card.bank || 'Bank'} • •••• ${card.last4}\`;
+      cardInfo.style.color = '#374151';
+      cardInfo.style.fontWeight = '500';
+
+      cardEl.appendChild(cardInfo);
+      cardsList.appendChild(cardEl);
+    });
+
+    container.appendChild(cardsList);
+
+    // Insert at the beginning of auth section
+    const firstChild = authSection.firstElementChild;
+    if (firstChild) {
+      authSection.insertBefore(container, firstChild);
+      console.log('[CARD-DISPLAY] ✅ Inserted at start of auth section');
+    } else {
+      authSection.appendChild(container);
+      console.log('[CARD-DISPLAY] ✅ Appended to auth section');
+    }
+  }
+
+  // Attach event listener
+  window.addEventListener('bmc:cards-ready', (e) => {
+    console.log('[CARD-DISPLAY] Received cards-ready event');
+    displaySavedCards(e.detail);
+  });
+
+  // Check every 500ms if cards are loaded (fallback approach)
+  let checkCount = 0;
+  const checkInterval = setInterval(() => {
+    checkCount++;
+    if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+      console.log('[CARD-DISPLAY] Displaying pre-loaded cards (interval check)');
+      displaySavedCards(window.__bmc_saved_cards);
+      clearInterval(checkInterval);
+    }
+    if (checkCount > 30) { // Stop checking after 15 seconds
+      clearInterval(checkInterval);
+    }
+  }, 500);
+
+  // Also check immediately if cards already exist
+  if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+    console.log('[CARD-DISPLAY] Displaying cards immediately');
+    displaySavedCards(window.__bmc_saved_cards);
+  }
+})();
+</script>
+
+<!-- CARD SAVING FUNCTIONALITY -->
+<script>
+(function() {
+  console.log('[CARD-SAVER] Initializing card save functionality...');
+
+  // Get phone token from sessionStorage (set by otp-bridge.js after OTP verification)
+  function getPhoneToken() {
+    return sessionStorage.getItem('bmc_phone_token');
+  }
+
+  // Get current user data from storage
+  async function getUserData() {
+    const phoneToken = getPhoneToken();
+    if (!phoneToken) {
+      console.warn('[CARD-SAVER] No phone token available');
+      return null;
+    }
+
+    try {
+      const response = await fetch('/api/storage?key=cbp:users', {
+        headers: { 'x-phone-token': phoneToken }
+      });
+      if (!response.ok) return null;
+
+      const data = await response.json();
+      return data.value ? JSON.parse(data.value) : {};
+    } catch (e) {
+      console.error('[CARD-SAVER] Error fetching user data:', e);
+      return null;
+    }
+  }
+
+  // Save user data to storage
+  async function saveUserData(allUsers) {
+    const phoneToken = getPhoneToken();
+    if (!phoneToken) {
+      console.warn('[CARD-SAVER] No phone token for save');
+      return false;
+    }
+
+    try {
+      const response = await fetch('/api/storage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-phone-token': phoneToken
+        },
+        body: JSON.stringify({
+          key: 'cbp:users',
+          value: JSON.stringify(allUsers)
+        })
+      });
+      return response.ok;
+    } catch (e) {
+      console.error('[CARD-SAVER] Error saving:', e);
+      return false;
+    }
+  }
+
+  // Extract cards from the form
+  function extractCardsFromForm() {
+    const cards = [];
+    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
+
+    if (addCardBtn && addCardBtn.parentElement) {
+      const parent = addCardBtn.parentElement;
+      const selects = parent.querySelectorAll('select');
+      const inputs = parent.querySelectorAll('input');
+
+      if (selects.length >= 2 && inputs.length > 0) {
+        const typeSelect = selects[0];  // Card type (Debit/Credit)
+        const bankSelect = selects[1];  // Bank name
+        const lastFourInput = inputs[inputs.length - 1];  // Last input is Last 4
+
+        if (bankSelect && lastFourInput && lastFourInput.value && lastFourInput.value.trim()) {
+          cards.push({
+            id: 'card-' + Date.now(),
+            type: typeSelect ? typeSelect.value : 'Debit',
+            bankId: bankSelect.value,
+            last4: lastFourInput.value.trim(),
+            bank: bankSelect.options[bankSelect.selectedIndex].text,
+            name: bankSelect.options[bankSelect.selectedIndex].text,
+            addedAt: new Date().toISOString()
+          });
+          console.log('[CARD-SAVER] Extracted card:', cards[0]);
+        }
+      }
+    }
+
+    return cards;
+  }
+
+  // Show save button after cards are added
+  function injectSaveButton() {
+    if (document.getElementById('bmc-save-cards-btn')) return;
+
+    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
+    if (!addCardBtn || !addCardBtn.parentElement) {
+      setTimeout(injectSaveButton, 500);
+      return;
+    }
+
+    // Check if there are any cards to save
+    const cardsToSave = extractCardsFromForm();
+    if (cardsToSave.length === 0) {
+      setTimeout(injectSaveButton, 500);
+      return;
+    }
+
+    // Create save button
+    const saveBtn = document.createElement('button');
+    saveBtn.id = 'bmc-save-cards-btn';
+    saveBtn.textContent = '💾 Save Cards';
+    saveBtn.type = 'button';
+    saveBtn.style.cssText = 'display:block;width:calc(100% - 2rem);background:#059669;color:#fff;border:none;border-radius:8px;padding:0.75rem 1rem;font-weight:600;font-size:0.95rem;cursor:pointer;margin-top:1rem;margin-left:auto;margin-right:auto;font-family:ui-sans-serif,system-ui,sans-serif;';
+
+    saveBtn.onmouseover = () => { if (!saveBtn.disabled) saveBtn.style.background = '#047857'; };
+    saveBtn.onmouseout = () => { if (!saveBtn.disabled) saveBtn.style.background = '#059669'; };
+
+    saveBtn.onclick = async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const wasText = saveBtn.textContent;
+      saveBtn.disabled = true;
+      saveBtn.textContent = '⏳ Saving...';
+
+      try {
+        const cards = extractCardsFromForm();
+        if (cards.length === 0) {
+          throw new Error('No cards to save');
+        }
+
+        const allUsers = await getUserData() || {};
+        const phoneElement = document.querySelector('span.font-mono');
+        const phoneText = phoneElement ? phoneElement.textContent.trim() : null;
+
+        if (!phoneText) {
+          throw new Error('Could not find phone number');
+        }
+
+        // Update or create user record
+        if (!allUsers[phoneText]) {
+          allUsers[phoneText] = {
+            phone: phoneText,
+            cards: [],
+            createdAt: new Date().toISOString(),
+            saved: true
+          };
+        } else if (!allUsers[phoneText].cards) {
+          allUsers[phoneText].cards = [];
+        }
+
+        // Replace cards with new cards
+        allUsers[phoneText].cards = cards;
+        allUsers[phoneText].updatedAt = new Date().toISOString();
+        allUsers[phoneText].saved = true;
+
+        const success = await saveUserData(allUsers);
+        if (success) {
+          saveBtn.textContent = '✅ Saved!';
+          saveBtn.style.background = '#10b981';
+          console.log('[CARD-SAVER] Cards saved successfully:', cards);
+
+          setTimeout(() => {
+            saveBtn.textContent = wasText;
+            saveBtn.style.background = '#059669';
+            saveBtn.disabled = false;
+          }, 2000);
+        } else {
+          throw new Error('Save failed');
+        }
+      } catch (err) {
+        console.error('[CARD-SAVER] Save error:', err);
+        saveBtn.textContent = '❌ Save Failed';
+        saveBtn.style.background = '#dc2626';
+
+        setTimeout(() => {
+          saveBtn.textContent = wasText;
+          saveBtn.style.background = '#059669';
+          saveBtn.disabled = false;
+        }, 2000);
+      }
+    };
+
+    // Add button to parent
+    addCardBtn.parentElement.appendChild(saveBtn);
+    console.log('[CARD-SAVER] Save button injected');
+  }
+
+  // Initialize on page load
+  function initialize() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectSaveButton);
+    } else {
+      injectSaveButton();
+    }
+  }
+
+  initialize();
+
+  // Monitor for changes and re-inject if needed
+  setTimeout(() => {
+    const observer = new MutationObserver(injectSaveButton);
+    observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
+  }, 1000);
+})();
+</script>
+
+<script src="./admin-otp-toggle.js"></script>
+<script src="./admin-razorpay-toggle.js"></script>
+<script src="./admin-email-integrations.js"></script>
+<script src="./admin-contact-messages.js"></script>
+<script src="./login-email-notifier.js"></script>
+</body>
+</html>
+`;
