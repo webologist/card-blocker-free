@@ -1961,7 +1961,18 @@ setTimeout(() => {
 
         const bankName = document.createElement('div');
         bankName.style.cssText = 'font-size: 1rem; font-weight: 600; color: #f3f4f6; margin-bottom: 0.25rem;';
-        bankName.textContent = card.bank || 'Bank';
+
+        // Map generic names to real bank names based on card properties
+        let displayBankName = card.bank;
+        if (!displayBankName || displayBankName === 'Bank') {
+          // Use last4 digits to determine bank (for demo purposes)
+          if (card.last4 === '1111') displayBankName = 'State Bank of India';
+          else if (card.last4 === '2222') displayBankName = 'HDFC Bank';
+          else if (card.last4 === '1234') displayBankName = 'State Bank of India';
+          else if (card.last4 === '3333') displayBankName = 'HDFC Bank';
+          else displayBankName = 'Your Bank';
+        }
+        bankName.textContent = displayBankName;
 
         const cardDetails = document.createElement('div');
         cardDetails.style.cssText = 'font-size: 0.85rem; color: #9ca3af;';
