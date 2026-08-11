@@ -2018,15 +2018,10 @@ setTimeout(() => {
         const bankName = document.createElement('div');
         bankName.style.cssText = 'font-size: 1rem; font-weight: 600; color: #f3f4f6; margin-bottom: 0.25rem;';
 
-        // Map generic names to real bank names based on card properties
-        let displayBankName = card.bank;
+        // Use bankName from API (or fallback to bank property)
+        let displayBankName = card.bankName || card.bank || card.name;
         if (!displayBankName || displayBankName === 'Bank') {
-          // Use last4 digits to determine bank (for demo purposes)
-          if (card.last4 === '1111') displayBankName = 'State Bank of India';
-          else if (card.last4 === '2222') displayBankName = 'HDFC Bank';
-          else if (card.last4 === '1234') displayBankName = 'State Bank of India';
-          else if (card.last4 === '3333') displayBankName = 'HDFC Bank';
-          else displayBankName = 'Your Bank';
+          displayBankName = 'Your Bank';
         }
         bankName.textContent = displayBankName;
 
@@ -2058,7 +2053,8 @@ setTimeout(() => {
         blockBtn.onmouseover = () => blockBtn.style.background = '#b91c1c';
         blockBtn.onmouseout = () => blockBtn.style.background = '#dc2626';
         blockBtn.onclick = () => {
-          console.log('[CARD-DISPLAY] Block clicked for', card.bank);
+          const bankName = card.bankName || card.bank || card.name;
+          console.log('[CARD-DISPLAY] Block clicked for', bankName);
           expandCardForBlocking(cardEl, card);
         };
 
@@ -2068,8 +2064,9 @@ setTimeout(() => {
         removeLink.textContent = 'Remove';
         removeLink.onclick = (e) => {
           e.preventDefault();
-          console.log('[CARD-DISPLAY] Remove clicked for', card.bank);
-          if (confirm(\`Remove \${card.type} card from \${card.bank}?\`)) {
+          const bankName = card.bankName || card.bank || card.name;
+          console.log('[CARD-DISPLAY] Remove clicked for', bankName);
+          if (confirm(\`Remove \${card.type} card from \${bankName}?\`)) {
             cardEl.remove();
           }
         };
