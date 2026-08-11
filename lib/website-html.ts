@@ -1916,18 +1916,17 @@ setTimeout(() => {
       const container = document.createElement('div');
       container.id = 'bmc-saved-cards-container';
       container.style.cssText = \`
-        background: #f0fdf4;
-        border: 2px solid #22c55e;
+        background: transparent;
         border-radius: 8px;
-        padding: 1rem;
+        padding: 1rem 0;
         margin-bottom: 1.5rem;
         font-family: ui-sans-serif, system-ui, sans-serif;
       \`;
 
       // Add header
-      const header = document.createElement('h3');
-      header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
-      header.textContent = \`✅ \${cardsData.cards.length} Saved Card\${cardsData.cards.length !== 1 ? 's' : ''}\`;
+      const header = document.createElement('div');
+      header.style.cssText = 'margin-bottom: 1rem; color: #d1d5db; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;';
+      header.textContent = \`📌 Your Saved Cards (\${cardsData.cards.length})\`;
       container.appendChild(header);
 
       // Add cards list
@@ -1937,46 +1936,77 @@ setTimeout(() => {
       cardsData.cards.forEach((card, idx) => {
         const cardEl = document.createElement('div');
         cardEl.style.cssText = \`
-          background: white;
-          border: 1px solid #dcfce7;
-          border-radius: 6px;
-          padding: 0.75rem 1rem;
+          background: #1f2937;
+          border: 1px solid #374151;
+          border-radius: 8px;
+          padding: 1rem;
           display: flex;
           align-items: center;
+          justify-content: space-between;
           font-size: 0.9rem;
+          margin-bottom: 0.75rem;
         \`;
 
-        const cardInfo = document.createElement('div');
-        cardInfo.textContent = \`\${card.type || 'Card'} • \${card.bank || 'Bank'} • •••• \${card.last4}\`;
-        cardInfo.style.color = '#374151';
-        cardInfo.style.fontWeight = '500';
+        // Left side: Bank name and card details
+        const infoDiv = document.createElement('div');
+        infoDiv.style.cssText = 'flex: 1;';
 
-        cardEl.appendChild(cardInfo);
+        const bankName = document.createElement('div');
+        bankName.style.cssText = 'font-size: 1rem; font-weight: 600; color: #f3f4f6; margin-bottom: 0.25rem;';
+        bankName.textContent = card.bank || 'Bank';
+
+        const cardDetails = document.createElement('div');
+        cardDetails.style.cssText = 'font-size: 0.85rem; color: #9ca3af;';
+        cardDetails.textContent = \`\${card.type || 'Card'} card • •••• \${card.last4}\`;
+
+        infoDiv.appendChild(bankName);
+        infoDiv.appendChild(cardDetails);
+        cardEl.appendChild(infoDiv);
+
+        // Right side: Block button and Remove link
+        const actionDiv = document.createElement('div');
+        actionDiv.style.cssText = 'display: flex; align-items: center; gap: 1rem; margin-left: 1rem;';
+
+        const blockBtn = document.createElement('button');
+        blockBtn.style.cssText = \`
+          background: #dc2626;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+        \`;
+        blockBtn.innerHTML = '🚨 Block';
+        blockBtn.onmouseover = () => blockBtn.style.background = '#b91c1c';
+        blockBtn.onmouseout = () => blockBtn.style.background = '#dc2626';
+        blockBtn.onclick = () => {
+          console.log('[CARD-DISPLAY] Block clicked for', card.bank);
+          alert(\`Blocking \${card.type} card from \${card.bank} (•••• \${card.last4})\`);
+        };
+
+        const removeLink = document.createElement('a');
+        removeLink.href = '#';
+        removeLink.style.cssText = 'color: #ef4444; font-size: 0.875rem; text-decoration: none; font-weight: 500; cursor: pointer;';
+        removeLink.textContent = 'Remove';
+        removeLink.onclick = (e) => {
+          e.preventDefault();
+          console.log('[CARD-DISPLAY] Remove clicked for', card.bank);
+          if (confirm(\`Remove \${card.type} card from \${card.bank}?\`)) {
+            cardEl.remove();
+          }
+        };
+
+        actionDiv.appendChild(blockBtn);
+        actionDiv.appendChild(removeLink);
+        cardEl.appendChild(actionDiv);
+
         cardsList.appendChild(cardEl);
       });
 
       container.appendChild(cardsList);
-
-      // Add Save Card button
-      const saveButton = document.createElement('button');
-      saveButton.style.cssText = \`
-        background: #16a34a;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 1rem;
-        width: 100%;
-      \`;
-      saveButton.textContent = '💾 Save Cards';
-      saveButton.onclick = () => {
-        console.log('[CARD-DISPLAY] Save Cards button clicked');
-        alert('Cards saved! Your emergency card list is secure.');
-      };
-      container.appendChild(saveButton);
 
       // Insert into the insertion point
       if (insertPoint === document.getElementById('root')) {
