@@ -1878,11 +1878,12 @@ setTimeout(() => {
       return;
     }
 
-    // Remove existing display if present - prevent duplicates
+    // Check if container already exists - if so, just return
     const existing = document.getElementById('bmc-saved-cards-container');
     if (existing) {
-      console.log('[CARD-DISPLAY] Removing existing container to prevent duplicates');
-      existing.remove();
+      console.log('[CARD-DISPLAY] Container already exists, skipping insertion');
+      cardsDisplayed = true;
+      return;
     }
 
     // Wait a bit for React to fully render the dashboard
@@ -2053,7 +2054,7 @@ setTimeout(() => {
   let checkCount = 0;
   const checkInterval = setInterval(() => {
     checkCount++;
-    if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+    if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container') && !cardsDisplayed) {
       console.log('[CARD-DISPLAY] Displaying pre-loaded cards (interval check)');
       displaySavedCards(window.__bmc_saved_cards);
       clearInterval(checkInterval);
@@ -2064,10 +2065,21 @@ setTimeout(() => {
   }, 500);
 
   // Also check immediately if cards already exist
-  if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+  if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container') && !cardsDisplayed) {
     console.log('[CARD-DISPLAY] Displaying cards immediately');
     displaySavedCards(window.__bmc_saved_cards);
   }
+
+  // Clean up any duplicate containers that might exist
+  setTimeout(() => {
+    const containers = document.querySelectorAll('#bmc-saved-cards-container');
+    if (containers.length > 1) {
+      console.log('[CARD-DISPLAY] Found', containers.length, 'containers, removing duplicates');
+      for (let i = 1; i < containers.length; i++) {
+        containers[i].remove();
+      }
+    }
+  }, 3000);
 })();
 </script>
 
