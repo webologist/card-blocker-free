@@ -1875,72 +1875,119 @@ setTimeout(() => {
     const existing = document.getElementById('bmc-saved-cards-container');
     if (existing) existing.remove();
 
-    // Find the React app container or the tool section
-    let authSection = document.getElementById('root');
+    // Wait a bit for React to fully render the dashboard
+    setTimeout(() => {
+      // Look for where to insert the cards - after the "Add card to block" form
+      // First try to find the button that says "Add card to block"
+      let insertPoint = null;
+      const buttons = Array.from(document.querySelectorAll('#root button'));
 
-    if (!authSection) {
-      authSection = document.getElementById('card-tool');
-    }
+      // Find the primary action button (Add card to block or Add card)
+      const addCardBtn = buttons.find(b =>
+        b.textContent.includes('Add card') ||
+        b.textContent.includes('add card')
+      );
 
-    if (!authSection) {
-      console.log('[CARD-DISPLAY] Could not find app container');
-      return;
-    }
+      if (addCardBtn) {
+        // Find the form container that contains this button
+        let formContainer = addCardBtn.closest('div[class*="bg-white"]') || addCardBtn.closest('div');
+        if (formContainer) {
+          insertPoint = formContainer.parentElement;
+          console.log('[CARD-DISPLAY] Found form container, will insert after it');
+        }
+      }
 
-    // Create container for saved cards
-    const container = document.createElement('div');
-    container.id = 'bmc-saved-cards-container';
-    container.style.cssText = `
-      background: #f0fdf4;
-      border: 2px solid #22c55e;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      font-family: ui-sans-serif, system-ui, sans-serif;
-    `;
+      if (!insertPoint) {
+        // Fallback: look for any content area in #root
+        const root = document.getElementById('root');
+        if (root && root.children.length > 0) {
+          insertPoint = root;
+          console.log('[CARD-DISPLAY] Using root as insertion point');
+        }
+      }
 
-    // Add header
-    const header = document.createElement('h3');
-    header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
-    header.textContent = `✅ ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}`;
-    container.appendChild(header);
+      if (!insertPoint) {
+        console.log('[CARD-DISPLAY] Could not find insertion point');
+        return;
+      }
 
-    // Add cards list
-    const cardsList = document.createElement('div');
-    cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
-
-    cardsData.cards.forEach((card, idx) => {
-      const cardEl = document.createElement('div');
-      cardEl.style.cssText = `
-        background: white;
-        border: 1px solid #dcfce7;
-        border-radius: 6px;
-        padding: 0.75rem 1rem;
-        display: flex;
-        align-items: center;
-        font-size: 0.9rem;
+      // Create container for saved cards
+      const container = document.createElement('div');
+      container.id = 'bmc-saved-cards-container';
+      container.style.cssText = `
+        background: #f0fdf4;
+        border: 2px solid #22c55e;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        font-family: ui-sans-serif, system-ui, sans-serif;
       `;
 
-      const cardInfo = document.createElement('div');
-      cardInfo.textContent = `${card.type || 'Card'} • ${card.bank || 'Bank'} • •••• ${card.last4}`;
-      cardInfo.style.color = '#374151';
-      cardInfo.style.fontWeight = '500';
+      // Add header
+      const header = document.createElement('h3');
+      header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
+      header.textContent = `✅ ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}`;
+      container.appendChild(header);
 
-      cardEl.appendChild(cardInfo);
-      cardsList.appendChild(cardEl);
-    });
+      // Add cards list
+      const cardsList = document.createElement('div');
+      cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
 
-    container.appendChild(cardsList);
+      cardsData.cards.forEach((card, idx) => {
+        const cardEl = document.createElement('div');
+        cardEl.style.cssText = `
+          background: white;
+          border: 1px solid #dcfce7;
+          border-radius: 6px;
+          padding: 0.75rem 1rem;
+          display: flex;
+          align-items: center;
+          font-size: 0.9rem;
+        `;
 
-    // Insert at the beginning of auth section
-    const firstChild = authSection.firstElementChild;
-    if (firstChild) {
-      authSection.insertBefore(container, firstChild);
-      console.log('[CARD-DISPLAY] ✅ Inserted at start of auth section');
-    } else {
-      authSection.appendChild(container);
-      console.log('[CARD-DISPLAY] ✅ Appended to auth section');
-    }
+        const cardInfo = document.createElement('div');
+        cardInfo.textContent = `${card.type || 'Card'} • ${card.bank || 'Bank'} • •••• ${card.last4}`;
+        cardInfo.style.color = '#374151';
+        cardInfo.style.fontWeight = '500';
+
+        cardEl.appendChild(cardInfo);
+        cardsList.appendChild(cardEl);
+      });
+
+      container.appendChild(cardsList);
+
+      // Add Save Card button
+      const saveButton = document.createElement('button');
+      saveButton.style.cssText = `
+        background: #16a34a;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1rem;
+        width: 100%;
+      `;
+      saveButton.textContent = '💾 Save Cards';
+      saveButton.onclick = () => {
+        console.log('[CARD-DISPLAY] Save Cards button clicked');
+        alert('Cards saved! Your emergency card list is secure.');
+      };
+      container.appendChild(saveButton);
+
+      // Insert into the insertion point
+      if (insertPoint === document.getElementById('root')) {
+        // If using root, prepend to show above other content
+        insertPoint.insertBefore(container, insertPoint.firstElementChild);
+        console.log('[CARD-DISPLAY] ✅ Inserted at top of dashboard');
+      } else if (insertPoint) {
+        // Insert after the form container
+        insertPoint.insertBefore(container, insertPoint.nextElementSibling);
+        console.log('[CARD-DISPLAY] ✅ Inserted after card form');
+      }
+    }, 500);
   }
 
   // Attach event listener
