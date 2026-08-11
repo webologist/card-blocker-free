@@ -1,4 +1,5 @@
 // Rate limit: max 3 OTP requests per phone per 10 minutes
+// Vercel rebuild trigger - 2026-08-11
 const rateLimitMap = new Map();
 
 function isRateLimited(phone) {
