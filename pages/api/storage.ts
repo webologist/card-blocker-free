@@ -4,7 +4,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-phone-token');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -17,10 +17,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
       const { key } = req.query;
 
-      // Return empty response for storage reads
+      // Return empty/default response for storage reads
       // Real implementation would use database
-      console.log(`[STORAGE] GET ${key}`);
-      return res.status(200).json({ key, value: null });
+      if (key) {
+        console.log(`[STORAGE] GET ${key}`);
+        return res.status(200).json({ key, value: null });
+      }
+      return res.status(400).json({ error: 'Key is required' });
     }
 
     if (req.method === 'POST' || req.method === 'PUT') {
@@ -28,12 +31,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Accept storage writes but don't persist
       // This prevents errors on admin-otp-toggle and storage operations
+      if (!key) {
+        return res.status(400).json({ error: 'Key is required' });
+      }
+
       console.log(`[STORAGE] ${req.method} ${key} = ${JSON.stringify(value).substring(0, 100)}`);
       return res.status(200).json({ success: true, key });
     }
 
     if (req.method === 'DELETE') {
       const { key } = req.body;
+      if (!key) {
+        return res.status(400).json({ error: 'Key is required' });
+      }
       console.log(`[STORAGE] DELETE ${key}`);
       return res.status(200).json({ success: true, key });
     }
