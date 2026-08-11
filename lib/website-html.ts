@@ -1861,6 +1861,36 @@ setTimeout(() => {
 })();
 </script>
 
+<!-- HIDE REACT CARDS - Let CARD-DISPLAY module handle rendering -->
+<script>
+(function() {
+  // After cards are displayed, hide any duplicate React rendering
+  setTimeout(() => {
+    const cardDisplay = document.getElementById('bmc-saved-cards-container');
+    if (cardDisplay) {
+      // Find parent container
+      const parent = cardDisplay.parentElement;
+      if (parent) {
+        // Hide siblings that might be React-rendered cards (look for multiple card-like divs)
+        const siblings = Array.from(parent.children);
+        let cardDisplayIndex = siblings.indexOf(cardDisplay);
+
+        // Hide any other sections with similar card structure
+        siblings.forEach((sibling, index) => {
+          if (index !== cardDisplayIndex &&
+              sibling.textContent.includes('Block') &&
+              sibling.textContent.includes('Remove') &&
+              sibling.style.display !== 'none') {
+            sibling.style.display = 'none';
+            console.log('[HIDE-REACT] Hidden duplicate card section');
+          }
+        });
+      }
+    }
+  }, 3000);
+})();
+</script>
+
 <!-- DISPLAY SAVED CARDS -->
 <script>
 (function() {
