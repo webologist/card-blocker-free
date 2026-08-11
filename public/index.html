@@ -1890,7 +1890,7 @@ setTimeout(() => {
     container.id = 'bmc-saved-cards-container';
     container.style.cssText = `
       background: #f0fdf4;
-      border: 1px solid #86efac;
+      border: 2px solid #22c55e;
       border-radius: 8px;
       padding: 1rem;
       margin-bottom: 1.5rem;
@@ -1915,7 +1915,6 @@ setTimeout(() => {
         border-radius: 6px;
         padding: 0.75rem 1rem;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         font-size: 0.9rem;
       `;
@@ -1931,27 +1930,41 @@ setTimeout(() => {
 
     container.appendChild(cardsList);
 
-    // Insert before the "Add card to block" form
-    const addCardBtn = Array.from(authSection.querySelectorAll('button')).find(b =>
-      b.textContent.includes('Add card')
-    );
-
-    if (addCardBtn && addCardBtn.parentElement) {
-      addCardBtn.parentElement.insertBefore(container, addCardBtn.parentElement.firstChild);
-      console.log('[CARD-DISPLAY] Saved cards displayed successfully');
+    // Insert at the beginning of auth section
+    const firstChild = authSection.firstElementChild;
+    if (firstChild) {
+      authSection.insertBefore(container, firstChild);
+      console.log('[CARD-DISPLAY] ✅ Inserted at start of auth section');
+    } else {
+      authSection.appendChild(container);
+      console.log('[CARD-DISPLAY] ✅ Appended to auth section');
     }
   }
 
-  // Listen for cards ready event
+  // Attach event listener
   window.addEventListener('bmc:cards-ready', (e) => {
     console.log('[CARD-DISPLAY] Received cards-ready event');
     displaySavedCards(e.detail);
   });
 
-  // Also check if cards are already loaded (in case event fired before listener was attached)
-  if (window.__bmc_saved_cards) {
-    console.log('[CARD-DISPLAY] Found pre-loaded cards');
-    setTimeout(() => displaySavedCards(window.__bmc_saved_cards), 500);
+  // Check every 500ms if cards are loaded (fallback approach)
+  let checkCount = 0;
+  const checkInterval = setInterval(() => {
+    checkCount++;
+    if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+      console.log('[CARD-DISPLAY] Displaying pre-loaded cards (interval check)');
+      displaySavedCards(window.__bmc_saved_cards);
+      clearInterval(checkInterval);
+    }
+    if (checkCount > 30) { // Stop checking after 15 seconds
+      clearInterval(checkInterval);
+    }
+  }, 500);
+
+  // Also check immediately if cards already exist
+  if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container')) {
+    console.log('[CARD-DISPLAY] Displaying cards immediately');
+    displaySavedCards(window.__bmc_saved_cards);
   }
 })();
 </script>
