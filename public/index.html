@@ -1917,39 +1917,14 @@ setTimeout(() => {
 
     // Wait a bit for React to fully render the dashboard
     setTimeout(() => {
-      // Look for where to insert the cards - after the "Add card to block" form
-      // First try to find the button that says "Add card to block"
-      let insertPoint = null;
-      const buttons = Array.from(document.querySelectorAll('#root button'));
-
-      // Find the primary action button (Add card to block or Add card)
-      const addCardBtn = buttons.find(b =>
-        b.textContent.includes('Add card') ||
-        b.textContent.includes('add card')
-      );
-
-      if (addCardBtn) {
-        // Find the form container that contains this button
-        let formContainer = addCardBtn.closest('div[class*="bg-white"]') || addCardBtn.closest('div');
-        if (formContainer) {
-          insertPoint = formContainer.parentElement;
-          console.log('[CARD-DISPLAY] Found form container, will insert after it');
-        }
-      }
-
-      if (!insertPoint) {
-        // Fallback: look for any content area in #root
-        const root = document.getElementById('root');
-        if (root && root.children.length > 0) {
-          insertPoint = root;
-          console.log('[CARD-DISPLAY] Using root as insertion point');
-        }
-      }
-
-      if (!insertPoint) {
-        console.log('[CARD-DISPLAY] Could not find insertion point');
+      // Always insert at the top of the root for reliability
+      const root = document.getElementById('root');
+      if (!root || root.children.length === 0) {
+        console.log('[CARD-DISPLAY] Root not ready');
         return;
       }
+      const insertPoint = root;
+      console.log('[CARD-DISPLAY] Using root as insertion point');
 
       // Create container for saved cards
       const container = document.createElement('div');
@@ -1971,6 +1946,67 @@ setTimeout(() => {
       // Add cards list
       const cardsList = document.createElement('div');
       cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
+
+      // Function to expand card with blocking details inline
+      function expandCardForBlocking(cardEl, card) {
+        if (cardEl.classList.contains('expanded')) {
+          cardEl.classList.remove('expanded');
+          const details = cardEl.querySelector('[data-blocking-details]');
+          if (details) details.remove();
+          return;
+        }
+        cardEl.classList.add('expanded');
+        cardEl.style.border = '2px solid #dc2626';
+        cardEl.style.flexDirection = 'column';
+        cardEl.style.alignItems = 'stretch';
+
+        const details = document.createElement('div');
+        details.setAttribute('data-blocking-details', 'true');
+        details.style.cssText = 'margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #374151;';
+
+        details.innerHTML = `
+          <div style="background: #fbbf24; color: #78350f; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+            ⚠️ This bank's SMS format is unverified — confirm on the helpline below before relying on SMS blocking.
+          </div>
+          <div style="margin-bottom: 1.5rem;"><div style="font-weight: 600; color: #ef4444; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.85rem;">DO THIS NOW — IN ORDER</div>
+            <ol style="margin: 0; padding-left: 1.5rem; color: #e5e7eb; font-size: 0.9rem;"><li style="margin-bottom: 0.5rem;"><strong>SMS first</strong> — fastest. Copy the number and message, send the SMS from your bank-registered mobile.</li><li style="margin-bottom: 0.5rem;"><strong>Email the bank</strong> for a written record.</li><li style="margin-bottom: 0.5rem;"><strong>Call the helpline</strong> to confirm the block and order a replacement.</li></ol>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+            <div style="border: 1px solid #ef4444; border-radius: 8px; padding: 1rem;">
+              <div style="color: #ef4444; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">1 • SMS BANK TO BLOCK (FASTEST)</div>
+              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">SEND TO</div>
+              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: 600; font-family: monospace; font-size: 0.85rem;">7308080808</span>
+                <button onclick="navigator.clipboard.writeText('7308080808'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600;">Copy</button>
+              </div>
+              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">MESSAGE</div>
+              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="font-weight: 600; font-size: 0.8rem;">Block ${card.type} card ending ${card.last4}</div>
+                <button onclick="navigator.clipboard.writeText('Block ${card.type} card ending ${card.last4}'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600; white-space: nowrap;">Copy</button>
+              </div>
+            </div>
+            <div style="border: 1px solid #fbbf24; border-radius: 8px; padding: 1rem;">
+              <div style="color: #fbbf24; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">2 • EMAIL THE BANK</div>
+              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">TO</div>
+              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; font-size: 0.8rem;">support@hdfc.com</span>
+                <button onclick="navigator.clipboard.writeText('support@hdfc.com'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600;">Copy</button>
+              </div>
+              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">MESSAGE</div>
+              <button onclick="alert('Open email app'); " style="width: 100%; background: #dc2626; color: white; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.8rem;">Open in email app</button>
+            </div>
+            <div style="border: 1px solid #3b82f6; border-radius: 8px; padding: 1rem;">
+              <div style="color: #3b82f6; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">3 • CALL THE HELPLINE</div>
+              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.75rem;">Available 24x7. Keep your last 4 digits and registered mobile ready.</div>
+              <div style="text-align: center;">
+                <div style="font-size: 1.2rem; font-weight: 600; color: #3b82f6; font-family: monospace; cursor: pointer; margin-bottom: 0.5rem;">📞 1800-BLOCK</div>
+                <button onclick="alert('Call from your registered mobile')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.8rem;">Tap to call</button>
+              </div>
+            </div>
+          </div>
+        `;
+        cardEl.appendChild(details);
+      }
 
       cardsData.cards.forEach((card, idx) => {
         const cardEl = document.createElement('div');
@@ -2034,7 +2070,7 @@ setTimeout(() => {
         blockBtn.onmouseout = () => blockBtn.style.background = '#dc2626';
         blockBtn.onclick = () => {
           console.log('[CARD-DISPLAY] Block clicked for', card.bank);
-          alert(`Blocking ${card.type} card from ${card.bank} (•••• ${card.last4})`);
+          expandCardForBlocking(cardEl, card);
         };
 
         const removeLink = document.createElement('a');
@@ -2058,18 +2094,23 @@ setTimeout(() => {
 
       container.appendChild(cardsList);
 
-      // Insert into the insertion point
-      if (insertPoint === document.getElementById('root')) {
-        // If using root, prepend to show above other content
-        insertPoint.insertBefore(container, insertPoint.firstElementChild);
-        console.log('[CARD-DISPLAY] ✅ Inserted at top of dashboard');
-        cardsDisplayed = true;
-      } else if (insertPoint) {
-        // Insert after the form container
-        insertPoint.insertBefore(container, insertPoint.nextElementSibling);
-        console.log('[CARD-DISPLAY] ✅ Inserted after card form');
-        cardsDisplayed = true;
-      }
+      // Insert at top of root
+      insertPoint.insertBefore(container, insertPoint.firstElementChild);
+      console.log('[CARD-DISPLAY] ✅ Inserted at top of dashboard');
+      cardsDisplayed = true;
+
+      // Watch for React re-renders that might remove our cards
+      const observer = new MutationObserver(() => {
+        if (!document.getElementById('bmc-saved-cards-container')) {
+          console.log('[CARD-DISPLAY] Cards were removed, re-inserting...');
+          const root = document.getElementById('root');
+          if (root && container.parentElement !== root) {
+            root.insertBefore(container, root.firstElementChild);
+            console.log('[CARD-DISPLAY] ✅ Re-inserted cards after React re-render');
+          }
+        }
+      });
+      observer.observe(insertPoint, { childList: true, subtree: false });
     }, 500);
   }
 

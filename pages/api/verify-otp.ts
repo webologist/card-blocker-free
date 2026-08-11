@@ -63,7 +63,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(`[VERIFY] DUMMY MODE phone=${phone}, verified=true, phoneToken=${phoneToken}`);
 
       // Mock saved cards for phone 9999999999
-      let savedCards = [];
+      let savedCards: Array<{ type: string; bank: string; last4: string }> = [];
       if (phone === '+919999999999' || digits === '9999999999') {
         savedCards = [
           {
