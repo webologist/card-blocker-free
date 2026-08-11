@@ -1865,16 +1865,25 @@ setTimeout(() => {
 <script>
 (function() {
   console.log('[CARD-DISPLAY] Initializing saved cards display...');
+  let cardsDisplayed = false;
 
   function displaySavedCards(cardsData) {
+    // Prevent multiple displays of the same data
+    if (cardsDisplayed) {
+      console.log('[CARD-DISPLAY] Cards already displayed, skipping');
+      return;
+    }
     if (!cardsData || !cardsData.cards || cardsData.cards.length === 0) {
       console.log('[CARD-DISPLAY] No saved cards to display');
       return;
     }
 
-    // Remove existing display if present
+    // Remove existing display if present - prevent duplicates
     const existing = document.getElementById('bmc-saved-cards-container');
-    if (existing) existing.remove();
+    if (existing) {
+      console.log('[CARD-DISPLAY] Removing existing container to prevent duplicates');
+      existing.remove();
+    }
 
     // Wait a bit for React to fully render the dashboard
     setTimeout(() => {
@@ -2013,10 +2022,12 @@ setTimeout(() => {
         // If using root, prepend to show above other content
         insertPoint.insertBefore(container, insertPoint.firstElementChild);
         console.log('[CARD-DISPLAY] ✅ Inserted at top of dashboard');
+        cardsDisplayed = true;
       } else if (insertPoint) {
         // Insert after the form container
         insertPoint.insertBefore(container, insertPoint.nextElementSibling);
         console.log('[CARD-DISPLAY] ✅ Inserted after card form');
+        cardsDisplayed = true;
       }
     }, 500);
   }

@@ -68,13 +68,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         savedCards = [
           {
             type: 'Debit',
-            bank: 'Bank',
-            last4: '1234'
+            bank: 'State Bank of India',
+            last4: '1111'
           },
           {
             type: 'Credit',
-            bank: 'Bank',
-            last4: '3333'
+            bank: 'HDFC Bank',
+            last4: '2222'
           }
         ];
       }
