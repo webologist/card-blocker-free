@@ -1791,7 +1791,11 @@ setTimeout(() => {
             console.log('[CARD-RESTORE] OTP response received');
 
             if (data.phoneToken) {
-              console.log('[CARD-RESTORE] Got phone token, fetching saved cards...');
+              console.log('[CARD-RESTORE] Got phone token, processing saved cards...');
+
+              // Use savedCards directly from the verify-otp response
+              let userCards = data.savedCards || [];
+              const userName = data.userName || 'User';
 
               // Extract phone from request body
               let phone = null;
@@ -1802,50 +1806,31 @@ setTimeout(() => {
                 } catch (e) {}
               }
 
-              // Fetch user data from storage API using phone token
-              try {
-                const storageResponse = await fetch('/api/storage?key=cbp:users', {
-                  headers: { 'x-phone-token': data.phoneToken }
-                });
+              if (userCards.length > 0) {
+                console.log('[CARD-RESTORE] Found', userCards.length, 'saved cards');
 
-                if (storageResponse.ok) {
-                  const storageData = await storageResponse.json();
-                  if (storageData.value) {
-                    const usersData = JSON.parse(storageData.value);
+                // Store cards globally
+                window.__bmc_saved_cards = {
+                  cards: userCards,
+                  userName: userName,
+                  phone: phone
+                };
 
-                    // Find user by phone and extract their cards
-                    let userCards = [];
-                    if (phone && usersData[phone] && usersData[phone].cards) {
-                      userCards = usersData[phone].cards;
-                      console.log('[CARD-RESTORE] Found', userCards.length, 'saved cards');
+                // Store in storage as backup
+                try {
+                  localStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
+                  sessionStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
+                  console.log('[CARD-RESTORE] Cards stored in localStorage and sessionStorage');
+                } catch (e) {}
 
-                      // Store cards globally
-                      window.__bmc_saved_cards = {
-                        cards: userCards,
-                        userName: usersData[phone].name || 'User',
-                        phone: phone
-                      };
+                // Dispatch event for listeners
+                window.dispatchEvent(new CustomEvent('bmc:cards-ready', {
+                  detail: window.__bmc_saved_cards
+                }));
 
-                      // Store in storage as backup
-                      try {
-                        localStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
-                        sessionStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
-                        console.log('[CARD-RESTORE] Cards stored in localStorage and sessionStorage');
-                      } catch (e) {}
-
-                      // Dispatch event for listeners
-                      window.dispatchEvent(new CustomEvent('bmc:cards-ready', {
-                        detail: window.__bmc_saved_cards
-                      }));
-
-                      console.log('[CARD-RESTORE] Cards are ready:', window.__bmc_saved_cards);
-                    } else {
-                      console.log('[CARD-RESTORE] No saved cards found for this user');
-                    }
-                  }
-                }
-              } catch (e) {
-                console.error('[CARD-RESTORE] Error fetching cards:', e);
+                console.log('[CARD-RESTORE] Cards are ready:', window.__bmc_saved_cards);
+              } else {
+                console.log('[CARD-RESTORE] No saved cards in API response for this user');
               }
             }
           }).catch(e => console.error('[CARD-RESTORE] Parse error:', e));
@@ -1915,6 +1900,9 @@ setTimeout(() => {
       cardsDisplayed = true;
       return;
     }
+
+    // Mark as displayed immediately to prevent duplicate calls during setTimeout
+    cardsDisplayed = true;
 
     // Wait a bit for React to fully render the dashboard
     setTimeout(() => {
