@@ -1876,13 +1876,15 @@ setTimeout(() => {
     const existing = document.getElementById('bmc-saved-cards-container');
     if (existing) existing.remove();
 
-    // Find the Authenticate/Block section
-    const authSection = Array.from(document.querySelectorAll('main')).find(m =>
-      m.textContent.includes('Authenticate / Block')
-    );
+    // Find the React app container or the tool section
+    let authSection = document.getElementById('root');
 
     if (!authSection) {
-      console.log('[CARD-DISPLAY] Could not find auth section');
+      authSection = document.getElementById('card-tool');
+    }
+
+    if (!authSection) {
+      console.log('[CARD-DISPLAY] Could not find app container');
       return;
     }
 
@@ -1901,7 +1903,7 @@ setTimeout(() => {
     // Add header
     const header = document.createElement('h3');
     header.style.cssText = 'margin: 0 0 1rem 0; color: #166534; font-size: 0.95rem; font-weight: 600;';
-    header.textContent = \`✅ ${cardsData.cards.length} Saved Card${cardsData.cards.length !== 1 ? 's' : ''}\`;
+    header.textContent = \`✅ \${cardsData.cards.length} Saved Card\${cardsData.cards.length !== 1 ? 's' : ''}\`;
     container.appendChild(header);
 
     // Add cards list
@@ -1921,7 +1923,7 @@ setTimeout(() => {
       \`;
 
       const cardInfo = document.createElement('div');
-      cardInfo.textContent = \`${card.type || 'Card'} • ${card.bank || 'Bank'} • •••• ${card.last4}\`;
+      cardInfo.textContent = \`\${card.type || 'Card'} • \${card.bank || 'Bank'} • •••• \${card.last4}\`;
       cardInfo.style.color = '#374151';
       cardInfo.style.fontWeight = '500';
 

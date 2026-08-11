@@ -1875,13 +1875,15 @@ setTimeout(() => {
     const existing = document.getElementById('bmc-saved-cards-container');
     if (existing) existing.remove();
 
-    // Find the Authenticate/Block section
-    const authSection = Array.from(document.querySelectorAll('main')).find(m =>
-      m.textContent.includes('Authenticate / Block')
-    );
+    // Find the React app container or the tool section
+    let authSection = document.getElementById('root');
 
     if (!authSection) {
-      console.log('[CARD-DISPLAY] Could not find auth section');
+      authSection = document.getElementById('card-tool');
+    }
+
+    if (!authSection) {
+      console.log('[CARD-DISPLAY] Could not find app container');
       return;
     }
 
