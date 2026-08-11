@@ -19,6 +19,7 @@ function generateToken(): string {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log('[NEW-SEND-OTP] Endpoint called at', new Date().toISOString());
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
