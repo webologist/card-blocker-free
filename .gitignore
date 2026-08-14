@@ -33,3 +33,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
+# scratch / ad-hoc test output (pre-launch audit finding M5) - these were
+# accumulating uncommitted-looking but actually-tracked clutter: manual QA
+# run logs, dev-server console dumps, and one file whose *name* leaked a
+# local Windows profile path from a scratchpad directory. None of this is
+# a build artifact or a document anyone reads later - it's exhaust from
+# running the app locally.
+*.log
+server-output.txt
+qa_results_*.log

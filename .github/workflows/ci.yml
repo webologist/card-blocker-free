@@ -1,0 +1,55 @@
+name: CI
+
+# Gates merges to main: a PR that fails typecheck, lint, a known-vulnerable
+# dependency, or the production build should not be mergeable. This did not
+# exist before the pre-launch audit (finding M4) - there was no automated
+# check standing between a change and main other than a human remembering to
+# run one locally.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Audit dependencies (fail on critical)
+        # Gated at "critical", not "high": as of the 2026-08 pre-launch audit
+        # this app has 5 known high-severity advisories (Next.js feature
+        # areas this app doesn't use - App Router, Middleware, i18n
+        # rewrites, Server Actions, next/image - plus a transitive postcss
+        # issue) that were deliberately not force-upgraded because the fix
+        # is a breaking Next 16 major bump and the vulnerable code paths are
+        # unreachable here. Gating on "high" would fail every run on
+        # already-triaged risk instead of catching new ones. Re-run
+        # `npm audit` locally after any dependency bump to see the current
+        # list, and raise this threshold once Next is upgraded off v14.
+        run: npm audit --audit-level=critical
+
+      - name: Build
+        # Needs real-looking values so `next build` can statically analyse
+        # API routes/env usage; nothing here is a live credential and no
+        # network calls happen at build time.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+        run: npm run build

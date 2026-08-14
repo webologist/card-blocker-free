@@ -1,23 +1,43 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-// For demo: store valid tokens (in production use signed tokens/JWT)
-const validTokens = new Set<string>();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { applyCors } = require('../../lib/cors');
 
-// Mock function to validate token
-function isValidToken(token: string): boolean {
-  return token.startsWith('dummy-') || validTokens.has(token);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { readOtpToken, otpMatches } = require('../../lib/otp-token');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { issuePhoneToken } = require('../../lib/phone-token');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getSupabaseServerClient } = require('../../lib/supabase-server');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { checkAndRecord } = require('../../lib/rate-limit-store');
+
+// Bounds how many guesses a single challenge token can absorb, independent of
+// the 3-per-10-minutes limit on requesting a new one in send-otp.ts. Backed
+// by the persistent store (falls back to an in-memory Map only when
+// Supabase isn't configured) so a restart mid-window doesn't hand an
+// attacker a fresh set of guesses against a still-valid token.
+const attemptsByTokenFallback = new Map<string, number>();
+async function tooManyAttempts(token: string): Promise<boolean> {
+  const supabase = getSupabaseServerClient();
+  if (supabase) {
+    // Same 10-minute window as the OTP's own expiry (send-otp.ts) - once the
+    // token expires, the attempt count expiring alongside it is fine.
+    const result = await checkAndRecord(supabase, 'verify-attempts', token, 10 * 60 * 1000, 5);
+    return result.limited;
+  }
+  const n = (attemptsByTokenFallback.get(token) || 0) + 1;
+  attemptsByTokenFallback.set(token, n);
+  return n > 5;
 }
 
-// Mock function to generate phone token
-function generatePhoneToken(): string {
-  return 'phone-token-' + Date.now() + '-' + Math.random().toString(36).substring(7);
+function normalizePhone(raw: string) {
+  const digits = String(raw || '').replace(/\D/g, '').replace(/^91/, '');
+  return { digits, full: digits ? '+91' + digits : '' };
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-phone-token');
+  applyCors(req, res, 'POST, OPTIONS');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -28,84 +48,68 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { phone, otp, token, dummyMode } = req.body as {
+    const { phone, otp, token } = req.body as {
       phone?: string;
       otp?: string;
       token?: string;
-      dummyMode?: boolean;
     };
 
-    if (!phone) {
-      return res.status(400).json({ error: 'Phone number is required' });
-    }
+    if (!phone) return res.status(400).json({ error: 'Phone number is required' });
+    if (!otp) return res.status(400).json({ error: 'OTP is required' });
+    if (!token) return res.status(400).json({ error: 'Token is required' });
 
-    if (!otp) {
-      return res.status(400).json({ error: 'OTP is required' });
-    }
-
-    if (!token) {
-      return res.status(400).json({ error: 'Token is required' });
-    }
-
-    // Validate phone format
-    const digits = phone.replace(/\D/g, '').replace(/^91/, '');
+    const { digits, full } = normalizePhone(phone);
     if (!/^[6-9]\d{9}$/.test(digits)) {
       return res.status(400).json({ error: 'Invalid phone number' });
     }
-
-    // In dummy mode, accept any OTP
-    if (dummyMode) {
-      if (!/^\d{4,6}$/.test(otp)) {
-        return res.status(400).json({ error: 'Invalid OTP format' });
-      }
-
-      const phoneToken = generatePhoneToken();
-      console.log(`[VERIFY] DUMMY MODE phone=${phone}, verified=true, phoneToken=${phoneToken}`);
-
-      // Mock saved cards for phone 9999999999
-      let savedCards: Array<{ type: string; bank: string; last4: string }> = [];
-      if (phone === '+919999999999' || digits === '9999999999') {
-        savedCards = [
-          {
-            type: 'Debit',
-            bank: 'State Bank of India',
-            last4: '1111'
-          },
-          {
-            type: 'Credit',
-            bank: 'HDFC Bank',
-            last4: '2222'
-          }
-        ];
-      }
-
-      return res.status(200).json({
-        success: true,
-        phoneToken,
-        savedCards,
-        userName: 'Nine Nine'
-      });
+    if (!/^\d{4,6}$/.test(otp)) {
+      return res.status(400).json({ error: 'Invalid OTP format' });
     }
 
-    // Production mode would validate via signed tokens
-    if (!isValidToken(token)) {
-      return res.status(401).json({ error: 'Invalid or expired token' });
+    if (await tooManyAttempts(token)) {
+      return res.status(429).json({ success: false, error: 'Too many attempts. Please request a new OTP.' });
     }
 
-    if (otp !== '1234') {
-      return res.status(401).json({ error: 'Invalid OTP' });
+    // The token is the only source of truth for what code was actually
+    // issued and to whom - nothing here trusts a client-supplied verdict.
+    // This replaces a previous "dummyMode" branch that accepted ANY 4-6
+    // digit value as correct for ANY phone number with no check at all
+    // (audit finding C2).
+    let record: { phone: string; otpHash: string; expiresAt: number; dummy: boolean } | null = null;
+    try {
+      record = await readOtpToken(token);
+    } catch (e) {
+      return res.status(400).json({ success: false, error: 'Invalid or expired token' });
     }
 
-    const phoneToken = generatePhoneToken();
+    if (!record || record.phone !== full) {
+      return res.status(400).json({ success: false, error: 'Invalid token' });
+    }
+    if (Date.now() > record.expiresAt) {
+      return res.status(400).json({ success: false, error: 'OTP expired. Please request a new one.' });
+    }
+
+    const ok = await otpMatches(record, otp);
+    if (!ok) {
+      return res.status(401).json({ success: false, error: 'Invalid OTP' });
+    }
+
+    const phoneToken = await issuePhoneToken(full);
+
+    // This route has no database of its own (see pages/api/storage.ts,
+    // currently a non-persisting stub) - saved cards are loaded separately
+    // via /api/storage once that endpoint's access control is wired up for
+    // whichever deployment actually serves this route. Returning hardcoded
+    // demo card data for a magic phone number here - as this endpoint used
+    // to - has no place in an authentication response.
     return res.status(200).json({
       success: true,
       phoneToken,
       savedCards: [],
-      userName: 'User'
+      userName: null,
     });
-
   } catch (error) {
     console.error('[VERIFY] Error:', error);
-    return res.status(500).json({ error: 'Verification failed' });
+    return res.status(500).json({ success: false, error: 'Verification failed' });
   }
 }

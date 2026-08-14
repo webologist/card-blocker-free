@@ -4,10 +4,18 @@
 (function () {
   var STORAGE_KEY = 'cbp:otp_mode';
 
+  // Until an admin explicitly toggles this, there's no stored cbp:otp_mode
+  // value yet - default the DISPLAY to "Dummy" so it matches what the
+  // server actually does by default (lib/otp-mode.js's resolveDummyMode:
+  // dummy unless this toggle is explicitly set to 'live'). This used to
+  // default to 'live' here, which meant a fresh install showed "Live
+  // Twilio" highlighted while OTP 1234 was actually still working - a
+  // display-only bug, since the server never reads this fallback, but a
+  // confusing one to land on right after wiring the toggle up for real.
   function getMode() {
     return window.storage.get(STORAGE_KEY)
-      .then(function(r){ return r ? r.value : 'live'; })
-      .catch(function(){ return 'live'; });
+      .then(function(r){ return r ? r.value : 'dummy'; })
+      .catch(function(){ return 'dummy'; });
   }
 
   function setMode(mode) {
@@ -89,66 +97,21 @@
     });
   }
 
-  var injected = false;
-
-  function tryInject() {
-    if (injected) return;
-    var allBtns = document.querySelectorAll('button'), banksTab = null;
-    for (var i = 0; i < allBtns.length; i++) {
-      if (allBtns[i].textContent.trim() === 'Banks') { banksTab = allBtns[i]; break; }
-    }
-    if (!banksTab) return;
-    var tabContainer = banksTab.parentNode;
-    if (!tabContainer) return;
-    if (tabContainer.querySelector('[data-bmc-otp-tab]')) { injected = true; return; }
-    injected = true;
-
-    var adminSection = tabContainer.parentNode;
-    if (!adminSection) return;
-
-    var otpTabBtn = document.createElement('button');
-    otpTabBtn.dataset.bmcOtpTab = '1';
-    otpTabBtn.textContent = 'OTP Mode';
-    otpTabBtn.style.cssText = 'padding:.375rem .75rem;border-radius:.375rem;font-size:.875rem;font-weight:600;background:#fff;border:1px solid #cbd5e1;color:#475569;cursor:pointer;';
-    tabContainer.appendChild(otpTabBtn);
-
-    var panelHost = document.getElementById('bmc-otp-panel-host');
-    if (!panelHost) {
-      panelHost = document.createElement('div');
-      panelHost.id = 'bmc-otp-panel-host';
-      panelHost.style.display = 'none';
-      adminSection.appendChild(panelHost);
-    }
-
-    otpTabBtn.addEventListener('click', function() {
-      var tabBtns = tabContainer.querySelectorAll('button');
-      for (var i = 0; i < tabBtns.length; i++) {
-        if (tabBtns[i] === otpTabBtn) { tabBtns[i].style.background = '#0f172a'; tabBtns[i].style.color = '#fff'; tabBtns[i].style.borderColor = '#0f172a'; }
-        else if (tabBtns[i].parentNode === tabContainer) { tabBtns[i].style.background = '#fff'; tabBtns[i].style.color = '#475569'; tabBtns[i].style.borderColor = '#cbd5e1'; }
-      }
-      var ch = adminSection.children;
-      for (var j = 0; j < ch.length; j++) {
-        if (ch[j] !== tabContainer && ch[j] !== panelHost) { ch[j].style.display = 'none'; ch[j].dataset.bmcHidden = '1'; }
-      }
-      panelHost.style.display = 'block';
-      panelHost.innerHTML = '';
-      buildPanel().then(function(p) { panelHost.appendChild(p); });
-    });
-
-    var existingBtns = tabContainer.querySelectorAll('button');
-    for (var k = 0; k < existingBtns.length; k++) {
-      if (existingBtns[k] === otpTabBtn) continue;
-      existingBtns[k].addEventListener('click', function() {
-        panelHost.style.display = 'none';
-        var ch = adminSection.children;
-        for (var m = 0; m < ch.length; m++) {
-          if (ch[m].dataset && ch[m].dataset.bmcHidden) { delete ch[m].dataset.bmcHidden; ch[m].style.display = ''; }
-        }
-      }, true);
-    }
+  // Rendered inside the shared, React-safe floating panel (admin-tools-panel.js)
+  // instead of being spliced directly into the admin console's own tab bar -
+  // see admin-tools-panel.js for why that used to crash the whole app.
+  function register() {
+    if (!window.BmcAdminTools) return false;
+    window.BmcAdminTools.register('otp-mode', 'OTP Mode', buildPanel);
+    return true;
   }
-
-  setInterval(function() { injected = false; tryInject(); }, 1000);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryInject);
-  else tryInject();
+  if (!register()) {
+    // admin-tools-panel.js is loaded just before this script in index.html,
+    // so this should never be needed - kept only as a safety net.
+    var tries = 0;
+    var waitForHost = setInterval(function () {
+      tries++;
+      if (register() || tries > 20) clearInterval(waitForHost);
+    }, 250);
+  }
 })();

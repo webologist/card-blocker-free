@@ -1,5 +1,15 @@
 # BlockMyCard - Production Deployment Checklist
 
+> ⚠️ **CORRECTION - do not use this checklist as a launch gate.**
+>
+> The QA sign-off this checklist relies on (`PRODUCTION_AUDIT_REPORT.md` /
+> `QA_AUDIT_FINAL_REPORT_20260811.md`) did not catch the security issues a
+> full pre-launch audit found on 2026-08-12: **5 Critical, 5 High, and 6
+> Medium severity issues**, including an authentication bypass and a full
+> user/card data leak. All 16 have since been fixed. Before deploying, work
+> from the real audit's findings and current fix status instead of the
+> checked boxes below.
+
 ## Pre-Deployment (QA Sign-Off)
 
 - [x] Production Audit Report generated

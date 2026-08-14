@@ -149,12 +149,39 @@ t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%
           // an alternate contact proves a different number entirely, so it must
           // not overwrite that - otherwise the rest of the session would go on
           // identifying itself as the family member whose number was just added.
-          if(data.phoneToken&&_otpPurpose!=='altPhone')sessionStorage.setItem('bmc_phone_token',data.phoneToken);sessionStorage.removeItem('bmc_token');sessionStorage.removeItem('bmc_phone');_pendingToken=null;_otpValue=entered;_allowVerify=true;removeResendButton();
-          // The toast is the only place a failed attempt is reported, and it
-          // lingers for ten seconds. Without this, a user who mistypes once
-          // and then gets it right lands on the dashboard still being told
-          // the OTP was wrong.
-          hideError();btn.disabled=false;btn.textContent=orig2;btn.click();}else{showError((data&&data.error)||'Server error.');btn.disabled=false;btn.textContent=orig2;}});})
+          var finishVerify=function(){
+            if(data.phoneToken&&_otpPurpose!=='altPhone')sessionStorage.setItem('bmc_phone_token',data.phoneToken);sessionStorage.removeItem('bmc_token');sessionStorage.removeItem('bmc_phone');_pendingToken=null;_otpValue=entered;_allowVerify=true;removeResendButton();
+            // The toast is the only place a failed attempt is reported, and it
+            // lingers for ten seconds. Without this, a user who mistypes once
+            // and then gets it right lands on the dashboard still being told
+            // the OTP was wrong.
+            hideError();btn.disabled=false;btn.textContent=orig2;btn.click();
+          };
+          // The admin sign-in screen (/admin) must only ever open the admin
+          // console for the real admin number - never fall through to app.js's
+          // ordinary login handling, which walks whoever typed a different
+          // (still verifiable - dummy mode accepts any number) phone through
+          // full account registration despite arriving at an admin-only URL.
+          // The client can't safely know ADMIN_PHONE itself (server-env only,
+          // see lib/admin-auth.js), so ask an admin-only endpoint whether this
+          // freshly-issued token actually qualifies before letting React
+          // proceed at all.
+          if(/^\/admin(\/|$)/.test(location.pathname)&&_otpPurpose!=='altPhone'){
+            fetchWT('/api/storage?key=cbp:otp_mode',{headers:{'x-phone-token':data.phoneToken||''}})
+              .then(function(probe){
+                if(probe.status===401){
+                  showError('This number is not authorized for admin access.');
+                  btn.disabled=false;btn.textContent=orig2;
+                  abandonOtpScreen();
+                }else{
+                  finishVerify();
+                }
+              })
+              .catch(finishVerify); // probe network hiccup - fail open, every real admin action is still server-gated regardless
+          }else{
+            finishVerify();
+          }
+          }else{showError((data&&data.error)||'Server error.');btn.disabled=false;btn.textContent=orig2;}});})
         .catch(function(err){showError(err.name==='AbortError'?'Timed out.':'Verification failed.');btn.disabled=false;btn.textContent=orig2;});
     }
   },true);

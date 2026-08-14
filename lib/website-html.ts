@@ -1629,155 +1629,47 @@ setTimeout(() => {
 }, 5000);
 </script>
 
-<!-- DISABLE PAYMENT FLOW & STRIKE OUT FEE TEXT -->
-<script>
-// Disable Razorpay payment flow and hide/strike fee text
-(function() {
-  // Strike out fee text
-  const strikeOutFeeText = () => {
-    const root = document.getElementById('root');
-    if (!root) return;
-
-    // Find all elements containing "One-time fee" or "per card"
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      null,
-      false
-    );
-
-    let node;
-    while (node = walker.nextNode()) {
-      if (node.textContent.includes('One-time fee') || node.textContent.includes('per card') || node.textContent.includes('₹')) {
-        const span = document.createElement('span');
-        span.style.cssText = 'text-decoration: line-through; opacity: 0.6;';
-        span.textContent = node.textContent;
-        node.parentNode.replaceChild(span, node);
-      }
-    }
-  };
-
-  // Disable payment button
-  const disablePayment = () => {
-    const root = document.getElementById('root');
-    if (!root) return;
-
-    // Find and disable "Save my cards" button
-    const buttons = root.querySelectorAll('button');
-    buttons.forEach(btn => {
-      const text = (btn.textContent || '').trim();
-      if (text.includes('Save my cards') || text.includes('₹')) {
-        // Disable the button
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
-        btn.style.cursor = 'not-allowed';
-        btn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          alert('Payment flow is currently disabled. Please check back later.');
-          return false;
-        };
-      }
-    });
-  };
-
-  // Run once on load
-  strikeOutFeeText();
-  disablePayment();
-
-  // Re-run when React updates the DOM
-  const root = document.getElementById('root');
-  if (root) {
-    const observer = new MutationObserver(() => {
-      strikeOutFeeText();
-      disablePayment();
-    });
-    observer.observe(root, {childList: true, subtree: true});
-  }
-})();
-</script>
-
-<!-- FIX CONTINUE BUTTON - HIGH SEVERITY BUG FIX -->
-<script>
-(function() {
-  const fixContinueButton = () => {
-    const root = document.getElementById('root');
-    if (!root) return;
-
-    // Find all buttons
-    const buttons = root.querySelectorAll('button');
-    buttons.forEach(btn => {
-      const text = (btn.textContent || '').trim();
-
-      // Find Continue button
-      if (text === 'Continue' || text === 'continue') {
-        // Add click handler if button doesn't have one
-        const originalOnClick = btn.onclick;
-
-        btn.onclick = function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          console.log('[FIX] Continue button clicked');
-
-          // Show success message
-          const successMsg = document.getElementById('bmc-success-message');
-          if (successMsg) {
-            successMsg.style.display = 'block';
-          } else {
-            // Create success message if it doesn't exist
-            const msg = document.createElement('div');
-            msg.id = 'bmc-success-message';
-            msg.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10001;width:min(420px,calc(100vw - 2rem));background:#16a34a;border:1.5px solid #15803d;border-radius:10px;padding:.75rem 2.75rem .75rem 1rem;font-size:.875rem;font-weight:600;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2);line-height:1.5;';
-            msg.textContent = '✅ Cards saved successfully! You can now manage your cards anytime.';
-            document.body.appendChild(msg);
-
-            setTimeout(() => {
-              msg.style.display = 'none';
-            }, 4000);
-          }
-
-          // Log to console for debugging
-          console.log('[SUCCESS] Cards have been saved to your account');
-
-          // If there was an original onclick, don't call it - we're replacing it
-          return false;
-        };
-
-        // Make button visually active
-        btn.style.cursor = 'pointer';
-        console.log('[FIX] Continue button handler installed');
-      }
-
-      // Also handle "Save my cards" button if it somehow gets enabled
-      if (text.includes('Save my cards') && text.includes('₹')) {
-        btn.onclick = (e) => {
-          e.preventDefault();
-          alert('Payment flow is currently disabled. Please check back later.');
-          return false;
-        };
-      }
-    });
-  };
-
-  // Run on initial load
-  fixContinueButton();
-
-  // Monitor for DOM changes
-  const root = document.getElementById('root');
-  if (root) {
-    const observer = new MutationObserver(() => {
-      fixContinueButton();
-    });
-    observer.observe(root, {childList: true, subtree: true});
-  }
-})();
-</script>
-
 <!-- LOAD SAVED CARDS FROM STORAGE API AFTER OTP -->
 <script>
 (function() {
   console.log('[CARD-RESTORE] Card restoration module loaded');
+
+  // Restore cards for a session that was already active before this page
+  // load (e.g. a refresh). The fetch interceptor below only fires on a live
+  // /api/verify-otp call, which never happens on a reload that restores the
+  // dashboard straight from the stored phone token - so without this, a
+  // logged-in user's cards would never appear until their next fresh login.
+  (function restoreFromExistingSession() {
+    try {
+      const token = sessionStorage.getItem('bmc_phone_token');
+      if (!token) return;
+      const body = token.split('.')[0];
+      const padded = body.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - body.length % 4) % 4);
+      const payload = JSON.parse(atob(padded));
+      const phone = payload && payload.phone;
+      if (!phone || (payload.exp && Date.now() > payload.exp)) return;
+
+      fetch('/api/storage?key=cbp:users', { headers: { 'x-phone-token': token } })
+        .then(r => r.ok ? r.json() : null)
+        .then(storageData => {
+          if (!storageData || !storageData.value) return;
+          const usersData = JSON.parse(storageData.value);
+          const userCards = usersData[phone] && usersData[phone].cards;
+          if (!userCards || !userCards.length) return;
+
+          window.__bmc_saved_cards = {
+            cards: userCards,
+            userName: usersData[phone].name || 'User',
+            phone: phone
+          };
+          console.log('[CARD-RESTORE] Restored', userCards.length, 'cards from existing session');
+          window.dispatchEvent(new CustomEvent('bmc:cards-ready', { detail: window.__bmc_saved_cards }));
+        })
+        .catch(e => console.error('[CARD-RESTORE] Existing-session restore error:', e));
+    } catch (e) {
+      console.error('[CARD-RESTORE] Existing-session restore error:', e);
+    }
+  })();
 
   // Intercept fetch to capture OTP response and phone token
   const originalFetch = window.fetch;

@@ -1,4 +1,20 @@
 # BlockMyCard - Production Readiness Audit Report
+
+> ⚠️ **CORRECTION - do not use this report as a launch gate.**
+>
+> A full security/QA/DevOps pre-launch audit run on 2026-08-12 - covering the
+> PRD, the live app, authentication, storage access control, and
+> infrastructure config - found **5 Critical, 5 High, and 6 Medium severity
+> issues** that this report's "approved for production" verdict did not
+> catch, including an authentication bypass, a full user/card data leak via
+> an unauthenticated storage endpoint, hardcoded admin credentials, and
+> exposed secrets. All 16 have since been fixed across three rounds of work.
+>
+> The "3 critical blockers" this report found and fixed were real but
+> narrower - build/deploy mechanics (TypeScript errors, endpoint wiring,
+> repo hygiene) rather than security boundaries. Treat the findings below as
+> historical context, not a production readiness signal.
+
 **Audit Date:** 2026-08-11  
 **Auditor:** Senior QA Automation Lead  
 **Status:** ✅ **CRITICAL BLOCKERS FIXED - APPROVED FOR PRODUCTION**

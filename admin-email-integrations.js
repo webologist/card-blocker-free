@@ -233,7 +233,11 @@
     return card;
   }
 
-  var panelHost = null;
+  // A single persistent element, created once and reused - the shared admin
+  // tools panel (admin-tools-panel.js) appends it into its own panelBody
+  // whenever this tab is active, so updates made by refreshPanel() below
+  // show up immediately without this script needing to know where it lives.
+  var panelHost = document.createElement('div');
 
   function refreshPanel() {
     if (!panelHost) return;
@@ -263,65 +267,24 @@
     });
   }
 
-  var injected = false;
-
-  function tryInject() {
-    if (injected) return;
-    var allBtns = document.querySelectorAll('button'), banksTab = null;
-    for (var i = 0; i < allBtns.length; i++) {
-      if (allBtns[i].textContent.trim() === 'Banks') { banksTab = allBtns[i]; break; }
-    }
-    if (!banksTab) return;
-    var tabContainer = banksTab.parentNode;
-    if (!tabContainer) return;
-    if (tabContainer.querySelector('[data-bmc-email-tab]')) { injected = true; return; }
-    injected = true;
-
-    var adminSection = tabContainer.parentNode;
-    if (!adminSection) return;
-
-    var tabBtn = document.createElement('button');
-    tabBtn.dataset.bmcEmailTab = '1';
-    tabBtn.textContent = 'Email Integrations';
-    tabBtn.style.cssText = 'padding:.375rem .75rem;border-radius:.375rem;font-size:.875rem;font-weight:600;background:#fff;border:1px solid #cbd5e1;color:#475569;cursor:pointer;';
-    tabContainer.appendChild(tabBtn);
-
-    panelHost = document.getElementById('bmc-email-panel-host');
-    if (!panelHost) {
-      panelHost = document.createElement('div');
-      panelHost.id = 'bmc-email-panel-host';
-      panelHost.style.display = 'none';
-      adminSection.appendChild(panelHost);
-    }
-
-    tabBtn.addEventListener('click', function () {
-      var tabBtns = tabContainer.querySelectorAll('button');
-      for (var i = 0; i < tabBtns.length; i++) {
-        if (tabBtns[i] === tabBtn) { tabBtns[i].style.background = '#0f172a'; tabBtns[i].style.color = '#fff'; tabBtns[i].style.borderColor = '#0f172a'; }
-        else if (tabBtns[i].parentNode === tabContainer) { tabBtns[i].style.background = '#fff'; tabBtns[i].style.color = '#475569'; tabBtns[i].style.borderColor = '#cbd5e1'; }
-      }
-      var ch = adminSection.children;
-      for (var j = 0; j < ch.length; j++) {
-        if (ch[j] !== tabContainer && ch[j] !== panelHost) { ch[j].style.display = 'none'; ch[j].dataset.bmcHidden = '1'; }
-      }
-      panelHost.style.display = 'block';
-      refreshPanel();
-    });
-
-    var existingBtns = tabContainer.querySelectorAll('button');
-    for (var k = 0; k < existingBtns.length; k++) {
-      if (existingBtns[k] === tabBtn) continue;
-      existingBtns[k].addEventListener('click', function () {
-        panelHost.style.display = 'none';
-        var ch = adminSection.children;
-        for (var m = 0; m < ch.length; m++) {
-          if (ch[m].dataset && ch[m].dataset.bmcHidden) { delete ch[m].dataset.bmcHidden; ch[m].style.display = ''; }
-        }
-      }, true);
-    }
+  // Rendered inside the shared, React-safe floating panel (admin-tools-panel.js)
+  // instead of being spliced directly into the admin console's own tab bar -
+  // see admin-tools-panel.js for why that used to crash the whole app.
+  function build() {
+    refreshPanel();
+    return panelHost;
   }
 
-  setInterval(function () { injected = false; tryInject(); }, 1000);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryInject);
-  else tryInject();
+  function register() {
+    if (!window.BmcAdminTools) return false;
+    window.BmcAdminTools.register('email-integrations', 'Email Integrations', build);
+    return true;
+  }
+  if (!register()) {
+    var tries = 0;
+    var waitForHost = setInterval(function () {
+      tries++;
+      if (register() || tries > 20) clearInterval(waitForHost);
+    }, 250);
+  }
 })();
