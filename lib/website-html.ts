@@ -3,6 +3,12 @@ export const WEBSITE_HTML_CONTENT = `<!DOCTYPE html>
 <html lang="en" data-theme="light" data-lang="en" data-font-size="md">
 <head>
 <meta charset="UTF-8"/>
+<!-- [ADMIN-LAYOUT] Runs before any CSS/content paints, so the marketing
+     chrome never flashes on screen before being hidden. Adds a class the
+     stylesheet below uses to strip the marketing site down to just the
+     login/admin console and let it use the full viewport width - see the
+     matching CSS block near the end of the page's main stylesheet. -->
+<script>(function(){if(/^\/admin(\/|$)/.test(window.location.pathname)){document.documentElement.classList.add('bmc-admin-mode')}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
 <meta name="theme-color" content="#d63a2a"/>
 <title>BlockMyCard.in — A Card Blocking Helper for Indian Users</title>
@@ -216,7 +222,7 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 .sleep-sub{font-size:.9rem;color:var(--fg2);line-height:1.7;margin-bottom:1rem}
 .sleep-points{display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem;margin-bottom:1.5rem}
 .sleep-point{font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:.4rem;color:var(--fg)}
-.sleep-point::before{content:'\\2713';color:var(--red);font-weight:900;flex-shrink:0}
+.sleep-point::before{content:'\2713';color:var(--red);font-weight:900;flex-shrink:0}
 
 /* ── DARK BLOCK SECTION ── */
 .block-section{background:#0f172a;padding:5rem 1.5rem}
@@ -260,7 +266,7 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 .tool-sub{font-size:1.05rem;opacity:.9;line-height:1.6;margin-bottom:1.75rem;color:#fff}
 .tool-pills{display:flex;flex-wrap:wrap;gap:.55rem}
 .tool-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.15);border-radius:99px;padding:.38rem .8rem;font-size:.78rem;font-weight:600;color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-.tool-pill::before{content:'\\2713';font-weight:900}
+.tool-pill::before{content:'\2713';font-weight:900}
 
 /* ── FAQ ── */
 .faq-list{max-width:700px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:.7rem}
@@ -317,7 +323,7 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .gap-3{gap:.75rem}
 #root .gap-4{gap:1rem}
 #root .gap-x-3{column-gap:.75rem}
-#root .space-y-0\\.5>*+*{margin-top:.125rem}
+#root .space-y-0\.5>*+*{margin-top:.125rem}
 #root .space-y-2>*+*{margin-top:.5rem}
 #root .space-y-3>*+*{margin-top:.75rem}
 #root .space-y-4>*+*{margin-top:1rem}
@@ -332,7 +338,7 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .overflow-y-auto{overflow-y:auto}
 #root .max-h-40{max-height:10rem}
 #root .max-h-60{max-height:15rem}
-#root .max-h-\\[28rem\\]{max-height:28rem}
+#root .max-h-\[28rem\]{max-height:28rem}
 #root .max-w-3xl{max-width:48rem}
 #root .max-w-md{max-width:28rem}
 #root .max-w-sm{max-width:24rem}
@@ -359,11 +365,11 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .px-2{padding-left:.5rem;padding-right:.5rem}
 #root .px-3{padding-left:.75rem;padding-right:.75rem}
 #root .px-4{padding-left:1rem;padding-right:1rem}
-#root .py-0\\.5{padding-top:.125rem;padding-bottom:.125rem}
+#root .py-0\.5{padding-top:.125rem;padding-bottom:.125rem}
 #root .py-1{padding-top:.25rem;padding-bottom:.25rem}
-#root .py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}
+#root .py-1\.5{padding-top:.375rem;padding-bottom:.375rem}
 #root .py-2{padding-top:.5rem;padding-bottom:.5rem}
-#root .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}
+#root .py-2\.5{padding-top:.625rem;padding-bottom:.625rem}
 #root .py-3{padding-top:.75rem;padding-bottom:.75rem}
 #root .py-4{padding-top:1rem;padding-bottom:1rem}
 #root .py-8{padding-top:2rem;padding-bottom:2rem}
@@ -378,8 +384,8 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .text-xl{font-size:1.25rem;line-height:1.75rem}
 #root .text-sm{font-size:.875rem;line-height:1.4}
 #root .text-xs{font-size:.75rem;line-height:1.4}
-#root .text-\\[10px\\]{font-size:10px;line-height:1.4}
-#root .text-\\[11px\\]{font-size:11px;line-height:1.4}
+#root .text-\[10px\]{font-size:10px;line-height:1.4}
+#root .text-\[11px\]{font-size:11px;line-height:1.4}
 #root .font-bold{font-weight:700}
 #root .font-semibold{font-weight:600}
 #root .font-normal{font-weight:400}
@@ -425,7 +431,7 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .bg-slate-50{background:var(--bg2)}
 #root .bg-slate-100{background:var(--bg2)}
 #root .bg-red-50{background:var(--red-light)}
-#root .bg-red-50\\/40{background:var(--red-light)}
+#root .bg-red-50\/40{background:var(--red-light)}
 #root .bg-amber-50{background:#fffbeb}
 #root .bg-blue-50{background:#eff6ff}
 #root .bg-emerald-100{background:#d1fae5}
@@ -438,19 +444,19 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
 #root .border-emerald-300{border-color:#6ee7b7}
 #root .border-red-200{border-color:#fecaca}
 #root .border-red-300{border-color:#fca5a5}
-#root .hover\\:bg-slate-50:hover{background:var(--bg2)}
-#root .hover\\:bg-slate-100:hover{background:var(--bg2)}
-#root .hover\\:bg-slate-700:hover{background:#334155}
+#root .hover\:bg-slate-50:hover{background:var(--bg2)}
+#root .hover\:bg-slate-100:hover{background:var(--bg2)}
+#root .hover\:bg-slate-700:hover{background:#334155}
 #root .bg-slate-900{background:#0f172a;color:#fff}
-#root .hover\\:bg-slate-900:hover{background:#0f172a}
-#root .hover\\:text-white:hover{color:#fff}
+#root .hover\:bg-slate-900:hover{background:#0f172a}
+#root .hover\:text-white:hover{color:#fff}
 @media(min-width:640px){
-  #root .sm\\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-  #root .sm\\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-  #root .sm\\:col-span-2{grid-column:span 2 / span 2}
+  #root .sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #root .sm\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #root .sm\:col-span-2{grid-column:span 2 / span 2}
 }
 @media(min-width:768px){
-  #root .md\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #root .md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 #root label.block{display:block;margin-bottom:.85rem}
 #root label.block>span{display:block;font-size:.8rem;font-weight:600;color:var(--fg2);margin-bottom:.35rem}
@@ -557,6 +563,19 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
   .section-title{font-size:clamp(1.5rem,6vw,2rem)}
   .sleep-title{font-size:1.4rem}
 }
+
+/* [ADMIN-LAYOUT] /admin shows only the login/admin console, full viewport
+   width, no marketing chrome - see the detection script right after
+   <meta charset> above. Every rule here is scoped to html.bmc-admin-mode so
+   the regular customer page at "/" is completely unaffected. */
+html.bmc-admin-mode .construction-bar,
+html.bmc-admin-mode header.nav,
+html.bmc-admin-mode main#main-content>section:not(#card-tool),
+html.bmc-admin-mode footer.footer{display:none!important}
+html.bmc-admin-mode .tool-section{background:var(--bg2);padding:2rem 1.5rem;min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center}
+html.bmc-admin-mode .tool-section::before{display:none}
+html.bmc-admin-mode .tool-inner{display:block;max-width:none;width:100%;margin:0;padding:0}
+html.bmc-admin-mode .tool-left{display:none}
 </style>
 </head>
 <body>
@@ -1034,9 +1053,15 @@ body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati','Noto Sans 
   </div>
 </footer>
 
-<script src="./otp-bridge.js"></script>
-<script src="./storage-bridge.js"></script>
-<script src="./app.js"></script>
+<!-- Absolute paths, not "./x.js": a relative path resolves against the
+     CURRENT URL, so visiting /admin/ (trailing slash) would ask the browser
+     for /admin/app.js - which server.js never serves - and the whole app
+     would fail to load silently. Absolute paths always resolve from the
+     site root regardless of which URL (/, /admin, /admin/, or anything
+     server.js's SPA fallback catches) the page was reached at. -->
+<script src="/otp-bridge.js"></script>
+<script src="/storage-bridge.js"></script>
+<script src="/app.js"></script>
 <script>
 /* ── TRANSLATIONS (DICT) ── */
 /* L2 — added missing pill, eyebrow, and construction message entries */
@@ -1045,26 +1070,26 @@ const DICT = {
   "construction.title":   { en:"Site under construction", hi:"साइट निर्माणाधीन है", mr:"साइट बांधकाम सुरू आहे", gu:"સાઇટ બાંધકામ હેઠળ છે", bn:"সাইট নির্মাণাধীন", te:"సైట్ నిర్మాణంలో ఉంది", ta:"தளம் கட்டுமானத்தில் உள்ளது", kn:"ಸೈಟ್ ನಿರ್ಮಾಣ ಹಂತದಲ್ಲಿದೆ", or:"ସାଇଟ୍ ନିର୍ମାଣାଧୀନ", ml:"സൈറ്റ് നിർമ്മാണത്തിലാണ്" },
   "construction.message": { en:"Some features are still being tested. Your feedback is welcome.", hi:"कुछ सुविधाएँ अभी भी परीक्षण में हैं। आपकी प्रतिक्रिया का स्वागत है।", mr:"काही वैशिष्ट्ये अद्याप चाचणी सुरू आहेत. तुमचा अभिप्राय स्वागतार्ह आहे.", gu:"કેટલીક સુવિધાઓ હજુ પણ પરીક્ષણમાં છે. તમારો પ્રતિભાવ આવકાર્ય છે.", bn:"কিছু ফিচার এখনও পরীক্ষা করা হচ্ছে। আপনার মতামত স্বাগত।", te:"కొన్ని ఫీచర్లు ఇంకా పరీక్షించబడుతున్నాయి. మీ అభిప్రాయాన్ని స్వాగతిస్తున్నాము.", ta:"சில அம்சங்கள் இன்னும் சோதிக்கப்படுகின்றன. உங்கள் கருத்து வரவேற்கப்படுகிறது.", kn:"ಕೆಲವು ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಇನ್ನೂ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ. ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಸ್ವಾಗತಿಸುತ್ತೇವೆ.", or:"କିଛି ବିଶେଷତା ଏବେ ବି ପରୀକ୍ଷା କରାଯାଉଛି। ଆପଣଙ୍କ ମତାମତ ସ୍ୱାଗତଯୋଗ୍ୟ।", ml:"ചില ഫീച്ചറുകൾ ഇപ്പോഴും പരീക്ഷിക്കുന്നു. നിങ്ങളുടെ അഭിപ്രായം സ്വാഗതം ചെയ്യുന്നു." },
   "nav.register":        { en:"Register/ Block", hi:"रजिस्टर/ब्लॉक करें", mr:"नोंदणी/ब्लॉक करा", gu:"નોંધણી/બ્લોક કરો", bn:"নিবন্ধন/ব্লক করুন", te:"నమోదు/బ్లాక్ చేయండి", ta:"பதிவு/முடக்கு", kn:"ನೋಂದಣಿ/ಬ್ಲಾಕ್ ಮಾಡಿ", or:"ପଞ୍ଜୀକରଣ/ବ୍ଲକ୍ କରନ୍ତୁ", ml:"രജിസ്റ്റർ/ബ്ലോക്ക് ചെയ്യുക" },
-  "hero.badge":          { en:"Free early access \\u00B7 Card blocking helper", hi:"\\u092E\\u0941\\u092B\\u093C\\u094D\\u0924 \\u0936\\u0941\\u0930\\u0941\\u0906\\u0924\\u0940 \\u092A\\u0939\\u0941\\u0901\\u091A \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u0915", mr:"\\u092E\\u094B\\u092B\\u0924 \\u0905\\u200D\\u0945\\u0915\\u094D\\u0938\\u0947\\u0938 \\u00B7 \\u0915\\u093E\\u0930\\u094D\\u0921 \\u092C\\u094D\\u0932\\u0949\\u0915\\u093F\\u0902\\u0917 \\u0938\\u0939\\u093E\\u092F\\u094D\\u092F\\u0915", gu:"\\u0AAE\\u0AAB\\u0AA4 \\u0AAA\\u0ACD\\u0AB0\\u0ABE\\u0AB0\\u0A82\\u0AAD\\u0ABF\\u0A95 \\u0A8D\\u0A95\\u0ACD\\u0AB8\\u0AC7\\u0AB8 \\u00B7 \\u0A95\\u0ABE\\u0AB0\\u0ACD\\u0AA1 \\u0AAC\\u0ACD\\u0AB2\\u0ACB\\u0A95\\u0ABF\\u0A82\\u0A97 \\u0AB8\\u0AB9\\u0ABE\\u0AAF\\u0A95", bn:"\\u09AC\\u09BF\\u09A8\\u09BE\\u09AE\\u09C2\\u09B2\\u09CD\\u09AF\\u09C7 \\u09AA\\u09CD\\u09B0\\u09BE\\u09A5\\u09AE\\u09BF\\u0995 \\u0985\\u09CD\\u09AF\\u09BE\\u0995\\u09CD\\u09B8\\u09C7\\u09B8 \\u00B7 \\u0995\\u09BE\\u09B0\\u09CD\\u09A1 \\u09AC\\u09CD\\u09B2\\u0995\\u09BF\\u0982 \\u09B8\\u09B9\\u09BE\\u09AF\\u09BC\\u0995", te:"\\u0C09\\u0C1A\\u0C3F\\u0C24 \\u0C2A\\u0C4D\\u0C30\\u0C3E\\u0C30\\u0C02\\u0C2D \\u0C2F\\u0C3E\\u0C15\\u0C4D\\u0C38\\u0C46\\u0C38\\u0C4D \\u00B7 \\u0C15\\u0C3E\\u0C30\\u0C4D\\u0C21\\u0C4D \\u0C2C\\u0C4D\\u0C32\\u0C3E\\u0C15\\u0C3F\\u0C02\\u0C17\\u0C4D \\u0C38\\u0C39\\u0C3E\\u0C2F\\u0C15\\u0C41\\u0C21\\u0C41", ta:"\\u0B87\\u0BB2\\u0BB5\\u0B9A \\u0B86\\u0BB0\\u0BAE\\u0BCD\\u0BAA \\u0B85\\u0BA3\\u0BC1\\u0B95\\u0BB2\\u0BCD \\u00B7 \\u0B95\\u0BBE\\u0BB0\\u0BCD\\u0B9F\\u0BC1 \\u0BAE\\u0BC1\\u0B9F\\u0B95\\u0BCD\\u0B95\\u0BC1\\u0BAE\\u0BCD \\u0B89\\u0BA4\\u0BB5\\u0BBF\\u0BAF\\u0BBE\\u0BB3\\u0BB0\\u0BCD", kn:"\\u0C89\\u0C9A\\u0CBF\\u0CA4 \\u0C86\\u0CB0\\u0C82\\u0CAD\\u0CBF\\u0C95 \\u0CAA\\u0CCD\\u0CB0\\u0CB5\\u0CC7\\u0CB6 \\u00B7 \\u0C95\\u0CBE\\u0CB0\\u0CCD\\u0CA1\\u0CCD \\u0CAC\\u0CCD\\u0CB2\\u0CBE\\u0C95\\u0CBF\\u0C82\\u0C97\\u0CCD \\u0CB8\\u0CB9\\u0CBE\\u0CAF\\u0C95", or:"\\u0B2E\\u0B3E\\u0B17\\u0B23\\u0B3E \\u0B2A\\u0B4D\\u0B30\\u0B3E\\u0B30\\u0B2E\\u0B4D\\u0B2D\\u0B3F\\u0B15 \\u0B2A\\u0B4D\\u0B30\\u0B2C\\u0B47\\u0B36 \\u00B7 \\u0B15\\u0B3E\\u0B30\\u0B4D\\u0B21 \\u0B2C\\u0B4D\\u0B32\\u0B15\\u0B3F\\u0B02 \\u0B38\\u0B39\\u0B3E\\u0B5F\\u0B15", ml:"\\u0D38\\u0D57\\u0D1C\\u0D28\\u0D4D\\u0D2F \\u0D06\\u0D26\\u0D4D\\u0D2F\\u0D15\\u0D3E\\u0D32 \\u0D06\\u0D15\\u0D4D\\u200C\\u0D38\\u0D38\\u0D4D \\u00B7 \\u0D15\\u0D3E\\u0D7C\\u0D21\\u0D4D \\u0D2C\\u0D4D\\u0D32\\u0D4B\\u0D15\\u0D4D\\u0D15\\u0D3F\\u0D02\\u0D17\\u0D4D \\u0D38\\u0D39\\u0D3E\\u0D2F\\u0D3F" },
+  "hero.badge":          { en:"Free early access \u00B7 Card blocking helper", hi:"\u092E\u0941\u092B\u093C\u094D\u0924 \u0936\u0941\u0930\u0941\u0906\u0924\u0940 \u092A\u0939\u0941\u0901\u091A \u00B7 \u0915\u093E\u0930\u094D\u0921 \u092C\u094D\u0932\u0949\u0915\u093F\u0902\u0917 \u0938\u0939\u093E\u092F\u0915", mr:"\u092E\u094B\u092B\u0924 \u0905\u200D\u0945\u0915\u094D\u0938\u0947\u0938 \u00B7 \u0915\u093E\u0930\u094D\u0921 \u092C\u094D\u0932\u0949\u0915\u093F\u0902\u0917 \u0938\u0939\u093E\u092F\u094D\u092F\u0915", gu:"\u0AAE\u0AAB\u0AA4 \u0AAA\u0ACD\u0AB0\u0ABE\u0AB0\u0A82\u0AAD\u0ABF\u0A95 \u0A8D\u0A95\u0ACD\u0AB8\u0AC7\u0AB8 \u00B7 \u0A95\u0ABE\u0AB0\u0ACD\u0AA1 \u0AAC\u0ACD\u0AB2\u0ACB\u0A95\u0ABF\u0A82\u0A97 \u0AB8\u0AB9\u0ABE\u0AAF\u0A95", bn:"\u09AC\u09BF\u09A8\u09BE\u09AE\u09C2\u09B2\u09CD\u09AF\u09C7 \u09AA\u09CD\u09B0\u09BE\u09A5\u09AE\u09BF\u0995 \u0985\u09CD\u09AF\u09BE\u0995\u09CD\u09B8\u09C7\u09B8 \u00B7 \u0995\u09BE\u09B0\u09CD\u09A1 \u09AC\u09CD\u09B2\u0995\u09BF\u0982 \u09B8\u09B9\u09BE\u09AF\u09BC\u0995", te:"\u0C09\u0C1A\u0C3F\u0C24 \u0C2A\u0C4D\u0C30\u0C3E\u0C30\u0C02\u0C2D \u0C2F\u0C3E\u0C15\u0C4D\u0C38\u0C46\u0C38\u0C4D \u00B7 \u0C15\u0C3E\u0C30\u0C4D\u0C21\u0C4D \u0C2C\u0C4D\u0C32\u0C3E\u0C15\u0C3F\u0C02\u0C17\u0C4D \u0C38\u0C39\u0C3E\u0C2F\u0C15\u0C41\u0C21\u0C41", ta:"\u0B87\u0BB2\u0BB5\u0B9A \u0B86\u0BB0\u0BAE\u0BCD\u0BAA \u0B85\u0BA3\u0BC1\u0B95\u0BB2\u0BCD \u00B7 \u0B95\u0BBE\u0BB0\u0BCD\u0B9F\u0BC1 \u0BAE\u0BC1\u0B9F\u0B95\u0BCD\u0B95\u0BC1\u0BAE\u0BCD \u0B89\u0BA4\u0BB5\u0BBF\u0BAF\u0BBE\u0BB3\u0BB0\u0BCD", kn:"\u0C89\u0C9A\u0CBF\u0CA4 \u0C86\u0CB0\u0C82\u0CAD\u0CBF\u0C95 \u0CAA\u0CCD\u0CB0\u0CB5\u0CC7\u0CB6 \u00B7 \u0C95\u0CBE\u0CB0\u0CCD\u0CA1\u0CCD \u0CAC\u0CCD\u0CB2\u0CBE\u0C95\u0CBF\u0C82\u0C97\u0CCD \u0CB8\u0CB9\u0CBE\u0CAF\u0C95", or:"\u0B2E\u0B3E\u0B17\u0B23\u0B3E \u0B2A\u0B4D\u0B30\u0B3E\u0B30\u0B2E\u0B4D\u0B2D\u0B3F\u0B15 \u0B2A\u0B4D\u0B30\u0B2C\u0B47\u0B36 \u00B7 \u0B15\u0B3E\u0B30\u0B4D\u0B21 \u0B2C\u0B4D\u0B32\u0B15\u0B3F\u0B02 \u0B38\u0B39\u0B3E\u0B5F\u0B15", ml:"\u0D38\u0D57\u0D1C\u0D28\u0D4D\u0D2F \u0D06\u0D26\u0D4D\u0D2F\u0D15\u0D3E\u0D32 \u0D06\u0D15\u0D4D\u200C\u0D38\u0D38\u0D4D \u00B7 \u0D15\u0D3E\u0D7C\u0D21\u0D4D \u0D2C\u0D4D\u0D32\u0D4B\u0D15\u0D4D\u0D15\u0D3F\u0D02\u0D17\u0D4D \u0D38\u0D39\u0D3E\u0D2F\u0D3F" },
   "hero.title.line1":    { en:"Your wallet is stolen.", hi:"आपका बटुआ चोरी हो गया।", mr:"तुमचे पाकीट चोरीला गेले.", gu:"તમારું પાકીટ ચોરાઈ ગયું.", bn:"আপনার মানিব্যাগ চুরি হয়ে গেছে।", te:"మీ వాలెట్ దొంగతనం అయ్యింది.", ta:"உங்கள் பணப்பை திருடப்பட்டது.", kn:"ನಿಮ್ಮ ವ್ಯಾಲೆಟ್ ಕಳ್ಳತನವಾಗಿದೆ.", or:"ଆପଣଙ୍କ ମାନିବ୍ୟାଗ ଚୋରି ହୋଇଗଲା।", ml:"നിങ്ങളുടെ വാലറ്റ് മോഷ്ടിക്കപ്പെട്ടു." },
   "hero.title.accent":   { en:"You have 4 minutes.", hi:"आपके पास सिर्फ़ 4 मिनट हैं।", mr:"तुमच्याकडे फक्त 4 मिनिटे आहेत.", gu:"તમારી પાસે ફક્ત 4 મિનિટ છે.", bn:"আপনার হাতে মাত্র ৪ মিনিট আছে।", te:"మీ వద్ద 4 నిమిషాలు మాత్రమే ఉన్నాయి.", ta:"உங்களிடம் 4 நிமிடங்கள் மட்டுமே உள்ளன.", kn:"ನಿಮ್ಮ ಬಳಿ 4 ನಿಮಿಷಗಳು ಮಾತ್ರ ಇವೆ.", or:"ଆପଣଙ୍କ ପାଖରେ କେବଳ 4 ମିନିଟ୍ ଅଛି।", ml:"നിങ്ങൾക്ക് 4 മിനിറ്റ് മാത്രമേ ഉള്ളൂ." },
   "hero.sub":            { en:"Fraudsters drain the average Indian account in under 4 minutes. Without your card numbers saved, you cannot block them fast enough. BlockMyCard keeps every card number in one place so you can act quickly.", hi:"धोखेबाज़ औसत भारतीय खाता 4 मिनट से भी कम समय में खाली कर देते हैं। अगर आपके कार्ड नंबर सेव नहीं हैं, तो आप उन्हें इतनी जल्दी ब्लॉक नहीं कर सकते। BlockMyCard हर कार्ड नंबर एक जगह रखता है ताकि आप तुरंत कार्रवाई कर सकें।", mr:"सरासरी भारतीय खाते 4 मिनिटांत रिकामे होते. तुमचे कार्ड नंबर सेव्ह नसतील, तर तुम्ही ते इतक्या लवकर ब्लॉक करू शकत नाही. BlockMyCard प्रत्येक कार्ड क्रमांक एकाच ठिकाणी ठेवते, जेणेकरून तुम्ही झटपट कारवाई करू शकाल.", gu:"છેતરપિંડી કરનારા સરેરાશ ભારતીય ખાતું 4 મિનિટથી ઓછા સમયમાં ખાલી કરી નાખે છે. જો તમારા કાર્ડ નંબર સેવ ન હોય, તો તમે તેમને એટલી ઝડપથી બ્લોક કરી શકતા નથી. BlockMyCard દરેક કાર્ડ નંબર એક જ જગ્યાએ રાખે છે જેથી તમે ઝડપથી પગલાં લઈ શકો.", bn:"প্রতারকরা ৪ মিনিটেরও কম সময়ে গড় ভারতীয় অ্যাকাউন্ট খালি করে দেয়। আপনার কার্ড নম্বর সংরক্ষিত না থাকলে, আপনি সেগুলো এত দ্রুত ব্লক করতে পারবেন না। BlockMyCard প্রতিটি কার্ড নম্বর এক জায়গায় রাখে, যাতে আপনি দ্রুত ব্যবস্থা নিতে পারেন।", te:"మోసగాళ్లు సగటు భారతీయ ఖాతాను 4 నిమిషాల్లోపే ఖాళీ చేస్తారు. మీ కార్డ్ నంబర్లు సేవ్ చేయకపోతే, మీరు వాటిని అంత వేగంగా బ్లాక్ చేయలేరు. BlockMyCard ప్రతి కార్డ్ నంబర్‌ను ఒకే చోట ఉంచుతుంది, తద్వారా మీరు వేగంగా చర్య తీసుకోవచ్చు.", ta:"மோசடி செய்பவர்கள் சராசரி இந்திய கணக்கை 4 நிமிடங்களுக்குள் காலி செய்கிறார்கள். உங்கள் கார்டு எண்கள் சேமிக்கப்படாவிட்டால், அவற்றை அவ்வளவு விரைவாக முடக்க முடியாது. BlockMyCard ஒவ்வொரு கார்டு எண்ணையும் ஒரே இடத்தில் வைத்திருக்கிறது, இதனால் நீங்கள் விரைவாக செயல்பட முடியும்.", kn:"ಮೋಸಗಾರರು ಸರಾಸರಿ ಭಾರತೀಯ ಖಾತೆಯನ್ನು 4 ನಿಮಿಷಗಳಿಗಿಂತ ಕಡಿಮೆ ಸಮಯದಲ್ಲಿ ಖಾಲಿ ಮಾಡುತ್ತಾರೆ. ನಿಮ್ಮ ಕಾರ್ಡ್ ಸಂಖ್ಯೆಗಳನ್ನು ಉಳಿಸದಿದ್ದರೆ, ನೀವು ಅವುಗಳನ್ನು ಅಷ್ಟು ಬೇಗ ಬ್ಲಾಕ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. BlockMyCard ಪ್ರತಿ ಕಾರ್ಡ್ ಸಂಖ್ಯೆಯನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ಇರಿಸುತ್ತದೆ, ಇದರಿಂದ ನೀವು ವೇಗವಾಗಿ ಕ್ರಮ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.", or:"ଠକମାନେ ହାରାହାରି ଭାରତୀୟ ଖାତାକୁ 4 ମିନିଟରୁ କମ୍ ସମୟରେ ଖାଲି କରିଦିଅନ୍ତି। ଆପଣଙ୍କ କାର୍ଡ ନମ୍ବରଗୁଡ଼ିକ ସେଭ୍ ନ ଥିଲେ, ଆପଣ ସେଗୁଡ଼ିକୁ ଏତେ ଶୀଘ୍ର ବ୍ଲକ୍ କରିପାରିବେ ନାହିଁ। BlockMyCard ପ୍ରତ୍ୟେକ କାର୍ଡ ନମ୍ବରକୁ ଏକା ସ୍ଥାନରେ ରଖେ, ଯାହାଫଳରେ ଆପଣ ଶୀଘ୍ର କାର୍ଯ୍ୟାନୁଷ୍ଠାନ ନେଇପାରିବେ।", ml:"തട്ടിപ്പുകാർ ശരാശരി ഇന്ത്യൻ അക്കൗണ്ട് 4 മിനിറ്റിനുള്ളിൽ കാലിയാക്കുന്നു. നിങ്ങളുടെ കാർഡ് നമ്പറുകൾ സേവ് ചെയ്തിട്ടില്ലെങ്കിൽ, അവ അത്ര വേഗത്തിൽ ബ്ലോക്ക് ചെയ്യാൻ കഴിയില്ല. BlockMyCard എല്ലാ കാർഡ് നമ്പറും ഒരിടത്ത് സൂക്ഷിക്കുന്നു, അതിനാൽ നിങ്ങൾക്ക് വേഗത്തിൽ നടപടിയെടുക്കാം." },
-  "hero.cta1":           { en:"Register Free \\u2014 60 Seconds \\u2192", hi:"\\u092e\\u0941\\u092b\\u093c\\u094d\\u0924 \\u0930\\u091c\\u093f\\u0938\\u094d\\u091f\\u0930 \\u0915\\u0930\\u0947\\u0902 \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0921 \\u2192", mr:"\\u092e\\u094b\\u092b\\u0924 \\u0928\\u094b\\u0902\\u0926\\u0923\\u0940 \\u0915\\u0930\\u093e \\u2014 60 \\u0938\\u0947\\u0915\\u0902\\u0926 \\u2192", gu:"\\u0aae\\u0aab\\u0aa4 \\u0aa8\\u0acb\\u0a82\\u0aa7\\u0aa3\\u0ac0 \\u0a95\\u0ab0\\u0acb \\u2014 60 \\u0ab8\\u0ac7\\u0a95\\u0aa8\\u0acd\\u0aa1 \\u2192", bn:"\\u09ac\\u09bf\\u09a8\\u09be\\u09ae\\u09c2\\u09b2\\u09cd\\u09af\\u09c7 \\u09a8\\u09bf\\u09ac\\u09a8\\u09cd\\u09a7\\u09a8 \\u0995\\u09b0\\u09c1\\u09a8 \\u2014 \\u09ec\\u09e6 \\u09b8\\u09c7\\u0995\\u09c7\\u09a8\\u09cd\\u09a1 \\u2192", te:"\\u0c09\\u0c1a\\u0c3f\\u0c24\\u0c02\\u0c17\\u0c3e \\u0c28\\u0c2e\\u0c4b\\u0c26\\u0c41 \\u0c1a\\u0c47\\u0c38\\u0c41\\u0c15\\u0c4b\\u0c02\\u0c21\\u0c3f \\u2014 60 \\u0c38\\u0c46\\u0c15\\u0c28\\u0c4d\\u0c32\\u0c41 \\u2192", ta:"\\u0b87\\u0bb2\\u0bb5\\u0b9a\\u0bae\\u0bbe\\u0b95 \\u0baa\\u0ba4\\u0bbf\\u0bb5\\u0bc1 \\u0b9a\\u0bc6\\u0baf\\u0bcd\\u0baf\\u0bc1\\u0b99\\u0bcd\\u0b95\\u0bb3\\u0bcd \\u2014 60 \\u0bb5\\u0bbf\\u0ba9\\u0bbe\\u0b9f\\u0bbf\\u0b95\\u0bb3\\u0bcd \\u2192", kn:"\\u0c89\\u0c9a\\u0cbf\\u0ca4\\u0cb5\\u0cbe\\u0c97\\u0cbf \\u0ca8\\u0ccb\\u0c82\\u0ca6\\u0cbe\\u0caf\\u0cbf\\u0cb8\\u0cbf \\u2014 60 \\u0cb8\\u0cc6\\u0c95\\u0cc6\\u0c82\\u0ca1\\u0cc1\\u0c97\\u0cb3\\u0cc1 \\u2192", or:"\\u0b2e\\u0b3e\\u0b17\\u0b23\\u0b3e\\u0b30\\u0b47 \\u0b2a\\u0b1e\\u0b4d\\u0b1c\\u0b40\\u0b15\\u0b30\\u0b23 \\u0b15\\u0b30\\u0b28\\u0b4d\\u0b24\\u0b41 \\u2014 60 \\u0b38\\u0b47\\u0b15\\u0b47\\u0b23\\u0b4d\\u0b21 \\u2192", ml:"\\u0d38\\u0d57\\u0d1c\\u0d28\\u0d4d\\u0d2f\\u0d2e\\u0d3e\\u0d2f\\u0d3f \\u0d30\\u0d1c\\u0d3f\\u0d38\\u0d4d\\u0d31\\u0d4d\\u0d31\\u0d7c \\u0d1a\\u0d46\\u0d2f\\u0d4d\\u0d2f\\u0d41\\u0d15 \\u2014 60 \\u0d38\\u0d46\\u0d15\\u0d4d\\u0d15\\u0d7b\\u0d21\\u0d4d \\u2192" },
+  "hero.cta1":           { en:"Register Free \u2014 60 Seconds \u2192", hi:"\u092e\u0941\u092b\u093c\u094d\u0924 \u0930\u091c\u093f\u0938\u094d\u091f\u0930 \u0915\u0930\u0947\u0902 \u2014 60 \u0938\u0947\u0915\u0902\u0921 \u2192", mr:"\u092e\u094b\u092b\u0924 \u0928\u094b\u0902\u0926\u0923\u0940 \u0915\u0930\u093e \u2014 60 \u0938\u0947\u0915\u0902\u0926 \u2192", gu:"\u0aae\u0aab\u0aa4 \u0aa8\u0acb\u0a82\u0aa7\u0aa3\u0ac0 \u0a95\u0ab0\u0acb \u2014 60 \u0ab8\u0ac7\u0a95\u0aa8\u0acd\u0aa1 \u2192", bn:"\u09ac\u09bf\u09a8\u09be\u09ae\u09c2\u09b2\u09cd\u09af\u09c7 \u09a8\u09bf\u09ac\u09a8\u09cd\u09a7\u09a8 \u0995\u09b0\u09c1\u09a8 \u2014 \u09ec\u09e6 \u09b8\u09c7\u0995\u09c7\u09a8\u09cd\u09a1 \u2192", te:"\u0c09\u0c1a\u0c3f\u0c24\u0c02\u0c17\u0c3e \u0c28\u0c2e\u0c4b\u0c26\u0c41 \u0c1a\u0c47\u0c38\u0c41\u0c15\u0c4b\u0c02\u0c21\u0c3f \u2014 60 \u0c38\u0c46\u0c15\u0c28\u0c4d\u0c32\u0c41 \u2192", ta:"\u0b87\u0bb2\u0bb5\u0b9a\u0bae\u0bbe\u0b95 \u0baa\u0ba4\u0bbf\u0bb5\u0bc1 \u0b9a\u0bc6\u0baf\u0bcd\u0baf\u0bc1\u0b99\u0bcd\u0b95\u0bb3\u0bcd \u2014 60 \u0bb5\u0bbf\u0ba9\u0bbe\u0b9f\u0bbf\u0b95\u0bb3\u0bcd \u2192", kn:"\u0c89\u0c9a\u0cbf\u0ca4\u0cb5\u0cbe\u0c97\u0cbf \u0ca8\u0ccb\u0c82\u0ca6\u0cbe\u0caf\u0cbf\u0cb8\u0cbf \u2014 60 \u0cb8\u0cc6\u0c95\u0cc6\u0c82\u0ca1\u0cc1\u0c97\u0cb3\u0cc1 \u2192", or:"\u0b2e\u0b3e\u0b17\u0b23\u0b3e\u0b30\u0b47 \u0b2a\u0b1e\u0b4d\u0b1c\u0b40\u0b15\u0b30\u0b23 \u0b15\u0b30\u0b28\u0b4d\u0b24\u0b41 \u2014 60 \u0b38\u0b47\u0b15\u0b47\u0b23\u0b4d\u0b21 \u2192", ml:"\u0d38\u0d57\u0d1c\u0d28\u0d4d\u0d2f\u0d2e\u0d3e\u0d2f\u0d3f \u0d30\u0d1c\u0d3f\u0d38\u0d4d\u0d31\u0d4d\u0d31\u0d7c \u0d1a\u0d46\u0d2f\u0d4d\u0d2f\u0d41\u0d15 \u2014 60 \u0d38\u0d46\u0d15\u0d4d\u0d15\u0d7b\u0d21\u0d4d \u2192" },
   "hero.cta2":           { en:"Block your card", hi:"अपना कार्ड ब्लॉक करें", mr:"तुमचे कार्ड ब्लॉक करा", gu:"તમારું કાર્ડ બ્લોક કરો", bn:"আপনার কার্ড ব্লক করুন", te:"మీ కార్డ్‌ను బ్లాక్ చేయండి", ta:"உங்கள் கார்டை முடக்குங்கள்", kn:"ನಿಮ್ಮ ಕಾರ್ಡ್ ಬ್ಲಾಕ್ ಮಾಡಿ", or:"ଆପଣଙ୍କ କାର୍ଡ ବ୍ଲକ୍ କରନ୍ତୁ", ml:"നിങ്ങളുടെ കാർഡ് ബ്ലോക്ക് ചെയ്യുക" },
   "pill.free":           { en:"Free", hi:"मुफ़्त", mr:"मोफत", gu:"મફત", bn:"বিনামূল্যে", te:"ఉచితం", ta:"இலவசம்", kn:"ಉಚಿತ", or:"ମାଗଣା", ml:"സൗജന്യം" },
   "pill.banks":          { en:"For Indian banks", hi:"भारतीय बैंकों के लिए", mr:"भारतीय बँकांसाठी", gu:"ભારતીય બેંકો માટે", bn:"ভারতীয় ব্যাংকের জন্য", te:"భారతీయ బ్యాంకుల కోసం", ta:"இந்திய வங்கிகளுக்காக", kn:"ಭಾರತೀಯ ಬ್ಯಾಂಕ್‌ಗಳಿಗಾಗಿ", or:"ଭାରତୀୟ ବ୍ୟାଙ୍କ ପାଇଁ", ml:"ഇന്ത്യൻ ബാങ്കുകൾക്കായി" },
   "pill.phone":          { en:"Any phone", hi:"किसी भी फ़ोन पर", mr:"कोणत्याही फोनवर", gu:"કોઈપણ ફોન પર", bn:"যেকোনো ফোনে", te:"ఏ ఫోన్‌లోనైనా", ta:"எந்த ஃபோனிலும்", kn:"ಯಾವುದೇ ಫೋನ್‌ನಲ್ಲಿ", or:"ଯେକୌଣସି ଫୋନରେ", ml:"ഏത് ഫോണിലും" },
   "pill.all":            { en:"All cards protected", hi:"सभी कार्ड सुरक्षित", mr:"सर्व कार्ड सुरक्षित", gu:"તમામ કાર્ડ સુરક્ષિત", bn:"সব কার্ড সুরক্ষিত", te:"అన్ని కార్డులు రక్షితం", ta:"அனைத்து கார்டுகளும் பாதுகாக்கப்படும்", kn:"ಎಲ್ಲಾ ಕಾರ್ಡ್‌ಗಳು ಸುರಕ್ಷಿತ", or:"ସମସ୍ତ କାର୍ଡ ସୁରକ୍ଷିତ", ml:"എല്ലാ കാർഡുകളും സുരക്ഷിതം" },
   "urgency.title":       { en:"Fraud in India is rising sharply.", hi:"भारत में धोखाधड़ी तेज़ी से बढ़ रही है।", mr:"भारतात फसवणूक झपाट्याने वाढत आहे.", gu:"ભારતમાં છેતરપિંડી ઝડપથી વધી રહી છે.", bn:"ভারতে জালিয়াতি দ্রুত বাড়ছে।", te:"భారతదేశంలో మోసాలు వేగంగా పెరుగుతున్నాయి.", ta:"இந்தியாவில் மோசடி வேகமாக அதிகரித்து வருகிறது.", kn:"ಭಾರತದಲ್ಲಿ ವಂಚನೆ ವೇಗವಾಗಿ ಹೆಚ್ಚುತ್ತಿದೆ.", or:"ଭାରତରେ ଠକେଇ ଦ୍ରୁତ ଗତିରେ ବଢୁଛି।", ml:"ഇന്ത്യയിൽ തട്ടിപ്പ് അതിവേഗം വർദ്ധിക്കുന്നു." },
-  "urgency.sub":         { en:"Official RBI, NCRB & I4C data \\u2014 sourced from published annual reports.", hi:"आधिकारिक RBI, NCRB और I4C डेटा \\u2014 प्रकाशित वार्षिक रिपोर्टों से।", mr:"अधिकृत RBI, NCRB व I4C डेटा \\u2014 प्रकाशित वार्षिक अहवालांवरून.", gu:"સત્તાવાર RBI, NCRB અને I4C ડેટા \\u2014 પ્રકાશિત વાર્ષિક અહેવાલોમાંથી.", bn:"সরকারি RBI, NCRB ও I4C ডেটা \\u2014 প্রকাশিত বার্ষিক প্রতিবেদন থেকে।", te:"అధికారిక RBI, NCRB మరియు I4C డేటా \\u2014 ప్రచురించిన వార్షిక నివేదికల నుండి.", ta:"அதிகாரப்பூர்வ RBI, NCRB மற்றும் I4C தரவு \\u2014 வெளியிடப்பட்ட ஆண்டு அறிக்கைகளிலிருந்து.", kn:"ಅಧಿಕೃತ RBI, NCRB ಮತ್ತು I4C ಡೇಟಾ \\u2014 ಪ್ರಕಟಿತ ವಾರ್ಷಿಕ ವರದಿಗಳಿಂದ.", or:"ସରକାରୀ RBI, NCRB ଓ I4C ତଥ୍ୟ \\u2014 ପ୍ରକାଶିତ ବାର୍ଷିକ ରିପୋର୍ଟରୁ।", ml:"ഔദ്യോഗിക RBI, NCRB, I4C ഡാറ്റ \\u2014 പ്രസിദ്ധീകരിച്ച വാർഷിക റിപ്പോർട്ടുകളിൽ നിന്ന്." },
+  "urgency.sub":         { en:"Official RBI, NCRB & I4C data \u2014 sourced from published annual reports.", hi:"आधिकारिक RBI, NCRB और I4C डेटा \u2014 प्रकाशित वार्षिक रिपोर्टों से।", mr:"अधिकृत RBI, NCRB व I4C डेटा \u2014 प्रकाशित वार्षिक अहवालांवरून.", gu:"સત્તાવાર RBI, NCRB અને I4C ડેટા \u2014 પ્રકાશિત વાર્ષિક અહેવાલોમાંથી.", bn:"সরকারি RBI, NCRB ও I4C ডেটা \u2014 প্রকাশিত বার্ষিক প্রতিবেদন থেকে।", te:"అధికారిక RBI, NCRB మరియు I4C డేటా \u2014 ప్రచురించిన వార్షిక నివేదికల నుండి.", ta:"அதிகாரப்பூர்வ RBI, NCRB மற்றும் I4C தரவு \u2014 வெளியிடப்பட்ட ஆண்டு அறிக்கைகளிலிருந்து.", kn:"ಅಧಿಕೃತ RBI, NCRB ಮತ್ತು I4C ಡೇಟಾ \u2014 ಪ್ರಕಟಿತ ವಾರ್ಷಿಕ ವರದಿಗಳಿಂದ.", or:"ସରକାରୀ RBI, NCRB ଓ I4C ତଥ୍ୟ \u2014 ପ୍ରକାଶିତ ବାର୍ଷିକ ରିପୋର୍ଟରୁ।", ml:"ഔദ്യോഗിക RBI, NCRB, I4C ഡാറ്റ \u2014 പ്രസിദ്ധീകരിച്ച വാർഷിക റിപ്പോർട്ടുകളിൽ നിന്ന്." },
   "features.title":      { en:"Peace of mind, in one tap", hi:"एक टैप में मन की शांति", mr:"एका टॅपमध्ये मनःशांती", gu:"એક ટૅપમાં માનસિક શાંતિ", bn:"এক ট্যাপে মনের শান্তি", te:"ఒక్క ట్యాప్‌లో మనశ్శాంతి", ta:"ஒரே தட்டில் மன அமைதி", kn:"ಒಂದೇ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಮನಶ್ಶಾಂತಿ", or:"ଏକ ଟ୍ୟାପରେ ମାନସିକ ଶାନ୍ତି", ml:"ഒറ്റ ടാപ്പിൽ മനസ്സമാധാനം" },
   "features.sub":        { en:"Everything you need before, during, and after a loss.", hi:"नुकसान से पहले, दौरान और बाद में आपको जो कुछ चाहिए, वह सब।", mr:"नुकसानीपूर्वी, दरम्यान आणि नंतर लागणारे सर्व काही.", gu:"નુકસાન પહેલાં, દરમિયાન અને પછી તમને જોઈતું બધું.", bn:"ক্ষতির আগে, সময় এবং পরে আপনার যা কিছু প্রয়োজন।", te:"నష్టానికి ముందు, సమయంలో మరియు తర్వాత మీకు కావాల్సినవన్నీ.", ta:"இழப்புக்கு முன், போது மற்றும் பின் உங்களுக்குத் தேவையான அனைத்தும்.", kn:"ನಷ್ಟಕ್ಕೂ ಮೊದಲು, ಸಮಯದಲ್ಲಿ ಮತ್ತು ನಂತರ ನಿಮಗೆ ಬೇಕಾದ ಎಲ್ಲವೂ.", or:"କ୍ଷତି ପୂର୍ବରୁ, ସମୟରେ ଏବଂ ପରେ ଆପଣଙ୍କୁ ଆବଶ୍ୟକ ସବୁକିଛି।", ml:"നഷ്ടത്തിന് മുമ്പും സമയത്തും ശേഷവും നിങ്ങൾക്ക് വേണ്ടതെല്ലാം." },
   "how.title":           { en:"How BlockMyCard works", hi:"BlockMyCard कैसे काम करता है", mr:"BlockMyCard कसे काम करते", gu:"BlockMyCard કેવી રીતે કામ કરે છે", bn:"BlockMyCard কীভাবে কাজ করে", te:"BlockMyCard ఎలా పనిచేస్తుంది", ta:"BlockMyCard எப்படி செயல்படுகிறது", kn:"BlockMyCard ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ", or:"BlockMyCard କିପରି କାମ କରେ", ml:"BlockMyCard എങ്ങനെ പ്രവർത്തിക്കുന്നു" },
   "trust.title":         { en:"Built to help, not to oversell", hi:"मदद के लिए बना, ज़्यादा बेचने के लिए नहीं", mr:"मदतीसाठी बनवलेले, जास्त विकण्यासाठी नाही", gu:"મદદ માટે બનાવેલું, વધુ વેચવા માટે નહીં", bn:"সাহায্যের জন্য তৈরি, বেশি বিক্রির জন্য নয়", te:"సహాయం కోసం రూపొందించబడింది, ఎక్కువగా అమ్మడానికి కాదు", ta:"உதவுவதற்காக உருவாக்கப்பட்டது, அதிகமாக விற்பதற்காக அல்ல", kn:"ಸಹಾಯಕ್ಕಾಗಿ ರೂಪಿಸಲಾಗಿದೆ, ಹೆಚ್ಚು ಮಾರಾಟಕ್ಕಾಗಿ ಅಲ್ಲ", or:"ସାହାଯ୍ୟ ପାଇଁ ତିଆରି, ଅଧିକ ବିକ୍ରି ପାଇଁ ନୁହେଁ", ml:"സഹായിക്കാൻ വേണ്ടി നിർമ്മിച്ചത്, കൂടുതൽ വിൽക്കാൻ വേണ്ടിയല്ല" },
-  "register.eyebrow":    { en:"Don\\u2019t be a statistic", hi:"आँकड़ा न बनें", mr:"आकडेवारी बनू नका", gu:"આંકડો ન બનો", bn:"পরিসংখ্যান হবেন না", te:"గణాంకంగా మారవద్దు", ta:"புள்ளிவிவரமாக ஆகிவிடாதீர்கள்", kn:"ಅಂಕಿಅಂಶವಾಗಬೇಡಿ", or:"ପରିସଂଖ୍ୟାନ ହୁଅନ୍ତୁ ନାହିଁ", ml:"ഒരു സ്ഥിതിവിവരക്കണക്ക് ആകരുത്" },
-  "register.title":      { en:"Don\\u2019t wait for the panic call. Register free \\u2014 right now.", hi:"घबराहट भरी कॉल का इंतज़ार न करें। अभी मुफ़्त रजिस्टर करें।", mr:"घाबरण्याच्या कॉलची वाट पाहू नका. आत्ताच मोफत नोंदणी करा.", gu:"ગભરાટના કૉલની રાહ ન જુઓ. અત્યારે જ મફત નોંધણી કરો.", bn:"আতঙ্কের কলের জন্য অপেক্ষা করবেন না। এখনই বিনামূল্যে নিবন্ধন করুন।", te:"భయాందోళన కాల్ కోసం వేచి ఉండకండి. ఇప్పుడే ఉచితంగా నమోదు చేసుకోండి.", ta:"பீதி அழைப்புக்காக காத்திருக்க வேண்டாம். இப்போதே இலவசமாக பதிவு செய்யுங்கள்.", kn:"ಆತಂಕದ ಕರೆಗಾಗಿ ಕಾಯಬೇಡಿ. ಈಗಲೇ ಉಚಿತವಾಗಿ ನೋಂದಾಯಿಸಿ.", or:"ଆତଙ୍କିତ କଲ୍ ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ ନାହିଁ। ବର୍ତ୍ତମାନ ମାଗଣାରେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ।", ml:"പരിഭ്രാന്ത കോളിനായി കാത്തിരിക്കരുത്. ഇപ്പോൾ തന്നെ സൗജന്യമായി രജിസ്റ്റർ ചെയ്യുക." },
-  "register.sub":        { en:"It takes 60 seconds. You\\u2019ll thank yourself the day something goes wrong.", hi:"60 सेकंड लगते हैं। जिस दिन कुछ गलत होगा, आप खुद को धन्यवाद देंगे।", mr:"यासाठी फक्त 60 सेकंद लागतात. काही चूक झाल्यावर तुम्ही स्वतःचे आभार मानाल.", gu:"તેમાં ફક્ત 60 સેકન્ડ લાગે છે. જે દિવસે કંઈક ખોટું થાય, ત્યારે તમે તમારો પોતાનો આભાર માનશો.", bn:"এতে মাত্র ৬০ সেকেন্ড লাগে। যেদিন কিছু ভুল হবে, সেদিন আপনি নিজেকে ধন্যবাদ দেবেন।", te:"దీనికి 60 సెకన్లు మాత్రమే పడుతుంది. ఏదైనా తప్పు జరిగిన రోజు, మీరు మీకే కృతజ్ఞతలు చెప్పుకుంటారు.", ta:"இதற்கு 60 வினாடிகள் மட்டுமே ஆகும். ஏதாவது தவறு நடக்கும் நாளில், நீங்களே உங்களுக்கு நன்றி சொல்வீர்கள்.", kn:"ಇದಕ್ಕೆ ಕೇವಲ 60 ಸೆಕೆಂಡುಗಳು ಬೇಕಾಗುತ್ತವೆ. ಏನಾದರೂ ತಪ್ಪಾದ ದಿನ, ನೀವು ನಿಮಗೇ ಧನ್ಯವಾದ ಹೇಳುತ್ತೀರಿ.", or:"ଏଥିରେ କେବଳ 60 ସେକେଣ୍ଡ ଲାଗେ। କିଛି ଭୁଲ ହେଲାଦିନ, ଆପଣ ନିଜକୁ ଧନ୍ୟବାଦ ଦେବେ।", ml:"ഇതിന് 60 സെക്കൻഡ് മാത്രമേ എടുക്കൂ. എന്തെങ്കിലും തെറ്റ് സംഭവിക്കുന്ന ദിവസം, നിങ്ങൾ സ്വയം നന്ദി പറയും." },
-  "footer.tag":          { en:"Made in India with \\uD83D\\uDC99 for every family, small business & senior citizen.", hi:"हर परिवार, छोटे व्यवसाय और वरिष्ठ नागरिक के लिए \\uD83D\\uDC99 के साथ भारत में बनाया गया।", mr:"प्रत्येक कुटुंब, छोटा व्यवसाय आणि ज्येष्ठ नागरिकांसाठी \\uD83D\\uDC99 सह भारतात बनवले.", gu:"દરેક પરિવાર, નાના વ્યવસાય અને વરિષ્ઠ નાગરિક માટે \\uD83D\\uDC99 સાથે ભારતમાં બનાવેલું.", bn:"প্রতিটি পরিবার, ছোট ব্যবসা ও প্রবীণ নাগরিকের জন্য \\uD83D\\uDC99 সহ ভারতে তৈরি।", te:"ప్రతి కుటుంబం, చిన్న వ్యాపారం మరియు వృద్ధ పౌరుల కోసం \\uD83D\\uDC99 తో భారతదేశంలో తయారు చేయబడింది.", ta:"ஒவ்வொரு குடும்பம், சிறு வணிகம் மற்றும் மூத்த குடிமக்களுக்காக \\uD83D\\uDC99 உடன் இந்தியாவில் தயாரிக்கப்பட்டது.", kn:"ಪ್ರತಿ ಕುಟುಂಬ, ಸಣ್ಣ ವ್ಯಾಪಾರ ಮತ್ತು ಹಿರಿಯ ನಾಗರಿಕರಿಗಾಗಿ \\uD83D\\uDC99 ಜೊತೆ ಭಾರತದಲ್ಲಿ ತಯಾರಿಸಲಾಗಿದೆ.", or:"ପ୍ରତ୍ୟେକ ପରିବାର, କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ ଏବଂ ବରିଷ୍ଠ ନାଗରିକଙ୍କ ପାଇଁ \\uD83D\\uDC99 ସହିତ ଭାରତରେ ତିଆରି।", ml:"എല്ലാ കുടുംബത്തിനും, ചെറുകിട ബിസിനസ്സിനും, മുതിർന്ന പൗരന്മാർക്കും വേണ്ടി \\uD83D\\uDC99 യോടെ ഇന്ത്യയിൽ നിർമ്മിച്ചത്." },
+  "register.eyebrow":    { en:"Don\u2019t be a statistic", hi:"आँकड़ा न बनें", mr:"आकडेवारी बनू नका", gu:"આંકડો ન બનો", bn:"পরিসংখ্যান হবেন না", te:"గణాంకంగా మారవద్దు", ta:"புள்ளிவிவரமாக ஆகிவிடாதீர்கள்", kn:"ಅಂಕಿಅಂಶವಾಗಬೇಡಿ", or:"ପରିସଂଖ୍ୟାନ ହୁଅନ୍ତୁ ନାହିଁ", ml:"ഒരു സ്ഥിതിവിവരക്കണക്ക് ആകരുത്" },
+  "register.title":      { en:"Don\u2019t wait for the panic call. Register free \u2014 right now.", hi:"घबराहट भरी कॉल का इंतज़ार न करें। अभी मुफ़्त रजिस्टर करें।", mr:"घाबरण्याच्या कॉलची वाट पाहू नका. आत्ताच मोफत नोंदणी करा.", gu:"ગભરાટના કૉલની રાહ ન જુઓ. અત્યારે જ મફત નોંધણી કરો.", bn:"আতঙ্কের কলের জন্য অপেক্ষা করবেন না। এখনই বিনামূল্যে নিবন্ধন করুন।", te:"భయాందోళన కాల్ కోసం వేచి ఉండకండి. ఇప్పుడే ఉచితంగా నమోదు చేసుకోండి.", ta:"பீதி அழைப்புக்காக காத்திருக்க வேண்டாம். இப்போதே இலவசமாக பதிவு செய்யுங்கள்.", kn:"ಆತಂಕದ ಕರೆಗಾಗಿ ಕಾಯಬೇಡಿ. ಈಗಲೇ ಉಚಿತವಾಗಿ ನೋಂದಾಯಿಸಿ.", or:"ଆତଙ୍କିତ କଲ୍ ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ ନାହିଁ। ବର୍ତ୍ତମାନ ମାଗଣାରେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ।", ml:"പരിഭ്രാന്ത കോളിനായി കാത്തിരിക്കരുത്. ഇപ്പോൾ തന്നെ സൗജന്യമായി രജിസ്റ്റർ ചെയ്യുക." },
+  "register.sub":        { en:"It takes 60 seconds. You\u2019ll thank yourself the day something goes wrong.", hi:"60 सेकंड लगते हैं। जिस दिन कुछ गलत होगा, आप खुद को धन्यवाद देंगे।", mr:"यासाठी फक्त 60 सेकंद लागतात. काही चूक झाल्यावर तुम्ही स्वतःचे आभार मानाल.", gu:"તેમાં ફક્ત 60 સેકન્ડ લાગે છે. જે દિવસે કંઈક ખોટું થાય, ત્યારે તમે તમારો પોતાનો આભાર માનશો.", bn:"এতে মাত্র ৬০ সেকেন্ড লাগে। যেদিন কিছু ভুল হবে, সেদিন আপনি নিজেকে ধন্যবাদ দেবেন।", te:"దీనికి 60 సెకన్లు మాత్రమే పడుతుంది. ఏదైనా తప్పు జరిగిన రోజు, మీరు మీకే కృతజ్ఞతలు చెప్పుకుంటారు.", ta:"இதற்கு 60 வினாடிகள் மட்டுமே ஆகும். ஏதாவது தவறு நடக்கும் நாளில், நீங்களே உங்களுக்கு நன்றி சொல்வீர்கள்.", kn:"ಇದಕ್ಕೆ ಕೇವಲ 60 ಸೆಕೆಂಡುಗಳು ಬೇಕಾಗುತ್ತವೆ. ಏನಾದರೂ ತಪ್ಪಾದ ದಿನ, ನೀವು ನಿಮಗೇ ಧನ್ಯವಾದ ಹೇಳುತ್ತೀರಿ.", or:"ଏଥିରେ କେବଳ 60 ସେକେଣ୍ଡ ଲାଗେ। କିଛି ଭୁଲ ହେଲାଦିନ, ଆପଣ ନିଜକୁ ଧନ୍ୟବାଦ ଦେବେ।", ml:"ഇതിന് 60 സെക്കൻഡ് മാത്രമേ എടുക്കൂ. എന്തെങ്കിലും തെറ്റ് സംഭവിക്കുന്ന ദിവസം, നിങ്ങൾ സ്വയം നന്ദി പറയും." },
+  "footer.tag":          { en:"Made in India with \uD83D\uDC99 for every family, small business & senior citizen.", hi:"हर परिवार, छोटे व्यवसाय और वरिष्ठ नागरिक के लिए \uD83D\uDC99 के साथ भारत में बनाया गया।", mr:"प्रत्येक कुटुंब, छोटा व्यवसाय आणि ज्येष्ठ नागरिकांसाठी \uD83D\uDC99 सह भारतात बनवले.", gu:"દરેક પરિવાર, નાના વ્યવસાય અને વરિષ્ઠ નાગરિક માટે \uD83D\uDC99 સાથે ભારતમાં બનાવેલું.", bn:"প্রতিটি পরিবার, ছোট ব্যবসা ও প্রবীণ নাগরিকের জন্য \uD83D\uDC99 সহ ভারতে তৈরি।", te:"ప్రతి కుటుంబం, చిన్న వ్యాపారం మరియు వృద్ధ పౌరుల కోసం \uD83D\uDC99 తో భారతదేశంలో తయారు చేయబడింది.", ta:"ஒவ்வொரு குடும்பம், சிறு வணிகம் மற்றும் மூத்த குடிமக்களுக்காக \uD83D\uDC99 உடன் இந்தியாவில் தயாரிக்கப்பட்டது.", kn:"ಪ್ರತಿ ಕುಟುಂಬ, ಸಣ್ಣ ವ್ಯಾಪಾರ ಮತ್ತು ಹಿರಿಯ ನಾಗರಿಕರಿಗಾಗಿ \uD83D\uDC99 ಜೊತೆ ಭಾರತದಲ್ಲಿ ತಯಾರಿಸಲಾಗಿದೆ.", or:"ପ୍ରତ୍ୟେକ ପରିବାର, କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ ଏବଂ ବରିଷ୍ଠ ନାଗରିକଙ୍କ ପାଇଁ \uD83D\uDC99 ସହିତ ଭାରତରେ ତିଆରି।", ml:"എല്ലാ കുടുംബത്തിനും, ചെറുകിട ബിസിനസ്സിനും, മുതിർന്ന പൗരന്മാർക്കും വേണ്ടി \uD83D\uDC99 യോടെ ഇന്ത്യയിൽ നിർമ്മിച്ചത്." },
   "a11y.font":           { en:"Font size", hi:"फ़ॉन्ट आकार", mr:"फॉन्ट आकार", gu:"ફોન્ટ કદ", bn:"ফন্টের আকার", te:"ఫాంట్ పరిమాణం", ta:"எழுத்துரு அளவு", kn:"ಫಾಂಟ್ ಗಾತ್ರ", or:"ଫଣ୍ଟ ଆକାର", ml:"ഫോണ്ട് വലുപ്പം" },
   "a11y.lang":           { en:"Language", hi:"भाषा", mr:"भाषा", gu:"ભાષા", bn:"ভাষা", te:"భాష", ta:"மொழி", kn:"ಭಾಷೆ", or:"ଭାଷା", ml:"ഭാഷ" },
 };
@@ -1092,7 +1117,7 @@ const store = (function() {
 // Read persisted preferences (safe)
 currentLang  = store.get('bmc_lang', 'en');
 currentFont  = store.get('bmc_font', 'md');
-currentTheme = store.get('bmc_theme', 'dark');
+currentTheme = store.get('bmc_theme', 'light');
 
 function t(key) { return DICT[key]?.[currentLang] || DICT[key]?.en || key; }
 
@@ -1115,7 +1140,7 @@ function applyTranslations() {
 
   // Footer construction notice
   document.querySelectorAll('.footer-construction').forEach(el => {
-    el.textContent = '\\u{1F6A7} ' + t('construction.title') + '. ' + t('construction.message');
+    el.textContent = '\u{1F6A7} ' + t('construction.title') + '. ' + t('construction.message');
   });
 
   set('nav-cta',         'nav.register');
@@ -1196,7 +1221,7 @@ function applyTheme() {
   document.documentElement.setAttribute('data-theme', currentTheme);
   const btn = document.getElementById('theme-btn');
   if (btn) {
-    btn.textContent = currentTheme === 'dark' ? '\\u2600\\uFE0F' : '\\uD83C\\uDF19';
+    btn.textContent = currentTheme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
     btn.setAttribute('aria-label', currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
   }
 }
@@ -1255,7 +1280,7 @@ function toggleMobileMenu() {
   const open = m.classList.toggle('open');
   btn.setAttribute('aria-expanded', String(open));
   btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-  btn.textContent = open ? '\\u2715' : '\\u2630';
+  btn.textContent = open ? '\u2715' : '\u2630';
 }
 function closeMobileMenu() {
   const m   = document.getElementById('mobile-menu');
@@ -1264,7 +1289,7 @@ function closeMobileMenu() {
   m.classList.remove('open');
   btn.setAttribute('aria-expanded', 'false');
   btn.setAttribute('aria-label', 'Open navigation menu');
-  btn.textContent = '\\u2630';
+  btn.textContent = '\u2630';
 }
 
 function dismissConstruction() {
@@ -1349,14 +1374,14 @@ function _styleAppImpl() {
     const h2 = sec.querySelector('h2');
     if (h2 && !isAdminView) {
       const step = h2.textContent.trim();
-      let txt = '\\uD83D\\uDCF1 Authenticate / Block';
-      if (step.includes('OTP') || step.includes('Enter')) txt = '\\uD83D\\uDD10 Verify your number';
-      else if (step.includes('Add your cards')) txt = '\\uD83D\\uDCB3 Step 2 of 3';
-      else if (step.includes('vault') || step.includes('Create')) txt = '\\uD83D\\uDCF1 Register free \\u00B7 60 seconds';
-      else if (step.includes('Emergency') || step.includes('contact')) txt = '\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC67 Step 3 of 3';
-      else if (step.includes('email') || step.includes('Email')) txt = '\\uD83D\\uDCE7 Almost done';
-      else if (step.includes('Save') || step.includes('cards for')) txt = '\\uD83D\\uDD12 Secure your cards';
-      else if (step.includes('Hello')) txt = '\\u2705 Logged in';
+      let txt = '\uD83D\uDCF1 Authenticate / Block';
+      if (step.includes('OTP') || step.includes('Enter')) txt = '\uD83D\uDD10 Verify your number';
+      else if (step.includes('Add your cards')) txt = '\uD83D\uDCB3 Step 2 of 3';
+      else if (step.includes('vault') || step.includes('Create')) txt = '\uD83D\uDCF1 Register free \u00B7 60 seconds';
+      else if (step.includes('Emergency') || step.includes('contact')) txt = '\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67 Step 3 of 3';
+      else if (step.includes('email') || step.includes('Email')) txt = '\uD83D\uDCE7 Almost done';
+      else if (step.includes('Save') || step.includes('cards for')) txt = '\uD83D\uDD12 Secure your cards';
+      else if (step.includes('Hello')) txt = '\u2705 Logged in';
       // FIX: reuse existing badge rather than remove+insert every run.
       // remove+insert was triggering the MutationObserver each cycle → infinite loop.
       let badge = h2.parentNode ? h2.parentNode.querySelector('.__fhb') : null;
@@ -1444,7 +1469,7 @@ function _styleAppImpl() {
         Object.assign(btn.style, {color:'rgba(255,255,255,.75)', background:'none', border:'none', cursor:'pointer', textDecoration:'underline', fontSize:'.875rem'});
         return;
       }
-      if (txt === 'Close' || txt === '\\u2715') {
+      if (txt === 'Close' || txt === '\u2715') {
         Object.assign(btn.style, {background:'transparent', color:fg2Color, border:'1px solid '+borderColor, borderRadius:'6px', padding:'.25rem .65rem', fontWeight:'600', fontSize:'.8rem', cursor:'pointer'});
         return;
       }
@@ -1629,621 +1654,14 @@ setTimeout(() => {
 }, 5000);
 </script>
 
-<!-- LOAD SAVED CARDS FROM STORAGE API AFTER OTP -->
-<script>
-(function() {
-  console.log('[CARD-RESTORE] Card restoration module loaded');
-
-  // Restore cards for a session that was already active before this page
-  // load (e.g. a refresh). The fetch interceptor below only fires on a live
-  // /api/verify-otp call, which never happens on a reload that restores the
-  // dashboard straight from the stored phone token - so without this, a
-  // logged-in user's cards would never appear until their next fresh login.
-  (function restoreFromExistingSession() {
-    try {
-      const token = sessionStorage.getItem('bmc_phone_token');
-      if (!token) return;
-      const body = token.split('.')[0];
-      const padded = body.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - body.length % 4) % 4);
-      const payload = JSON.parse(atob(padded));
-      const phone = payload && payload.phone;
-      if (!phone || (payload.exp && Date.now() > payload.exp)) return;
-
-      fetch('/api/storage?key=cbp:users', { headers: { 'x-phone-token': token } })
-        .then(r => r.ok ? r.json() : null)
-        .then(storageData => {
-          if (!storageData || !storageData.value) return;
-          const usersData = JSON.parse(storageData.value);
-          const userCards = usersData[phone] && usersData[phone].cards;
-          if (!userCards || !userCards.length) return;
-
-          window.__bmc_saved_cards = {
-            cards: userCards,
-            userName: usersData[phone].name || 'User',
-            phone: phone
-          };
-          console.log('[CARD-RESTORE] Restored', userCards.length, 'cards from existing session');
-          window.dispatchEvent(new CustomEvent('bmc:cards-ready', { detail: window.__bmc_saved_cards }));
-        })
-        .catch(e => console.error('[CARD-RESTORE] Existing-session restore error:', e));
-    } catch (e) {
-      console.error('[CARD-RESTORE] Existing-session restore error:', e);
-    }
-  })();
-
-  // Intercept fetch to capture OTP response and phone token
-  const originalFetch = window.fetch;
-  window.fetch = function(...args) {
-    const result = originalFetch.apply(this, args);
-
-    if (args[0] && String(args[0]).includes('/api/verify-otp')) {
-      return result.then(response => {
-        if (response.ok) {
-          response.clone().json().then(async data => {
-            console.log('[CARD-RESTORE] OTP response received');
-
-            if (data.phoneToken) {
-              console.log('[CARD-RESTORE] Got phone token, processing saved cards...');
-
-              // Use savedCards directly from the verify-otp response
-              let userCards = data.savedCards || [];
-              const userName = data.userName || 'User';
-
-              // Extract phone from request body
-              let phone = null;
-              if (args[1] && args[1].body) {
-                try {
-                  const body = JSON.parse(args[1].body);
-                  phone = body.phone;
-                } catch (e) {}
-              }
-
-              if (userCards.length > 0) {
-                console.log('[CARD-RESTORE] Found', userCards.length, 'saved cards');
-
-                // Store cards globally
-                window.__bmc_saved_cards = {
-                  cards: userCards,
-                  userName: userName,
-                  phone: phone
-                };
-
-                // Store in storage as backup
-                try {
-                  localStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
-                  sessionStorage.setItem('__bmc_saved_cards', JSON.stringify(window.__bmc_saved_cards));
-                  console.log('[CARD-RESTORE] Cards stored in localStorage and sessionStorage');
-                } catch (e) {}
-
-                // Dispatch event for listeners
-                window.dispatchEvent(new CustomEvent('bmc:cards-ready', {
-                  detail: window.__bmc_saved_cards
-                }));
-
-                console.log('[CARD-RESTORE] Cards are ready:', window.__bmc_saved_cards);
-              } else {
-                console.log('[CARD-RESTORE] No saved cards in API response for this user');
-              }
-            }
-          }).catch(e => console.error('[CARD-RESTORE] Parse error:', e));
-        }
-        return response;
-      });
-    }
-
-    return result;
-  };
-
-  console.log('[CARD-RESTORE] Waiting for OTP verification...');
-})();
-</script>
-
-<!-- HIDE REACT CARDS - Let CARD-DISPLAY module handle rendering -->
-<script>
-(function() {
-  // After cards are displayed, hide any duplicate React rendering
-  setTimeout(() => {
-    const cardDisplay = document.getElementById('bmc-saved-cards-container');
-    if (cardDisplay) {
-      // Find parent container
-      const parent = cardDisplay.parentElement;
-      if (parent) {
-        // Hide siblings that might be React-rendered cards (look for multiple card-like divs)
-        const siblings = Array.from(parent.children);
-        let cardDisplayIndex = siblings.indexOf(cardDisplay);
-
-        // Hide any other sections with similar card structure
-        siblings.forEach((sibling, index) => {
-          if (index !== cardDisplayIndex &&
-              sibling.textContent.includes('Block') &&
-              sibling.textContent.includes('Remove') &&
-              sibling.style.display !== 'none') {
-            sibling.style.display = 'none';
-            console.log('[HIDE-REACT] Hidden duplicate card section');
-          }
-        });
-      }
-    }
-  }, 3000);
-})();
-</script>
-
-<!-- DISPLAY SAVED CARDS -->
-<script>
-(function() {
-  console.log('[CARD-DISPLAY] Initializing saved cards display...');
-  let cardsDisplayed = false;
-
-  function displaySavedCards(cardsData) {
-    // Prevent multiple displays of the same data
-    if (cardsDisplayed) {
-      console.log('[CARD-DISPLAY] Cards already displayed, skipping');
-      return;
-    }
-    if (!cardsData || !cardsData.cards || cardsData.cards.length === 0) {
-      console.log('[CARD-DISPLAY] No saved cards to display');
-      return;
-    }
-
-    // Check if container already exists - if so, just return
-    const existing = document.getElementById('bmc-saved-cards-container');
-    if (existing) {
-      console.log('[CARD-DISPLAY] Container already exists, skipping insertion');
-      cardsDisplayed = true;
-      return;
-    }
-
-    // Mark as displayed immediately to prevent duplicate calls during setTimeout
-    cardsDisplayed = true;
-
-    // Wait a bit for React to fully render the dashboard
-    setTimeout(() => {
-      // Always insert at the top of the root for reliability
-      const root = document.getElementById('root');
-      if (!root || root.children.length === 0) {
-        console.log('[CARD-DISPLAY] Root not ready');
-        return;
-      }
-      const insertPoint = root;
-      console.log('[CARD-DISPLAY] Using root as insertion point');
-
-      // Create container for saved cards
-      const container = document.createElement('div');
-      container.id = 'bmc-saved-cards-container';
-      container.style.cssText = \`
-        background: transparent;
-        border-radius: 8px;
-        padding: 1rem 0;
-        margin-bottom: 1.5rem;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-      \`;
-
-      // Add header
-      const header = document.createElement('div');
-      header.style.cssText = 'margin-bottom: 1rem; color: #d1d5db; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;';
-      header.textContent = \`📌 Your Saved Cards (\${cardsData.cards.length})\`;
-      container.appendChild(header);
-
-      // Add cards list
-      const cardsList = document.createElement('div');
-      cardsList.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
-
-      // Function to expand card with blocking details inline
-      function expandCardForBlocking(cardEl, card) {
-        if (cardEl.classList.contains('expanded')) {
-          cardEl.classList.remove('expanded');
-          const details = cardEl.querySelector('[data-blocking-details]');
-          if (details) details.remove();
-          return;
-        }
-        cardEl.classList.add('expanded');
-        cardEl.style.border = '2px solid #dc2626';
-        cardEl.style.flexDirection = 'column';
-        cardEl.style.alignItems = 'stretch';
-
-        const details = document.createElement('div');
-        details.setAttribute('data-blocking-details', 'true');
-        details.style.cssText = 'margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #374151;';
-
-        details.innerHTML = \`
-          <div style="background: #fbbf24; color: #78350f; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.9rem;">
-            ⚠️ This bank's SMS format is unverified — confirm on the helpline below before relying on SMS blocking.
-          </div>
-          <div style="margin-bottom: 1.5rem;"><div style="font-weight: 600; color: #ef4444; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.85rem;">DO THIS NOW — IN ORDER</div>
-            <ol style="margin: 0; padding-left: 1.5rem; color: #e5e7eb; font-size: 0.9rem;"><li style="margin-bottom: 0.5rem;"><strong>SMS first</strong> — fastest. Copy the number and message, send the SMS from your bank-registered mobile.</li><li style="margin-bottom: 0.5rem;"><strong>Email the bank</strong> for a written record.</li><li style="margin-bottom: 0.5rem;"><strong>Call the helpline</strong> to confirm the block and order a replacement.</li></ol>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
-            <div style="border: 1px solid #ef4444; border-radius: 8px; padding: 1rem;">
-              <div style="color: #ef4444; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">1 • SMS BANK TO BLOCK (FASTEST)</div>
-              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">SEND TO</div>
-              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-weight: 600; font-family: monospace; font-size: 0.85rem;">7308080808</span>
-                <button onclick="navigator.clipboard.writeText('7308080808'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600;">Copy</button>
-              </div>
-              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">MESSAGE</div>
-              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: flex-start;">
-                <div style="font-weight: 600; font-size: 0.8rem;">Block \${card.type} card ending \${card.last4}</div>
-                <button onclick="navigator.clipboard.writeText('Block \${card.type} card ending \${card.last4}'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600; white-space: nowrap;">Copy</button>
-              </div>
-            </div>
-            <div style="border: 1px solid #fbbf24; border-radius: 8px; padding: 1rem;">
-              <div style="color: #fbbf24; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">2 • EMAIL THE BANK</div>
-              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">TO</div>
-              <div style="background: #374151; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; font-size: 0.8rem;">support@hdfc.com</span>
-                <button onclick="navigator.clipboard.writeText('support@hdfc.com'); this.textContent='✓'" style="background: none; color: #3b82f6; border: none; cursor: pointer; font-size: 0.7rem; font-weight: 600;">Copy</button>
-              </div>
-              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem;">MESSAGE</div>
-              <button onclick="alert('Open email app'); " style="width: 100%; background: #dc2626; color: white; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.8rem;">Open in email app</button>
-            </div>
-            <div style="border: 1px solid #3b82f6; border-radius: 8px; padding: 1rem;">
-              <div style="color: #3b82f6; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.8rem;">3 • CALL THE HELPLINE</div>
-              <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.75rem;">Available 24x7. Keep your last 4 digits and registered mobile ready.</div>
-              <div style="text-align: center;">
-                <div style="font-size: 1.2rem; font-weight: 600; color: #3b82f6; font-family: monospace; cursor: pointer; margin-bottom: 0.5rem;">📞 1800-BLOCK</div>
-                <button onclick="alert('Call from your registered mobile')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.8rem;">Tap to call</button>
-              </div>
-            </div>
-          </div>
-        \`;
-        cardEl.appendChild(details);
-      }
-
-      cardsData.cards.forEach((card, idx) => {
-        const cardEl = document.createElement('div');
-        cardEl.style.cssText = \`
-          background: #1f2937;
-          border: 1px solid #374151;
-          border-radius: 8px;
-          padding: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          font-size: 0.9rem;
-          margin-bottom: 0.75rem;
-        \`;
-
-        // Left side: Bank name and card details
-        const infoDiv = document.createElement('div');
-        infoDiv.style.cssText = 'flex: 1;';
-
-        const bankName = document.createElement('div');
-        bankName.style.cssText = 'font-size: 1rem; font-weight: 600; color: #f3f4f6; margin-bottom: 0.25rem;';
-
-        // Use bankName from API (or fallback to bank property)
-        let displayBankName = card.bankName || card.bank || card.name;
-        if (!displayBankName || displayBankName === 'Bank') {
-          displayBankName = 'Your Bank';
-        }
-        bankName.textContent = displayBankName;
-
-        const cardDetails = document.createElement('div');
-        cardDetails.style.cssText = 'font-size: 0.85rem; color: #9ca3af;';
-        cardDetails.textContent = \`\${card.type || 'Card'} card • •••• \${card.last4}\`;
-
-        infoDiv.appendChild(bankName);
-        infoDiv.appendChild(cardDetails);
-        cardEl.appendChild(infoDiv);
-
-        // Right side: Block button and Remove link
-        const actionDiv = document.createElement('div');
-        actionDiv.style.cssText = 'display: flex; align-items: center; gap: 1rem; margin-left: 1rem;';
-
-        const blockBtn = document.createElement('button');
-        blockBtn.style.cssText = \`
-          background: #dc2626;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          padding: 0.5rem 1rem;
-          font-size: 0.875rem;
-          font-weight: 600;
-          cursor: pointer;
-          white-space: nowrap;
-        \`;
-        blockBtn.innerHTML = '🚨 Block';
-        blockBtn.onmouseover = () => blockBtn.style.background = '#b91c1c';
-        blockBtn.onmouseout = () => blockBtn.style.background = '#dc2626';
-        blockBtn.onclick = () => {
-          const bankName = card.bankName || card.bank || card.name;
-          console.log('[CARD-DISPLAY] Block clicked for', bankName);
-          expandCardForBlocking(cardEl, card);
-        };
-
-        const removeLink = document.createElement('a');
-        removeLink.href = '#';
-        removeLink.style.cssText = 'color: #ef4444; font-size: 0.875rem; text-decoration: none; font-weight: 500; cursor: pointer;';
-        removeLink.textContent = 'Remove';
-        removeLink.onclick = (e) => {
-          e.preventDefault();
-          const bankName = card.bankName || card.bank || card.name;
-          console.log('[CARD-DISPLAY] Remove clicked for', bankName);
-          if (confirm(\`Remove \${card.type} card from \${bankName}?\`)) {
-            cardEl.remove();
-          }
-        };
-
-        actionDiv.appendChild(blockBtn);
-        actionDiv.appendChild(removeLink);
-        cardEl.appendChild(actionDiv);
-
-        cardsList.appendChild(cardEl);
-      });
-
-      container.appendChild(cardsList);
-
-      // Insert at top of root
-      insertPoint.insertBefore(container, insertPoint.firstElementChild);
-      console.log('[CARD-DISPLAY] ✅ Inserted at top of dashboard');
-      cardsDisplayed = true;
-
-      // Watch for React re-renders that might remove our cards
-      const observer = new MutationObserver(() => {
-        if (!document.getElementById('bmc-saved-cards-container')) {
-          console.log('[CARD-DISPLAY] Cards were removed, re-inserting...');
-          const root = document.getElementById('root');
-          if (root && container.parentElement !== root) {
-            root.insertBefore(container, root.firstElementChild);
-            console.log('[CARD-DISPLAY] ✅ Re-inserted cards after React re-render');
-          }
-        }
-      });
-      observer.observe(insertPoint, { childList: true, subtree: false });
-    }, 500);
-  }
-
-  // Attach event listener
-  window.addEventListener('bmc:cards-ready', (e) => {
-    console.log('[CARD-DISPLAY] Received cards-ready event');
-    displaySavedCards(e.detail);
-  });
-
-  // Check every 500ms if cards are loaded (fallback approach)
-  let checkCount = 0;
-  const checkInterval = setInterval(() => {
-    checkCount++;
-    if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container') && !cardsDisplayed) {
-      console.log('[CARD-DISPLAY] Displaying pre-loaded cards (interval check)');
-      displaySavedCards(window.__bmc_saved_cards);
-      clearInterval(checkInterval);
-    }
-    if (checkCount > 30) { // Stop checking after 15 seconds
-      clearInterval(checkInterval);
-    }
-  }, 500);
-
-  // Also check immediately if cards already exist
-  if (window.__bmc_saved_cards && !document.getElementById('bmc-saved-cards-container') && !cardsDisplayed) {
-    console.log('[CARD-DISPLAY] Displaying cards immediately');
-    displaySavedCards(window.__bmc_saved_cards);
-  }
-
-  // Clean up any duplicate containers that might exist
-  setTimeout(() => {
-    const containers = document.querySelectorAll('#bmc-saved-cards-container');
-    if (containers.length > 1) {
-      console.log('[CARD-DISPLAY] Found', containers.length, 'containers, removing duplicates');
-      for (let i = 1; i < containers.length; i++) {
-        containers[i].remove();
-      }
-    }
-  }, 3000);
-})();
-</script>
-
-<!-- CARD SAVING FUNCTIONALITY -->
-<script>
-(function() {
-  console.log('[CARD-SAVER] Initializing card save functionality...');
-
-  // Get phone token from sessionStorage (set by otp-bridge.js after OTP verification)
-  function getPhoneToken() {
-    return sessionStorage.getItem('bmc_phone_token');
-  }
-
-  // Get current user data from storage
-  async function getUserData() {
-    const phoneToken = getPhoneToken();
-    if (!phoneToken) {
-      console.warn('[CARD-SAVER] No phone token available');
-      return null;
-    }
-
-    try {
-      const response = await fetch('/api/storage?key=cbp:users', {
-        headers: { 'x-phone-token': phoneToken }
-      });
-      if (!response.ok) return null;
-
-      const data = await response.json();
-      return data.value ? JSON.parse(data.value) : {};
-    } catch (e) {
-      console.error('[CARD-SAVER] Error fetching user data:', e);
-      return null;
-    }
-  }
-
-  // Save user data to storage
-  async function saveUserData(allUsers) {
-    const phoneToken = getPhoneToken();
-    if (!phoneToken) {
-      console.warn('[CARD-SAVER] No phone token for save');
-      return false;
-    }
-
-    try {
-      const response = await fetch('/api/storage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-phone-token': phoneToken
-        },
-        body: JSON.stringify({
-          key: 'cbp:users',
-          value: JSON.stringify(allUsers)
-        })
-      });
-      return response.ok;
-    } catch (e) {
-      console.error('[CARD-SAVER] Error saving:', e);
-      return false;
-    }
-  }
-
-  // Extract cards from the form
-  function extractCardsFromForm() {
-    const cards = [];
-    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
-
-    if (addCardBtn && addCardBtn.parentElement) {
-      const parent = addCardBtn.parentElement;
-      const selects = parent.querySelectorAll('select');
-      const inputs = parent.querySelectorAll('input');
-
-      if (selects.length >= 2 && inputs.length > 0) {
-        const typeSelect = selects[0];  // Card type (Debit/Credit)
-        const bankSelect = selects[1];  // Bank name
-        const lastFourInput = inputs[inputs.length - 1];  // Last input is Last 4
-
-        if (bankSelect && lastFourInput && lastFourInput.value && lastFourInput.value.trim()) {
-          cards.push({
-            id: 'card-' + Date.now(),
-            type: typeSelect ? typeSelect.value : 'Debit',
-            bankId: bankSelect.value,
-            last4: lastFourInput.value.trim(),
-            bank: bankSelect.options[bankSelect.selectedIndex].text,
-            name: bankSelect.options[bankSelect.selectedIndex].text,
-            addedAt: new Date().toISOString()
-          });
-          console.log('[CARD-SAVER] Extracted card:', cards[0]);
-        }
-      }
-    }
-
-    return cards;
-  }
-
-  // Show save button after cards are added
-  function injectSaveButton() {
-    if (document.getElementById('bmc-save-cards-btn')) return;
-
-    const addCardBtn = Array.from(document.querySelectorAll('#root button')).find(b => b.textContent.includes('Add card'));
-    if (!addCardBtn || !addCardBtn.parentElement) {
-      setTimeout(injectSaveButton, 500);
-      return;
-    }
-
-    // Check if there are any cards to save
-    const cardsToSave = extractCardsFromForm();
-    if (cardsToSave.length === 0) {
-      setTimeout(injectSaveButton, 500);
-      return;
-    }
-
-    // Create save button
-    const saveBtn = document.createElement('button');
-    saveBtn.id = 'bmc-save-cards-btn';
-    saveBtn.textContent = '💾 Save Cards';
-    saveBtn.type = 'button';
-    saveBtn.style.cssText = 'display:block;width:calc(100% - 2rem);background:#059669;color:#fff;border:none;border-radius:8px;padding:0.75rem 1rem;font-weight:600;font-size:0.95rem;cursor:pointer;margin-top:1rem;margin-left:auto;margin-right:auto;font-family:ui-sans-serif,system-ui,sans-serif;';
-
-    saveBtn.onmouseover = () => { if (!saveBtn.disabled) saveBtn.style.background = '#047857'; };
-    saveBtn.onmouseout = () => { if (!saveBtn.disabled) saveBtn.style.background = '#059669'; };
-
-    saveBtn.onclick = async function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      const wasText = saveBtn.textContent;
-      saveBtn.disabled = true;
-      saveBtn.textContent = '⏳ Saving...';
-
-      try {
-        const cards = extractCardsFromForm();
-        if (cards.length === 0) {
-          throw new Error('No cards to save');
-        }
-
-        const allUsers = await getUserData() || {};
-        const phoneElement = document.querySelector('span.font-mono');
-        const phoneText = phoneElement ? phoneElement.textContent.trim() : null;
-
-        if (!phoneText) {
-          throw new Error('Could not find phone number');
-        }
-
-        // Update or create user record
-        if (!allUsers[phoneText]) {
-          allUsers[phoneText] = {
-            phone: phoneText,
-            cards: [],
-            createdAt: new Date().toISOString(),
-            saved: true
-          };
-        } else if (!allUsers[phoneText].cards) {
-          allUsers[phoneText].cards = [];
-        }
-
-        // Replace cards with new cards
-        allUsers[phoneText].cards = cards;
-        allUsers[phoneText].updatedAt = new Date().toISOString();
-        allUsers[phoneText].saved = true;
-
-        const success = await saveUserData(allUsers);
-        if (success) {
-          saveBtn.textContent = '✅ Saved!';
-          saveBtn.style.background = '#10b981';
-          console.log('[CARD-SAVER] Cards saved successfully:', cards);
-
-          setTimeout(() => {
-            saveBtn.textContent = wasText;
-            saveBtn.style.background = '#059669';
-            saveBtn.disabled = false;
-          }, 2000);
-        } else {
-          throw new Error('Save failed');
-        }
-      } catch (err) {
-        console.error('[CARD-SAVER] Save error:', err);
-        saveBtn.textContent = '❌ Save Failed';
-        saveBtn.style.background = '#dc2626';
-
-        setTimeout(() => {
-          saveBtn.textContent = wasText;
-          saveBtn.style.background = '#059669';
-          saveBtn.disabled = false;
-        }, 2000);
-      }
-    };
-
-    // Add button to parent
-    addCardBtn.parentElement.appendChild(saveBtn);
-    console.log('[CARD-SAVER] Save button injected');
-  }
-
-  // Initialize on page load
-  function initialize() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', injectSaveButton);
-    } else {
-      injectSaveButton();
-    }
-  }
-
-  initialize();
-
-  // Monitor for changes and re-inject if needed
-  setTimeout(() => {
-    const observer = new MutationObserver(injectSaveButton);
-    observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
-  }, 1000);
-})();
-</script>
-
-<script src="./admin-otp-toggle.js"></script>
-<script src="./admin-razorpay-toggle.js"></script>
-<script src="./admin-email-integrations.js"></script>
-<script src="./admin-contact-messages.js"></script>
-<script src="./login-email-notifier.js"></script>
+<!-- Shared React-safe host for the admin add-on panels below - must load
+     first so BmcAdminTools.register() exists when they run. -->
+<script src="/admin-tools-panel.js"></script>
+<script src="/admin-otp-toggle.js"></script>
+<script src="/admin-razorpay-toggle.js"></script>
+<script src="/admin-email-integrations.js"></script>
+<script src="/admin-contact-messages.js"></script>
+<script src="/login-email-notifier.js"></script>
 </body>
 </html>
 `;
