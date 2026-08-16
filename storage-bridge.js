@@ -39,11 +39,10 @@ window.storage = {
       // slipped through as if it were real JSON, and Yu() in app.js does
       // `JSON.parse(e.value)` on it - JSON.parse(null) silently returns the
       // JS value `null` (no throw), which then got stored as the banks/
-      // templates state instead of the intended default array. The admin
-      // console's banks tab immediately does `l.map(...)` on that state with
-      // no null guard and no error boundary exists anywhere in this app, so
-      // the whole React tree unmounted - a blank screen with only the
-      // document.body-level "Dummy OTP mode" banner surviving.
+      // templates state instead of the intended default array/object. Every
+      // reader of that state (e.g. gv()'s `e.welcomeSms` on first
+      // registration) then crashes with "Cannot read properties of null",
+      // which unmounts the OTP screen mid-verify and leaves the user stuck.
       if (data === null || data.value === undefined || data.value === null) return null;
       return { key: data.key, value: data.value };
     } catch (e) {
