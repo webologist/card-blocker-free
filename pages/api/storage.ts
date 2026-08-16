@@ -31,6 +31,24 @@ const { sanitizeError } = require('../../lib/input-validator');
 // here. This mirrors that same access-control logic so both possible
 // backends enforce it identically, whichever one a given deployment serves.
 
+// FIX (16 Aug 2026, QA follow-up): ownEntries() deliberately keeps entries
+// with no resolvable owner (actor:"system", actor:"admin" - normalize()
+// returns '' for those since there are no digits to extract) so that a
+// caller who just triggered one still sees it. In practice that concession
+// makes those entries visible to *every* caller, not just the one whose
+// session produced them - and several of them embed another user's phone
+// number in free text (e.g. "Sent SMS" / "to 9876543210", "User edited" /
+// "9876543210 alt number..."). That is the same class of leak already fixed
+// above for cbp:users and for entries with a real owner: a phone number
+// belonging to someone else, readable by any signed-in caller. Non-admin
+// responses now drop unowned entries entirely instead of showing them to
+// everyone; the admin view (which does need them) is untouched.
+function strictOwnEntries(phone: string, list: any) {
+  const me = normalizePhoneKey(phone);
+  if (!Array.isArray(list)) return [];
+  return list.filter((e: any) => e && normalizedEntryOwner(e) === me);
+}
+
 async function callerPhone(req: NextApiRequest): Promise<string | null> {
   const header = req.headers['x-phone-token'];
   const token = Array.isArray(header) ? header[0] : header;
@@ -116,7 +134,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // log / feedback list (mirrors server.js's /api/storage - see the
       // NEW-04 fix notes there and in storage-policy.js's entryOwner()).
       const list = parseOr(raw, []);
-      const filtered = isAdminPhone(phone) ? (Array.isArray(list) ? list : []) : ownEntries(phone, Array.isArray(list) ? list : []);
+      const filtered = isAdminPhone(phone) ? (Array.isArray(list) ? list : []) : strictOwnEntries(phone, list);
       return res.status(200).json({ key, value: JSON.stringify(filtered) });
     }
 
@@ -207,7 +225,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // including the admin phone number and everyone else's activity, to
       // whichever caller merely wrote one entry of their own. Narrow the
       // response the same way GET already does a few lines up.
-      const responseList = isAdminPhone(phone) ? merged : ownEntries(phone, merged);
+      const responseList = isAdminPhone(phone) ? merged : strictOwnEntries(phone, merged);
       return res.status(200).json({ success: true, key, value: JSON.stringify(responseList) });
     }
 
