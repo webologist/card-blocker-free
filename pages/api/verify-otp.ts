@@ -31,6 +31,28 @@ async function tooManyAttempts(token: string): Promise<boolean> {
   return n > 5;
 }
 
+// FIX (16 Aug 2026, QA): the challenge token was never marked used after a
+// successful verification, so the same token+code pair could be replayed
+// any number of times up to the token's own 10-minute expiry, each time
+// minting a fresh phoneToken. That matters once dummy mode is ever turned
+// off: a live OTP token+code observed once (e.g. over someone's shoulder,
+// or leaked another way) would stay usable to re-authenticate for up to 10
+// minutes after the real user already completed their one verification,
+// instead of being burned on first use like a normal one-time code. Same
+// store and same fallback pattern as tooManyAttempts() above, just capped
+// at 1 hit instead of 5.
+const consumedTokenFallback = new Set<string>();
+async function alreadyConsumed(token: string): Promise<boolean> {
+  const supabase = getSupabaseServerClient();
+  if (supabase) {
+    const result = await checkAndRecord(supabase, 'consumed-verify-token', token, 10 * 60 * 1000, 1);
+    return result.limited;
+  }
+  if (consumedTokenFallback.has(token)) return true;
+  consumedTokenFallback.add(token);
+  return false;
+}
+
 function normalizePhone(raw: string) {
   const digits = String(raw || '').replace(/\D/g, '').replace(/^91/, '');
   return { digits, full: digits ? '+91' + digits : '' };
@@ -92,6 +114,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const ok = await otpMatches(record, otp);
     if (!ok) {
       return res.status(401).json({ success: false, error: 'Invalid OTP' });
+    }
+
+    if (await alreadyConsumed(token)) {
+      return res.status(400).json({ success: false, error: 'This code has already been used. Please request a new one.' });
     }
 
     const phoneToken = await issuePhoneToken(full);

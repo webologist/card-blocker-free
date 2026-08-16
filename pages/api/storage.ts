@@ -172,7 +172,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           for (const { phone: p, record } of writable) merged[p] = record;
         }
         await writeRow(supabase, key, JSON.stringify(merged));
-        return res.status(200).json({ success: true, key, value: JSON.stringify(merged) });
+        // FIX (16 Aug 2026, QA): the response used to echo back the FULL
+        // merged table - every registered user's phone, name, email and
+        // alt-phone - to whichever caller happened to write anything at all,
+        // even a brand-new signup writing only their own record. GET already
+        // narrows correctly via usersMapFor()/isAdminPhone() below; the POST
+        // response now applies that exact same scoping instead of trusting
+        // the caller with the raw internal merge result.
+        const responseUsers = isAdminPhone(phone) ? merged : usersMapFor(phone, Object.values(merged));
+        return res.status(200).json({ success: true, key, value: JSON.stringify(responseUsers) });
       }
 
       // cbp:logs / cbp:feedback - append-only owned lists. The caller's own
@@ -194,7 +202,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // reaccumulate the duplication scripts/dedupe-cbp-logs.js cleaned up.
       const merged = dedupeEntries(others.concat(ownProposed));
       await writeRow(supabase, key, JSON.stringify(merged));
-      return res.status(200).json({ success: true, key, value: JSON.stringify(merged) });
+      // FIX (16 Aug 2026, QA): same class of leak as cbp:users above - the
+      // response used to hand back every user's full log/feedback history,
+      // including the admin phone number and everyone else's activity, to
+      // whichever caller merely wrote one entry of their own. Narrow the
+      // response the same way GET already does a few lines up.
+      const responseList = isAdminPhone(phone) ? merged : ownEntries(phone, merged);
+      return res.status(200).json({ success: true, key, value: JSON.stringify(responseList) });
     }
 
     if (req.method === 'DELETE') {
