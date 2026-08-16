@@ -10,8 +10,13 @@
 window.storage = {
   async get(key) {
     try {
-      // Get phone token from localStorage if it exists (set by verify-otp)
-      const phoneToken = localStorage.getItem('bmcPhoneToken');
+      // Phone token is written to sessionStorage under 'bmc_phone_token' by
+      // otp-bridge.js after a successful OTP verify - this used to read a
+      // different storage (localStorage) under a different key ('bmcPhoneToken')
+      // that nothing ever wrote, so x-phone-token was never sent and every
+      // OWNED_KEYS/ADMIN_KEYS request (saved cards, logs, feedback, the admin
+      // OTP-mode toggle) failed server-side auth for every user, admin included.
+      const phoneToken = sessionStorage.getItem('bmc_phone_token');
       const headers = { 'Content-Type': 'application/json' };
       if (phoneToken) headers['x-phone-token'] = phoneToken;
 
@@ -26,7 +31,19 @@ window.storage = {
       }
 
       const data = await res.json();
-      if (data === null || data.value === undefined) return null;
+      // Public keys (cbp:banks, cbp:templates) that have never been written
+      // yet resolve server-side to a row that doesn't exist, and the server
+      // faithfully returns { key, value: null } with a 200 - that's a real,
+      // successful "no data yet" answer, not an error. The old check here
+      // only treated `value === undefined` as empty, so a literal `null`
+      // slipped through as if it were real JSON, and Yu() in app.js does
+      // `JSON.parse(e.value)` on it - JSON.parse(null) silently returns the
+      // JS value `null` (no throw), which then got stored as the banks/
+      // templates state instead of the intended default array/object. Every
+      // reader of that state (e.g. gv()'s `e.welcomeSms` on first
+      // registration) then crashes with "Cannot read properties of null",
+      // which unmounts the OTP screen mid-verify and leaves the user stuck.
+      if (data === null || data.value === undefined || data.value === null) return null;
       return { key: data.key, value: data.value };
     } catch (e) {
       console.error(`storage.get(${key}) error:`, e);
@@ -36,12 +53,15 @@ window.storage = {
 
   async set(key, value) {
     try {
-      const phoneToken = localStorage.getItem('bmcPhoneToken');
+      const phoneToken = sessionStorage.getItem('bmc_phone_token');
       const headers = { 'Content-Type': 'application/json' };
       if (phoneToken) headers['x-phone-token'] = phoneToken;
 
-      // Check if this is an admin-only key
-      const adminKey = localStorage.getItem('bmcAdminKey');
+      // Check if this is an admin-only key. admin-email-integrations.js and
+      // admin-contact-messages.js both use 'bmc_admin_key' (session and/or
+      // local storage) - match that key so a key entered in either of those
+      // panels is also picked up here instead of only ever being empty.
+      const adminKey = localStorage.getItem('bmc_admin_key') || sessionStorage.getItem('bmc_admin_key');
       if (adminKey) headers['x-admin-key'] = adminKey;
 
       const res = await fetch('/api/storage', {
