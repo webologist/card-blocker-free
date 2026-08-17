@@ -24,6 +24,20 @@
 (function () {
   if (window.BmcAdminTools) return; // loaded twice - keep the first instance
 
+  // FIX (17 Aug 2026, item 4 - background polling loops): this whole panel
+  // (the floating "Admin tools" button plus its four registered sub-panels)
+  // is only ever shown once the admin console itself is showing
+  // (isAdminConsoleShowing() below), which never happens off /admin - yet
+  // tick() used to poll every second, and register() used to build the
+  // floating host, on EVERY page load including the plain customer
+  // #card-tool page, for zero observable effect there. That is one of
+  // several unconditional setInterval loops suspected of contributing to
+  // the renderer freezes users hit on the customer page - see
+  // otp-bridge.js and login-email-notifier.js for the others. Gating the
+  // whole thing to /admin removes it from the highest-traffic page
+  // entirely with no behavior change on /admin itself.
+  var ON_ADMIN = /^\/admin(\/|$)/.test(location.pathname);
+
   var tools = []; // { id, label, build() -> HTMLElement | Promise<HTMLElement> }
   var activeId = null;
   var visible = false;
@@ -128,6 +142,7 @@
   }
 
   function register(id, label, build) {
+    if (!ON_ADMIN) return; // nothing off /admin can ever show this - see FIX above
     for (var i = 0; i < tools.length; i++) if (tools[i].id === id) return; // already registered
     tools.push({ id: id, label: label, build: build });
     if (!activeId) activeId = id;
@@ -148,9 +163,11 @@
     floatBtn.style.display = (showing && tools.length) ? 'block' : 'none';
     if (!showing && visible) setVisible(false);
   }
-  setInterval(tick, 1000);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tick);
-  else tick();
+  if (ON_ADMIN) {
+    setInterval(tick, 1000);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tick);
+    else tick();
+  }
 
   window.BmcAdminTools = { register: register, refresh: refresh };
 })();

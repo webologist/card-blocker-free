@@ -187,6 +187,19 @@ t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%
   },true);
 
   var _quickLoginInjected=false;
+  // FIX (17 Aug 2026, item 4 - background polling loops): _quickLoginChecked
+  // tracks whether this mount of the login screen already asked the server
+  // for cbp:users. Without it, injectQuickLogin() below fetched the WHOLE
+  // users table via window.storage.get() every single tick (700ms) for as
+  // long as the login screen stayed showing and had nothing to show yet -
+  // no quick-login-eligible accounts, or the first fetch simply hadn't
+  // resolved. The login screen is the highest-traffic page on the site, so
+  // that was an unbounded, uncached full-table GET roughly 1.4 times a
+  // second, indefinitely - a strong suspect for the renderer freezes users
+  // hit here. One fetch per visit to the login screen is enough; it resets
+  // to false only when the screen is left (below), so returning to it
+  // later still gets a fresh check.
+  var _quickLoginChecked=false;
   // The login screen, and nothing else. "A tel input exists" was the old test,
   // which is also true of the registration contact screen and the dashboard's
   // alternate-number editor - so the panel appeared there too, and because it
@@ -205,10 +218,13 @@ t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%
     var otpInput=document.querySelector('#root input[maxlength="6"]');
     if(!phoneInput||otpInput||!isLoginScreen()){
       _quickLoginInjected=false;
+      _quickLoginChecked=false;
       var stale=document.getElementById('bmc-quick-login');if(stale)stale.remove();
       return;
     }
     if(document.getElementById('bmc-quick-login'))return;
+    if(_quickLoginChecked)return; // already asked for this mount of the login screen - see FIX above
+    _quickLoginChecked=true;
     window.storage.get('cbp:users').then(function(result){
       // The read is async; the screen may have moved on while it was in flight.
       if(!isLoginScreen()||document.getElementById('bmc-quick-login'))return;

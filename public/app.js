@@ -113,7 +113,7 @@ bmcEnterAccount=(Q,_,C,Fr)=>{T(Q),M({as:C,phone:_}),gl(Q,"Login",C==="own"?"via 
 // would still be null here since T(Q) above hasn't re-rendered yet - Qe
 // would silently write to the wrong (null) key. Oi()'s clear-on-logout stays
 // too as a harmless belt-and-braces second pass.
-C==="own"&&!$.paid?(jt("cbp:users",{...um,[Q]:{...$,cards:[]}},n),v("register")):v("dashboard")},xi=(E,_)=>{if(!/^[6-9]\d{9}$/.test(_)){ol("Enter a valid 10-digit Indian mobile number starting with 6-9.");return}ol(""),z({purpose:E,phone:_}),b(""),gl(_,"OTP requested",E),v("otp")},gv=async()=>{if(o!==window.__bmc_otp){ol("Incorrect OTP. Please try again."),gl(h.phone,"OTP failed",h.purpose);return}ol(""),gl(h.phone,"OTP verified",h.purpose);let{purpose:E,phone:_}=h;
+C==="own"&&!$.paid?(jt("cbp:users",{...um,[Q]:{...$,cards:[]}},n),v("register")):v("dashboard")},xi=(E,_)=>{if(!/^[6-9]\d{9}$/.test(_)){ol("Enter a valid 10-digit Indian mobile number starting with 6-9.");return}ol(""),z({purpose:E,phone:_}),b(""),gl(_,"OTP requested",E),v("otp")},gv=async()=>{if(o!==window.__bmc_otp){ol("Incorrect OTP. Please try again."),gl(h.phone,"OTP failed",h.purpose);return}ol("");let{purpose:E,phone:_}=h;
 // FIX (14 Aug 2026, NEW-08): cbp:users/cbp:logs/cbp:feedback are fetched
 // once at page mount, before anyone is signed in - an unauthenticated
 // request gets the signed-out empty default (storage-policy.js's
@@ -127,7 +127,23 @@ C==="own"&&!$.paid?(jt("cbp:users",{...um,[Q]:{...$,cards:[]}},n),v("register"))
 // and passing the fresh map into hv()/bmcEnterAccount() directly (React's
 // own setState is async, so the u/i/y closures below would still be stale
 // for the rest of this same function run) fixes that at the source.
-let freshUsers=await Yu("cbp:users",{});n(freshUsers);let freshLogs=await Yu("cbp:logs",[]);c(freshLogs);let freshFeedback=await Yu("cbp:feedback",[]);y(freshFeedback);if(E==="admin"){H(!0),v("admin");return}if(E==="login"){let Q=hv(_,C,freshUsers);
+let freshUsers=await Yu("cbp:users",{});n(freshUsers);let freshLogs=await Yu("cbp:logs",[]);c(freshLogs);
+// FIX (17 Aug 2026, item 5 - OTP-verify-time logging race): gl("OTP
+// verified") used to fire BEFORE this freshLogs re-fetch, not after. gl()
+// queues its write via bs()'s per-key promise queue (bmcWriteQueues) but
+// does not await it, so the very next line's unrelated GET of cbp:logs
+// (Yu()) routinely landed before that queued write did, and c(freshLogs)
+// then overwrote local state with a snapshot missing the entry just added.
+// pages/api/storage.ts treats each caller's submitted list as a full
+// replacement of their own entries, not an incremental merge, so the next
+// gl() call downstream (Registered/Login) then persisted that incomplete
+// list and silently erased the already-saved "OTP verified" entry from
+// the server - the write ORDER was correct, the local DATA feeding the
+// second write was not. Logging it here instead, after freshLogs has
+// already landed and nothing re-fetches cbp:logs again later in this
+// function, means every later gl() call builds on a base that already
+// includes it.
+gl(_,"OTP verified",E);let freshFeedback=await Yu("cbp:feedback",[]);y(freshFeedback);if(E==="admin"){H(!0),v("admin");return}if(E==="login"){let Q=hv(_,C,freshUsers);
 // Two accounts nominating this same number is not a refusal and not a login
 // either - it is a question only the person holding the phone can answer, so
 // ask it instead of guessing. Nothing is entered until they choose.

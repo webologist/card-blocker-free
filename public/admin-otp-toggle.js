@@ -28,7 +28,12 @@
     getMode().then(function(m) { window.__bmc_dummy_mode = (m === 'dummy'); });
   }
   syncGlobal();
-  setInterval(syncGlobal, 2000);
+  // FIX (17 Aug 2026, item 4 - background polling loops): was 2000ms -
+  // this runs on every page including the customer #card-tool screen, not
+  // just /admin. An admin toggling OTP mode does not need sub-2s
+  // propagation; 8s cuts steady-state /api/storage traffic 4x with no
+  // meaningful loss of freshness.
+  setInterval(syncGlobal, 8000);
 
   function buildPanel() {
     return getMode().then(function(current) {

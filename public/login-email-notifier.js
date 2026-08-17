@@ -126,8 +126,14 @@
     }).catch(function () {});
   }
 
-  setInterval(poll, 3000);
+  // FIX (17 Aug 2026, item 4 - background polling loops): poll/syncDirectory
+  // were 3000ms - unconditional on every page load, forever. Neither the
+  // login-email notification nor the directory sync needs to land within
+  // 3 seconds; widening to 10s cuts steady-state /api/storage traffic ~3x
+  // with no observable difference to the user (email notifications already
+  // go out asynchronously, well after the login itself completes).
+  setInterval(poll, 10000);
   setInterval(retryPending, RETRY_MS);
-  setInterval(syncDirectory, 3000);
+  setInterval(syncDirectory, 10000);
   poll();
 })();
