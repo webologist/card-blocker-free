@@ -1061,6 +1061,7 @@ html.bmc-admin-mode .tool-left{display:none}
      server.js's SPA fallback catches) the page was reached at. -->
 <script src="/otp-bridge.js"></script>
 <script src="/storage-bridge.js"></script>
+<script src="/cashfree-bridge.js"></script>
 <script src="/app.js"></script>
 <script>
 /* ── TRANSLATIONS (DICT) ── */

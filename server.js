@@ -25,6 +25,7 @@ const { getSettings: getRazorpaySettings, saveSettings: saveRazorpaySettings, ma
 const { getSettings: getPaymentSettings, saveSettings: savePaymentSettings, maskSettings: maskPaymentSettings, GATEWAY_FIELDS: PAYMENT_GATEWAY_FIELDS, MODES: PAYMENT_MODES } = require('./lib/payment-settings-store');
 const { sendEmail, maskSettings } = require('./lib/email-providers');
 const { validateContact, buildContactEmail, contactRecipient, storageKey } = require('./lib/contact');
+const { createOrder: createCashfreeOrder, verifyAndCredit: verifyCashfreeOrder } = require('./lib/cashfree-checkout');
 
 const app = express();
 app.use(cors({ origin: corsOriginCheck, credentials: false }));
@@ -778,6 +779,46 @@ app.get('/api/payment/mode', async (req, res) => {
     res.json({ mode: (settings && PAYMENT_MODES.includes(settings.mode)) ? settings.mode : 'dummy' });
   } catch (e) {
     res.json({ mode: 'dummy' });
+  }
+});
+
+// ── Cashfree checkout (see lib/cashfree-checkout.js and cashfree-bridge.js) ──
+app.post('/api/cashfree/create-order', async (req, res) => {
+  const phone = await verifyPhoneToken(req.headers['x-phone-token']).catch(() => null);
+  if (!phone) return res.status(401).json({ error: 'Sign in required to start a payment.' });
+  try {
+    const paymentSettings = await getPaymentSettings(supabase);
+    if (!paymentSettings || paymentSettings.mode !== 'cashfree') {
+      return res.status(400).json({ error: 'Cashfree is not the active payment mode.' });
+    }
+    if (!paymentSettings.cashfree_app_id || !paymentSettings.cashfree_secret_key) {
+      return res.status(503).json({ error: 'Cashfree credentials have not been saved yet.' });
+    }
+    const origin = `${req.protocol}://${req.get('host')}`;
+    const { orderId, paymentSessionId, amount } = await createCashfreeOrder(supabase, paymentSettings, { phone, returnUrl: origin });
+    const env = process.env.CASHFREE_ENV === 'production' ? 'production' : 'sandbox';
+    res.json({ ok: true, orderId, paymentSessionId, amount, env });
+  } catch (e) {
+    console.error('[cashfree] create order error:', e.message);
+    res.status(500).json({ error: sanitizeError(e) });
+  }
+});
+
+app.post('/api/cashfree/verify-order', async (req, res) => {
+  const phone = await verifyPhoneToken(req.headers['x-phone-token']).catch(() => null);
+  if (!phone) return res.status(401).json({ error: 'Sign in required to verify a payment.' });
+  const { orderId } = req.body || {};
+  if (!orderId) return res.status(400).json({ error: 'orderId is required.' });
+  try {
+    const paymentSettings = await getPaymentSettings(supabase);
+    if (!paymentSettings || !paymentSettings.cashfree_app_id || !paymentSettings.cashfree_secret_key) {
+      return res.status(503).json({ error: 'Cashfree credentials have not been saved yet.' });
+    }
+    const result = await verifyCashfreeOrder(supabase, paymentSettings, { orderId, phone });
+    res.json({ ok: true, ...result });
+  } catch (e) {
+    console.error('[cashfree] verify order error:', e.message);
+    res.status(500).json({ error: sanitizeError(e) });
   }
 });
 
