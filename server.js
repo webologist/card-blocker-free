@@ -17,7 +17,10 @@ const { checkAndRecord, expressRateLimiter } = require('./lib/rate-limit-store')
 const { resolveDummyMode } = require('./lib/otp-mode');
 
 console.log('🔧 [STARTUP] server.js loaded with phoneToken support');
-const { getSettings, saveSettings, claimLoginEmail } = require('./lib/email-settings-store');
+const {
+  getSettings, saveSettings, claimLoginEmail,
+  WRITABLE_EMAIL_FIELDS, isLoginEmailRateLimited, buildLoginEmailMessage,
+} = require('./lib/email-settings-store');
 const { getSettings: getRazorpaySettings, saveSettings: saveRazorpaySettings, maskSettings: maskRazorpaySettings } = require('./lib/razorpay-settings-store');
 const { getSettings: getPaymentSettings, saveSettings: savePaymentSettings, maskSettings: maskPaymentSettings, GATEWAY_FIELDS: PAYMENT_GATEWAY_FIELDS, MODES: PAYMENT_MODES } = require('./lib/payment-settings-store');
 const { sendEmail, maskSettings } = require('./lib/email-providers');
@@ -426,12 +429,9 @@ app.post('/api/verify-otp', otpLimiter, async (req, res) => {
 });
 
 // ── Email integrations (Brevo / AWS SES / Gmail) ──
-const WRITABLE_EMAIL_FIELDS = [
-  'active_provider',
-  'brevo_api_key', 'brevo_from_email', 'brevo_from_name',
-  'ses_access_key_id', 'ses_secret_access_key', 'ses_region', 'ses_from_email',
-  'gmail_address', 'gmail_app_password', 'gmail_from_name',
-];
+// WRITABLE_EMAIL_FIELDS, buildLoginEmailMessage, and isLoginEmailRateLimited
+// now live in lib/email-settings-store.js so this stays identical to the
+// pages/api/*.ts copies instead of the two entry points drifting apart.
 
 // Reads back the contact-form submissions stored by /api/contact. They were
 // written as a safety net against a failing email provider, but nothing could
@@ -512,36 +512,10 @@ app.post('/api/email-settings/test', async (req, res) => {
   }
 });
 
-// See api/login-email.js - needs headroom for the signup retries. Backed by
-// the persistent store so a burst of retries right after a restart doesn't
-// get a fresh allowance.
-async function isLoginEmailRateLimited(phone) {
-  const result = await checkAndRecord(supabase, 'login-email', phone, 5 * 60 * 1000, 15);
-  return result.limited;
-}
-
-// Wording differs by event: a signup is expected and reassuring, a login on an
-// existing account is the one worth flagging as "wasn't you?".
-function buildLoginEmailMessage(event, user, phone, ts) {
-  const greeting = `Hi${user.name ? ' ' + user.name : ''},`;
-  if (event === 'registered') {
-    return {
-      subject: 'Welcome to BlockMyCard — your cards are saved',
-      html: `<p>${greeting}</p><p>Your BlockMyCard account (${phone}) was created on ${ts}.</p><p>You can now save your card details so you can block them quickly if your wallet or phone is ever lost.</p>`,
-      text: `Your BlockMyCard account (${phone}) was created on ${ts}. You can now save your card details so you can block them quickly if your wallet or phone is ever lost.`,
-    };
-  }
-  return {
-    subject: 'Security alert: new sign-in to BlockMyCard',
-    html: `<p>${greeting}</p><p>Your BlockMyCard account (${phone}) was just logged into at ${ts}.</p><p>If this wasn't you, we recommend checking your saved cards and contact details right away.</p>`,
-    text: `Your BlockMyCard account (${phone}) was just logged into at ${ts}. If this wasn't you, check your saved cards and contact details.`,
-  };
-}
-
 app.post('/api/login-email', async (req, res) => {
   const { phone, ts, event } = req.body || {};
   if (!phone || !ts) return res.json({ ok: true, sent: false, reason: 'bad-request' });
-  if (await isLoginEmailRateLimited(phone)) return res.json({ ok: true, sent: false, reason: 'rate-limited' });
+  if (await isLoginEmailRateLimited(supabase, phone)) return res.json({ ok: true, sent: false, reason: 'rate-limited' });
   try {
     // See api/login-email.js - look up before claiming, so a signup whose email
     // has not been entered yet can still be retried once it is.
