@@ -11,7 +11,7 @@ const { validatePhone, validateOTP, validateToken, sanitizeError } = require('./
 const {
   PUBLIC_KEYS, OWNED_KEYS, ADMIN_KEYS, isAddressable,
   usersMapFor, writableRecords, ownEntries, normalizedEntryOwner, emptyFor, normalize: normalizePhoneKey,
-  dedupeEntries,
+  dedupeEntries, userKey, canonicalUsers, isSignupOverExisting,
 } = require('./lib/storage-policy');
 const { checkAndRecord, expressRateLimiter } = require('./lib/rate-limit-store');
 const { resolveDummyMode } = require('./lib/otp-mode');
@@ -122,7 +122,9 @@ app.get('/api/storage', async (req, res) => {
 
     const raw = await readRow(key);
     if (key === 'cbp:users') {
-      const allUsers = parseOr(raw, {});
+      // canonicalUsers(): one record per number, keyed by the bare 10-digit
+      // number every reader looks up - see lib/storage-policy.js.
+      const allUsers = canonicalUsers(parseOr(raw, {}));
       // The admin console needs every registered user, not just whatever
       // the admin's own phone number happens to reach - see isAdminPhone's
       // doc comment for why the usual per-caller narrowing doesn't apply.
@@ -179,7 +181,7 @@ app.post('/api/storage', async (req, res) => {
     const existingRaw = await readRow(key);
 
     if (key === 'cbp:users') {
-      const existing = parseOr(existingRaw, {});
+      const existing = canonicalUsers(parseOr(existingRaw, {}));
       const proposed = parseOr(value, {});
       // Admin may write any phone's record, unlike the reachability-narrowed
       // path below - but this must still be an ADDITIVE merge, never a
@@ -188,16 +190,53 @@ app.post('/api/storage', async (req, res) => {
       // completely independent of the admin console's own edits - trusting
       // `proposed` as the full table let that incidental, partial write blow
       // away every other user the admin's client hadn't (yet) loaded.
+      // Kept identical to pages/api/storage.ts - see the FIX (4 Oct 2026)
+      // notes there and in lib/storage-policy.js: one record per number
+      // under the bare 10-digit key, an explicit tombstone for admin
+      // deletes, and a new-signup record can never replace an existing
+      // account.
       let merged;
       if (isAdminPhone(phone)) {
-        merged = Object.assign({}, existing, proposed);
+        merged = Object.assign({}, existing);
+        for (const [k, rec] of Object.entries(proposed || {})) {
+          if (rec && rec.__deleted) {
+            const gone = userKey(rec.phone) || userKey(k);
+            // Only the registration the admin was actually looking at: a
+            // tombstone left over in an open console tab must not delete an
+            // account the same number created afterwards.
+            if (gone && merged[gone] && (merged[gone].createdAt || '') === (rec.createdAt || '')) delete merged[gone];
+          }
+        }
+        // Tombstones are instructions, not records - honoured or not, they
+        // are never merged in as data.
+        const live = {};
+        for (const [k, rec] of Object.entries((proposed || {}))) {
+          if (rec && !rec.__deleted) live[k] = rec;
+        }
+        Object.assign(merged, canonicalUsers(live));
       } else {
         const writable = writableRecords(phone, proposed, Object.values(existing));
         merged = Object.assign({}, existing);
-        for (const { phone: p, record } of writable) merged[p] = record;
+        for (const { record } of writable) {
+          const k = userKey(record && record.phone);
+          if (!k) continue;
+          if (isSignupOverExisting(existing[k], record)) {
+            console.warn('[STORAGE] Refused a new-signup write over an existing account.');
+            return res.status(409).json({
+              error: 'This number already has an account. Please log in again.',
+              code: 'account-exists',
+            });
+          }
+          merged[k] = Object.assign({}, record, { phone: k });
+          delete merged[k].__deleted; // the delete marker means something only from the admin console
+        }
       }
       await writeRow(key, JSON.stringify(merged));
-      return res.json({ key, value: JSON.stringify(merged) });
+      // Same scoping as GET - never hand the whole table back to an
+      // ordinary caller (pages/api/storage.ts already did this; this copy
+      // had been left echoing every user's record to whoever wrote).
+      const responseUsers = isAdminPhone(phone) ? merged : usersMapFor(phone, Object.values(merged));
+      return res.json({ key, value: JSON.stringify(responseUsers) });
     }
 
     // cbp:logs / cbp:feedback - append-only owned lists. The caller's own
@@ -514,9 +553,12 @@ app.post('/api/email-settings/test', async (req, res) => {
 });
 
 app.post('/api/login-email', async (req, res) => {
-  const { phone, ts, event } = req.body || {};
+  const { phone, ts, event, phoneToken } = req.body || {};
   if (!phone || !ts) return res.json({ ok: true, sent: false, reason: 'bad-request' });
-  if (await isLoginEmailRateLimited(supabase, phone)) return res.json({ ok: true, sent: false, reason: 'rate-limited' });
+  // Same proof-of-ownership check as pages/api/login-email.ts.
+  const proven = await verifyPhoneToken(phoneToken).catch(() => null);
+  if (!proven || userKey(proven) !== userKey(phone)) return res.json({ ok: true, sent: false, reason: 'unverified' });
+  if (await isLoginEmailRateLimited(supabase, phone).catch(() => true)) return res.json({ ok: true, sent: false, reason: 'rate-limited' });
   try {
     // See api/login-email.js - look up before claiming, so a signup whose email
     // has not been entered yet can still be retried once it is.
@@ -528,7 +570,7 @@ app.post('/api/login-email', async (req, res) => {
     let user = dir && dir.email ? dir : null;
     if (!user) {
       const { data } = await supabase.from('kv_store').select('value').eq('key', 'cbp:users').single();
-      if (data) { try { user = JSON.parse(data.value)[phone] || null; } catch (e) { user = null; } }
+      if (data) { try { user = canonicalUsers(JSON.parse(data.value))[userKey(phone)] || null; } catch (e) { user = null; } }
     }
     if (!user || !user.email) return res.json({ ok: true, sent: false, reason: 'no-email' });
 

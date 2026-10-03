@@ -71,21 +71,49 @@ export default function Register() {
 
       // Only now - with a phone token the server itself just issued, proving
       // this number was actually verified - do we save anything against it.
+      //
+      // FIX (4 Oct 2026): the record written here used "+91..." for `phone`
+      // and `altPhone` and had no `createdAt`, while the main app stores and
+      // looks up bare 10-digit numbers. The main app therefore never
+      // recognised an account created on this page, and - worse - this page
+      // wrote its near-empty record straight over an existing account for
+      // the same number, cards and paid status included. It now writes the
+      // same shape the main app does, and only for a number that has no
+      // account yet (the server refuses the overwrite as well - 409).
+      const authHeaders = {
+        'Content-Type': 'application/json',
+        'x-phone-token': verifyData.phoneToken || '',
+      };
+      const existingRes = await fetch('/api/storage?key=cbp:users', { headers: authHeaders });
+      if (!existingRes.ok) {
+        setMessage('Verified, but we could not check your account just now. Please try again in a minute.');
+        setLoading(false);
+        return;
+      }
+      const existingData = await existingRes.json().catch(() => null);
+      let existingUsers: Record<string, any> = {};
+      try { existingUsers = JSON.parse((existingData && existingData.value) || '{}') || {}; } catch (e) { existingUsers = {}; }
+      if (existingUsers[phone]) {
+        setMessage('This number is already registered. Please sign in from the home page to open your account.');
+        setLoading(false);
+        return;
+      }
+
       const saveRes = await fetch('/api/storage', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-phone-token': verifyData.phoneToken || '',
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           key: 'cbp:users',
           value: JSON.stringify({
-            [fullPhone()]: {
-              phone: fullPhone(),
+            [phone]: {
+              phone,
+              name: '',
               email,
-              altPhone: alternatePhone ? '+91' + alternatePhone.replace(/\D/g, '').slice(-10) : '',
+              altPhone: alternatePhone ? alternatePhone.replace(/\D/g, '').slice(-10) : '',
               altVerified: false,
-              registeredAt: new Date().toISOString(),
+              saved: false,
+              paid: false,
+              createdAt: new Date().toLocaleString('en-IN', { hour12: true }),
               cards: [],
             },
           }),

@@ -7,7 +7,52 @@
 // - No auth for public keys like cbp:banks
 // - Returns { key, value } where value is already a JSON string
 
+// FIX (4 Oct 2026): "the read failed" and "there is nothing stored" used to
+// be the same answer. get() returned null for both, app.js's Yu() turned null
+// into its empty default, and the login code then concluded that a returning
+// customer "is not registered" - it built a blank account and wrote it
+// straight over the real one. Any failed read at the moment of login did it:
+// a database blip, a dropped connection on a phone, an expired session.
+//
+// Reads now remember how they ended. get() still returns null on failure (so
+// nothing that merely displays data changes), but callers that are about to
+// DECIDE something from an empty answer - app.js's login and session-restore
+// - ask readFailed(key) first and stop instead of guessing.
+var bmcReadStatus = {}; // key -> 0 ok | HTTP status | -1 network error
+
+// Keys whose contents belong to the signed-in number. A 401 on one of these
+// while we are holding a token means the token is no longer accepted - the
+// session has expired - as opposed to a 401 on an admin-only key, which every
+// ordinary user's page gets all the time and which means nothing.
+var BMC_OWNED = { 'cbp:users': 1, 'cbp:logs': 1, 'cbp:feedback': 1 };
+var bmcEnding = false;
+
+// Ends a session the server no longer honours. Before this, saves made after
+// the token expired were refused and dropped with only a console line to show
+// for it: the dashboard went on looking signed in while nothing the user did
+// was being stored. Clear what the app keeps (the same keys bmcSession.clear()
+// in app.js removes), leave a note for the login screen, and reload onto it.
+function bmcEndSession(message) {
+  if (bmcEnding) return;
+  bmcEnding = true;
+  try {
+    ['cbp:session', 'bmc_phone_token', 'bmc_phone', 'bmc_token'].forEach(function (k) { sessionStorage.removeItem(k); });
+    sessionStorage.setItem('bmc_notice', message);
+  } catch (e) {}
+  window.location.reload();
+}
+
 window.storage = {
+  // true when the most recent read of `key` did not get an answer from the
+  // server (5xx, network failure) or was refused (401) - i.e. when a null
+  // from get() does NOT mean "nothing stored".
+  readFailed(key) {
+    return !!bmcReadStatus[key];
+  },
+  readStatus(key) {
+    return bmcReadStatus[key] || 0;
+  },
+
   async get(key) {
     try {
       // Phone token is written to sessionStorage under 'bmc_phone_token' by
@@ -25,10 +70,14 @@ window.storage = {
 
       const res = await fetch(url, { method: 'GET', headers });
       if (!res.ok) {
-        if (res.status === 404) return null; // unknown key
-        console.error(`storage.get(${key}) failed:`, res.status);
+        if (res.status === 404) { bmcReadStatus[key] = 0; return null; } // unknown key
+        bmcReadStatus[key] = res.status;
+        // A signed-out page asks for owned/admin keys at boot and is refused;
+        // that is the expected answer, not an error worth logging.
+        if (res.status !== 401) console.error(`storage.get(${key}) failed:`, res.status);
         return null;
       }
+      bmcReadStatus[key] = 0;
 
       const data = await res.json();
       // Public keys (cbp:banks, cbp:templates) that have never been written
@@ -46,6 +95,7 @@ window.storage = {
       if (data === null || data.value === undefined || data.value === null) return null;
       return { key: data.key, value: data.value };
     } catch (e) {
+      bmcReadStatus[key] = -1;
       console.error(`storage.get(${key}) error:`, e);
       return null;
     }
@@ -54,6 +104,12 @@ window.storage = {
   async set(key, value) {
     try {
       const phoneToken = sessionStorage.getItem('bmc_phone_token');
+      // Nothing owned can be saved without a token - the server answers 401
+      // every time. app.js still tries on every signed-out page load (its
+      // mount effect, and the "OTP requested" log line written before the
+      // code has been verified), which put two failed requests and a red
+      // console error on every single visit. Skip the round trip.
+      if (!phoneToken && BMC_OWNED[key]) return { key, value, skipped: true };
       const headers = { 'Content-Type': 'application/json' };
       if (phoneToken) headers['x-phone-token'] = phoneToken;
 
@@ -73,6 +129,19 @@ window.storage = {
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         console.error(`storage.set(${key}) failed:`, res.status, err.error);
+        if (BMC_OWNED[key] && phoneToken) {
+          // The server no longer accepts this session's token.
+          if (res.status === 401) {
+            bmcEndSession('Your session has expired. Please log in again - anything you had already saved is still there.');
+          }
+          // The server refused a new-signup record because this number
+          // already has an account (see isSignupOverExisting in
+          // lib/storage-policy.js): this tab is working from an empty copy
+          // of the account. Start over from a clean login, which reloads it.
+          if (res.status === 409 && err.code === 'account-exists') {
+            bmcEndSession('We found your existing account. Please log in again to open it.');
+          }
+        }
         throw new Error(err.error || `HTTP ${res.status}`);
       }
 

@@ -30,6 +30,12 @@ var live=findLogoutButton();if(live)live.click();else location.reload();};}}
 // shown reads the same way, whichever file raised it.
 t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10001;width:min(420px,calc(100vw - 2rem));background:#facc15;border:1.5px solid #ca8a04;border-radius:10px;padding:.75rem 2.75rem .75rem 1rem;font-size:.875rem;font-weight:600;color:#000;box-shadow:0 8px 24px rgba(0,0,0,.2);line-height:1.5;word-break:break-word;';var x=document.createElement('button');x.textContent='x';x.style.cssText='position:absolute;top:.5rem;right:.65rem;background:none;border:none;cursor:pointer;color:#000;font-size:.9rem;font-weight:700;';x.onclick=hideError;t.appendChild(x);document.body.appendChild(t);}var x2=t.querySelector('button');Array.from(t.childNodes).forEach(function(n){if(n!==x2)t.removeChild(n);});t.insertBefore(document.createTextNode(msg),x2);t.style.display='block';_toastTimer=setTimeout(hideError,10000);}
   function hideError(){clearTimeout(_toastTimer);var t=document.getElementById('bmc-otp-toast');if(t)t.style.display='none';}
+  // A note left for the next page load by storage-bridge.js when it has to end
+  // a session (expired token, or the server found an existing account) and
+  // reload onto the login screen - without it the user would just find
+  // themselves logged out with no explanation.
+  function showPendingNotice(){var n=null;try{n=sessionStorage.getItem('bmc_notice');if(n)sessionStorage.removeItem('bmc_notice');}catch(e){}if(n)showError(n);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showPendingNotice);else showPendingNotice();
   function fetchWT(url,opts){var ctrl=new AbortController();var timer=setTimeout(function(){ctrl.abort();},30000);return fetch(url,Object.assign({},opts,{signal:ctrl.signal})).then(function(r){clearTimeout(timer);return r;}).catch(function(e){clearTimeout(timer);throw e;});}
   function safeJson(r){return r.json().catch(function(){return null;});}
   function sanitisePhone(raw){if(!raw||raw.length>20)return'';var d=String(raw).replace(/[^0-9]/g,'');if(d.length===12&&d.slice(0,2)==='91')d=d.slice(2);if(d[0]==='0'&&d.length>=11)d=d.slice(1);return d;}
@@ -85,7 +91,11 @@ t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%
           if(btn){btn.textContent='OTP sent';setTimeout(function(){btn.textContent=orig;btn.disabled=false;},60000);}
         });
       })
-      .catch(function(err){showError(err.name==='AbortError'?'Request timed out. Check your signal.':'No connection. Please check your signal.');reset();});
+      // FIX (4 Oct 2026): a request that never reached the server (no signal,
+      // timeout) left the user on the OTP screen exactly like the refusals
+      // above used to - "An OTP has been sent to <number>", no code on its
+      // way, no Send OTP button to retry with. Same exit as those.
+      .catch(function(err){showError(err.name==='AbortError'?'Request timed out. Check your signal.':'No connection. Please check your signal.');reset();abandonOtpScreen();});
   }
   // The number the alternate-number screens are about to submit. Looked for
   // near the button first - the dashboard renders its edit field as a sibling,
@@ -181,7 +191,10 @@ t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%
           }else{
             finishVerify();
           }
-          }else{showError((data&&data.error)||'Server error.');btn.disabled=false;btn.textContent=orig2;}});})
+          }else{showError((data&&data.error)||'Server error.');btn.disabled=false;btn.textContent=orig2;
+            // The service itself is down - there is nothing to retry on this
+            // screen, so go back to the form rather than invite more guesses.
+            if(res.status===503)abandonOtpScreen();}});})
         .catch(function(err){showError(err.name==='AbortError'?'Timed out.':'Verification failed.');btn.disabled=false;btn.textContent=orig2;});
     }
   },true);
