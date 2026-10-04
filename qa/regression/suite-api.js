@@ -280,13 +280,15 @@ function forgeToken(phone, exp) {
     '__no_demo__': { phone: '__no_demo__', cards: [] },
     '9811100071': { phone: '9811100071', name: 'Admin Snapshot', cards: [{ id: 'a' }], paid: true, createdAt: 'x' },
     '+919811100072': { phone: '+919811100072', name: 'Register Page User', cards: [] },
+    'legacy-odd-entry': { note: 'no phone on this one' },
   }) }) });
   const tL = await signIn('9811100071');
   const leg = await getUsers(tL);
   check('A19.1', "legacy data: a user stored twice gets back the copy their own session wrote", leg.map['9811100071'] && leg.map['9811100071'].name === 'User Copy' && leg.map['9811100071'].cards.length === 2, JSON.stringify(leg.map));
   await putUsers(tL, { 9811100071: Object.assign({}, leg.map['9811100071'], { email: 'new@example.com' }) });
   const rawL = await kv('cbp:users');
-  check('A19.2', 'legacy data: the next save rewrites the table with one record per number and no placeholder', Object.keys(rawL).sort().join(',') === '9811100071,9811100072' && rawL['9811100071'].email === 'new@example.com', Object.keys(rawL).join(','));
+  check('A19.2', 'legacy data: the next save rewrites the table with one record per number and no placeholder', Object.keys(rawL).sort().join(',') === '9811100071,9811100072,legacy-odd-entry' && rawL['9811100071'].email === 'new@example.com', Object.keys(rawL).join(','));
+  check('A19.2b', 'legacy data: an entry the re-keying does not recognise is preserved, not dropped', !!rawL['legacy-odd-entry'] && rawL['legacy-odd-entry'].note === 'no phone on this one');
   const tL2 = await signIn('9811100072');
   const leg2 = await getUsers(tL2);
   check('A19.3', 'legacy data: an account created by the old /register page is recognised by the main app', !!(leg2.map && leg2.map['9811100072'] && leg2.map['9811100072'].name === 'Register Page User'), JSON.stringify(leg2.map));

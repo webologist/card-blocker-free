@@ -1,6 +1,6 @@
 # Regression suite (added 4 Oct 2026)
 
-158 automated checks covering login, registration, the dashboard, alternate
+159 automated checks covering login, registration, the dashboard, alternate
 contacts, the admin console, payments settings, login emails, access control,
 and what happens when the database is unreachable.
 
@@ -20,7 +20,7 @@ node qa/regression/fake-supabase.js &
 npm run build && npx next start -p 3000 &
 
 # 3. the suites
-node qa/regression/suite-api.js          # 75 API / access-control checks
+node qa/regression/suite-api.js          # 76 API / access-control checks
 npm i --no-save playwright && npx playwright install chromium
 node qa/regression/suite-ui.js           # 83 browser checks (headless Chromium)
 ```
