@@ -16,11 +16,16 @@
 -- which bypasses RLS) can. All real access control lives in the API routes
 -- (lib/storage-policy.js, lib/admin-auth.js).
 --
--- payment_settings_table.sql and razorpay_table.sql used to add a policy
--- named "Allow service role full access" with USING (true) and no TO clause.
--- Despite the name, that grants EVERY role - including anon - full read and
--- write on the tables holding the payment-gateway secrets. The service role
--- never needed a policy in the first place, so this script removes those.
+-- A policy named "Allow service role full access" - USING (true), no TO
+-- clause - used to be added to these tables (payment_settings_table.sql and
+-- razorpay_table.sql did it; on the live project it was found on ALL five
+-- existing tables, kv_store included). Despite the name it applies to EVERY
+-- role, so anyone holding the browser-safe anon key could read and rewrite
+-- every user record and every stored provider/gateway secret. The service
+-- role never needed a policy in the first place, so this script removes it
+-- everywhere. The server must therefore be configured with the real
+-- service-role key (SUPABASE_SERVICE_ROLE_KEY) - with the anon key it will
+-- see an empty database.
 
 -- ── kv_store: users, cards, activity log, feedback, banks, templates, the
 --    OTP-mode switch, rate-limit counters and stored contact-form messages ──
@@ -30,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.kv_store (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ALTER TABLE public.kv_store ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow service role full access" ON public.kv_store;
 
 -- ── email_settings: the admin console's Email Integrations tab (single row) ──
 CREATE TABLE IF NOT EXISTS public.email_settings (
@@ -49,6 +55,7 @@ CREATE TABLE IF NOT EXISTS public.email_settings (
   CONSTRAINT email_settings_singleton CHECK (id = 1)
 );
 ALTER TABLE public.email_settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow service role full access" ON public.email_settings;
 
 -- ── login_email_log: one row per login email already sent (de-duplication) ──
 CREATE TABLE IF NOT EXISTS public.login_email_log (
@@ -58,6 +65,7 @@ CREATE TABLE IF NOT EXISTS public.login_email_log (
   PRIMARY KEY (phone, ts)
 );
 ALTER TABLE public.login_email_log ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow service role full access" ON public.login_email_log;
 
 -- ── user_directory: optional phone -> email lookup read by /api/login-email
 --    before it falls back to kv_store. Nothing writes to it today; it must
@@ -69,6 +77,7 @@ CREATE TABLE IF NOT EXISTS public.user_directory (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ALTER TABLE public.user_directory ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow service role full access" ON public.user_directory;
 
 -- ── payment_settings: the admin console's Payment Gateway tab (single row) ──
 CREATE TABLE IF NOT EXISTS public.payment_settings (
