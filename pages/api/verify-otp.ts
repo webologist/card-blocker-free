@@ -54,7 +54,7 @@ async function alreadyConsumed(token: string): Promise<boolean> {
 }
 
 function normalizePhone(raw: string) {
-  const digits = String(raw || '').replace(/\D/g, '').replace(/^91/, '');
+  const digits = String(raw || '').replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
   return { digits, full: digits ? '+91' + digits : '' };
 }
 
@@ -135,6 +135,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       userName: null,
     });
   } catch (error) {
+    // Attempt counting and single-use enforcement both live in the database;
+    // if it is unreachable they cannot be checked, so the code is not
+    // accepted (see the matching note in send-otp.ts).
+    if ((error as any) && (error as any).code === 'STORE_UNAVAILABLE') {
+      console.error('[VERIFY] Database unreachable - refusing to verify:', (error as Error).message);
+      return res.status(503).json({
+        success: false,
+        error: 'BlockMyCard is temporarily unavailable. Your saved cards are safe - please try again in a few minutes.',
+        code: 'service-unavailable',
+      });
+    }
     console.error('[VERIFY] Error:', error);
     return res.status(500).json({ success: false, error: 'Verification failed' });
   }

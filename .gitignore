@@ -43,3 +43,6 @@ next-env.d.ts
 *.log
 server-output.txt
 qa_results_*.log
+
+# regression-suite output
+qa/regression/results-*.json

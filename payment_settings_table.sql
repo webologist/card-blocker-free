@@ -42,14 +42,14 @@ CREATE TABLE IF NOT EXISTS payment_settings (
 
 ALTER TABLE payment_settings ENABLE ROW LEVEL SECURITY;
 
--- Same pattern as razorpay_settings/email_settings: only the server's
--- service-role key ever talks to this table, so a permissive policy here is
--- fine - the real access control is lib/admin-auth.js's checkAdminAccess()
--- gate in front of the /api/payment/settings routes.
-CREATE POLICY "Allow service role full access" ON payment_settings
-  FOR ALL
-  USING (true)
-  WITH CHECK (true);
+-- FIX (4 Oct 2026): a policy named "Allow service role full access" used to be
+-- created here with USING (true) and no TO clause. Despite its name that
+-- applies to EVERY role, so the browser-safe anon key could read and rewrite
+-- this table - including the gateway secrets. The service-role key bypasses
+-- RLS and never needed a policy; RLS on with no policy is the locked-down
+-- state. See supabase-schema.sql for the full, current schema.
+DROP POLICY IF EXISTS "Allow service role full access" ON payment_settings;
+
 
 -- Default row: dummy mode, matching the app's existing behaviour exactly
 -- until an admin deliberately picks Free or a gateway.

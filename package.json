@@ -15,7 +15,7 @@
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
         "lowdb": "^7.0.1",
-        "next": "^14",
+        "next": "^15.5.27",
         "nodemailer": "^9.0.3",
         "pg": "^8.22.0",
         "razorpay": "^2.9.8",
@@ -28,7 +28,7 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "eslint": "^8",
-        "eslint-config-next": "^14",
+        "eslint-config-next": "^15.5.27",
         "typescript": "^5"
     }
 }

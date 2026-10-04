@@ -11,11 +11,14 @@ CREATE TABLE IF NOT EXISTS razorpay_settings (
 
 ALTER TABLE razorpay_settings ENABLE ROW LEVEL SECURITY;
 
--- Create policy for service role access
-CREATE POLICY "Allow service role full access" ON razorpay_settings
-  FOR ALL
-  USING (true)
-  WITH CHECK (true);
+-- FIX (4 Oct 2026): a policy named "Allow service role full access" used to be
+-- created here with USING (true) and no TO clause. Despite its name that
+-- applies to EVERY role, so the browser-safe anon key could read and rewrite
+-- this table - including the gateway secrets. The service-role key bypasses
+-- RLS and never needed a policy; RLS on with no policy is the locked-down
+-- state. See supabase-schema.sql for the full, current schema.
+DROP POLICY IF EXISTS "Allow service role full access" ON razorpay_settings;
+
 
 -- Insert default row
 INSERT INTO razorpay_settings (id, enabled)

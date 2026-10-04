@@ -55,7 +55,7 @@ async function readOtpModeToggle(): Promise<string | null> {
 }
 
 function normalizePhone(raw: string) {
-  const digits = String(raw || '').replace(/\D/g, '').replace(/^91/, '');
+  const digits = String(raw || '').replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
   return { digits, full: digits ? '+91' + digits : '' };
 }
 
@@ -135,6 +135,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       message: dummy ? 'Dummy mode: OTP is 1234' : `OTP sent to ${full}`,
     });
   } catch (error) {
+    // FIX (4 Oct 2026): the database being unreachable used to be invisible
+    // here - the rate limiter swallowed the failure, an OTP was issued, the
+    // code verified, and only THEN did the browser discover it could not load
+    // the account, at which point it treated a returning customer as a brand
+    // new signup. Saying so up front, before any code is issued, is the only
+    // honest answer: nothing after this step can work without the database.
+    if ((error as any) && (error as any).code === 'STORE_UNAVAILABLE') {
+      console.error('[OTP] Database unreachable - refusing to issue an OTP:', (error as Error).message);
+      return res.status(503).json({
+        error: 'BlockMyCard is temporarily unavailable. Your saved cards are safe - please try again in a few minutes.',
+        code: 'service-unavailable',
+      });
+    }
     console.error('[OTP] Error:', error);
     return res.status(500).json({ error: 'Failed to send OTP' });
   }

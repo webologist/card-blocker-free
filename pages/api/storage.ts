@@ -10,7 +10,7 @@ const { verifyPhoneToken } = require('../../lib/phone-token');
 const {
   PUBLIC_KEYS, ADMIN_KEYS, isAddressable,
   usersMapFor, writableRecords, ownEntries, normalizedEntryOwner, normalize: normalizePhoneKey,
-  dedupeEntries,
+  dedupeEntries, userKey, canonicalUsers, isSignupOverExisting,
 } = require('../../lib/storage-policy');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { getSupabaseServerClient } = require('../../lib/supabase-server');
@@ -122,7 +122,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const raw = await readRow(supabase, key);
       if (key === 'cbp:users') {
-        const allUsers = parseOr(raw, {});
+        // canonicalUsers(): one record per number, keyed by the bare 10-digit
+        // number every reader looks up - see lib/storage-policy.js.
+        const allUsers = canonicalUsers(parseOr(raw, {}));
         // The admin console needs every registered user, not just whatever
         // the admin's own phone number happens to reach - see isAdminPhone's
         // doc comment for why the usual per-caller narrowing doesn't apply.
@@ -172,8 +174,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const existingRaw = await readRow(supabase, key);
 
       if (key === 'cbp:users') {
-        const existing = parseOr(existingRaw, {});
-        const proposed = parseOr(value, {});
+        const existing = canonicalUsers(parseOr(existingRaw, {}));
+        const proposedRaw = parseOr(value, {});
         // Admin may write any phone's record, unlike the reachability-narrowed
         // path below - but this must still be an ADDITIVE merge, never a
         // wholesale replace. app.js's mount effect seeds a demo-user entry into
@@ -181,13 +183,52 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // completely independent of the admin console's own edits - trusting
         // `proposed` as the full table let that incidental, partial write blow
         // away every other user the admin's client hadn't (yet) loaded.
-        let merged;
+        let merged: Record<string, any>;
         if (isAdminPhone(phone)) {
-          merged = Object.assign({}, existing, proposed);
-        } else {
-          const writable = writableRecords(phone, proposed, Object.values(existing));
           merged = Object.assign({}, existing);
-          for (const { phone: p, record } of writable) merged[p] = record;
+          // FIX (4 Oct 2026): because the merge is additive, the console's
+          // "Delete" button could never delete anyone - it sent the map with
+          // one user missing, and "missing" is indistinguishable from "not
+          // loaded", so the user simply came back on the next refresh. The
+          // console now sends an explicit tombstone ({ phone, __deleted: true })
+          // for the one record it means to remove.
+          for (const [k, rec] of Object.entries((proposedRaw || {}) as Record<string, any>)) {
+            if (rec && rec.__deleted) {
+              const gone = userKey(rec.phone) || userKey(k);
+              // Only the registration the admin was actually looking at: a
+              // tombstone left over in an open console tab must not delete an
+              // account the same number created afterwards.
+              if (gone && merged[gone] && (merged[gone].createdAt || '') === (rec.createdAt || '')) delete merged[gone];
+            }
+          }
+          // Tombstones are instructions, not records - honoured or not, they
+          // are never merged in as data.
+          const live: Record<string, any> = {};
+          for (const [k, rec] of Object.entries((proposedRaw || {}) as Record<string, any>)) {
+            if (rec && !rec.__deleted) live[k] = rec;
+          }
+          Object.assign(merged, canonicalUsers(live));
+        } else {
+          const writable = writableRecords(phone, proposedRaw, Object.values(existing));
+          merged = Object.assign({}, existing);
+          for (const { record } of writable) {
+            const k = userKey(record && record.phone);
+            if (!k) continue;
+            // A brand-new signup record must never replace an account that
+            // already exists - see isSignupOverExisting(). The stored account
+            // is left exactly as it was and the caller is told, so the
+            // browser can send the user back through a clean login instead
+            // of carrying on with a blank record nothing will accept.
+            if (isSignupOverExisting(existing[k], record)) {
+              console.warn('[STORAGE] Refused a new-signup write over an existing account.');
+              return res.status(409).json({
+                error: 'This number already has an account. Please log in again.',
+                code: 'account-exists',
+              });
+            }
+            merged[k] = Object.assign({}, record, { phone: k });
+            delete merged[k].__deleted; // the delete marker means something only from the admin console
+          }
         }
         await writeRow(supabase, key, JSON.stringify(merged));
         // FIX (16 Aug 2026, QA): the response used to echo back the FULL

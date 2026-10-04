@@ -64,8 +64,45 @@
     });
   }
 
+  // The signed-in number, read off the token (its payload is plain base64url
+  // JSON; the signature is the server's business, not ours).
+  function ownDigits() {
+    try {
+      var body = (sessionStorage.getItem('bmc_phone_token') || '').split('.')[0];
+      if (!body) return '';
+      var json = JSON.parse(atob(body.replace(/-/g, '+').replace(/_/g, '/')));
+      return String(json.phone || '').replace(/\D/g, '').slice(-10);
+    } catch (e) { return ''; }
+  }
+  function isOwn(entry) {
+    var me = ownDigits();
+    return !!me && String(entry.actor || '').replace(/\D/g, '').slice(-10) === me;
+  }
+
+  // FIX (4 Oct 2026): login emails had quietly stopped being requested at all.
+  // The "first read establishes a baseline" rule below assumed the first read
+  // happens BEFORE sign-in, against an empty list - true back when a
+  // signed-out browser was handed an empty cbp:logs. Since /api/storage was
+  // locked down a signed-out read is refused, so the first read that
+  // succeeds is the one just AFTER signing in, and its baseline already
+  // contains the "Login"/"Registered" entry it was supposed to notice.
+  // Nothing was ever new, so nothing was ever sent.
+  //
+  // The tab now tracks whether it actually watched a sign-in happen
+  // (signed-out poll, then a signed-in one). If it did, the newest
+  // account-access entry for this number in that first read IS this
+  // sign-in, and is notified; a tab that loaded already signed in (refresh,
+  // restored session) still just takes a baseline, so history is never
+  // re-mailed. The server de-duplicates on (phone, timestamp) regardless.
+  var sawSignedOut = false;
+
   function poll() {
     if (!window.storage || !window.storage.get) return;
+    // Signed out there is nothing to read (the server refuses) and nothing
+    // to notify - this used to fire a doomed request every ten seconds for
+    // every visitor to the site.
+    if (!sessionStorage.getItem('bmc_phone_token')) { sawSignedOut = true; seen = null; return; }
+    var watchedSignIn = sawSignedOut && seen === null;
     window.storage.get('cbp:logs').then(function (result) {
       if (!result || !result.value) return;
       var logs;
@@ -73,8 +110,16 @@
       if (!Array.isArray(logs)) return;
 
       if (seen === null) {
-        // First read: establish baseline, don't email for pre-existing history.
         seen = new Set(logs.map(serialize));
+        sawSignedOut = false;
+        if (watchedSignIn) {
+          // Newest first: the first own Login/Registered entry near the top
+          // is the sign-in this tab just went through.
+          for (var k = 0; k < Math.min(logs.length, 12); k++) {
+            var e0 = EMAIL_ON[logs[k].action];
+            if (e0 && isOwn(logs[k])) { notify(logs[k].actor, logs[k].t, e0); break; }
+          }
+        }
         return;
       }
 
@@ -84,47 +129,23 @@
         if (seen.has(key)) break;
         seen.add(key);
         var evt = EMAIL_ON[logs[i].action];
-        if (evt) notify(logs[i].actor, logs[i].t, evt);
+        // The admin console sees every user's entries; the server only mails
+        // on a token belonging to the number concerned, so only ask for our own.
+        if (evt && isOwn(logs[i])) notify(logs[i].actor, logs[i].t, evt);
       }
     }).catch(function () {});
   }
 
-  // ── Sync this user's email address to the server ──
-  // On production the app's records live in the visitor's own browser, so the
-  // server has no way to know an address unless we tell it. We only do so with
-  // the signed phoneToken from OTP verification, so a phone can never have a
-  // stranger's address registered against it.
-  var syncedFor = null;
-
-  function syncDirectory() {
-    var token = sessionStorage.getItem('bmc_phone_token');
-    if (!token || !window.storage || !window.storage.get) return;
-
-    window.storage.get('cbp:users').then(function (result) {
-      if (!result || !result.value) return;
-      var users;
-      try { users = JSON.parse(result.value); } catch (e) { return; }
-
-      // The token proves one specific phone; find whichever record matches a
-      // recently verified number by checking them all against what we stored.
-      Object.keys(users).forEach(function (phone) {
-        var u = users[phone];
-        if (!u || !u.email) return;
-        var mark = phone + '|' + u.email;
-        if (syncedFor === mark) return;
-        syncedFor = mark;
-        fetch('/api/user-directory', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phoneToken: token, email: u.email, name: u.name || '' }),
-        }).then(function (r) {
-          // A 401 means the token was for a different phone or has expired -
-          // forget it so a later verification can try again.
-          if (r.status === 401) sessionStorage.removeItem('bmc_phone_token');
-        }).catch(function () { syncedFor = null; });
-      });
-    }).catch(function () {});
-  }
+  // FIX (4 Oct 2026): a "syncDirectory" step used to live here, POSTing every
+  // email address this browser could see to /api/user-directory every ten
+  // seconds. That route does not exist on either backend (server.js or
+  // pages/api), so on the deployed site it was a 404 every ten seconds for
+  // every signed-in user. Worse was what it would have done had the route
+  // existed: it looped over EVERY record in cbp:users - for the admin that is
+  // every customer - and submitted each one's address under the caller's own
+  // phone token, and on a 401 it deleted that token, signing the user out of
+  // storage. The server already finds the address itself (login-email looks
+  // the user up in cbp:users), so nothing needs syncing.
 
   // FIX (17 Aug 2026, item 4 - background polling loops): poll/syncDirectory
   // were 3000ms - unconditional on every page load, forever. Neither the
@@ -134,6 +155,5 @@
   // go out asynchronously, well after the login itself completes).
   setInterval(poll, 10000);
   setInterval(retryPending, RETRY_MS);
-  setInterval(syncDirectory, 10000);
   poll();
 })();

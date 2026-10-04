@@ -69,7 +69,7 @@ function json(res, code, obj) {
 // payload carries a phone-bound HMAC of the code rather than the code itself.
 async function sendOtp(req, res) {
   const { phone } = await readBody(req);
-  const digits = String(phone || '').replace(/\D/g, '').replace(/^91/, '');
+  const digits = String(phone || '').replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
   if (!/^[6-9]\d{9}$/.test(digits)) {
     return json(res, 400, { error: 'Invalid phone number. Enter a 10-digit Indian mobile number starting with 6-9.' });
   }
@@ -95,7 +95,7 @@ async function verifyOtp(req, res) {
   const { phone, otp, token } = await readBody(req);
   if (!phone || !otp || !token) return json(res, 400, { error: 'Phone, OTP and token are required' });
 
-  const fullPhone = '+91' + String(phone).replace(/\D/g, '').replace(/^91/, '');
+  const fullPhone = '+91' + String(phone).replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
   if (!isDummyMode(fullPhone)) return json(res, 500, { error: 'OTP service not configured.' });
 
   let challenge;
